@@ -1,0 +1,22 @@
+{
+     "en": {
+         "pageTitle": "Mentor List",
+         "firstNameTitle": "First Name",
+         "lastNameTitle": "Last Name",
+         "emailAddressTitle": "Email Address",
+         "passwordTitle": "Password",
+         "confirmPasswordTitle": "Confirm Password",
+         "recaptchaLabel": "Please check the below to proceed.",
+         "genderTitle": "Gender",
+         "maleTitle": "Male",
+         "feMaleTitle": "Female",
+         "ageTitle": "Age",
+         "addressTitle": "Address",
+         "qualificationTitle": "Qualification",
+         "interestedAreaTitle":"Interested areas",
+         "uploadPhotoTitle": "Upload Photo",
+         "collegeTitle": "College / university name",
+         "prevTitle": "Previous",
+         "nextTitle": "Next"
+     }
+ }

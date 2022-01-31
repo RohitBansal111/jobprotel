@@ -1,0 +1,39 @@
+:root {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #444444;
+}
+a {
+  color: #444444;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #20bead;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Nunito', sans-serif;
+}
+button:focus {
+  box-shadow: none !important;
+  outline: none;
+}
+.text-right {
+  text-align: right !important;
+}
+ul {
+  padding: 0px;
+  margin: 0px;
+  li {
+    list-style-type: none;
+  }
+}

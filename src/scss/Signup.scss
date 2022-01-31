@@ -1,0 +1,234 @@
+.register-page-main {
+  display: flex;
+  @include Phone {
+    display: block;
+  }
+  @include Tablet {
+    display: block;
+  }
+  .register-sidebar {
+    flex: 0 0 40%;
+    background-color: $Theme-secondary;
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      background-image: url('./../assets/images/singup-bg-1.png');
+      position: absolute;
+      width: 300px;
+      height: 270px;
+      top: -80px;
+      left: -60px;
+    }
+    &::after {
+      content: '';
+      background-image: url('./../assets/images/singup-bg-2.png');
+      position: absolute;
+      width: 300px;
+      height: 270px;
+      bottom: -120px;
+      right: -150px;
+    }
+    .register-info-steps {
+      padding: 70px 30px 30px 50px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      flex-direction: column;
+      .brand-media {
+        padding-bottom: 50px;
+      }
+    }
+  }
+  .register-form-area {
+    flex: 0 0 60%;
+    background-color: $Theme-white;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: auto;
+    .register-form-boxen {
+      padding: 20px 40px;
+      width: 80%;
+      margin: auto;
+      height: 100vh;
+      @include flexAllCenter;
+      .register-form {
+        width: 100%;
+        .form-action {
+          width: 80% !important;
+          margin: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .prev-btn {
+            margin-right: 20px;
+          }
+          .next-btn {
+            position: relative;
+            &::after {
+              content: '';
+              position: absolute;
+              width: 22px;
+              height: 15px;
+              background: url('./../assets/images/next-btn.png');
+              margin-left: 70px;
+              top: 23px;
+            }
+          }
+          .btn {
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+}
+.choose-role-box {
+  margin: 50px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .role-box {
+    flex: 0 0 48%;
+    min-height: 210px;
+    border-radius: 15px;
+    position: relative;
+    @include flexAllCenter;
+    label {
+      cursor: pointer;
+      text-align: center;
+      input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        opacity: 0;
+        z-index: 99;
+        cursor: pointer;
+        &:checked {
+          ~ .role-icon {
+            &::before {
+              background-color: $Theme-primary;
+            }
+            h4 {
+              color: $Theme-white;
+            }
+          }
+          ~ .role-circle {
+            background-color: $Theme-primary;
+            border: 2px solid $Theme-white;
+            span {
+              display: flex;
+            }
+          }
+        }
+      }
+      .role-icon {
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          background-color: $Theme-primary-light;
+          z-index: 2;
+          border-radius: 15px;
+        }
+        img {
+          position: relative;
+          z-index: 9;
+        }
+        h4 {
+          color: $Theme-primary;
+          padding-top: 20px;
+          position: relative;
+          z-index: 9;
+        }
+      }
+      .role-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: $Theme-white;
+        border: 2px solid $Theme-secondary;
+        position: absolute;
+        z-index: 9;
+        top: 12px;
+        left: 12px;
+        @include flexAllCenter;
+        span {
+          width: 10px;
+          height: 10px;
+          background-color: $Theme-white;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+.resgiter-listing-steps {
+  margin: 60px 0px;
+  position: relative;
+  margin-left: 20px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 3px;
+    height: 90%;
+    background-color: $Theme-white;
+  }
+  li {
+    position: relative;
+    padding-left: 50px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: -23px;
+      width: 49px;
+      height: 49px;
+      background-color: $Theme-white;
+      border: 5px solid $Theme-secondary;
+      border-radius: 50%;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: -16px;
+      width: 35px;
+      height: 35px;
+      background-color: #fff !important;
+      border: 11px solid #20bead !important;
+      border-radius: 50%;
+    }
+  }
+  .register-steps {
+    margin-bottom: 40px;
+    h5 {
+      color: $Theme-white;
+      font-weight: 700;
+    }
+    p {
+      color: $Theme-white;
+    }
+  }
+}
+.step-strips {
+  padding-left: 20px;
+  width: 60%;
+  margin-top: 50px;
+  @include flexCenterBetween;
+  li {
+    width: 28%;
+    height: 3px;
+    background-color: $Theme-white;
+    border-radius: 10px;
+    opacity: 0.4;
+  }
+}
