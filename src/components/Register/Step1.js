@@ -37,7 +37,7 @@ const Step1 = (props) => {
                                    <div className="form-field flex100 mb-2">
                                         <Field name="password" label={titleStrings.passwordTitle} component={renderField} type="password" />
                                    </div>
-                                   <div className="form-field flex100 withourLabel">
+                                   <div className="form-field flex100 withoutLabel">
                                         <Field name="confirmpassword" label={titleStrings.confirmPasswordTitle} component={renderField} type="password" />
                                    </div>
                                    <div className="form-field flex100">

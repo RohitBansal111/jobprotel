@@ -16,6 +16,10 @@
          "interestedAreaTitle":"Interested areas",
          "uploadPhotoTitle": "Upload Photo",
          "collegeTitle": "College / university name",
+         "onSiteTitle": "Onsite",
+         "offSiteTitle": "Offsite",
+         "noTitle": "No",
+         "yesTitle": "Yes",
          "prevTitle": "Previous",
          "nextTitle": "Next"
      }

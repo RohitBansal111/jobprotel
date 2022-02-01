@@ -67,7 +67,11 @@ h5 {
 }
 .btn-secondary {
   width: 100%;
-  border: 1px solid #c9c8c8;
+  border: 1px solid $CommonBorder;
   color: #747474 !important;
-  background: #e5e5e5;
+  background: $LightButton;
+  &:hover {
+    background: $LightButton;
+    border: 1px solid $CommonBorder;
+  }
 }

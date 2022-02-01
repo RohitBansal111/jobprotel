@@ -1,7 +1,7 @@
 import { Field, Form } from "react-final-form"
 import LocalizedStrings from 'react-localization';
 import { RenderImageField } from "../file-input";
-import { renderField, renderRadioButtonField } from "../renderField";
+import { renderField, RenderRadioButtonField } from "../renderField";
 import titles from './register.json' 
 import Step2Validator from "./validator/step2Validator";
 
@@ -24,14 +24,8 @@ const Step2 = () => {
                                    <div className="form-field flex50">
                                         <label htmlFor="gender"> {titleStrings.genderTitle} </label> 
                                         <div className="radio-button-groupss">
-                                             <Field label="gender" name="gender" value="Male" component={renderRadioButtonField} type="radio">
-                                                  <input name="gender" type="radio" checked="checked" /> {titleStrings.maleTitle}
-                                                  <span class="radiobtn"></span>
-                                             </Field> 
-                                             <Field label="gender" name="gender" value="Female" component={renderRadioButtonField} type="radio">
-                                                  <input name="gender" type="radio"/> {titleStrings.feMaleTitle}
-                                                  <span class="radiobtn"></span>
-                                             </Field>
+                                             <Field label={titleStrings.maleTitle} name="gender" value="Male" component={RenderRadioButtonField} type="radio" />
+                                             <Field label={titleStrings.feMaleTitle} name="gender" value="Female" component={RenderRadioButtonField} type="radio" />
                                         </div>
                                    </div>
                                    <div className="form-field flex50">
@@ -40,7 +34,7 @@ const Step2 = () => {
                                    <div className="form-field flex100 mb-2">
                                         <Field name="address" label={titleStrings.addressTitle} component={renderField} type="text" />
                                    </div>
-                                   <div className="form-field flex100 withourLabel">
+                                   <div className="form-field flex100 withoutLabel">
                                         <Field name="address" label={titleStrings.addressTitle} component={renderField} type="text" />
                                    </div>
                                    <div className="form-field flex100">

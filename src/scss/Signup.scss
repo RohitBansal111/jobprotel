@@ -47,11 +47,11 @@
     min-height: 100vh;
     max-height: 100vh;
     overflow: auto;
+    padding-top: 70px;
     .register-form-boxen {
       padding: 20px 40px;
       width: 80%;
       margin: auto;
-      height: 100vh;
       @include flexAllCenter;
       .register-form {
         width: 100%;

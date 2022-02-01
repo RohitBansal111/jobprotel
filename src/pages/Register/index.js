@@ -6,7 +6,7 @@ import Step3 from '../../components/Register/Step3'
 import Logo from './../../assets/images/logo.png'
 
 const Register = () => {
-     const [step, setstep] = useState(2)
+     const [step, setstep] = useState(3)
      return (
           <div className="page-wrapper">
                <div className="register-page-main">
