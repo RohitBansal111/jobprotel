@@ -6,7 +6,13 @@ import Step3 from '../../components/Register/Step3'
 import Logo from './../../assets/images/logo.png'
 
 const Register = () => {
-     const [step, setstep] = useState(3)
+     const [currentPage, setPage] = useState(0);
+     const nextPage = () => setPage((prev) => ++prev);
+     const prevPage = () => setPage((prev) => --prev);
+     const finalSubmit = () =>{
+          alert('Final Form Submit')
+     }
+     console.log(currentPage)
      return (
           <div className="page-wrapper">
                <div className="register-page-main">
@@ -54,10 +60,10 @@ const Register = () => {
                     </div>
                     <div className="register-form-area">
                          <div className="register-form-boxen">
-                              { step === 0 && <ChooseRole step={step} /> }
-                              { step === 1 && <Step1 step={step} /> }
-                              { step === 2 && <Step2 step={step} /> }
-                              { step === 3 && <Step3 step={step} /> }
+                              { currentPage === 0 && <ChooseRole nextPage={nextPage} /> }
+                              { currentPage === 1 && <Step1 prevPage={prevPage} nextPage={nextPage} /> }
+                              { currentPage === 2 && <Step2 prevPage={prevPage} nextPage={nextPage} /> }
+                              { currentPage === 3 && <Step3 prevPage={prevPage} finalSubmit={finalSubmit} /> }
                          </div>
                     </div>
                </div>

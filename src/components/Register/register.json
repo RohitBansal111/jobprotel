@@ -19,7 +19,8 @@
          "onSiteTitle": "Onsite",
          "offSiteTitle": "Offsite",
          "noTitle": "No",
-         "yesTitle": "Yes",
+         "yesTitle": "No",
+         "workingTitle": "Working",
          "prevTitle": "Previous",
          "nextTitle": "Next"
      }

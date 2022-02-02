@@ -93,40 +93,25 @@ renderMultiSelect.propTypes = {
 };
 
 
-export const RenderRadioButtonField = ({
-  input,
-  label,
-  name,
-  type,
-  checked,
-  children,
-  meta: { touched, error, warning },
-  onChange,
-  onError
-}) => {
+export const RenderRadioButtonField = ({ input, label, onChange, name,children, checked, type, meta: { touched, error } }) => {
   const inputProps = {
-
     ...input,
-
     onChange: e => {
-
       input.onChange(e);
-
       onChange && onChange(e);
-
     }
-
   };
   return (
     <div className="field-render-main">
       <label className="radio-group">
-          {label}
-          <input name={name} type="radio" checked={checked} /> 
+          <input type="radio" checked {...input}  /> 
+          {children}
           <span className="radiobtn"></span>
       </label>
     </div>
   );
 };
+
 export const rendercheckbox = ({
   input,
   label,

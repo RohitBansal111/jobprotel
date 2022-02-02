@@ -48,6 +48,9 @@
     max-height: 100vh;
     overflow: auto;
     padding-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .register-form-boxen {
       padding: 20px 40px;
       width: 80%;
@@ -94,77 +97,65 @@
     min-height: 210px;
     border-radius: 15px;
     position: relative;
+    text-align: center;
     @include flexAllCenter;
-    label {
-      cursor: pointer;
-      text-align: center;
-      input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0px;
-        top: 0px;
-        opacity: 0;
-        z-index: 99;
-        cursor: pointer;
-        &:checked {
-          ~ .role-icon {
-            &::before {
-              background-color: $Theme-primary;
-            }
-            h4 {
-              color: $Theme-white;
-            }
-          }
-          ~ .role-circle {
-            background-color: $Theme-primary;
-            border: 2px solid $Theme-white;
-            span {
-              display: flex;
-            }
+    background-color: $Theme-primary-light;
+    z-index: 2;
+    border-radius: 15px;
+    flex-direction: column;
+    .field-render-main {
+      .radio-group {
+        .radiobtn {
+          width: 32px;
+          height: 32px;
+          &::after {
+            width: 12px;
+            height: 12px;
+            top: 8px;
+            left: 8px;
           }
         }
       }
+    }
+    &.active {
+      background-image: linear-gradient(140deg, #1cb7a6 0%, #069182 75%);
       .role-icon {
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0px;
-          left: 0px;
-          width: 100%;
-          height: 100%;
-          background-color: $Theme-primary-light;
-          z-index: 2;
-          border-radius: 15px;
-        }
-        img {
-          position: relative;
-          z-index: 9;
-        }
         h4 {
-          color: $Theme-primary;
-          padding-top: 20px;
-          position: relative;
-          z-index: 9;
+          color: $Theme-white;
         }
       }
-      .role-circle {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: $Theme-white;
-        border: 2px solid $Theme-secondary;
-        position: absolute;
-        z-index: 9;
-        top: 12px;
-        left: 12px;
-        @include flexAllCenter;
-        span {
-          width: 10px;
-          height: 10px;
-          background-color: $Theme-white;
-          border-radius: 50%;
+      .field-render-main {
+        .radiobtn {
+          background-color: transparent;
+          border-color: $Theme-white;
+          &::after {
+            background-color: $Theme-white;
+          }
         }
+      }
+    }
+    .radio-group {
+      position: static;
+      .radiobtn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      }
+    }
+    input {
+      height: 100% !important;
+      cursor: pointer;
+    }
+    .role-icon {
+      img {
+        position: relative;
+        z-index: 9;
+      }
+      h4 {
+        color: $Theme-primary;
+        padding-top: 20px;
+        position: relative;
+        z-index: 9;
       }
     }
   }
@@ -189,9 +180,9 @@
       content: '';
       position: absolute;
       top: 0px;
-      left: -23px;
-      width: 49px;
-      height: 49px;
+      left: -25px;
+      width: 54px;
+      height: 54px;
       background-color: $Theme-white;
       border: 5px solid $Theme-secondary;
       border-radius: 50%;
@@ -200,9 +191,9 @@
       content: '';
       position: absolute;
       top: 7px;
-      left: -16px;
-      width: 35px;
-      height: 35px;
+      left: -18px;
+      width: 40px;
+      height: 40px;
       background-color: #fff !important;
       border: 11px solid #20bead !important;
       border-radius: 50%;
@@ -230,5 +221,15 @@
     background-color: $Theme-white;
     border-radius: 10px;
     opacity: 0.4;
+  }
+}
+.resgiter-listing-steps {
+  li {
+    &:first-child {
+      &::after {
+        border: 11px solid $Theme-white;
+        background-color: $Theme-secondary;
+      }
+    }
   }
 }

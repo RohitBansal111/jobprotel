@@ -7,7 +7,10 @@ const Step2Validator = (values) => {
           error.age = "Required Age"
      }
      if(!values.address){ 
-          error.address = "Required Address"
+          error.address = "Required house no."
+     }
+     if(!values.address2){ 
+          error.address2 = "Required PIN Number"
      }
      if(!values.qualification){ 
           error.qualification = "Required Qualification"
@@ -15,9 +18,9 @@ const Step2Validator = (values) => {
      if(!values.interestedArea){ 
           error.interestedArea = "Required Interested Area"
      }
-     if(!values.uploadPhoto){ 
-          error.uploadPhoto = "Required Upload Photo"
-     }
+     // if(!values.uploadPhoto){ 
+     //      error.uploadPhoto = "Required Upload Photo"
+     // }
      return error;
    }
    

@@ -1,47 +1,57 @@
 import Student from './../../assets/icons/student.png'
 import Employer from './../../assets/icons/employer.png'
+import { Field, Form } from "react-final-form"
+import ChooseRoleValidate from './validator/chooseValidate'
+import { RenderRadioButtonField } from '../renderField'
+import { useState } from 'react'
 
 
 const ChooseRole = (props) => {
-     
-     const formStep = () => {
-         
+     const [activeRole, setactiveRole] = useState('student')
+
+     const SaveChooseRole = (values) => {
+          console.log(values)
+          props.nextPage()
      }
+     const handleStudentRole = () =>{
+          setactiveRole('student')
+     }
+     const handleEmployerRole = () =>{
+          setactiveRole('employer')
+     }
+
      return (
           <div className="register-form">
                <h2 className="text-primary text-center">Choose a role</h2>
                <div className="form-main">
-                    <form action="" onSubmit={formStep}>
-                         <div className="choose-role-box">
-                              <div className="role-box">
-                                   <label htmlFor="studentRole">
-                                        <input name="role" type="radio" value="student" />
+                    <Form
+                    onSubmit={SaveChooseRole}
+                    validate={ChooseRoleValidate}
+                    >
+                         {({handleSubmit,submitting, values})=>(
+                         <form onSubmit={handleSubmit}> 
+                              <div className="choose-role-box">
+                                   <div className={activeRole == 'student' ? 'role-box active': 'role-box'} onClick={handleStudentRole}>
+                                        <Field name="role" type="radio" value="student" component={RenderRadioButtonField}  />
                                         <div className="role-icon">
                                              <img src={Student} alt="Student Role" />
                                              <h4>STUDENT</h4>
                                         </div>
-                                        <div className="role-circle">
-                                             <span></span>
-                                        </div>
-                                   </label>
-                              </div>
-                              <div className="role-box">
-                                   <label htmlFor="studentRole">
-                                        <input name="role" type="radio" value="employer" />
+                                   </div>
+                                   <div className={activeRole == 'employer' ? 'role-box active': 'role-box'} onClick={handleEmployerRole}>
+                                        <Field name="role" type="radio" value="employer" component={RenderRadioButtonField}  />
                                         <div className="role-icon">
                                              <img src={Employer} alt="Employer Role" />
                                              <h4>EMPLOYER</h4>
                                         </div>
-                                        <div className="role-circle">
-                                             <span></span>
-                                        </div>
-                                   </label>
+                                   </div>
                               </div>
-                         </div>
-                         <div className="form-action">
-                              <button type="button" className="btn btn-primary w-100 next-btn text-white text-center"> Next </button>
-                         </div>
-                    </form>
+                              <div className="form-action">
+                                   <button type="submit" className="btn btn-primary w-100 next-btn text-white text-center"> Next </button>
+                              </div>
+                         </form>
+                         )}
+                    </Form>
                </div>
           </div>
      )
