@@ -25,25 +25,25 @@ const Register = () => {
                                    <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>
                                    <h3 className="text-white">#1 Intelligent time tracking application for jobs</h3>
                                    <ul className="resgiter-listing-steps">
-                                        <li>
+                                        <li className={currentPage == 0 ? 'active' : (currentPage == 1 || currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Choose role</h5>
                                                   <p>Choose your journey to proceed</p>
                                              </div>
                                         </li>
-                                        <li>
+                                        <li className={currentPage == 1 ? 'active' : (currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Basic Information</h5>
                                                   <p>Please provide your Name and email</p>
                                              </div>
                                         </li>
-                                        <li>
+                                        <li className={currentPage == 2 ? 'active' : (currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Personal Information</h5>
                                                   <p>Please provide address, qualification etc</p>
                                              </div>
                                         </li>
-                                        <li>
+                                        <li className={currentPage == 3 ? 'active' : ''}>
                                              <div className="register-steps">
                                                   <h5>Professional Information</h5>
                                                   <p>Please provide vour experience colleae details etc</p>

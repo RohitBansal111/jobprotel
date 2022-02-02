@@ -14,9 +14,17 @@
     margin-bottom: 15px;
     &.flex50 {
       flex: 0 0 48%;
+      @include Phone {
+        flex: 0 0 100%;
+      }
     }
     &.flex100 {
       flex: 0 0 100%;
+    }
+    &.noLabel {
+      label {
+        display: none;
+      }
     }
     label {
       color: $labelColor;

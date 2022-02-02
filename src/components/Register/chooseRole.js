@@ -1,5 +1,7 @@
 import Student from './../../assets/icons/student.png'
 import Employer from './../../assets/icons/employer.png'
+import ActiveStudent from './../../assets/icons/active-student.png'
+import ActiveEmployer from './../../assets/icons/active-employer.png'
 import { Field, Form } from "react-final-form"
 import ChooseRoleValidate from './validator/chooseValidate'
 import { RenderRadioButtonField } from '../renderField'
@@ -35,6 +37,7 @@ const ChooseRole = (props) => {
                                         <Field name="role" type="radio" value="student" component={RenderRadioButtonField}  />
                                         <div className="role-icon">
                                              <img src={Student} alt="Student Role" />
+                                             <img src={ActiveStudent} alt="Student Role" />
                                              <h4>STUDENT</h4>
                                         </div>
                                    </div>
@@ -42,6 +45,7 @@ const ChooseRole = (props) => {
                                         <Field name="role" type="radio" value="employer" component={RenderRadioButtonField}  />
                                         <div className="role-icon">
                                              <img src={Employer} alt="Employer Role" />
+                                             <img src={ActiveEmployer} alt="Employer Role" />
                                              <h4>EMPLOYER</h4>
                                         </div>
                                    </div>

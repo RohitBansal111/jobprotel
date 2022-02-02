@@ -104,7 +104,7 @@ export const RenderRadioButtonField = ({ input, label, onChange, name,children, 
   return (
     <div className="field-render-main">
       <label className="radio-group">
-          <input type="radio" checked {...input}  /> 
+          <input type="radio" checked {...inputProps}  /> 
           {children}
           <span className="radiobtn"></span>
       </label>

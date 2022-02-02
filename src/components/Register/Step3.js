@@ -7,15 +7,16 @@ import Step3Validator from "./validator/step3Validator";
 
 const Step3 = (props) => {
      let titleStrings = new LocalizedStrings(titles)
+     const [extraDocument, setextraDocument] = useState(true)
      const [certificate, setcertificate] = useState('')
      const SaveStep3 = (values) =>{
           console.log(values)
           props.finalSubmit()
      }
-     const ExtraCertificate = (e) => {
-          setcertificate(e.target.value)
-     }
-     console.log(certificate)
+     const handleChange = event => {
+          alert('hello')
+          console.log("!!!", event.target.value);
+      };
      return (
           <div className="register-form">
                <h4 className="text-primary text-left">Professional Information</h4>
@@ -80,14 +81,20 @@ const Step3 = (props) => {
                                    <div className="form-field flex50">
                                         <label htmlFor="certificate"> Extra certificates </label> 
                                         <div className="radio-button-groupss">
-                                             <Field label={titleStrings.noTitle} onChange={ExtraCertificate} name="certificate" value="No" component={RenderRadioButtonField} type="radio">
+                                             <Field label={titleStrings.noTitle} inputOnChange={handleChange} name="certificate" value="No" component={RenderRadioButtonField} type="radio">
                                                   No
                                              </Field>
-                                             <Field label={titleStrings.yesTitle} onChange={ExtraCertificate} name="certificate" value="yes" component={RenderRadioButtonField} type="radio">
+                                             <Field label={titleStrings.yesTitle} inputOnChange={handleChange} name="certificate" value="yes" component={RenderRadioButtonField} type="radio">
                                                   Yes
                                              </Field>
                                         </div>
                                    </div>
+                                   {
+                                        extraDocument &&
+                                        <div className="form-field flex100 noLabel">
+                                             <Field name="document" label="Extra Documents" uploadLabel="Browse Documents" component={RenderImageField} type="text" />
+                                        </div>
+                                   }
                               </div>
                               <div className="form-action">
                                    <button type="button" onClick={() => props.prevPage()} className="btn btn-secondary prev-btn text-white text-center"> {titleStrings.prevTitle} </button>

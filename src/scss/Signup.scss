@@ -11,6 +11,12 @@
     background-color: $Theme-secondary;
     position: relative;
     overflow: hidden;
+    @include Phone {
+      display: none;
+    }
+    @include Tablet {
+      display: none;
+    }
     &::before {
       content: '';
       background-image: url('./../assets/images/singup-bg-1.png');
@@ -36,6 +42,9 @@
       align-items: flex-start;
       height: 100vh;
       flex-direction: column;
+      @include TabletLandscape {
+        padding: 70px 20px 70px 20px;
+      }
       .brand-media {
         padding-bottom: 50px;
       }
@@ -51,11 +60,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    @include Phone {
+      padding: 70px 0px;
+    }
     .register-form-boxen {
       padding: 20px 40px;
       width: 80%;
       margin: auto;
       @include flexAllCenter;
+      @include Phone {
+        padding: 0px;
+        width: 90%;
+      }
+      @include TabletLandscape {
+        width: 95%;
+      }
       .register-form {
         width: 100%;
         .form-action {
@@ -64,6 +83,9 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          @include Phone {
+            width: 100% !important;
+          }
           .prev-btn {
             margin-right: 20px;
           }
@@ -92,6 +114,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include Phone {
+    display: block;
+  }
   .role-box {
     flex: 0 0 48%;
     min-height: 210px;
@@ -103,6 +128,11 @@
     z-index: 2;
     border-radius: 15px;
     flex-direction: column;
+    &:first-child {
+      @include Phone {
+        margin-bottom: 20px;
+      }
+    }
     .field-render-main {
       .radio-group {
         .radiobtn {
@@ -122,6 +152,14 @@
       .role-icon {
         h4 {
           color: $Theme-white;
+        }
+        img {
+          &:first-child {
+            display: none;
+          }
+          &:nth-child(2) {
+            display: block;
+          }
         }
       }
       .field-render-main {
@@ -150,6 +188,10 @@
       img {
         position: relative;
         z-index: 9;
+        margin: auto;
+        &:nth-child(2) {
+          display: none;
+        }
       }
       h4 {
         color: $Theme-primary;
@@ -225,10 +267,24 @@
 }
 .resgiter-listing-steps {
   li {
-    &:first-child {
+    &.active {
       &::after {
         border: 11px solid $Theme-white;
         background-color: $Theme-secondary;
+      }
+    }
+    &.finish {
+      &::after {
+        content: '';
+        background-image: url('./../assets/icons/check-sign.png');
+        width: 24px;
+        height: 20px;
+        top: 17px;
+        left: -8px;
+        background-repeat: no-repeat;
+        border-radius: 0;
+        background-color: transparent !important;
+        border: none !important;
       }
     }
   }
