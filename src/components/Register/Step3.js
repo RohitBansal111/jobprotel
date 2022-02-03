@@ -5,6 +5,7 @@ import { renderField, RenderImageField, RenderRadioButtonField, renderSelect } f
 import titles from './register.json' 
 import Step3Validator from "./validator/step3Validator";
 
+
 const Step3 = (props) => {
      let titleStrings = new LocalizedStrings(titles)
      const [extraDocument, setextraDocument] = useState(true)

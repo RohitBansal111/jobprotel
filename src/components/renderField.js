@@ -6,7 +6,7 @@ import axios from 'axios'
 const axiosInstance = getInstance();
 
 
-export const renderField = ({ input, label, onChange, name, placeholder, values, type, meta: { touched, error } }) => {
+export const renderField = ({ input, label, onChange, name,children, placeholder, values, type, meta: { touched, error } }) => {
 
   const inputProps = {
     ...input,
@@ -19,6 +19,7 @@ export const renderField = ({ input, label, onChange, name, placeholder, values,
     <label htmlFor={`label${label}`}>{label}</label>
     <div className="field-inner-group">
       <input name={name} {...inputProps} placeholder={placeholder} id={`label${label}`} className="form-control" />
+      {children}
       {touched && error && <span className="error">{error}</span>}
     </div>
   </div >);

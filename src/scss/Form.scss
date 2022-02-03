@@ -7,7 +7,7 @@
   }
 }
 .form-field-group {
-  margin: 40px 0px;
+  margin: 40px 0px 0px;
   @include flexStartBetween;
   flex-wrap: wrap;
   .form-field {
@@ -42,6 +42,61 @@
     .form-control {
       &::placeholder {
         opacity: 0.6;
+      }
+    }
+    .content-link {
+      text-align: center;
+      a {
+        color: $Theme-primary;
+        font-weight: 500;
+      }
+    }
+    .form-field-child {
+      @include flexCenterBetween;
+    }
+    .checkbox-wrap {
+      display: block;
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      user-select: none;
+      color: #797979;
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 24px;
+        width: 100%;
+        left: 0px;
+        top: 0px;
+        z-index: 99;
+        &:checked {
+          ~ .checkmarks {
+            display: block;
+            content: '\f14a';
+            font-family: 'FontAwesome';
+            color: $Theme-primary;
+          }
+        }
+      }
+      .checkmarks {
+        position: absolute;
+        top: 0;
+        left: 0;
+        &::after {
+          content: '\f0c8';
+          font-family: 'FontAwesome';
+          position: absolute;
+          color: rgba(0, 0, 0, 0.1);
+          font-size: 20px;
+          margin-top: -4px;
+          -webkit-transition: 0.3s;
+          -o-transition: 0.3s;
+          transition: 0.3s;
+        }
       }
     }
   }
@@ -203,6 +258,16 @@
   }
 }
 .field-inner-group {
+  position: relative;
+  .eye-btn {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    cursor: pointer;
+    i {
+      color: $labelColor;
+    }
+  }
   select {
     option {
       &:first-child {

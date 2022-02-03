@@ -37,3 +37,18 @@ ul {
     list-style-type: none;
   }
 }
+.main-content {
+  background: #f9f9f9;
+}
+
+// Footer
+.footer-main {
+  background: #d5d5d5;
+  p {
+    margin: 0 0;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #828382;
+  }
+}

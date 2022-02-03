@@ -46,7 +46,7 @@
         padding: 70px 20px 70px 20px;
       }
       .brand-media {
-        padding-bottom: 50px;
+        padding-bottom: 55px;
       }
     }
   }
@@ -78,13 +78,14 @@
       .register-form {
         width: 100%;
         .form-action {
-          width: 80% !important;
-          margin: auto;
+          width: 80%;
+          margin: 10px auto;
+          margin-bottom: 0px;
           display: flex;
           align-items: center;
           justify-content: center;
           @include Phone {
-            width: 100% !important;
+            width: 100%;
           }
           .prev-btn {
             margin-right: 20px;
@@ -103,6 +104,42 @@
           }
           .btn {
             flex: 1;
+          }
+        }
+      }
+      &.login-form-box {
+        width: 60%;
+        @include Phone {
+          width: 90%;
+        }
+        @include TabletLandscape {
+          width: 95%;
+        }
+        .register-form {
+          .form-action {
+            .next-btn {
+              &::after {
+                margin-left: 80px;
+              }
+            }
+          }
+        }
+      }
+      &.forgotP-form-box {
+        width: 60%;
+        @include Phone {
+          width: 90%;
+        }
+        @include TabletLandscape {
+          width: 95%;
+        }
+        .register-form {
+          .form-action {
+            .next-btn {
+              &::after {
+                margin-left: 230px;
+              }
+            }
           }
         }
       }
