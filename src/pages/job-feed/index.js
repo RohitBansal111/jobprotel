@@ -27,79 +27,79 @@ const JobFeed = () => {
                               </div>
                          </div>
                     </section>
-                    <section class="job-feeds-wrapper">
-                         <div class="container">
-                              <div class="profile-feed-inner">
-                                   <div class="user-profile-left">
-                                        <div class="user-profile-coll">
-                                             <div class="user-profile-detail">
-                                                  <div class="profile-pic-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                                       <span class="profile-img">
+                    <section className="job-feeds-wrapper">
+                         <div className="container">
+                              <div className="profile-feed-inner">
+                                   <div className="user-profile-left">
+                                        <div className="user-profile-coll">
+                                             <div className="user-profile-detail">
+                                                  <div className="profile-pic-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                       <span className="profile-img">
                                                             <img src={UserAvtar} alt="user profile" />
                                                        </span>
                                                   </div>
                                                   <h3>Michael Taylor</h3>
                                                   <p>Washington United States</p>
                                              </div>
-                                             <div class="profile-connect">
-                                                  <div class="profile-con">
+                                             <div className="profile-connect">
+                                                  <div className="profile-con">
                                                        <img src={ConnectIcon} alt="Connect" />
-                                                       <span class="conn-count">92</span>
+                                                       <span className="conn-count">92</span>
                                                   </div>
                                                   <h4>Available Connects</h4>
                                              </div>
-                                             <div class="user-prof-info">
-                                                  <ul class="prof-info-ul">
-                                                       <li>Experience <span class="result">5+ <sub>YEARS</sub></span></li>
-                                                       <li>College / University <span class="result">Toronto</span></li>
-                                                       <li>Education <span class="result">M-Bio Sci.</span></li>
-                                                       <li>Hours / day <span class="result">8 Hours/day</span></li>
+                                             <div className="user-prof-info">
+                                                  <ul className="prof-info-ul">
+                                                       <li>Experience <span className="result">5+ Years</span></li>
+                                                       <li>College / University <span className="result">Toronto</span></li>
+                                                       <li>Education <span className="result">M-Bio Sci.</span></li>
+                                                       <li>Hours / day <span className="result">8 Hours/day</span></li>
                                                   </ul>
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="jobs-feeds-sec">
-                                        <div class="jobs-com-profile">
-                                             <div class="profile-update">
-                                                  <ul class="profile-jobs">
-                                                       <li><Link to="#"><span class="update-name">Job Applied</span>2</Link></li>
-                                                       <li><Link to="#"><span class="update-name">Inprogress</span>1</Link></li>
-                                                       <li><Link to="#"><span class="update-name">Completed</span>170</Link></li>
+                                   <div className="jobs-feeds-sec">
+                                        <div className="jobs-com-profile">
+                                             <div className="profile-update">
+                                                  <ul className="profile-jobs">
+                                                       <li><Link to="#"><span className="update-name">Job Applied</span>2</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li>
                                                   </ul>
                                              </div>
-                                             <div class="profile-strength">
-                                                  <div class="profile-strength-inner">
-                                                       <h3>Profile strength: <span class="profile-completed">60% Completed</span></h3>
-                                                       <div class="profile-strength-bar">
-                                                            <p class="profile-progress" style={{'width': '60%'}}></p>
-                                                            <div class="profile-complete-bar">
-                                                                 <span class="complete-bar completed" style={{'left': '25%'}}></span>
-                                                                 <span class="complete-bar completed" style={{'left': '50%'}}></span>
-                                                                 <span class="complete-bar" style={{'left': '75%'}}></span>
+                                             <div className="profile-strength">
+                                                  <div className="profile-strength-inner">
+                                                       <h3>Profile strength: <span className="profile-completed">60% Completed</span></h3>
+                                                       <div className="profile-strength-bar">
+                                                            <p className="profile-progress" style={{'width': '60%'}}></p>
+                                                            <div className="profile-complete-bar">
+                                                                 <span className="complete-bar completed" style={{'left': '25%'}}></span>
+                                                                 <span className="complete-bar completed" style={{'left': '50%'}}></span>
+                                                                 <span className="complete-bar" style={{'left': '75%'}}></span>
                                                             </div>
                                                        </div>
                                                   </div>
                                              </div>
                                         </div>
-                                        <div class="feeds-search-bar">
-                                             <div class="search-bar">
-                                                  <form class="form-inline">
-                                                       <input class="form-control" type="search" placeholder="Find related Jobs" aria-label="Search" />
-                                                       <button class="btn btn-outline-success" type="submit">Search</button>
+                                        <div className="feeds-search-bar">
+                                             <div className="search-bar">
+                                                  <form className="form-inline">
+                                                       <input className="form-control" type="search" placeholder="Find related Jobs" aria-label="Search" />
+                                                       <button className="btn btn-outline-success" type="submit">Search</button>
                                                   </form>
                                              </div>
-                                             <div class="feed-filter">
-                                                  <button type="button" class="btn filter-btn">
+                                             <div className="feed-filter">
+                                                  <button type="button" className="btn filter-btn">
                                                        <img src={Filtericon} alt="Filter icon" />
                                                   </button>
                                              </div>
                                         </div>
-                                        <div class="search-feeds-section">
-                                             <div class="feed-title">
+                                        <div className="search-feeds-section">
+                                             <div className="feed-title">
                                                   <h2>Top results you might like</h2>
                                                   <p>Showing 1-20 of 581 results</p>
                                              </div>
-                                             <div class="default-feeds-search">
+                                             <div className="default-feeds-search">
                                                   <JobCard />
                                                   <JobCard />
                                                   <JobCard />

@@ -7,10 +7,18 @@ section.complete-kyc {
     background: #fae0e0;
     padding: 7px 0;
     border-radius: 8px;
+    @include Phone {
+      padding: 10px;
+      text-align: center;
+      flex-direction: column;
+    }
     p {
       margin: 0;
       font-size: 16px;
       color: #de6f6f;
+      @include Phone {
+        margin: 0 0 10px;
+      }
     }
     button {
       &.submit-kyc {
@@ -72,11 +80,25 @@ section.complete-kyc {
   margin-top: -140px;
   position: relative;
   z-index: 1;
+  @include Phone {
+    margin-top: -110px;
+  }
   .profile-feed-inner {
     display: flex;
+    @include Phone {
+      flex-direction: column;
+    }
     .user-profile-left {
       width: 340px;
       min-width: 340px;
+      @include Phone {
+        width: 100%;
+        min-width: 100%;
+      }
+      @include TabletLandscape {
+        width: 300px;
+        min-width: 300px;
+      }
       .user-profile-coll {
         background: #f4fbfa;
         box-shadow: 0 0 6px 0px #b1b1b1;
@@ -144,8 +166,10 @@ section.complete-kyc {
               margin-bottom: 15px;
               font-size: 14px;
               color: #576967;
-              &.result {
-                font-weight: 600;
+              span {
+                &.result {
+                  font-weight: 600;
+                }
               }
             }
           }
@@ -157,21 +181,42 @@ section.complete-kyc {
 .jobs-feeds-sec {
   width: 100%;
   padding-left: 30px;
+  @include Phone {
+    padding-left: 0px;
+  }
   .jobs-com-profile {
     display: flex;
     justify-content: space-between;
     margin-top: 80px;
     margin-bottom: 35px;
+    @include Phone {
+      padding: 10px;
+      background: #e4edec;
+      align-items: flex-start;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      flex-direction: column;
+    }
     .profile-update {
+      @include Phone {
+        width: 100%;
+        margin-bottom: 20px;
+      }
       .profile-jobs {
         margin: 0;
         padding: 0;
         display: flex;
+        @include Phone {
+          justify-content: space-between;
+        }
         li {
           list-style: none;
           position: relative;
           margin-right: 40px;
           text-align: center;
+          @include Phone {
+            margin-right: 15px;
+          }
           &:last-child {
             a {
               &::after {
@@ -183,6 +228,10 @@ section.complete-kyc {
             color: #fff;
             font-size: 18px;
             font-weight: 700;
+            @include Phone {
+              color: #405451;
+              font-size: 16px;
+            }
             .update-name {
               display: block;
               font-size: 16px;
@@ -200,14 +249,33 @@ section.complete-kyc {
           }
         }
       }
+      p {
+        color: #fff;
+        margin: 0;
+        padding: 20px 0 0;
+        @include Phone {
+          color: #05574e;
+          font-size: 18px;
+        }
+      }
     }
     .profile-strength {
+      @include Phone {
+        width: 100%;
+      }
       .profile-strength-inner {
+        width: 310px;
+        @include Phone {
+          width: 100%;
+        }
         h3 {
           font-size: 16px;
           color: #fff;
           font-weight: 400;
           margin-bottom: 10px;
+          @include Phone {
+            color: #405451;
+          }
           .profile-completed {
             font-weight: 700;
           }
@@ -251,11 +319,19 @@ section.complete-kyc {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
+    @include Phone {
+      flex-direction: column;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
     h2 {
       font-size: 20px;
       font-weight: 700;
       color: #363636;
       margin: 0;
+      @include Phone {
+        margin-bottom: 5px;
+      }
     }
     p {
       margin: 0;
@@ -277,8 +353,14 @@ section.complete-kyc {
       border-bottom: 1px solid #eaf3f2;
       padding-bottom: 15px;
       margin-bottom: 10px;
+      @include Phone {
+        flex-direction: column;
+      }
       .feeds-head-left {
         display: flex;
+        @include Phone {
+          margin-bottom: 10px;
+        }
         .feeds-s-logo {
           margin-right: 20px;
         }
@@ -286,10 +368,17 @@ section.complete-kyc {
           h2 {
             margin-bottom: 6px;
             line-height: 24px;
+            @include Phone {
+              line-height: 14px;
+              margin-bottom: 5px;
+            }
             a {
               font-size: 20px;
               color: #05574e;
               font-weight: 700;
+              @include Phone {
+                font-size: 16px;
+              }
             }
           }
           .feeds-s-ul {
@@ -313,6 +402,10 @@ section.complete-kyc {
       }
       .feeds-budget {
         text-align: center;
+        @include Phone {
+          text-align: left;
+          margin-left: 0px;
+        }
         p {
           margin: 0;
           font-size: 14px;
@@ -339,9 +432,15 @@ section.complete-kyc {
           margin: 0 0 10px;
           padding: 0;
           display: flex;
+          @include Phone {
+            flex-wrap: wrap;
+          }
           li {
             list-style: none;
             margin-right: 10px;
+            @include Phone {
+              margin-bottom: 10px;
+            }
             a {
               background: #edf8f7;
               font-size: 14px;
@@ -351,6 +450,40 @@ section.complete-kyc {
               border-radius: 20px;
               border: 1px solid #a7ddd7;
             }
+          }
+        }
+      }
+      .posted-submit {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @include Phone {
+          flex-direction: column;
+        }
+        p {
+          &.post-ago {
+            margin: 0;
+            font-size: 14px;
+            color: #05574e;
+            display: flex;
+            align-items: center;
+            @include Phone {
+              width: 100%;
+              margin-bottom: 10px;
+            }
+            img {
+              margin-right: 9px;
+            }
+          }
+        }
+        .submit-btn {
+          background: #20bead;
+          color: #fff;
+          font-size: 14px;
+          padding: 8px 30px;
+          border-radius: 8px;
+          @include Phone {
+            width: 100%;
           }
         }
       }

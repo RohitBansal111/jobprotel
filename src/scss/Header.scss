@@ -2,17 +2,81 @@
   transition: all 0.5s;
   z-index: 997;
   padding: 25px 0;
+  .inner-logo {
+    .logo {
+      img {
+        @include Phone {
+          width: 110px;
+        }
+      }
+    }
+  }
   .right-side-nav {
     display: flex;
     align-items: center;
+    @include Phone {
+      padding-right: 50px;
+    }
     .navbar {
       padding: 0px;
+      @include Phone {
+        position: absolute;
+        right: 0;
+        top: 0px;
+      }
+      &.navbar-mobile {
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(19, 46, 49, 0.9);
+        transition: 0.3s;
+        z-index: 2;
+        ul {
+          display: block;
+          position: absolute;
+          top: 55px;
+          right: 15px;
+          bottom: 15px;
+          left: 15px;
+          padding: 10px 0;
+          border-radius: 10px;
+          background-color: #fff;
+          overflow-y: auto;
+          transition: 0.3s;
+          li {
+            a {
+              padding: 10px 20px;
+              font-size: 15px;
+              color: #7e7e7e;
+              &.active {
+                color: #0e9586;
+              }
+            }
+          }
+        }
+        .mobile-nav-toggle {
+          top: 0px;
+          .fa-times {
+            display: block;
+            color: #fff;
+          }
+          .fa-bars {
+            display: none;
+          }
+        }
+      }
       ul {
         margin: 0;
         padding: 0;
         display: flex;
         list-style: none;
         align-items: center;
+        @include Phone {
+          display: none;
+        }
         li {
           position: relative;
           a {
@@ -35,10 +99,26 @@
         display: none;
         line-height: 0;
         transition: 0.5s;
+        @include Phone {
+          display: block;
+          position: absolute;
+          right: 15px;
+          top: 20px;
+        }
+        .fa {
+          font-size: 27px;
+          color: #25383c;
+        }
+        .fa-times {
+          display: none;
+        }
       }
     }
     .head-notification {
       margin-left: 60px;
+      @include Phone {
+        margin-left: 20px;
+      }
       .notification-ico {
         position: relative;
         .n-alert {

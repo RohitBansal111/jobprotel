@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from './../../assets/images/inner-logo.png';
 import Notification from './../../assets/icons/notification-ico.png'
 import userAvtar from './../../assets/images/user-img.jpg';
 
 const Header = () => {
+     const [mobileMenu, setmobileMenu] = useState('')
+     const menuToggle = () =>{
+          setmobileMenu('navbar-mobile')
+          if(mobileMenu === 'navbar-mobile'){
+               setmobileMenu('')
+          }
+     }
      return (
           <header id="header" className="header header-scrolled">
                <div className="container d-flex align-items-center justify-content-between">
@@ -14,14 +21,17 @@ const Header = () => {
                          </Link>
                     </div>
                     <div className="right-side-nav">
-                         <nav id="navbar" className="navbar">
+                         <nav id="navbar" className={`navbar ${mobileMenu}`}>
                               <ul>
                                    <li><NavLink className="nav-link scrollto" to="/job-feeds" activeclassname="active-link">Find Work</NavLink></li>
                                    <li><NavLink className="nav-link scrollto" to="/my-applications" activeclassname="active-link">My Applications</NavLink></li>
                                    <li><NavLink className="nav-link scrollto" to="/invites" activeclassname="active-link">Invites</NavLink></li>
                                    <li><NavLink className="nav-link scrollto" to="/inbox" activeclassname="active-link">Inbox</NavLink></li>
                               </ul>
-                              <i className="bi bi-list mobile-nav-toggle"></i>
+                              <button type="button" onClick={menuToggle} className="btn mobile-nav-toggle">
+                                   <i className="fa fa-bars" aria-hidden="true"></i>
+                                   <i className="fa fa-times" aria-hidden="true"></i>
+                              </button>
                          </nav>
                          <div className="head-notification">
                               <span className="notification-ico">
