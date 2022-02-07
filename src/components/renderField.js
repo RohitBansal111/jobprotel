@@ -6,7 +6,7 @@ import axios from 'axios'
 const axiosInstance = getInstance();
 
 
-export const renderField = ({ input, label, onChange, name,children, placeholder, values, type, meta: { touched, error } }) => {
+export const renderField = ({ input, label, onChange, name,children, placeholder, value, type, meta: { touched, error } }) => {
 
   const inputProps = {
     ...input,
@@ -18,7 +18,7 @@ export const renderField = ({ input, label, onChange, name,children, placeholder
   return (<div className="field-render-main" >
     <label htmlFor={`label${label}`}>{label}</label>
     <div className="field-inner-group">
-      <input name={name} {...inputProps} placeholder={placeholder} id={`label${label}`} className="form-control" />
+      <input name={name} {...inputProps} placeholder={placeholder} value={value} id={`label${label}`} className="form-control" />
       {children}
       {touched && error && <span className="error">{error}</span>}
     </div>
@@ -145,7 +145,7 @@ export const renderTextareaField = ({ input, label, name, values, type, meta: { 
 )
 
 
-export const RenderImageField = ({
+export const RenderFileUploadField = ({
   input: { name, value, onChange },
   label,
   uploadLabel,
@@ -247,7 +247,7 @@ export const RenderImageField = ({
   );
 };
 
-RenderImageField.propTypes = {
+RenderFileUploadField.propTypes = {
   input: PropTypes.object,
   label: PropTypes.string,
   uploadlabel: PropTypes.string,

@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom"
+import { Field, Form } from "react-final-form"
 import Layout from "../../components/Layout"
 import UserAvtar from './../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../assets/icons/connect.png'
 import badgeCrossIcon from './../../assets/icons/badge-closeicon.png'
-import StudentAvtar from './../../assets/images/student-img.jpg'
-import CrossIcon from './../../assets/icons/cross-btn.png'
+import validate from "./validator/profileValidate"
+import { renderField, RenderRadioButtonField, RenderFileUploadField, renderSelect } from './../../components/renderField'
+import { RenderImageField } from "../../components/file-input"
 
 const EditProfile = () => {
+     const saveProfile = (values) => {
+          console.log(values)
+     }
+     
      return (
           <Layout>
                <div className="inner-page-wrapper">
@@ -77,231 +83,161 @@ const EditProfile = () => {
                                         </div>
                                         </div>
                                    </div>
-                                   <section className="profile-information-view">
+
+     <Form
+          onSubmit={saveProfile}
+          validate={validate}
+          >
+               {({handleSubmit, submitting, values})=>(
+               <form onSubmit={handleSubmit}> 
+                    <section className="profile-information-view">
                          <div className="profile-information-coll">
                               <h3>Personal information</h3>
                               <div className="profile-edit-info-list">
-                                   <div className="inner-form-block">
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>First name</label>
-                                        <input type="text" className="form-control" value="Michael" />
+                                   <div className="form-field-group">
+                                        <div className="form-field flex50">
+                                             <Field name="firstname" label="First name" placeholder="Enter first name" component={renderField} />
                                         </div>
-                                        <div className="form-group">
-                                        <label>Last name</label>
-                                        <input type="text" className="form-control" value="Taylor" />
+                                        <div className="form-field flex50">
+                                             <Field name="lastname" label="Last name" placeholder="Enter last name" component={renderField} />
                                         </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Age</label>
-                                        <input type="text" className="form-control" value="30 Years" />
+                                        <div className="form-field flex50">
+                                             <Field name="age" label="Age" placeholder="Enter age" component={renderField} />
                                         </div>
-                                        <div className="form-group">
-                                        <label>Gender</label>
-                                        <div className="custom-check">
-                                        <label className="custom-check-box">Male
-                                        <input type="radio" name="gender" checked="checked" />
-                                        <span className="radiobtn"></span>
-                                        </label>
-                                        <label className="custom-check-box">Female
-                                        <input type="radio" name="gender" />
-                                        <span className="radiobtn"></span>
-                                        </label>
+                                        <div className="form-field flex50">
+                                             <label htmlFor="gender"> Gender </label> 
+                                             <div className="radio-button-groupss">
+                                                  <Field label="Male" name="gender" value="Male" component={RenderRadioButtonField} type="radio">
+                                                       Male
+                                                  </Field>
+                                                  <Field label="Female" name="gender" value="Female" component={RenderRadioButtonField} type="radio">
+                                                       Female
+                                                  </Field>
+                                             </div>
                                         </div>
+                                        <div className="form-field flex50">
+                                             <Field name="email" placeholder="Enter email Address" label="Email Address" component={renderField} />
                                         </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Email address</label>
-                                        <input type="text" className="form-control" placeholder="Enter email address" />
+                                        <div className="form-field flex50">
+                                             <Field name="timeZone" label="Timezone" component={renderSelect}>  
+                                                  <option defaultValue="">Select timezone</option>
+                                                  <option value="1">India (GMT+5:30)</option>
+                                                  <option value="2">India (GMT+5:30)</option>
+                                                  <option value="3">India (GMT+5:30)</option>
+                                             </Field>
                                         </div>
-                                        <div className="form-group">
-                                        <label>Timezone</label>
-                                        <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">Select timezone</option>
-                                        <option value="1">India (GMT+5:30)</option>
-                                        <option value="2">India (GMT+5:30)</option>
-                                        <option value="3">India (GMT+5:30)</option>
-                                        </select>
+                                        <div className="form-field flex100">
+                                             <label>Interested area</label>
+                                             <div className="Interested-areabox">
+                                                  <div className="addskill-badge">
+                                                       <span className="badge badge-primary">
+                                                       Reading Books
+                                                       <button type="button" className="close" aria-label="Dismiss">
+                                                       <img src={badgeCrossIcon} alt="close icon" />
+                                                       </button>
+                                                       </span>
+                                                       <span className="badge badge-primary">
+                                                       Suffering internet
+                                                       <button type="button" className="close" aria-label="Dismiss">
+                                                       <img src={badgeCrossIcon} alt="close icon" />
+                                                       </button>
+                                                       </span>
+                                                       <span className="badge badge-primary">
+                                                       Traveling
+                                                       <button type="button" className="close" aria-label="Dismiss">
+                                                       <img src={badgeCrossIcon} alt="close icon" />
+                                                       </button>
+                                                       </span>
+                                                  </div>
+                                             </div>
                                         </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Interested area</label>
-                                        <div className="Interested-areabox">
-                                        <div className="addskill-badge">
-                                             <span className="badge badge-primary">
-                                             Reading Books
-                                             <button type="button" className="close" aria-label="Dismiss">
-                                             <img src={badgeCrossIcon} alt="close icon" />
-                                             </button>
-                                             </span>
-                                             <span className="badge badge-primary">
-                                             Suffering internet
-                                             <button type="button" className="close" aria-label="Dismiss">
-                                             <img src={badgeCrossIcon} alt="close icon" />
-                                             </button>
-                                             </span>
-                                             <span className="badge badge-primary">
-                                             Traveling
-                                             <button type="button" className="close" aria-label="Dismiss">
-                                             <img src={badgeCrossIcon} alt="close icon" />
-                                             </button>
-                                             </span>
+                                        <div className="form-field flex50">
+                                             <Field name="houseno" placeholder="Enter H. No. / village / street" label="H. No. / Village / Street" component={renderField} />
                                         </div>
+                                        <div className="form-field flex50">
+                                             <Field name="city" placeholder="city" label="City" component={renderSelect}>
+                                                  <option defaultValue="">City</option>
+                                                  <option value="New York">New York</option>
+                                                  <option value="Bergingam">Bergingam</option>
+                                                  <option value="Los Angales">Los Angales</option>
+                                             </Field>
                                         </div>
+                                        <div className="form-field flex50">
+                                             <Field name="state" placeholder="state" label="State" component={renderSelect}>
+                                                  <option defaultValue="">State</option>
+                                                  <option value="New York">New York</option>
+                                                  <option value="Bergingam">Bergingam</option>
+                                                  <option value="Los Angales">Los Angales</option>
+                                             </Field>
                                         </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>H. No. / Village / Street</label>
-                                        <input type="text" className="form-control" value="1592 Pratt Avenue" />
+                                        <div className="form-field flex50">
+                                             <Field name="state" placeholder="state" label="State" component={renderSelect}>
+                                                  <option defaultValue="">State</option>
+                                                  <option value="New York">New York</option>
+                                                  <option value="Bergingam">Bergingam</option>
+                                                  <option value="Los Angales">Los Angales</option>
+                                             </Field>
                                         </div>
-                                        <div className="form-group">
-                                        <label>City</label>
-                                        <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">City</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        </select>
+                                        <div className="form-field flex50">
+                                             <Field name="pin" placeholder="Enter pin" label="PIN" component={renderField} />
                                         </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>State</label>
-                                        <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">State</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        </select>
-                                        </div>
-                                        <div className="form-group">
-                                        <label>Country</label>
-                                        <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">Country</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        <option value="Silverdale">Silverdale</option>
-                                        </select>
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Pin</label>
-                                        <input type="text" className="form-control" value="95713" />
-                                        </div>
-                                        <div className="form-group">
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>photo</label>
-                                        <div className="upload-image">
-                                        <div className="upload-btn">
-                                             <input type="file" id="upload" hidden="" />
-                                             <label className="upload-file" for="upload"><i className="fa fa-upload" aria-hidden="true"></i> Browse Photo</label>
-                                        </div>
-                                        <div className="student-image">
-                                             <img src={StudentAvtar} alt="" />
-                                        </div>
-                                        </div>
-                                        </div>
-                                   </div>
-                                   </div>
-                              </div>
-                              </div>
-                              </section>
-                    <section className="profile-information-view">
-                         <div className="profile-information-coll">
-                              <h3>Professional information</h3>
-                              <div className="profile-edit-info-list">
-                                   <div className="inner-form-block">
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Hours / day</label>
-                                        <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">Select hours</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="3">4</option>
-                                        <option value="3">5</option>
-                                        <option value="3">6</option>
-                                        <option value="3">7</option>
-                                        <option value="3">8</option>
-                                        <option value="3">9</option>
-                                        <option value="3">10</option>
-                                        </select>
-                                        </div>
-                                        <div className="form-group">
-                                        <label>Expected salary</label>
-                                        <input type="text" className="form-control" value="$20 / hours" />
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Experience</label>
-                                        <input type="text" className="form-control" value="5 Years" />
-                                        </div>
-                                        <div className="form-group">
-                                        <label>Working</label>
-                                        <input type="text" className="form-control" value="OnSite" />
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group">
-                                        <label>Education</label>
-                                        <input type="text" className="form-control" value="Master in bio technology" />
-                                        </div>
-                                        <div className="form-group">
-                                        <label>Collage/University</label>
-                                        <input type="text" className="form-control" value="University of toronto" />
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group file-full">
-                                        <label>Resume</label>
-                                        <div className="upload-btn">
-                                        <input type="file" id="upload" hidden="" />
-                                        <label className="upload-file" for="upload"><i className="fa fa-upload" aria-hidden="true"></i> Browse resume file</label>
-                                        </div>
-                                        <div className="uploaded-file">
-                                        <p>my_resume.pdf <span className="cross"><img src={CrossIcon} alt="" /></span></p>
-                                        </div>
-                                        </div>
-                                   </div>
-                                   <div className="form-row">
-                                        <div className="form-group file-full">
-                                        <label>Resume</label>
-                                        <div className="upload-btn">
-                                        <input type="file" id="upload" hidden="" />
-                                        <label className="upload-file" for="upload"><i className="fa fa-upload" aria-hidden="true"></i> Browse Documents</label>
-                                        </div>
-                                        <div className="uploaded-file">
-                                        <p>Bachelor_of_Science.pdf <span className="cross"><img src={CrossIcon} alt="" /></span></p>
-                                        <p>Master_of_Bio_Science.pdf <span className="cross"><img src={CrossIcon} alt="" /></span></p>
+                                        <div className="form-field flex100">
+                                             <div className="form-field flex100">
+                                                  <Field name="uploadPhoto2" label="Photo" component={RenderImageField} type="file" />
+                                             </div>
                                         </div>
                                    </div>
                               </div>
                          </div>
-                    </div>
-                    </div>
-               </section>
-               <section className="profile-information-view">
+                    </section>
+                    <section className="profile-information-view">
+                         <div className="profile-information-coll">
+                              <h3>Professional information</h3>
+                              <div className="profile-edit-info-list">
+                                   <div className="form-field-group">
+                                        <div className="form-field flex50">
+                                             <Field name="hours" placeholder="Hours" label="Hours / day" component={renderSelect}> 
+                                                  <option defaultValue="">Select hours</option>
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                             </Field>
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="salary" placeholder="Enter expected salary" label="Expected salary" component={renderField} />
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="experience" placeholder="Enter experience" label="Experience" component={renderField} />
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="working" placeholder="Enter working (onsite/offsite)" label="Working" component={renderField} />
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="education" placeholder="Enter education" label="Education" component={renderField} />
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="college" placeholder="Enter college/university" label="Collage/University" component={renderField} />
+                                        </div>
+                                        <div className="form-field flex100">
+                                             <Field name="resume" label="Upload Resume" uploadLabel="Browse resume file" component={RenderFileUploadField} type="text" />
+                                        </div>
+                                        <div className="form-field flex100">
+                                             <Field name="documents" label="Upload Documents" uploadLabel="Browse documents" component={RenderFileUploadField} type="text" />
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </section>
+                    <section className="profile-information-view">
                         <div className="profile-information-coll">
                             <h3>Skill</h3>
                             <div className="profile-edit-info-list">
-                             <div className="form-row">
-                                <div className="form-group">
-                                   <label>Add Skill</label>
-                                   <select className="form-control form-select" aria-label="Default select example">
-                                        <option selected="">Add More Skill</option>
-                                        <option value="Html">Html</option>
-                                        <option value="Css">Css</option> 
-                                   </select>
+                              <div className="form-field flex100">
+                                   <Field name="skills" placeholder="skill" label="Add Skills" component={renderSelect}>
+                                             <option defaultValue="">Add More Skill</option>
+                                             <option value="Html">Html</option>
+                                             <option value="Css">Css</option> 
+                                   </Field>
                               </div>
                               <div className="addskill-badge">
                                    <span className="badge badge-primary">
@@ -319,7 +255,7 @@ const EditProfile = () => {
                                    <span className="badge badge-primary">
                                         Javascript
                                         <button type="button" className="close" aria-label="Dismiss">
-                                        <img src={StudentAvtar} alt="close icon" />
+                                        <img src={badgeCrossIcon} alt="close icon" />
                                         </button>
                                    </span>
                                    <span className="badge badge-primary">
@@ -336,14 +272,18 @@ const EditProfile = () => {
                                    </span>
                               </div>
                               </div>
-                            </div>
                         </div>
                     </section>
+                    <div className="form-field flex100 mb-5 d-flex justify-content-end">
+                         <button type="button" className="btn btn-save btn-primary">Update</button>
+                    </div>
+               </form>
+          )}
+          </Form>
                                    </div>
                               </div>
                          </div>
                     </section>
-                    
                </div>
           </Layout>
      )

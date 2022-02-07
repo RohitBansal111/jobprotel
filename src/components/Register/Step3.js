@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Field, Form } from "react-final-form"
 import LocalizedStrings from 'react-localization';
-import { renderField, RenderImageField, RenderRadioButtonField, renderSelect } from "../renderField";
+import { renderField, RenderFileUploadField, RenderRadioButtonField, renderSelect } from "../renderField";
 import titles from './register.json' 
 import Step3Validator from "./validator/step3Validator";
 
@@ -77,7 +77,7 @@ const Step3 = (props) => {
                                         </div>
                                    </div>
                                    <div className="form-field flex100">
-                                        <Field name="resume" label="Upload resume" uploadLabel="Browse resume file" component={RenderImageField} type="text" />
+                                        <Field name="resume" label="Upload resume" uploadLabel="Browse resume file" component={RenderFileUploadField} type="text" />
                                    </div>
                                    <div className="form-field flex50">
                                         <label htmlFor="certificate"> Extra certificates </label> 
@@ -93,7 +93,7 @@ const Step3 = (props) => {
                                    {
                                         extraDocument &&
                                         <div className="form-field flex100 noLabel">
-                                             <Field name="document" label="Extra Documents" uploadLabel="Browse Documents" component={RenderImageField} type="text" />
+                                             <Field name="document" label="Extra Documents" uploadLabel="Browse Documents" component={RenderFileUploadField} type="text" />
                                         </div>
                                    }
                               </div>

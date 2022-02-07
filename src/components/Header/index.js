@@ -47,9 +47,9 @@ const Header = () => {
                                    Michael T <img src={userAvtar} alt="User Profile" />
                                    </button>
                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><Link className="dropdown-item" to="#">Profile</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Dashboard</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Setting</Link></li>
+                                        <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                        <li><Link className="dropdown-item" to="/job-feeds">Dashboard</Link></li>
+                                        <li><Link className="dropdown-item" to="/edit-profile">Setting</Link></li>
                                    </ul>
                               </div>
                          </div>

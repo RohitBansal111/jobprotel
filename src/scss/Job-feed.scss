@@ -88,6 +88,9 @@ section.complete-kyc {
     @include Phone {
       flex-direction: column;
     }
+    @include Tablet {
+      flex-direction: column;
+    }
     .user-profile-left {
       width: 340px;
       min-width: 340px;
@@ -184,12 +187,23 @@ section.complete-kyc {
   @include Phone {
     padding-left: 0px;
   }
+  @include Tablet {
+    padding-left: 0px;
+  }
   .jobs-com-profile {
     display: flex;
     justify-content: space-between;
     margin-top: 80px;
     margin-bottom: 35px;
     @include Phone {
+      padding: 10px;
+      background: #e4edec;
+      align-items: flex-start;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      flex-direction: column;
+    }
+    @include Tablet {
       padding: 10px;
       background: #e4edec;
       align-items: flex-start;
@@ -232,6 +246,10 @@ section.complete-kyc {
               color: #405451;
               font-size: 16px;
             }
+            @include Tablet {
+              color: #405451;
+              font-size: 16px;
+            }
             .update-name {
               display: block;
               font-size: 16px;
@@ -256,6 +274,12 @@ section.complete-kyc {
         @include Phone {
           color: #05574e;
           font-size: 18px;
+          padding: 10px 0px;
+        }
+        @include Tablet {
+          color: #05574e;
+          font-size: 18px;
+          padding: 10px 0px;
         }
       }
     }
@@ -274,6 +298,9 @@ section.complete-kyc {
           font-weight: 400;
           margin-bottom: 10px;
           @include Phone {
+            color: #405451;
+          }
+          @include Tablet {
             color: #405451;
           }
           .profile-completed {
@@ -395,6 +422,7 @@ section.complete-kyc {
               font-weight: 500;
               img {
                 margin-right: 5px;
+                width: 18px;
               }
             }
           }
@@ -473,6 +501,7 @@ section.complete-kyc {
             }
             img {
               margin-right: 9px;
+              width: 18px;
             }
           }
         }
@@ -529,6 +558,35 @@ section.complete-kyc {
       width: 53px;
       margin-left: 20px;
       padding: 0;
+      img {
+        width: 36px;
+      }
+    }
+  }
+}
+.addskill-badge {
+  margin-top: 10px;
+  .badge {
+    margin-bottom: 8px;
+    &.badge-primary {
+      background: #edf8f7;
+      font-size: 14px;
+      color: #5b948e;
+      font-weight: 500;
+      padding: 10px 15px;
+      display: inline-block;
+      border-radius: 5px;
+      margin-right: 8px;
+      button {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        margin: 0px;
+        padding-right: 0px;
+        padding-left: 10px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
     }
   }
 }

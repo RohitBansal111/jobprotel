@@ -8,6 +8,9 @@
         @include Phone {
           width: 110px;
         }
+        @include Tablet {
+          width: 110px;
+        }
       }
     }
   }
@@ -83,12 +86,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1px 0 0px 30px;
+            padding: 1px 0px 0px 30px;
             font-size: 16px;
             font-weight: 700;
             color: #0c6e63;
             white-space: nowrap;
             transition: 0.3s;
+            @include Tablet {
+              padding: 1px 0px 0px 15px;
+            }
           }
         }
       }
@@ -119,6 +125,9 @@
       @include Phone {
         margin-left: 20px;
       }
+      @include Tablet {
+        margin-left: 20px;
+      }
       .notification-ico {
         position: relative;
         .n-alert {
@@ -129,6 +138,9 @@
           border-radius: 50%;
           position: absolute;
           right: 5px;
+        }
+        img {
+          width: 24px;
         }
       }
     }
@@ -158,6 +170,20 @@
           left: unset !important;
           right: 0 !important;
           min-width: 190px;
+          background: #fff;
+          padding: 0px;
+          box-shadow: 0 0 3px 0px #f0f0f0;
+          border-color: #ededed !important;
+          li {
+            a {
+              padding: 7px 17px;
+              display: block;
+              &:hover {
+                cursor: pointer;
+                background-color: #e7e7e7;
+              }
+            }
+          }
         }
       }
     }
