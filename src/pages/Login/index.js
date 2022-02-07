@@ -22,7 +22,7 @@ const Login = () => {
                               <div className="register-content">
                                    <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>
                                    <h3 className="text-white">#1 Intelligent time tracking application for jobs</h3>
-                                   <h5 className="text-white mt-5 d-flex"><i className="fa fa-user me-2"></i>Enter your email id and password to get into your account.</h5>
+                                   <h5 className="text-white mt-5 d-flex"><i className="fa fa-user mr-2"></i>Enter your email id and password to get into your account.</h5>
                               </div>
                          </div>
                     </div>
