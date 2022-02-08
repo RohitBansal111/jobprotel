@@ -4,9 +4,11 @@ import Layout from "../../components/Layout"
 import UserAvtar from './../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../assets/icons/connect.png'
 import Filtericon from './../../assets/icons/filter-ico.png'
+import CompleteKycModal from "../../components/Common/CompleteKycModal"
 
 
-const JobFeed = () => {
+
+const FindWork = () => {
      return (
           <Layout>
                <div className="inner-page-wrapper">
@@ -15,6 +17,7 @@ const JobFeed = () => {
                               <div className="kyc-update">
                                    <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
                                    <button type="button" className="btn submit-kyc" data-bs-toggle="modal" data-bs-target="#kycpopup">Complete KYC</button>
+                                   <CompleteKycModal />
                               </div>
                          </div>
                     </section>
@@ -115,4 +118,4 @@ const JobFeed = () => {
      )
 }
 
-export default JobFeed
+export default FindWork

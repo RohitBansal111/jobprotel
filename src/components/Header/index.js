@@ -23,10 +23,11 @@ const Header = () => {
                     <div className="right-side-nav">
                          <nav id="navbar" className={`navbar ${mobileMenu}`}>
                               <ul>
-                                   <li><NavLink className="nav-link scrollto" to="/job-feeds" activeclassname="active-link">Find Work</NavLink></li>
-                                   <li><NavLink className="nav-link scrollto" to="/my-applications" activeclassname="active-link">My Applications</NavLink></li>
-                                   <li><NavLink className="nav-link scrollto" to="/invites" activeclassname="active-link">Invites</NavLink></li>
-                                   <li><NavLink className="nav-link scrollto" to="/inbox" activeclassname="active-link">Inbox</NavLink></li>
+                                   <li><NavLink 
+                                   className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
+                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/my-applications">My Applications</NavLink></li>
+                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/invites">Invites</NavLink></li>
+                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/inbox">Inbox</NavLink></li>
                               </ul>
                               <button type="button" onClick={menuToggle} className="btn mobile-nav-toggle">
                                    <i className="fa fa-bars" aria-hidden="true"></i>
@@ -35,10 +36,42 @@ const Header = () => {
                          </nav>
                          <div className="head-notification">
                               <span className="notification-ico">
-                                   <Link to="#">
-                                        <img src={Notification} alt="Notification" />
-                                        <span className="n-alert"></span>
-                                   </Link>
+                                   <div className="dropdown">
+                                        <button className="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <img src={Notification} alt="Notification" />
+                                             <span className="notifi-badge"> 4 </span>
+                                        </button>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                             <li>
+                                                  <div className="notification-heading">
+                                                       <p>Your proposal to the job "I need a Logo Designer" was declined.</p>
+                                                  </div>
+                                                  <span>5 min. ago</span>
+                                             </li>
+                                             <li>
+                                                  <div className="notification-heading">
+                                                       <p>Your proposal to the job "I need a Logo Designer" was declined.</p>
+                                                  </div>
+                                                  <span>5 min. ago</span>
+                                             </li>
+                                             <li>
+                                                  <div className="notification-heading">
+                                                       <p>Your proposal to the job "I need a Logo Designer" was declined.</p>
+                                                  </div>
+                                                  <span>5 min. ago</span>
+                                             </li>
+                                             <li>
+                                                  <div className="notification-heading">
+                                                       <p>Your proposal to the job "I need a Logo Designer" was declined.</p>
+                                                  </div>
+                                                  <span>5 min. ago</span>
+                                             </li>
+                                             <li>
+                                                  <Link to="/notifications" className="notification-link">View All</Link>
+                                             </li>
+                                        </ul>
+                                       
+                                   </div>
                               </span>
                          </div>
                          <div className="signin-user">
@@ -47,9 +80,10 @@ const Header = () => {
                                    Michael T <img src={userAvtar} alt="User Profile" />
                                    </button>
                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
-                                        <li><Link className="dropdown-item" to="/job-feeds">Dashboard</Link></li>
-                                        <li><Link className="dropdown-item" to="/edit-profile">Setting</Link></li>
+                                        <li><Link className="dropdown-item" to="/profile"> <i className="fas fa-user"></i>Profile</Link></li>
+                                        <li><Link className="dropdown-item" to="/job-feeds"><i className="fas fa-tachometer-alt"></i> Dashboard</Link></li>
+                                        <li><Link className="dropdown-item" to="/edit-profile"><i className="fas fa-user-cog"></i> Setting</Link></li>
+                                        <li><Link className="dropdown-item" to="/"><i className="fas fa-sign-out-alt"></i> Logout</Link></li>
                                    </ul>
                               </div>
                          </div>

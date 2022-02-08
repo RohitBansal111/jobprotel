@@ -5,11 +5,13 @@ import Logo from './../../assets/images/logo.png'
 import validate from "./loginValidator";
 import { renderField } from "../../components/renderField";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
      let titleStrings = new LocalizedStrings(titles)
+     const history = useNavigate();
      const handleLogin = () =>{
-          
+          history('/find-work');
      }
      return (
           <div className="page-wrapper">

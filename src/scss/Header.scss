@@ -88,12 +88,15 @@
             justify-content: space-between;
             padding: 1px 0px 0px 30px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 500;
             color: #0c6e63;
             white-space: nowrap;
             transition: 0.3s;
             @include Tablet {
               padding: 1px 0px 0px 15px;
+            }
+            &.active {
+              font-weight: 700;
             }
           }
         }
@@ -173,18 +176,92 @@
           background: #fff;
           padding: 0px;
           box-shadow: 0 0 3px 0px #f0f0f0;
-          border-color: #ededed !important;
+          border-top: 3px solid #409185;
           li {
             a {
               padding: 7px 17px;
               display: block;
+              color: #505050;
               &:hover {
                 cursor: pointer;
                 background-color: #e7e7e7;
               }
+              i {
+                color: #505050;
+                min-width: 28px;
+              }
             }
           }
         }
+      }
+    }
+  }
+}
+.notification-ico {
+  .dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    &::after {
+      display: none;
+    }
+  }
+  .notifi-badge {
+    position: absolute;
+    background-color: red;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    color: #ffff;
+    padding: 1px;
+    font-weight: 600;
+    left: 16px;
+    top: -5px;
+  }
+  .notification-link {
+    color: #1c7469;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  .dropdown-menu {
+    left: auto;
+    right: 0px;
+    right: 0 !important;
+    min-width: 380px;
+    background: #fff;
+    padding: 0px;
+    box-shadow: 0 0 3px 0px #f0f0f0;
+    border-top: 3px solid #409185;
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 15px;
+      border-bottom: 1px solid lightgrey;
+      .notification-heading {
+        display: flex;
+        align-items: flex-start;
+        p {
+          font-size: 15px;
+          line-height: 17px;
+          margin-bottom: 6px;
+        }
+      }
+      i {
+        margin-right: 10px;
+        color: darkgrey;
+        position: relative;
+        top: 2px;
+      }
+      span {
+        flex: 0 0 100%;
+        font-size: 13px;
+        line-height: 13px;
+        color: grey;
       }
     }
   }

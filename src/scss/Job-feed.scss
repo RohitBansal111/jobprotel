@@ -590,3 +590,46 @@ section.complete-kyc {
     }
   }
 }
+#kycpopup {
+  .modal-dialog {
+    min-width: 600px;
+    .kycsubmit {
+      min-width: 120px;
+      height: 40px;
+    }
+  }
+}
+.application-tag-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .application-status {
+    display: flex;
+    align-items: center;
+    span {
+      font-weight: 600;
+      border-radius: 3px;
+      padding: 4px 10px;
+    }
+    .status-pending {
+      color: #f29339;
+    }
+    .status-approved {
+      color: #228b22;
+    }
+    .status-rejected {
+      color: #ed184b;
+    }
+    .btn-chatNow {
+      background-color: #132e31;
+      padding: 8px 12px;
+      color: #fff;
+      margin-left: 10px;
+      font-size: 14px !important;
+      img {
+        width: 15px;
+        margin-right: 7px;
+      }
+    }
+  }
+}

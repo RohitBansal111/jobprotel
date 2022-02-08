@@ -149,181 +149,181 @@ return (
                       </div>
                       <div className="tab-content" id="nav-tabContent">
                         <div className="tab-pane fade show active" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
-                          <div class="project-detail-list">
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                          <div className="project-detail-list">
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-pagination">
-                              <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <div className="project-pagination">
+                              <ul className="pagination">
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>
                         </div>
                         <div className="tab-pane fade" id="nav-inprogress" role="tabpanel" aria-labelledby="nav-inprogress-tab">
-                        <div class="project-detail-list">
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                        <div className="project-detail-list">
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-pagination">
-                              <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <div className="project-pagination">
+                              <ul className="pagination">
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>
                         </div>
                         <div className="tab-pane fade" id="nav-applied" role="tabpanel" aria-labelledby="nav-applied-tab">
-                        <div class="project-detail-list">
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                        <div className="project-detail-list">
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-dbox">
-                              <h2 class="prname">Fullstack project assessment &amp; advice</h2>
-                              <div class="prd-buget-column">
-                                <div class="prdate-budgetprice">
-                                  <span class="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span class="prbudget">With Budget <b>$550</b></span>
+                            <div className="project-dbox">
+                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                              <div className="prd-buget-column">
+                                <div className="prdate-budgetprice">
+                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                  <span className="prbudget">With Budget <b>$550</b></span>
                                 </div>
-                                <div class="prtime">
-                                  <span class="complete-pr-time">
+                                <div className="prtime">
+                                  <span className="complete-pr-time">
                                     <img src={ClockIcon} alt="clock-icon" />
                                   Completed in <b>15 hours</b>
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="project-pagination">
-                              <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <div className="project-pagination">
+                              <ul className="pagination">
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>

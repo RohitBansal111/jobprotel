@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import ChooseRole from '../../components/Register/chooseRole'
 import Step1 from '../../components/Register/Step1'
 import Step2 from '../../components/Register/Step2'
@@ -9,8 +10,10 @@ const Register = () => {
      const [currentPage, setPage] = useState(0);
      const nextPage = () => setPage((prev) => ++prev);
      const prevPage = () => setPage((prev) => --prev);
+     const history = useNavigate()
      const finalSubmit = () =>{
-          alert('Final Form Submit')
+          alert('Final Form Submit');
+          history('/find-work')
      }
      console.log(currentPage)
      return (
