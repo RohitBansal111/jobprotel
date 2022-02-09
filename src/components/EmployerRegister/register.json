@@ -1,0 +1,16 @@
+{
+     "en": {
+         "pageTitle": "Mentor List",
+         "firstNameTitle": "First Name",
+         "lastNameTitle": "Last Name",
+         "emailAddressTitle": "Email Address",
+         "passwordTitle": "Password",
+         "confirmPasswordTitle": "Confirm Password",
+         "companyLogoTitle": "Company Logo",
+         "companyAddressTitle": "Company Address",
+         "managerNameTitle": "Recruiting Manager Name",
+         "contactDetailsTitle": "Contact Details",
+         "prevTitle": "Previous",
+         "nextTitle": "Next"
+     }
+ }

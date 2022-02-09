@@ -1,4 +1,3 @@
-import ChatBox from "../../components/Inbox/ChatBox"
 import Layout from "../../components/Layout"
 
 

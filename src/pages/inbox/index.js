@@ -1,5 +1,5 @@
-import ChatBox from "../../components/Inbox/ChatBox"
 import Layout from "../../components/Layout"
+import ChatInbox from "../../components/Inbox/ChatInbox"
 
 
 
@@ -16,7 +16,7 @@ const Inbox = () => {
                     <section className="job-feeds-wrapper">
                          <div className="container">
                               <div className="chat-boot-react">
-                                   <ChatBox />
+                                   <ChatInbox />
                               </div>
                          </div>
                     </section>
