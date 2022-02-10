@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 100px;
+  width: 100%;
   .str-chat__loading-indicator {
     width: 40px !important;
     height: 40px !important;
@@ -16,5 +17,13 @@
       width: 40px;
       height: 40px;
     }
+  }
+  .str-chat-channel-list {
+    width: 25%;
+    height: 70vh;
+  }
+  .str-chat-channel {
+    width: 70%;
+    height: 70vh;
   }
 }

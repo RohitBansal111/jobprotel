@@ -45,20 +45,21 @@ const Login = () => {
                                                        </div>
                                                        <div className="form-field flex100">
                                                             <Field name="password" label={titleStrings.passwordTitle} component={renderField} placeholder="Enter password" type="password">
-                                                            <span className="eye-btn"><i className="fa fa-eye" aria-hidden="true"></i></span>
+                                                                 <span className="eye-btn"><i className="fa fa-eye" aria-hidden="true"></i></span>
                                                             </Field>
-                                                            
+                                                       </div>
+                                                       <div className="form-field flex100">
+                                                            <label id="termsPrivacy" className="checkbox-wrap checkbox-primary mb-0"> I have read and agree to the <Link to="/">Privacy Policy</Link> and Tracking Policy. Our <Link to="/"> Terms & Conditions</Link> apply.
+                                                                 <input type="checkbox" name="termsPrivacy"  />
+                                                                 <span className="checkmarks"></span>
+                                                            </label>
                                                        </div>
                                                        <div className="form-action w-100">
                                                             <button type="submit" className="btn btn-primary next-btn text-white text-center"> {titleStrings.signInTitle} </button>
                                                        </div>
                                                        <div className="form-field flex100 mt-2">
                                                             <div className="form-field-child">
-                                                                 <label id="remember" className="checkbox-wrap checkbox-primary mb-0">Remember Me
-                                                                      <input type="checkbox" name="remember"  />
-                                                                      <span className="checkmarks"></span>
-                                                                 </label>
-                                                                 <p className='content-link'>
+                                                                 <p className='content-link w-100 text-right'>
                                                                       <Link to="/forgot-password">Forgot Password</Link>
                                                                  </p>
                                                             </div>

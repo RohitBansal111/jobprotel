@@ -2,16 +2,16 @@ import { Field, Form } from "react-final-form"
 import validate from './kycValidation'
 import { renderField, RenderFileUploadField } from "./../renderField";
 
-const CompleteKycModal = () => {
+const SendInvitationModal = () => {
      const handleKycForm = () => {
 
      }
      return (
-          <div className="modal fade" id="kycpopup" tabindex="-1" aria-labelledby="kycLabel" aria-hidden="true">
+          <div className="modal fade" id="invitationPopup" tabindex="-1" aria-labelledby="inivitationLabel" aria-hidden="true">
                <div className="modal-dialog">
                     <div className="modal-content">
                          <div className="modal-header">
-                              <h5 className="modal-title" id="kycLabel">KYC Detail</h5>
+                              <h5 className="modal-title" id="kycLabel">Send Invitation</h5>
                               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                          </div>
                          <div className="modal-body p-4">
@@ -23,20 +23,11 @@ const CompleteKycModal = () => {
                                         {({handleSubmit, submitting, values})=>(
                                         <form onSubmit={handleSubmit}> 
                                              <div className="form-field-group mt-0">
-                                                  <div className="form-field flex50">
-                                                       <Field name="firstname" label="First Name" placeholder="Enter first name" component={renderField} />
-                                                  </div>
-                                                  <div className="form-field flex50">
-                                                       <Field name="email" label="Email Addresss" placeholder="Enter email address" component={renderField} />
-                                                  </div>
                                                   <div className="form-field flex100">
-                                                       <Field name="frontId" label="Front Id Proof" uploadLabel="Browse Photo" component={RenderFileUploadField} type="text" />
-                                                  </div>
-                                                  <div className="form-field flex100">
-                                                       <Field name="backId" label="Back Id Proof" uploadLabel="Browse Photo" component={RenderFileUploadField} type="text" />
+                                                       <Field name="candidateName" label="Candidate Name" placeholder="Enter candidate name" component={renderField} />
                                                   </div>
                                                   <div className="form-field flex100 d-flex justify-content-end">
-                                                       <button type="submit" className="btn btn-primary button-submit">Submit</button>
+                                                       <button type="submit" className="btn btn-primary button-submit">Send</button>
                                                   </div>
                                              </div>
                                         </form>
@@ -50,4 +41,4 @@ const CompleteKycModal = () => {
      )
 }
 
-export default CompleteKycModal
+export default SendInvitationModal

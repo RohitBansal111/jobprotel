@@ -6,6 +6,7 @@ import userAvtar from './../../assets/images/user-img.jpg';
 
 const Header = () => {
      const [mobileMenu, setmobileMenu] = useState('')
+     const [role, setrole] = useState('student')
      const menuToggle = () =>{
           setmobileMenu('navbar-mobile')
           if(mobileMenu === 'navbar-mobile'){
@@ -23,11 +24,22 @@ const Header = () => {
                     <div className="right-side-nav">
                          <nav id="navbar" className={`navbar ${mobileMenu}`}>
                               <ul>
-                                   <li><NavLink 
-                                   className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
-                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/my-applications">My Applications</NavLink></li>
-                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/invites">Invites</NavLink></li>
-                                   <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/inbox">Inbox</NavLink></li>
+                                   {
+                                      role != 'student' ?  
+                                      <>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/my-applications">My Applications</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/invites">Invites</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/inbox">Inbox</NavLink></li>
+                                      </>
+                                      :
+                                      <>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/posted-job">Posted jobs</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/application ">Applications</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/roles">Roles</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/employer-inbox">Inbox</NavLink></li>
+                                      </>
+                                   }
                               </ul>
                               <button type="button" onClick={menuToggle} className="btn mobile-nav-toggle">
                                    <i className="fa fa-bars" aria-hidden="true"></i>

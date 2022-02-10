@@ -116,8 +116,10 @@ section.complete-kyc {
               border-radius: 50%;
               img {
                 width: 128px;
-                object-fit: cover;
+                object-fit: contain;
                 border-radius: 50%;
+                height: 128px;
+                background-color: #c2c3c5;
               }
             }
           }
@@ -399,6 +401,12 @@ section.complete-kyc {
               line-height: 14px;
               margin-bottom: 5px;
             }
+            .desgination {
+              font-weight: 400;
+              font-size: 16px;
+              color: #05574e;
+              font-weight: 700;
+            }
             a {
               font-size: 20px;
               color: #05574e;
@@ -590,13 +598,11 @@ section.complete-kyc {
     }
   }
 }
-#kycpopup {
-  .modal-dialog {
-    min-width: 600px;
-    .kycsubmit {
-      min-width: 120px;
-      height: 40px;
-    }
+.modal-dialog {
+  min-width: 600px;
+  .button-submit {
+    min-width: 120px;
+    height: 40px;
   }
 }
 .application-tag-status {
@@ -631,5 +637,28 @@ section.complete-kyc {
         margin-right: 7px;
       }
     }
+  }
+}
+.application-list-card {
+  background: #f4fbfa;
+  box-shadow: 0 0 6px 0px #b1b1b1;
+  border-radius: 10px;
+  padding: 20px;
+}
+.review-listing-action {
+  display: flex;
+  align-items: center;
+  .btn {
+    height: 40px;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 30px;
+    border-radius: 8px;
+  }
+  .btn-primary {
+    background: #20bead;
+  }
+  .btn-reject {
+    background-color: red;
   }
 }

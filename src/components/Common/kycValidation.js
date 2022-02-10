@@ -12,6 +12,9 @@ const KycValidator = (values) => {
      if(!values.backId){ 
           error.backId = "Required Back Id Proof Photo"
      }
+     if(!values.candidateName){ 
+          error.candidateName = "Required candidate name"
+     }
      return error;
    }
    
