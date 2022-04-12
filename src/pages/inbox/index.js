@@ -9,15 +9,12 @@ const Inbox = () => {
                <div className="inner-page-wrapper">
                     <section className="topbg-banner">
                          <div className="container">
-                              <div className="innerbg-banner">
-                              </div>
+                              <div className="innerbg-banner"></div>
                          </div>
                     </section>
                     <section className="job-feeds-wrapper">
                          <div className="container">
-                              <div className="chat-boot-react">
-                                   <ChatInbox />
-                              </div>
+                              <ChatInbox />
                          </div>
                     </section>
                </div>

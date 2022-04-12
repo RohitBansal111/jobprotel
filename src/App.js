@@ -33,7 +33,6 @@ function App() {
           <Route path="/invites" element={<Invites/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/edit-profile" element={<EditProfile/>} />
-
           <Route path="/posted-job" element={<PostedJob/>} />
           <Route path="/application" element={<Applications/>} />
           <Route path="/review-applications" element={<ReviewApplications/>} />

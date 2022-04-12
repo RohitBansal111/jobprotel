@@ -1,10 +1,11 @@
 .header {
   transition: all 0.5s;
   z-index: 997;
-  padding: 25px 0;
+  padding: 15px 0;
   .inner-logo {
     .logo {
       img {
+        width: 110px;
         @include Phone {
           width: 110px;
         }
@@ -163,8 +164,8 @@
           }
           img {
             object-fit: cover;
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             margin-left: 10px;
           }
