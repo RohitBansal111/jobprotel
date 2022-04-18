@@ -9,7 +9,7 @@ const Header = () => {
      const [role, setrole] = useState('student')
      const menuToggle = () =>{
           setmobileMenu('navbar-mobile')
-          if(mobileMenu === 'navbar-mobile'){
+          if(mobileMenu === 'navbar-mobile'){ 
                setmobileMenu('')
           }
      }
@@ -34,7 +34,7 @@ const Header = () => {
                                       </>
                                       :
                                       <>
-                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/posted-job">Posted jobs</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/posted-jobs">Posted jobs</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/application ">Applications</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/roles">Roles</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/employer-inbox">Inbox</NavLink></li>

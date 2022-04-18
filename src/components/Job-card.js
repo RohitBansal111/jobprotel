@@ -6,7 +6,7 @@ import ClockIcon from './../assets/icons/clock-ico.png'
 
 const JobCard = () => {
      return (
-          <>
+          <> 
                <div className="feeds-search-coll">
                     <div className="feeds-search-head">
                          <div className="feeds-head-left">

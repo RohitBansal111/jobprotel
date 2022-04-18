@@ -4,6 +4,8 @@ import UserAvtar from './../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../assets/icons/connect.png'
 import EditIcon from './../../assets/icons/editicon.png'
 import ClockIcon from './../../assets/icons/clock-ico.png'
+import AddColeagueModal from "../../components/modals/addColleaguesModal"
+
 
 const Profile = () => {
 return (
@@ -57,6 +59,8 @@ return (
                               </ul>
                             </div>
                           </div>
+                          <button type="button" className="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addColleague"> Add colleague </button>
+                          <AddColeagueModal />
                          </div>
                          <div className="jobs-feeds-sec">
                           <div className="jobs-com-profile">

@@ -5,10 +5,12 @@ import UserAvtar from './../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../assets/icons/connect.png'
 import Filtericon from './../../assets/icons/filter-ico.png'
 import CompleteKycModal from "../../components/Common/CompleteKycModal"
+import { useState } from "react"
 
 
 
 const FindWork = () => {
+     const [role, setRole] = useState('student')
      return (
           <Layout>
                <div className="inner-page-wrapper">
@@ -65,9 +67,9 @@ const FindWork = () => {
                                         <div className="jobs-com-profile">
                                              <div className="profile-update">
                                                   <ul className="profile-jobs">
-                                                       <li><Link to="#"><span className="update-name">Job Applied</span>2</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Job {role === 'Employer' ? 'Applied' : 'Posted'}</span>2</Link></li>
+                                                       <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Completed Jobs</span>170</Link></li>
                                                   </ul>
                                              </div>
                                              <div className="profile-strength">

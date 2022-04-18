@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Applications from './pages/Employer/applications';
 import EmployerInbox from './pages/Employer/Inbox';
@@ -18,22 +18,22 @@ import EmployerRoles from './pages/Employer/roles';
 import ReviewApplications from './pages/Employer/posted-job/review-applications';
 
 
-
 function App() {
+  const [role, setRole] = useState('employer')
   return (
     <Router>
         <Routes>
           <Route exact path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
-          <Route path="/find-work" element={<FindWork/>} />
+          {role === 'student' && <Route path="/find-work" element={<FindWork/>} />}
+          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
           <Route path="/my-applications" element={<MyApplications/>} />
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />
           <Route path="/invites" element={<Invites/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/edit-profile" element={<EditProfile/>} />
-          <Route path="/posted-job" element={<PostedJob/>} />
           <Route path="/application" element={<Applications/>} />
           <Route path="/review-applications" element={<ReviewApplications/>} />
           <Route path="/roles" element={<EmployerRoles/>} />

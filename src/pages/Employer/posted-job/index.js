@@ -5,6 +5,7 @@ import ConnectIcon from './../../../assets/icons/connect.png'
 import Filtericon from './../../../assets/icons/filter-ico.png'
 import CompleteKycModal from "../../../components/Common/CompleteKycModal"
 import PostedJobCard from "../../../components/PostedJobCard"
+import PostedJobModal from "../../../components/modals/postedJobModal"
 
 
 
@@ -12,7 +13,7 @@ const PostedJob = () => {
      return (
           <Layout>
                <div className="inner-page-wrapper">
-                    {/* <section className="complete-kyc">
+                    <section className="complete-kyc">
                          <div className="container">
                               <div className="kyc-update">
                                    <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
@@ -20,13 +21,13 @@ const PostedJob = () => {
                                    <CompleteKycModal />
                               </div>
                          </div>
-                    </section> */}
+                    </section>
                     <section className="topbg-banner">
                          <div className="container">
                               <div className="innerbg-banner">
-                                   {/* <div className="banner-edit">
+                                   <div className="banner-edit">
                                         <Link to="#" className="btn edit-btn">Edit</Link>
-                                   </div> */}
+                                   </div>
                               </div>
                          </div>
                     </section>
@@ -42,7 +43,7 @@ const PostedJob = () => {
                                                        </span>
                                                   </div>
                                                   <h3>Eminence Technology</h3>
-                                                  <p>Software Solution Company</p>
+                                                  <p>Sector 72, Sahibzada Ajit Singh Nagar, Punjab</p>
                                              </div>
                                              <div className="profile-connect">
                                                   <div className="profile-con">
@@ -53,14 +54,13 @@ const PostedJob = () => {
                                              </div>
                                              <div className="user-prof-info">
                                                   <ul className="prof-info-ul">
-                                                       <li>Experience <span className="result">5+ Years</span></li>
-                                                       <li>College / University <span className="result">Toronto</span></li>
-                                                       <li>Education <span className="result">M-Bio Sci.</span></li>
-                                                       <li>Hours / day <span className="result">8 Hours/day</span></li>
+                                                       <li>Recruiting Manager <span className="result">Akshika Singh</span></li>
+                                                       <li>Contact Details <span className="result">skype: hr.eminencetechnology</span></li>
                                                   </ul>
                                              </div>
                                         </div>
-                                        <button type="button" className="btn btn-primary w-100 mt-3">Post New Job</button>
+                                        <button type="button" className="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#postedJob">Post New Job</button>
+                                        <PostedJobModal />
                                    </div>
                                    <div className="jobs-feeds-sec">
                                         <div className="jobs-com-profile">

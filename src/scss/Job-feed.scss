@@ -604,6 +604,9 @@ section.complete-kyc {
     min-width: 120px;
     height: 40px;
   }
+  &.modal-large{
+    min-width: 900px;
+  }
 }
 .application-tag-status {
   display: flex;
