@@ -5,9 +5,13 @@ import ConnectIcon from './../../assets/icons/connect.png'
 import EditIcon from './../../assets/icons/editicon.png'
 import ClockIcon from './../../assets/icons/clock-ico.png'
 import AddColeagueModal from "../../components/modals/addColleaguesModal"
+import CompanyLogo from '../../assets/images/company-logo2.jpeg'
+import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal"
 
 
 const Profile = () => {
+  // const [employmentModal, setemploymentModal] = useState(false);
+  // const handleEmploymentModal = () => {setemploymentModal(true)}
 return (
         <Layout>
           <div className="inner-page-wrapper">
@@ -105,43 +109,75 @@ return (
                                    <li><span className="plabel">Address </span><span className="result">913 Black Oak Hollow Road, San Jose, California, United States, 95110</span></li>
                                    </ul>
                               </div>
+                            </div>
+                          </section>
+                          <section className="profile-information-view">
+                            <div className="profile-information-coll">
+                              <h3>Professional information</h3>
+                              <div className="profile-info-list">
+                              <div className="pr-edit-icon"><span>
+                                    <img src={EditIcon} alt="icon" /></span>
                               </div>
-                              </section>
-                              <section className="profile-information-view">
-                                   <div className="profile-information-coll">
-                                   <h3>Professional information</h3>
-                                   <div className="profile-info-list">
-                                        <div className="pr-edit-icon"><span>
-                                             <img src={EditIcon} alt="icon" /></span>
-                                        </div>
-                                        <ul className="info-list-li">
-                                        <li><span className="plabel">Hours / day</span> <span className="result">8 hours / day</span></li>
-                                        <li><span className="plabel">Expected salary </span><span className="result">$20 / hours</span></li>
-                                        <li><span className="plabel">Experience</span> <span className="result">5 Years</span></li>
-                                        <li><span className="plabel">Working</span> <span className="result">Onsite</span></li>
-                                        <li><span className="plabel">Education</span> <span className="result">Master in bio technology</span></li>
-                                        <li><span className="plabel">College / University</span> <span className="result">university of toronto</span></li>
-                                        <li>
-                                             <span className="plabel">Resume </span>
-                                             <span className="result">
-                                             <ul className="tags">
-                                             <li>My-resumefile.pdf</li>
-                                             </ul>
-                                             </span>
-                                        </li>
-                                        <li>
-                                             <span className="plabel">Extra certificates </span>
-                                             <span className="result">
-                                             <ul className="tags">
-                                             <li>Master-of-science.pdf</li>
-                                             <li>Certificate of .net technology</li>
-                                             </ul>
-                                             </span>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </section>
+                              <ul className="info-list-li">
+                                <li><span className="plabel">Hours / day</span> <span className="result">8 hours / day</span></li>
+                                <li><span className="plabel">Expected salary </span><span className="result">$20 / hours</span></li>
+                                <li><span className="plabel">Total Experience</span> <span className="result">5 Years</span></li>
+                                <li><span className="plabel">Working</span> <span className="result">Onsite</span></li>
+                                <li>
+                                    <span className="plabel">Resume </span>
+                                    <span className="result">
+                                    <ul className="tags">
+                                    <li>My-resumefile.pdf</li>
+                                    </ul>
+                                    </span>
+                                </li>
+                                <li>
+                                <span className="plabel">Extra certificates </span>
+                                <span className="result">
+                                <ul className="tags">
+                                  <li>Master-of-science.pdf</li>
+                                  <li>Certificate of .net technology</li>
+                                </ul>
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </section>
+                      <section className="profile-information-view">
+                        <div className="profile-information-coll">
+                          <h3>Employment Details</h3>
+                          <div className="profile-info-list">
+                            <div className="pr-edit-icon">
+                              <button type="button" className="icon_button" data-bs-toggle="modal" data-bs-target="#employmentModal"><i class="fas fa-plus"></i></button>
+                              <button type="button" className="icon_button"><i class="fas fa-pen"></i></button>
+                              <EmploymentDetailsModal />
+                            </div>
+                            <ul className="info-list-li additional-box">
+                              <li>
+                                <div className="company-logo">
+                                   <img src={CompanyLogo} alt="Logo" />
+                                </div>
+                                <div className="employer-sort-info">
+                                  <h4>Front End - Team Lead</h4>
+                                  <p>Eminence Technology</p>
+                                  <p className="dateP">August 2021 - Current working</p>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="company-logo">
+                                   <img src={CompanyLogo} alt="Logo" />
+                                </div>
+                                <div className="employer-sort-info">
+                                  <h4>React JS UI developer</h4>
+                                  <p>Eminence Technology</p>
+                                  <p className="dateP">August 2020 - July 2021</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </section>
                 <section className="profile-information-view">
                   <div className="Project-information-coll">
                     <h3>Project history</h3>

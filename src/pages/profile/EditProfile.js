@@ -207,22 +207,16 @@ const EditProfile = () => {
                                              <Field name="salary" placeholder="Enter expected salary" label="Expected salary" component={renderField} />
                                         </div>
                                         <div className="form-field flex50">
-                                             <Field name="experience" placeholder="Enter experience" label="Experience" component={renderField} />
+                                             <Field name="experience" placeholder="Enter experience" label="Total Experience" component={renderField} />
                                         </div>
                                         <div className="form-field flex50">
                                              <Field name="working" placeholder="Enter working (onsite/offsite)" label="Working" component={renderField} />
                                         </div>
-                                        <div className="form-field flex50">
-                                             <Field name="education" placeholder="Enter education" label="Education" component={renderField} />
-                                        </div>
-                                        <div className="form-field flex50">
-                                             <Field name="college" placeholder="Enter college/university" label="Collage/University" component={renderField} />
+                                        <div className="form-field flex100">
+                                             <Field name="resume" label="Resume" uploadLabel="Browse resume file" component={RenderFileUploadField} type="text" />
                                         </div>
                                         <div className="form-field flex100">
-                                             <Field name="resume" label="Upload Resume" uploadLabel="Browse resume file" component={RenderFileUploadField} type="text" />
-                                        </div>
-                                        <div className="form-field flex100">
-                                             <Field name="documents" label="Upload Documents" uploadLabel="Browse documents" component={RenderFileUploadField} type="text" />
+                                             <Field name="documents" label="Extra Certificates" uploadLabel="Browse documents" component={RenderFileUploadField} type="text" />
                                         </div>
                                    </div>
                               </div>
