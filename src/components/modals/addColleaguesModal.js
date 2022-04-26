@@ -1,5 +1,5 @@
 import { Field, Form } from "react-final-form"
-import { renderField, renderTextareaField } from "./../renderField";
+import { renderField, renderTextareaField, renderSelect } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
 const AddColeagueModal = () => {
@@ -31,7 +31,27 @@ const AddColeagueModal = () => {
                                                        <Field name="role" label="Role" placeholder="Enter role" component={renderField} />
                                                   </div>
                                                   <div className="form-field flex100">
-                                                       <Field name="access" label="Access" placeholder="Enter access" component={renderField} />
+                                                       <label>Access</label>
+                                                       <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="profileSwitch" />
+                                                            <label class="form-check-label" for="profileSwitch">Profile</label>
+                                                       </div>
+                                                       <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="buyConnectSwitch" />
+                                                            <label class="form-check-label" for="buyConnectSwitch">Buy connect</label>
+                                                       </div>
+                                                       <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="postJobSwitch" />
+                                                            <label class="form-check-label" for="postJobSwitch">Post Job</label>
+                                                       </div>
+                                                       <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="screeningProcessSwitch" />
+                                                            <label class="form-check-label" for="screeningProcessSwitch">Screening process</label>
+                                                       </div>
+                                                       <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="chatSwitch" />
+                                                            <label class="form-check-label" for="chatSwitch">Chat</label>
+                                                       </div>
                                                   </div>
                                                   <div className="form-field flex100 d-flex justify-content-end">
                                                        <button type="submit" className="btn btn-primary button-submit">Add Colleague</button>
