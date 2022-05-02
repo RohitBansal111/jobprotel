@@ -41,7 +41,7 @@ const PostedJobCard = () => {
                               <p className="post-ago">
                                    <img src={ClockIcon} alt="clock" /> Posted 30 mints ago</p>
                               <div className="d-flex">
-                                   <button type="button" className="btn submit-btn mr-2" data-bs-toggle="modal" data-bs-target="#invitationPopup">Send Invitation</button>
+                                   <button type="button" className="btn submit-btn mr-2" data-bs-toggle="modal" data-bs-target="#invitationPopup">Invitation Accepted (13) </button>
                                    <Link to="/review-applications" type="button" className="btn submit-btn">Review Applications</Link>
                                    <SendInvitationModal />
                               </div>

@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom"
 import { Field, Form } from "react-final-form"
-import Layout from "../../components/Layout"
-import UserAvtar from './../../assets/images/profile-img.jpg'
-import ConnectIcon from './../../assets/icons/connect.png'
-import badgeCrossIcon from './../../assets/icons/badge-closeicon.png'
+import Layout from "../../../components/Layout"
+import UserAvtar from './../../../assets/images/profile-img.jpg'
+import ConnectIcon from './../../../assets/icons/connect.png'
+import badgeCrossIcon from './../../../assets/icons/badge-closeicon.png'
 import validate from "./validator/profileValidate"
-import { renderField, RenderRadioButtonField, RenderFileUploadField, renderSelect } from './../../components/renderField'
-import { RenderImageField } from "../../components/file-input"
+import { renderField, RenderRadioButtonField, RenderFileUploadField, renderSelect } from './../../../components/renderField'
+import { RenderImageField } from "../../../components/file-input"
 
-const EditProfile = () => {
+const EmployerEditProfile = () => {
      const saveProfile = (values) => {
           console.log(values)
      }
@@ -283,4 +283,4 @@ const EditProfile = () => {
      )
 }
 
-export default EditProfile
+export default EmployerEditProfile

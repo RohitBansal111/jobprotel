@@ -6,7 +6,7 @@ import userAvtar from './../../assets/images/user-img.jpg';
 
 const Header = () => {
      const [mobileMenu, setmobileMenu] = useState('')
-     const [role, setrole] = useState('student')
+     const [role, setrole] = useState('employer')
      const menuToggle = () =>{
           setmobileMenu('navbar-mobile')
           if(mobileMenu === 'navbar-mobile'){ 
@@ -17,7 +17,7 @@ const Header = () => {
           <header id="header" className="header header-scrolled">
                <div className="container d-flex align-items-center justify-content-between">
                     <div className="inner-logo">
-                         <Link to="#" className="logo d-flex align-items-center">
+                         <Link to={role === 'employer' ? '/posted-jobs' : '/find-work'} className="logo d-flex align-items-center">
                               <img src={Logo} alt="Real Job" />
                          </Link>
                     </div>
@@ -25,17 +25,17 @@ const Header = () => {
                          <nav id="navbar" className={`navbar ${mobileMenu}`}>
                               <ul>
                                    {
-                                      role != 'student' ?  
+                                      role != 'employer' ?  
                                       <>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
-                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/my-applications">My Applications</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/applications">My Applications</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/invites">Invites</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/inbox">Inbox</NavLink></li>
                                       </>
                                       :
                                       <>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/posted-jobs">Posted jobs</NavLink></li>
-                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/application ">Applications</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/employer/applications">Applications</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/roles">Roles</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/employer-inbox">Inbox</NavLink></li>
                                       </>
@@ -92,9 +92,9 @@ const Header = () => {
                                    Michael T <img src={userAvtar} alt="User Profile" />
                                    </button>
                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><Link className="dropdown-item" to="/profile"> <i className="fas fa-user"></i>Profile</Link></li>
-                                        <li><Link className="dropdown-item" to="/job-feeds"><i className="fas fa-tachometer-alt"></i> Dashboard</Link></li>
-                                        <li><Link className="dropdown-item" to="/edit-profile"><i className="fas fa-user-cog"></i> Setting</Link></li>
+                                        <li><Link className="dropdown-item" to={role === 'employer' ? '/employer/profile' : '/student/profile'}> <i className="fas fa-user"></i>Profile</Link></li>
+                                        <li><Link className="dropdown-item" to={role === 'employer' ? '/posted-jobs' : '/find-work'}><i className="fas fa-tachometer-alt"></i> Dashboard</Link></li>
+                                        <li><Link className="dropdown-item" to={role === 'employer' ? '/employer/edit-profile' : '/student/edit-profile'}><i className="fas fa-user-cog"></i> Edit Profile</Link></li>
                                         <li><Link className="dropdown-item" to="/"><i className="fas fa-sign-out-alt"></i> Logout</Link></li>
                                    </ul>
                               </div>
