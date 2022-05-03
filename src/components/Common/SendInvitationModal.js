@@ -7,7 +7,7 @@ const SendInvitationModal = () => {
 
      }
      return (
-          <div className="modal fade" id="invitationPopup" tabindex="-1" aria-labelledby="inivitationLabel" aria-hidden="true">
+          <div className="modal fade" id="invitationPopup" tabIndex="-1" aria-labelledby="inivitationLabel" aria-hidden="true">
                <div className="modal-dialog">
                     <div className="modal-content">
                          <div className="modal-header">

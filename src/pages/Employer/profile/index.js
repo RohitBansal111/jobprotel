@@ -117,7 +117,7 @@ return (
                           </div>
                         </div>
                       </section>
-                <section className="profile-information-view">
+                      <section className="profile-information-view">
                   <div className="Project-information-coll">
                     <h3>Jobs history</h3>
                     <div className="Project-info-list">
@@ -176,13 +176,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" href="#">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" href="#">2</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">3</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">4</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">5</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">Next</Link></li>
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>
@@ -236,13 +236,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" href="#">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" href="#">2</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">3</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">4</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">5</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">Next</Link></li>
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>
@@ -296,13 +296,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" href="#">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" href="#">2</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">3</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">4</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">5</Link></li>
-                                <li className="page-item"><Link className="page-link" href="#">Next</Link></li>
+                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
+                                <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link" href="#">4</a></li>
+                                <li className="page-item"><a className="page-link" href="#">5</a></li>
+                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
                               </ul>
                             </div>
                           </div>

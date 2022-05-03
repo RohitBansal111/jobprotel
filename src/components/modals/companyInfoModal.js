@@ -5,7 +5,7 @@ import validate from "./validators/companyInfoValidator";
 const CompanyInfoModal = () => {
     const handleCompanyInfo = () => {}
     return (
-          <div className="modal fade" id="companyInfo" tabindex="-1" aria-labelledby="companyInfo" aria-hidden="true">
+          <div className="modal fade" id="companyInfo" tabIndex="-1" aria-labelledby="companyInfo" aria-hidden="true">
                <div className="modal-dialog modal-large">
                     <div className="modal-content">
                          <div className="modal-header">

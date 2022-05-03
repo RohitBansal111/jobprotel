@@ -1,11 +1,11 @@
 import { Field, Form } from "react-final-form"
-import { renderField, RenderFileUploadField, renderTextareaField } from "./../renderField";
+import { renderField } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
 const EmploymentDetailsModal = () => {
     const handleJobPost = () => {}
     return (
-          <div className="modal fade" id="employmentModal" tabindex="-1" aria-labelledby="employmentModal" aria-hidden="true">
+          <div className="modal fade" id="employmentModal" tabIndex="-1" aria-labelledby="employmentModal" aria-hidden="true">
                <div className="modal-dialog modal-large">
                     <div className="modal-content">
                          <div className="modal-header">

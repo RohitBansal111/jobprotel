@@ -94,7 +94,7 @@ const Header = () => {
                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><Link className="dropdown-item" to={role === 'employer' ? '/employer/profile' : '/student/profile'}> <i className="fas fa-user"></i>Profile</Link></li>
                                         <li><Link className="dropdown-item" to={role === 'employer' ? '/posted-jobs' : '/find-work'}><i className="fas fa-tachometer-alt"></i> Dashboard</Link></li>
-                                        <li><Link className="dropdown-item" to={role === 'employer' ? '/employer/edit-profile' : '/student/edit-profile'}><i className="fas fa-user-cog"></i> Edit Profile</Link></li>
+                                        {role === 'employer' ? null : <li><Link className="dropdown-item" to="/student/edit-profile"><i className="fas fa-user-cog"></i> Edit Profile</Link></li> }
                                         <li><Link className="dropdown-item" to="/"><i className="fas fa-sign-out-alt"></i> Logout</Link></li>
                                    </ul>
                               </div>

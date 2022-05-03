@@ -5,7 +5,7 @@ import validate from "./validators/postedJobValidator";
 const PostedJobModal = () => {
     const handleJobPost = () => {}
     return (
-          <div className="modal fade" id="postedJob" tabindex="-1" aria-labelledby="postedJob" aria-hidden="true">
+          <div className="modal fade" id="postedJob" tabIndex="-1" aria-labelledby="postedJob" aria-hidden="true">
                <div className="modal-dialog modal-large">
                     <div className="modal-content">
                          <div className="modal-header">

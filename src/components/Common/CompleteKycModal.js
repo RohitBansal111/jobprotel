@@ -7,7 +7,7 @@ const CompleteKycModal = () => {
 
      }
      return (
-          <div className="modal fade" id="kycpopup" tabindex="-1" aria-labelledby="kycLabel" aria-hidden="true">
+          <div className="modal fade" id="kycpopup" tabIndex="-1" aria-labelledby="kycLabel" aria-hidden="true">
                <div className="modal-dialog">
                     <div className="modal-content">
                          <div className="modal-header">
