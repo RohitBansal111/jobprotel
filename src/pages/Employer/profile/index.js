@@ -82,21 +82,8 @@ return (
                               <h3>Personal Information</h3>
                               <div className="profile-info-list">
                                    <ul className="info-list-li">
-                                   <li><span className="plabel">Age</span> <span className="result">30 years old</span></li>
-                                   <li><span className="plabel">Gender </span><span className="result">Male</span></li>
-                                   <li><span className="plabel">Qualification</span> <span className="result">Master in bio technology</span></li>
-                                   <li>
-                                        <span className="plabel">Interested area </span>
-                                        <span className="result">
-                                        <ul className="tags">
-                                        <li>Reading books</li>
-                                        <li>Suffering internet</li>
-                                        <li>Traveling</li>
-                                        </ul>
-                                        </span>
-                                   </li>
-                                   <li><span className="plabel">Time zone </span><span className="result">India (GMT+5:30)</span></li>
-                                   <li><span className="plabel">Address </span><span className="result">913 Black Oak Hollow Road, San Jose, California, United States, 95110</span></li>
+                                    <li><span className="plabel">Name</span> <span className="result">Rahul Nair</span></li>
+                                    <li><span className="plabel">Email ID </span><span className="result">rahulnair.eminence@gmail.com</span></li>
                                    </ul>
                               </div>
                             </div>
