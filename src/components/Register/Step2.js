@@ -1,7 +1,7 @@
 import { Field, Form } from "react-final-form"
 import LocalizedStrings from 'react-localization';
 import { RenderImageField } from "../file-input";
-import { renderField, RenderRadioButtonField } from "../renderField";
+import { renderField, RenderRadioButtonField, renderSelect } from "../renderField";
 import titles from './register.json' 
 import Step2Validator from "./validator/step2Validator";
 
@@ -43,7 +43,9 @@ const Step2 = (props) => {
                                         <Field name="address2" label={titleStrings.addressTitle} component={renderField} placeholder="Enter distt. state and PIN" type="text" />
                                    </div>
                                    <div className="form-field flex100">
-                                        <Field name="qualification" label={titleStrings.qualificationTitle} component={renderField} placeholder="Enter higher qualification"type="text" />
+                                        <Field name="qualification" label={titleStrings.qualificationTitle} component={renderSelect}>
+                                             <option>B.Tech Computer science</option>
+                                        </Field>
                                    </div>
                                    <div className="form-field flex100">
                                         <Field name="interestedArea" label={titleStrings.interestedAreaTitle} component={renderField} placeholder="Enter hobbies" type="text" />

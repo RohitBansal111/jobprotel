@@ -1,5 +1,8 @@
 const CompanyInfoValidator = (values) => { 
     const error = {}
+    if(!values.companyLogo){ 
+     error.companyLogo = "Required company logo"
+}
      if(!values.recuritingManager){ 
           error.recuritingManager = "Required recuriting manager"
      }

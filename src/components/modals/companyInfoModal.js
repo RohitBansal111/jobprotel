@@ -1,6 +1,7 @@
 import { Field, Form } from "react-final-form"
-import { renderField, renderTextareaField } from "./../renderField";
+import { renderField, RenderFileUploadField, renderTextareaField } from "./../renderField";
 import validate from "./validators/companyInfoValidator";
+
 
 const CompanyInfoModal = () => {
     const handleCompanyInfo = () => {}
@@ -21,6 +22,9 @@ const CompanyInfoModal = () => {
                                         {({handleSubmit, submitting, values})=>(
                                         <form onSubmit={handleSubmit}> 
                                              <div className="form-field-group mt-0">
+                                                  <div className="form-field flex100">
+                                                       <Field name="companyLogo" label="Company Logo" component={RenderFileUploadField} />
+                                                  </div>
                                                   <div className="form-field flex50">
                                                        <Field name="recuritingManager" label="Recruiting Manager" placeholder="Enter recruiting manager" component={renderField} />
                                                   </div>

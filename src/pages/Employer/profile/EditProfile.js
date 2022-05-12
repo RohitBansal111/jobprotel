@@ -16,14 +16,6 @@ const EmployerEditProfile = () => {
      return (
           <Layout>
                <div className="inner-page-wrapper">
-                    {/* <section className="complete-kyc">
-                         <div className="container">
-                              <div className="kyc-update">
-                                   <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
-                                   <button type="button" className="btn submit-kyc" data-bs-toggle="modal" data-bs-target="#kycpopup">Complete KYC</button>
-                              </div>
-                         </div>
-                    </section> */}
                     <section className="topbg-banner">
                          <div className="container">
                               <div className="innerbg-banner">

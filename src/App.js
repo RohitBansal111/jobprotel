@@ -37,7 +37,7 @@ function App() {
           <Route path="/student/profile" element={<Profile/>} />
           <Route path="/employer/profile" element={<EmployerProfile/>} />
           <Route path="/employer/edit-profile" element={<EmployerEditProfile/>} />
-          <Route path="/edit-profile" element={<EditProfile/>} />
+          <Route path="/student/edit-profile" element={<EditProfile/>} />
           <Route path="/employer/applications" element={<EmployerApplication/>} />
           <Route path="/review-applications" element={<ReviewApplications/>} />
           <Route path="/roles" element={<EmployerRoles/>} />

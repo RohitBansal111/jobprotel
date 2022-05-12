@@ -31,26 +31,26 @@ const Register = () => {
                               <div className="register-content">
                                    <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>
                                    <h3 className="text-white">#1 Intelligent time tracking application for jobs</h3>
-                                   {activeRole == 'student' && <ul className="resgiter-listing-steps">
-                                        <li className={currentPage == 0 ? 'active' : (currentPage == 1 || currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
+                                   {activeRole === 'student' && <ul className="resgiter-listing-steps">
+                                        <li className={currentPage === 0 ? 'active' : (currentPage == 1 || currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Choose role</h5>
                                                   <p>Choose your journey to proceed</p>
                                              </div>
                                         </li>
-                                        <li className={currentPage == 1 ? 'active' : (currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
+                                        <li className={currentPage === 1 ? 'active' : (currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Basic Information</h5>
                                                   <p>Please provide your Name and email</p>
                                              </div>
                                         </li>
-                                        <li className={currentPage == 2 ? 'active' : (currentPage == 3) ? 'finish' : ''}>
+                                        <li className={currentPage === 2 ? 'active' : (currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Personal Information</h5>
                                                   <p>Please provide address, qualification etc</p>
                                              </div>
                                         </li>
-                                        <li className={currentPage == 3 ? 'active' : ''}>
+                                        <li className={currentPage === 3 ? 'active' : ''}>
                                              <div className="register-steps">
                                                   <h5>Professional Information</h5>
                                                   <p>Please provide vour experience colleae details etc</p>
@@ -58,20 +58,20 @@ const Register = () => {
                                         </li>
                                    </ul>}
 
-                                   {activeRole == 'employer' && <ul className="resgiter-listing-steps">
-                                        <li className={currentPage == 0 ? 'active' : (currentPage == 1 || currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
+                                   {activeRole === 'employer' && <ul className="resgiter-listing-steps">
+                                        <li className={currentPage === 0 ? 'active' : (currentPage == 1 || currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Choose role</h5>
                                                   <p>Choose your journey to proceed</p>
                                              </div>
                                         </li>
-                                        <li className={currentPage == 1 ? 'active' : (currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
+                                        <li className={currentPage === 1 ? 'active' : (currentPage == 2 || currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Basic Information</h5>
                                                   <p>Please provide your Name and email</p>
                                              </div>
                                         </li>
-                                        <li className={currentPage == 2 ? 'active' : (currentPage == 3) ? 'finish' : ''}>
+                                        <li className={currentPage === 2 ? 'active' : (currentPage == 3) ? 'finish' : ''}>
                                              <div className="register-steps">
                                                   <h5>Complete Information</h5>
                                                   <p>Please add complete the profile</p>
@@ -84,7 +84,7 @@ const Register = () => {
                     <div className="register-form-area">
                          <div className="register-form-boxen">
                               {currentPage === 0 && <ChooseRole nextPage={nextPage} role={activeRole} selectRole={setactiveRole} />}
-                              {activeRole && activeRole == 'student' && <div className='studen-section' >
+                              {activeRole && activeRole === 'student' && <div className='studen-section' >
                                    {currentPage === 1 && <Step1 prevPage={prevPage} nextPage={nextPage} />}
                                    {currentPage === 2 && <Step2 prevPage={prevPage} nextPage={nextPage} />}
                                    {currentPage === 3 && <Step3 prevPage={prevPage} finalSubmit={finalSubmit} />}
