@@ -26,7 +26,7 @@ const Header = () => {
                          <nav id="navbar" className={`navbar ${mobileMenu}`}>
                               <ul>
                                    {
-                                      role != 'employer' ?  
+                                      role !== 'employer' ?  
                                       <>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/applications">My Applications</NavLink></li>

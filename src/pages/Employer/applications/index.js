@@ -4,7 +4,6 @@ import Layout from "../../../components/Layout"
 import UserAvtar from './../../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../../assets/icons/connect.png'
 import Filtericon from './../../../assets/icons/filter-ico.png'
-import CompleteKycModal from "../../../components/Common/CompleteKycModal"
 
 
 
