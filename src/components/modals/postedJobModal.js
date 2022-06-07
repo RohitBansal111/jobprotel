@@ -1,5 +1,5 @@
 import { Field, Form } from "react-final-form"
-import { renderField, RenderFileUploadField, renderTextareaField } from "./../renderField";
+import { renderField, renderTextareaField } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
 const PostedJobModal = () => {

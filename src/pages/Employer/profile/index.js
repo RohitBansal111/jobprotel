@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import Layout from "../../../components/Layout"
 import ConnectIcon from './../../../assets/icons/connect.png'
 import EditIcon from './../../../assets/icons/editicon.png'

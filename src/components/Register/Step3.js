@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Field, Form } from "react-final-form"
 import LocalizedStrings from 'react-localization';
 import { renderField, RenderFileUploadField, RenderRadioButtonField, renderSelect } from "../renderField";
@@ -8,8 +7,6 @@ import Step3Validator from "./validator/step3Validator";
 
 const Step3 = (props) => {
      let titleStrings = new LocalizedStrings(titles)
-     const [extraDocument, setextraDocument] = useState(true)
-     const [certificate, setcertificate] = useState('')
      const SaveStep3 = (values) =>{
           console.log(values)
           props.finalSubmit()
@@ -90,12 +87,9 @@ const Step3 = (props) => {
                                              </Field>
                                         </div>
                                    </div>
-                                   {
-                                        extraDocument &&
-                                        <div className="form-field flex100 noLabel">
-                                             <Field name="document" label="Extra Documents" uploadLabel="Browse Documents" component={RenderFileUploadField} type="text" />
-                                        </div>
-                                   }
+                                   <div className="form-field flex100 noLabel">
+                                        <Field name="document" label="Extra Documents" uploadLabel="Browse Documents" component={RenderFileUploadField} type="text" />
+                                   </div>
                               </div>
                               <div className="form-action">
                                    <button type="button" onClick={() => props.prevPage()} className="btn btn-secondary prev-btn text-white text-center"> {titleStrings.prevTitle} </button>

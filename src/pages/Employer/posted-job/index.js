@@ -3,7 +3,6 @@ import Layout from "../../../components/Layout"
 import CompanyProfile from './../../../assets/images/company-logo.png'
 import ConnectIcon from './../../../assets/icons/connect.png'
 import Filtericon from './../../../assets/icons/filter-ico.png'
-import CompleteKycModal from "../../../components/Common/CompleteKycModal"
 import PostedJobCard from "../../../components/PostedJobCard"
 import PostedJobModal from "../../../components/modals/postedJobModal"
 

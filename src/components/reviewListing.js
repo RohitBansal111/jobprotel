@@ -2,7 +2,6 @@ import { Link } from "react-router-dom"
 import CompanyLogo from './../assets/images/feed-logo.png'
 import VerifiedIcon from './../assets/icons/verify.png'
 import LocationIcon from './../assets/icons/loc-ico.png'
-import ClockIcon from './../assets/icons/clock-ico.png'
 
 const ReviewListing = () => {
      return (

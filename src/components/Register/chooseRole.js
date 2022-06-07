@@ -5,11 +5,11 @@ import ActiveEmployer from './../../assets/icons/active-employer.png'
 import { Field, Form } from "react-final-form"
 import ChooseRoleValidate from './validator/chooseValidate'
 import { RenderRadioButtonField } from '../renderField'
-import { useState } from 'react'
+// import { useState } from 'react'
 
 
 const ChooseRole = (props) => {
-     const [activeRole, setactiveRole] = useState(props.role)
+     // const [activeRole, setactiveRole] = useState(props.role)
 
      const SaveChooseRole = (values) => {
           console.log("choosed role::", values)
@@ -36,7 +36,7 @@ const ChooseRole = (props) => {
                          {({ handleSubmit, submitting, values }) => (
                               <form onSubmit={handleSubmit}>
                                    <div className="choose-role-box">
-                                        <div className={props.role == 'student' ? 'role-box active' : 'role-box'} onClick={handleStudentRole}>
+                                        <div className={props.role === 'student' ? 'role-box active' : 'role-box'} onClick={handleStudentRole}>
                                              <Field name="role" type="radio" value="student" component={RenderRadioButtonField} />
                                              <div className="role-icon">
                                                   <img src={Student} alt="Student Role" />
@@ -44,7 +44,7 @@ const ChooseRole = (props) => {
                                                   <h4>STUDENT</h4>
                                              </div>
                                         </div>
-                                        <div className={props.role == 'employer' ? 'role-box active' : 'role-box'} onClick={handleEmployerRole}>
+                                        <div className={props.role === 'employer' ? 'role-box active' : 'role-box'} onClick={handleEmployerRole}>
                                              <Field name="role" type="radio" value="employer" component={RenderRadioButtonField} />
                                              <div className="role-icon">
                                                   <img src={Employer} alt="Employer Role" />

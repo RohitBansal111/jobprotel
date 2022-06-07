@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { getInstance } from '../redux/actions/axiosFactory';
-import { rest } from 'lodash';
-import axios from 'axios'
 const axiosInstance = getInstance();
 
 
@@ -160,11 +158,11 @@ export const RenderFileUploadField = ({
 }) => {
   let [progress, setProgress] = useState(null);
   let fileSize;
-  let [fileName, setFileName] = useState(null);
+  // let [fileName, setFileName] = useState(null);
   const onUpload = (event) => {
     //  onChange(event.target.files[0]);
     fileSize = event.target.files[0] && event.target.files[0].size;
-    setFileName(fileSize = event.target.files[0] && event.target.files[0].name);
+    // setFileName(fileSize = event.target.files[0] && event.target.files[0].name);
     uploadFiles(event.target.files[0]);
   };
   const uploadFiles = (file) => {

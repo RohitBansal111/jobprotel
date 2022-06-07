@@ -1,6 +1,6 @@
 import { Field, Form } from "react-final-form"
 import validate from './kycValidation'
-import { renderField, RenderFileUploadField } from "./../renderField";
+import { renderField } from "./../renderField";
 
 const SendInvitationModal = () => {
      const handleKycForm = () => {

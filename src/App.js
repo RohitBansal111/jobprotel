@@ -22,6 +22,7 @@ import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
   const [role, setRole] = useState('student')
   return (
     <Router>

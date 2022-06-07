@@ -1,5 +1,5 @@
 import { Field, Form } from "react-final-form"
-import { renderField, renderTextareaField, renderSelect } from "./../renderField";
+import { renderField } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
 const AddColeagueModal = () => {

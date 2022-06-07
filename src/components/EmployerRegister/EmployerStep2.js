@@ -9,11 +9,7 @@ import validate from "./validator/EmployerStep2Validate";
 const EmployerStep2 = (props) => {
      let titleStrings = new LocalizedStrings(titles)
      const SaveStep2 = (values) =>{
-          console.log(values)
           props.nextPage()
-     }
-     function onChange(value) {
-          console.log("Captcha value:", value);
      }
      return (
           <div className="register-form">
