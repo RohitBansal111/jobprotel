@@ -2,7 +2,7 @@
   scroll-behavior: smooth;
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: $FontFamily;
   color: #444444;
 }
 a {
@@ -21,7 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Nunito', sans-serif;
+  font-family: $FontFamily;
 }
 button:focus {
   box-shadow: none !important;
@@ -44,7 +44,7 @@ ul {
   background-color: #0000007d;
 }
 .main-content {
-  background: #f9f9f9;
+  background: #f1f2f4;
 }
 .btn-save {
   min-width: 130px;

@@ -14,7 +14,7 @@ const JobCard = () => {
                                    <img src={CompanyLogo} alt="Company Logo" />
                               </div>
                               <div className="feeds-s-name">
-                                   <h2><Link to="#">Fullstack project assessment &amp; advice </Link></h2>
+                                   <h2><Link to="/find-work/details">Fullstack project assessment &amp; advice </Link></h2>
                                    <ul className="feeds-s-ul">
                                         <li><img src={LocationIcon} alt="Location" />United States</li>
                                         <li><img src={VerifiedIcon} alt="Company Verified" />Verified post</li>

@@ -410,27 +410,9 @@ section.complete-kyc {
             a {
               font-size: 20px;
               color: #05574e;
-              font-weight: 700;
+              font-weight: 600;
               @include Phone {
                 font-size: 16px;
-              }
-            }
-          }
-          .feeds-s-ul {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            li {
-              list-style: none;
-              margin-right: 20px;
-              display: flex;
-              align-items: center;
-              font-size: 14px;
-              color: #05574e;
-              font-weight: 500;
-              img {
-                margin-right: 5px;
-                width: 18px;
               }
             }
           }
@@ -461,32 +443,6 @@ section.complete-kyc {
         margin-bottom: 20px;
         a {
           color: #0e9586;
-        }
-      }
-      .feeds-tags {
-        .feeds-ul {
-          margin: 0 0 10px;
-          padding: 0;
-          display: flex;
-          @include Phone {
-            flex-wrap: wrap;
-          }
-          li {
-            list-style: none;
-            margin-right: 10px;
-            @include Phone {
-              margin-bottom: 10px;
-            }
-            a {
-              background: #edf8f7;
-              font-size: 14px;
-              color: #819492;
-              padding: 5px 15px;
-              display: inline-block;
-              border-radius: 20px;
-              border: 1px solid #a7ddd7;
-            }
-          }
         }
       }
       .posted-submit {
@@ -524,6 +480,48 @@ section.complete-kyc {
           }
         }
       }
+    }
+  }
+}
+.feeds-s-ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  li {
+    list-style: none;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #05574e;
+    font-weight: 500;
+    img {
+      margin-right: 5px;
+      width: 18px;
+    }
+  }
+}
+.feeds-ul {
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  @include Phone {
+    flex-wrap: wrap;
+  }
+  li {
+    list-style: none;
+    margin-right: 10px;
+    @include Phone {
+      margin-bottom: 10px;
+    }
+    a {
+      background: #edf8f7;
+      font-size: 14px;
+      color: #819492;
+      padding: 5px 15px;
+      display: inline-block;
+      border-radius: 20px;
+      border: 1px solid #a7ddd7;
     }
   }
 }
@@ -663,5 +661,76 @@ section.complete-kyc {
   }
   .btn-reject {
     background-color: red;
+  }
+}
+
+
+// Job details
+.job-details-wrapper{
+  padding: 30px 0px;
+  h1{
+    margin-bottom: 15px;
+  }
+  .details-card{
+    padding: 20px;
+    border: 1px solid #d5d5d5;
+    background-color: $Theme-white;
+    .head43{
+      border-bottom: 1px solid #eaf3f2;
+      padding-bottom: 15px;
+      margin-bottom: 10px;
+      h2{
+        margin-bottom: 10px;
+        @include flexCenterBetween;
+        span{
+          color: $labelColor;
+          font-size: 13px;
+          font-weight: 400;
+        }
+      }
+    }
+    .job-description{
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eaf3f2;
+      p{
+        padding-bottom: 5px;
+        color: #6b6b6b;
+      }
+    }
+    .inner-info-section{
+      border-bottom: 1px solid #eaf3f2;
+      padding-bottom: 15px;
+      h3{
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .details-right-sidebar{
+    padding: 20px 15px;
+    border: 1px solid #d5d5d5;
+    background-color: $Theme-white;
+    .post-action{
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #d5d5d5;
+      .btn{
+        display: block;
+        width: 100%;
+        border-radius: 30px;
+        font-size: 18px !important;
+      }
+      .btn-primary-outline{
+        margin-top: 15px;
+        border: 1px solid $Theme-secondary;
+        color: $Theme-secondary;
+      }
+    }
+    .connects-info{
+      p{
+        padding-bottom: 8px;
+        color: #6b6b6b;
+      }
+    }
   }
 }

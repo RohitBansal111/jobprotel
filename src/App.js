@@ -18,10 +18,11 @@ import EmployerRoles from './pages/Employer/roles';
 import ReviewApplications from './pages/Employer/posted-job/review-applications';
 import EmployerProfile from './pages/Employer/profile';
 import EmployerEditProfile from './pages/Employer/profile/EditProfile';
+import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
-  const [role, setRole] = useState('employer')
+  const [role, setRole] = useState('student')
   return (
     <Router>
         <Routes>
@@ -42,6 +43,7 @@ function App() {
           <Route path="/review-applications" element={<ReviewApplications/>} />
           <Route path="/roles" element={<EmployerRoles/>} />
           <Route path="/employer-inbox" element={<EmployerInbox/>} />
+          <Route path="/find-work/details" element={<DetailsPage />} />
         </Routes>
     </Router>
   );

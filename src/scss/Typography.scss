@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&display=swap');
 
 // Global Typorgraphy
 html,
@@ -7,7 +7,7 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'Nunito', sans-serif !important;
+  font-family: $FontFamily;
 }
 p {
   margin: 0px;
@@ -15,30 +15,30 @@ p {
   font-size: 15px;
 }
 span {
-  font-family: 'Nunito', sans-serif !important;
+  font-family: $FontFamily;
 }
 h1 {
-  font-size: 40px;
+  font-size: 26px;
   font-weight: 700;
   margin: 0px;
   @include TabletLandscape {
-    font-size: 30px;
+    font-size: 24px;
   }
 }
 h2 {
-  font-size: 35px;
-  font-weight: 700;
-  margin: 0px;
-  @include TabletLandscape {
-    font-size: 25px;
-  }
-}
-h3 {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
   margin: 0px;
   @include TabletLandscape {
     font-size: 20px;
+  }
+}
+h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0px;
+  @include TabletLandscape {
+    font-size: 18px;
   }
 }
 h4 {
