@@ -4,6 +4,7 @@ import EditIcon from './../../../assets/icons/editicon.png'
 import ClockIcon from './../../../assets/icons/clock-ico.png'
 import CompanyProfile from './../../../assets/images/company-logo.png'
 import CompanyInfoModal from "../../../components/modals/companyInfoModal"
+import { Link } from "react-router-dom"
 
 const EmployerProfile = () => {
 return (
@@ -152,13 +153,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                <li className="page-item"><a className="page-link" href="#">5</a></li>
-                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
+                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
                               </ul>
                             </div>
                           </div>
@@ -212,13 +213,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                <li className="page-item"><a className="page-link" href="#">5</a></li>
-                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
+                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
                               </ul>
                             </div>
                           </div>
@@ -272,13 +273,13 @@ return (
                             </div>
                             <div className="project-pagination">
                               <ul className="pagination">
-                                <li className="page-item"><a className="page-link" href="#">Prev</a></li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                <li className="page-item"><a className="page-link" href="#">5</a></li>
-                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
+                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
+                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
                               </ul>
                             </div>
                           </div>

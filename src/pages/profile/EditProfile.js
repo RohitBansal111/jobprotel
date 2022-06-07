@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { Field, Form } from "react-final-form"
 import Layout from "../../components/Layout"
 import UserAvtar from './../../assets/images/profile-img.jpg'
