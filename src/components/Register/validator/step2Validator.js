@@ -1,22 +1,31 @@
 const Step2Validator = (values) => { 
      const error = {}
      if(!values.gender){ 
-          error.gender = "Required gender"
+          error.gender = "Gender is Required"
      }
      if(!values.age){ 
-          error.age = "Required Age"
+          error.age = "Age is Required"
      }
      if(!values.address){ 
-          error.address = "Required house no."
+          error.address = "Address is Required"
      }
-     if(!values.address2){ 
-          error.address2 = "Required PIN Number"
+     if(!values.country){ 
+          error.country = "Country is Required"
+     }
+     if(!values.state){ 
+          error.state = "State is Required"
+     }
+     if(!values.city){ 
+          error.city = "City is Required"
+     }
+     if(!values.zipcode){ 
+          error.zipcode = "Zip Code is Required"
      }
      if(!values.qualification){ 
-          error.qualification = "Required Qualification"
+          error.qualification = "Qualification is Required"
      }
      if(!values.interestedArea){ 
-          error.interestedArea = "Required Interested Area"
+          error.interestedArea = "Interested Area is Required"
      }
      // if(!values.uploadPhoto){ 
      //      error.uploadPhoto = "Required Upload Photo"

@@ -27,7 +27,7 @@ return (
                 <div className="container">
                   <div className="innerbg-banner">
                     <div className="banner-edit">
-                    <Link to="#" className="btn edit-btn">
+                    <Link to="/student/edit-profile" className="btn edit-btn">
                     Edit Profile</Link>
                     </div>
                   </div>

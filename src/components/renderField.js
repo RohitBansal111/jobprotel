@@ -49,7 +49,7 @@ export const renderSelect = ({
         <select {...inputProps} className="form-control">
           {children}
         </select>
-        {touched && error && <span>{error}</span>}
+        {touched && error && <span className="error">{error}</span>}
       </div>
     </div>
   )
@@ -79,7 +79,7 @@ export const renderMultiSelect = ({
       <select multiple {...input} className="form-control">
         {children}
       </select>
-      {touched && error && <span>{error}</span>}
+      {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
 );

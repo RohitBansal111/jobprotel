@@ -153,25 +153,25 @@ const EditProfile = () => {
                                         <div className="form-field flex50">
                                              <Field name="houseno" placeholder="Enter H. No. / village / street" label="H. No. / Village / Street" component={renderField} />
                                         </div>
+                                         <div className="form-field flex50">
+                                             <Field name="Country" placeholder="Country" label="Country" component={renderSelect}>
+                                                  <option defaultValue="">Country</option>
+                                                  <option value="New York">New York</option>
+                                                  <option value="Bergingam">Bergingam</option>
+                                                  <option value="Los Angales">Los Angales</option>
+                                             </Field>
+                                        </div>
+                                        <div className="form-field flex50">
+                                             <Field name="state" placeholder="state" label="State" component={renderSelect}>
+                                                  <option defaultValue="">State</option>
+                                                  <option value="New York">New York</option>
+                                                  <option value="Bergingam">Bergingam</option>
+                                                  <option value="Los Angales">Los Angales</option>
+                                             </Field>
+                                        </div>
                                         <div className="form-field flex50">
                                              <Field name="city" placeholder="city" label="City" component={renderSelect}>
                                                   <option defaultValue="">City</option>
-                                                  <option value="New York">New York</option>
-                                                  <option value="Bergingam">Bergingam</option>
-                                                  <option value="Los Angales">Los Angales</option>
-                                             </Field>
-                                        </div>
-                                        <div className="form-field flex50">
-                                             <Field name="state" placeholder="state" label="State" component={renderSelect}>
-                                                  <option defaultValue="">State</option>
-                                                  <option value="New York">New York</option>
-                                                  <option value="Bergingam">Bergingam</option>
-                                                  <option value="Los Angales">Los Angales</option>
-                                             </Field>
-                                        </div>
-                                        <div className="form-field flex50">
-                                             <Field name="state" placeholder="state" label="State" component={renderSelect}>
-                                                  <option defaultValue="">State</option>
                                                   <option value="New York">New York</option>
                                                   <option value="Bergingam">Bergingam</option>
                                                   <option value="Los Angales">Los Angales</option>

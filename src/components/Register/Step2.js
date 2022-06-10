@@ -37,10 +37,25 @@ const Step2 = (props) => {
                                         <Field name="age" label={titleStrings.ageTitle} component={renderField} placeholder="Enter age" type="text" />
                                    </div>
                                    <div className="form-field flex100 mb-2">
-                                        <Field name="address" label={titleStrings.addressTitle} component={renderField} placeholder="Enter house no. street"type="text" />
+                                        <Field name="address" label={titleStrings.addressTitle} component={renderField} placeholder="Enter Address"type="text" />
                                    </div>
-                                   <div className="form-field flex100 withoutLabel">
-                                        <Field name="address2" label={titleStrings.addressTitle} component={renderField} placeholder="Enter distt. state and PIN" type="text" />
+                                   <div className="form-field flex50">
+                                        <Field name="country" label={titleStrings.countryTitle} component={renderSelect}>
+                                          <option>Select Country</option>
+                                          <option>India</option>
+                                        </Field>
+                                   </div>
+                                   <div className="form-field flex50">
+                                        <Field name="state" label={titleStrings.stateTitle} component={renderSelect}>
+                                         <option>Select State</option>
+                                         <option>Chandigarh</option>
+                                        </Field>
+                                   </div>
+                                   <div className="form-field flex50">
+                                        <Field name="city" label={titleStrings.cityTitle} component={renderField} placeholder="Enter City" type="text" />
+                                   </div>
+                                   <div className="form-field flex50">
+                                        <Field name="zipcode" label={titleStrings.zipcodeTitle} component={renderField} placeholder="Enter Zip Code" type="text" />
                                    </div>
                                    <div className="form-field flex100">
                                         <Field name="qualification" label={titleStrings.qualificationTitle} component={renderSelect}>
@@ -48,7 +63,11 @@ const Step2 = (props) => {
                                         </Field>
                                    </div>
                                    <div className="form-field flex100">
-                                        <Field name="interestedArea" label={titleStrings.interestedAreaTitle} component={renderField} placeholder="Enter hobbies" type="text" />
+                                        <Field name="interestedArea" label={titleStrings.interestedAreaTitle} component={renderSelect}>
+                                           <option>Writing</option>
+                                           <option>Photography</option>
+                                           <option>Action</option>
+                                        </Field>
                                    </div>
                                    <div className="form-field flex100">
                                         <Field name="uploadPhoto2" label={titleStrings.uploadPhotoTitle} component={RenderImageField} type="file" />

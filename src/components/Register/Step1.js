@@ -44,7 +44,7 @@ const Step1 = (props) => {
                                    <div className="form-field flex100">
                                         <label htmlFor=""> {titleStrings.recaptchaLabel} </label>
                                         <ReCAPTCHA
-                                             sitekey="Your client site key"
+                                             sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                                              onChange={onChange}
                                         />
                                    </div>

@@ -8,7 +8,6 @@ import Step2 from '../../components/Register/Step2'
 import Step3 from '../../components/Register/Step3'
 import Logo from './../../assets/images/logo.png'
 
-
 const Register = () => {
      const [currentPage, setPage] = useState(0);
      const [activeRole, setactiveRole] = useState('student')

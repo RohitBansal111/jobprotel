@@ -93,7 +93,7 @@ const Step3 = (props) => {
                               </div>
                               <div className="form-action">
                                    <button type="button" onClick={() => props.prevPage()} className="btn btn-secondary prev-btn text-white text-center"> {titleStrings.prevTitle} </button>
-                                   <button type="submit" className="btn btn-primary next-btn text-white text-center"> {titleStrings.nextTitle} </button>
+                                   <button type="submit" onClick={() => props.finalSubmit()} className="btn btn-primary next-btn text-white text-center"> {titleStrings.nextTitle} </button>
                               </div>
                          </form>
                          )}
