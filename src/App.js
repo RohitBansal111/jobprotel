@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import EmployerApplication from './pages/Employer/applications';
 import EmployerInbox from './pages/Employer/Inbox';
@@ -22,7 +22,7 @@ import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
-  const [role, setRole] = useState('employer')
+  var role = 'employer'
   return (
     <Router>
         <Routes>
