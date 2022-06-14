@@ -22,8 +22,12 @@ import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
+<<<<<<< HEAD
   // eslint-disable-next-line no-unused-vars
   const [role, setRole] = useState('student')
+=======
+  const [role, setRole] = useState('employer')
+>>>>>>> c9355d5e1be450a292ce9218c7320f85062cab39
   return (
     <Router>
         <Routes>
