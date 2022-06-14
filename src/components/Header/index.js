@@ -6,7 +6,7 @@ import userAvtar from './../../assets/images/user-img.jpg';
 
 const Header = () => {
      const [mobileMenu, setmobileMenu] = useState('')
-     const [role, setrole] = useState('student')
+     const [role, setrole] = useState('employer')
      const menuToggle = () =>{
           setmobileMenu('navbar-mobile')
           if(mobileMenu === 'navbar-mobile'){ 

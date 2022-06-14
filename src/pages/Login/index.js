@@ -11,7 +11,7 @@ const Login = () => {
      let titleStrings = new LocalizedStrings(titles)
      const history = useNavigate();
      const handleLogin = () =>{
-          history('/find-work');
+          history('/posted-jobs');
      }
      return (
           <div className="page-wrapper">

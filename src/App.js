@@ -22,7 +22,7 @@ import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
-  const [role, setRole] = useState('student')
+  const [role, setRole] = useState('employer')
   return (
     <Router>
         <Routes>
