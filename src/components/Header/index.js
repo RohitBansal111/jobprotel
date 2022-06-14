@@ -6,12 +6,7 @@ import userAvtar from './../../assets/images/user-img.jpg';
 
 const Header = () => {
      const [mobileMenu, setmobileMenu] = useState('')
-<<<<<<< HEAD
-     // eslint-disable-next-line no-unused-vars
-     const [role, setrole] = useState('student')
-=======
      const [role, setrole] = useState('employer')
->>>>>>> c9355d5e1be450a292ce9218c7320f85062cab39
      const menuToggle = () =>{
           setmobileMenu('navbar-mobile')
           if(mobileMenu === 'navbar-mobile'){ 
