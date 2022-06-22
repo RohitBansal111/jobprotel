@@ -141,6 +141,54 @@
   &:last-child {
     margin-right: 0px;
   }
+  .ReactTags{
+    .react-tags-wrapper{
+      .ReactTags__selected{
+        .tag-wrapper{
+          background-color: #abede2;
+          font-size: 12px;
+          padding: 5px 10px;
+          border-radius: 5px;
+          margin-right: 6px;
+          .ReactTags__remove{
+            background-color: $Theme-secondary;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            width: 17px;
+            height: 17px;
+            font-size: 16px;
+            line-height: 17px;
+            padding: 0px;
+            margin-left: 4px;
+            position: relative;
+            top: 1px;
+          }
+        }
+        .ReactTags__tagInput{
+          .ReactTags__tagInputField{
+            height: 50px;
+            background-color: #f8f8f8;
+            border: 1px solid #e9e9e9;
+            border-radius: 6px;
+            color: #4a4a4a;
+            font-size: 16px;
+            width: 100%;
+            padding-left: 15px;
+            &:focus {
+              border: 1px solid #53bead;
+            }
+            &:focus-visible{
+              outline: 0px;
+            }
+            &::placeholder {
+              opacity: 0.6;
+            }
+          }
+        }
+      }
+    }
+  }
   .radio-group {
     position: relative;
     padding-left: 40px;
@@ -299,3 +347,4 @@
   right: 15px;
   top: 14px;
 }
+

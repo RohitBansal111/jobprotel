@@ -196,7 +196,7 @@ export const RenderFileUploadField = ({
   };
   return (
     <div className={`fileFilledViewer d-block ${className} ${touched && error ? "error-border" : ""}`} >
-      <div className="uploadImageSection mb-2">
+      <div className="uploadImageSection">
           <label> {label} </label>
           <div className="resume-upload">
             <button
@@ -224,7 +224,7 @@ export const RenderFileUploadField = ({
           <div className={!value ? "awsFileOption fileUploadPlace" : "uploadedFile-section awsFileOption"}>
             {/* <i className="fa fa-user"></i>
             <i className="fa fa-camera"></i> */}
-            <div className="aws-placeholder image4 mt-3">
+            <div className="aws-placeholder image4">
               {value && value.Location && (
                 <img
                   src={value && value.Location}

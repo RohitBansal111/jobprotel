@@ -7,6 +7,7 @@ import ClockIcon from './../../assets/icons/clock-ico.png'
 import AddColeagueModal from "../../components/modals/addColleaguesModal"
 import CompanyLogo from '../../assets/images/company-logo2.jpeg'
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal"
+import AddProjectModal from "../../components/modals/add-project-modal"
 
 
 const Profile = () => {
@@ -87,37 +88,46 @@ return (
                           </div>
                          <section className="profile-information-view">
                             <div className="profile-information-coll">
-                              <h3>Personal information</h3>
+                              <div className="profile-card-head">
+                                <h3>Personal information</h3>
+                                <div className="pr-edit-icon">
+                                  <button type="button" className="icon_button">
+                                    <img src={EditIcon} alt="icon" />
+                                  </button>
+                                </div>
+                              </div>
                               <div className="profile-info-list">
-                                   <div className="pr-edit-icon"><span>
-                                        <img src={EditIcon} alt="icon" /></span></div>
-                                   <ul className="info-list-li">
-                                   <li><span className="plabel">Age</span> <span className="result">30 years old</span></li>
-                                   <li><span className="plabel">Gender </span><span className="result">Male</span></li>
-                                   <li><span className="plabel">Qualification</span> <span className="result">Master in bio technology</span></li>
-                                   <li>
-                                        <span className="plabel">Interested area </span>
-                                        <span className="result">
+                                <ul className="info-list-li">
+                                  <li><span className="plabel">Age</span> <span className="result">30 years old</span></li>
+                                  <li><span className="plabel">Gender </span><span className="result">Male</span></li>
+                                  <li><span className="plabel">Qualification</span> <span className="result">Master in bio technology</span></li>
+                                  <li>
+                                      <span className="plabel">Interested area </span>
+                                      <div className="result">
                                         <ul className="tags">
-                                        <li>Reading books</li>
-                                        <li>Suffering internet</li>
-                                        <li>Traveling</li>
+                                          <li>Reading books</li>
+                                          <li>Suffering internet</li>
+                                          <li>Traveling</li>
                                         </ul>
-                                        </span>
-                                   </li>
-                                   <li><span className="plabel">Time zone </span><span className="result">India (GMT+5:30)</span></li>
-                                   <li><span className="plabel">Address </span><span className="result">913 Black Oak Hollow Road, San Jose, California, United States, 95110</span></li>
-                                   </ul>
+                                      </div>
+                                  </li>
+                                  <li><span className="plabel">Time zone </span><span className="result">India (GMT+5:30)</span></li>
+                                  <li><span className="plabel">Address </span><span className="result">913 Black Oak Hollow Road, San Jose, California, United States, 95110</span></li>
+                                </ul>
                               </div>
                             </div>
                           </section>
                           <section className="profile-information-view">
                             <div className="profile-information-coll">
-                              <h3>Professional information</h3>
-                              <div className="profile-info-list">
-                              <div className="pr-edit-icon"><span>
-                                    <img src={EditIcon} alt="icon" /></span>
+                              <div className="profile-card-head">
+                                <h3>Professional information</h3>
+                                <div className="pr-edit-icon">
+                                  <button type="button" className="icon_button">
+                                    <img src={EditIcon} alt="icon" />
+                                  </button>
+                                </div> 
                               </div>
+                              <div className="profile-info-list">
                               <ul className="info-list-li">
                                 <li><span className="plabel">Hours / day</span> <span className="result">8 hours / day</span></li>
                                 <li><span className="plabel">Expected salary </span><span className="result">$20 / hours</span></li>
@@ -146,238 +156,122 @@ return (
                       </section>
                       <section className="profile-information-view">
                         <div className="profile-information-coll">
-                          <h3>Employment Details</h3>
-                          <div className="profile-info-list">
+                          <div className="profile-card-head">
+                            <h3>Employment Details</h3>
                             <div className="pr-edit-icon">
                               <button type="button" className="icon_button" data-bs-toggle="modal" data-bs-target="#employmentModal"><i class="fas fa-plus"></i></button>
-                              <button type="button" className="icon_button"><i class="fas fa-pen"></i></button>
                               <EmploymentDetailsModal />
                             </div>
+                          </div>
+                          <div className="profile-info-list">
                             <ul className="info-list-li additional-box">
                               <li>
-                                <div className="company-logo">
-                                   <img src={CompanyLogo} alt="Logo" />
+                                <div className="designation-list-item">
+                                  <div className="company-logo">
+                                    <img src={CompanyLogo} alt="Logo" />
+                                  </div>
+                                  <div className="employer-sort-info">
+                                    <h4>Front End - Team Lead  </h4>
+                                    <p>Eminence Technology</p>
+                                    <p className="dateP">August 2021 - Current working</p>
+                                  </div>
                                 </div>
-                                <div className="employer-sort-info">
-                                  <h4>Front End - Team Lead</h4>
-                                  <p>Eminence Technology</p>
-                                  <p className="dateP">August 2021 - Current working</p>
-                                </div>
+                                <button type="button" className="icon_button_text"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                               <li>
-                                <div className="company-logo">
-                                   <img src={CompanyLogo} alt="Logo" />
+                                <div className="designation-list-item">
+                                  <div className="company-logo">
+                                    <img src={CompanyLogo} alt="Logo" />
+                                  </div>
+                                  <div className="employer-sort-info">
+                                    <h4>React JS UI developer</h4>
+                                    <p>Eminence Technology</p>
+                                    <p className="dateP">August 2020 - July 2021</p>
+                                  </div>
                                 </div>
-                                <div className="employer-sort-info">
-                                  <h4>React JS UI developer</h4>
-                                  <p>Eminence Technology</p>
-                                  <p className="dateP">August 2020 - July 2021</p>
-                                </div>
+                                <button type="button" className="icon_button_text"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </section>
-                <section className="profile-information-view">
-                  <div className="Project-information-coll">
-                    <h3>Project history</h3>
-                    <div className="Project-info-list">
-                      <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button className="nav-link active" id="nav-completed-tab" data-bs-toggle="tab" data-bs-target="#nav-completed" type="button" role="tab" aria-controls="nav-completed" aria-selected="true">Completed</button>
-                        <button className="nav-link" id="nav-inprogress-tab" data-bs-toggle="tab" data-bs-target="#nav-inprogress" type="button" role="tab" aria-controls="nav-inprogress" aria-selected="false">In progress</button>
-                        <button className="nav-link" id="nav-applied-tab" data-bs-toggle="tab" data-bs-target="#nav-applied" type="button" role="tab" aria-controls="nav-applied" aria-selected="false">Applied</button>
-                      </div>
-                      <div className="tab-content" id="nav-tabContent">
-                        <div className="tab-pane fade show active" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
-                          <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
+                      <section className="profile-information-view">
+                        <div className="Project-information-coll">
+                          <div className="profile-card-head">
+                            <h3>Project history</h3>
+                            <div className="pr-edit-icon">
+                              <button type="button" className="icon_button" data-bs-toggle="modal" data-bs-target="#addProjectModal"><i class="fas fa-plus"></i></button>
+                              <AddProjectModal />
+                            </div>
+                          </div>
+                          <div className="Project-info-list">
+                            <div className="project-detail-list">
+                              <div className="project-dbox">
+                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                                <div className="prd-buget-column">
+                                  <div className="project-tenure-skills">
+                                    <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                    <ul className="tech-links">
+                                      <li>react-redux</li>
+                                      <li>flutter</li>
+                                      <li>native</li>
+                                    </ul>
+                                  </div>
                                 </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                <button type="button" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" className="btn btn-view-more">View More</button>
+                                <div className="full-project-details" class="collapse" id="collapseExample">
+                                  <p>hello</p>
                                 </div>
                               </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                              <div className="project-dbox">
+                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                                <div className="prd-buget-column">
+                                  <div className="project-tenure-skills">
+                                    <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                    <ul className="tech-links">
+                                      <li>react-redux</li>
+                                      <li>flutter</li>
+                                      <li>native</li>
+                                    </ul>
+                                  </div>
+                                  <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
                                 </div>
                               </div>
-                            </div>
-                            <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
-                              </ul>
+                              <div className="project-dbox">
+                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                                <div className="prd-buget-column">
+                                  <div className="project-tenure-skills">
+                                    <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                    <ul className="tech-links">
+                                      <li>react-redux</li>
+                                      <li>flutter</li>
+                                      <li>native</li>
+                                    </ul>
+                                  </div>
+                                  <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
+                                </div>
+                              </div>
+                              <div className="project-pagination">
+                                <ul className="pagination">
+                                  <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
+                                  <li className="page-item"><Link className="page-link" to="/">1</Link></li>
+                                  <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
+                                  <li className="page-item"><Link className="page-link" to="/">3</Link></li>
+                                  <li className="page-item"><Link className="page-link" to="/">4</Link></li>
+                                  <li className="page-item"><Link className="page-link" to="/">5</Link></li>
+                                  <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="tab-pane fade" id="nav-inprogress" role="tabpanel" aria-labelledby="nav-inprogress-tab">
-                        <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="#">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">Next</Link></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="tab-pane fade" id="nav-applied" role="tabpanel" aria-labelledby="nav-applied-tab">
-                        <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="#">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="#">Next</Link></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      </section>
                     </div>
                   </div>
-                </section>
-              </div>
+                </div>
+              </section>
             </div>
-          </div>
-        </section>
-      </div>
-     </Layout>
+          </Layout>
      )
 }
 

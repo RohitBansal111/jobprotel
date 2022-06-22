@@ -27,9 +27,9 @@ const FindWork = () => {
                     <section className="topbg-banner">
                          <div className="container">
                               <div className="innerbg-banner">
-                                   <div className="banner-edit">
+                                   {/* <div className="banner-edit">
                                         <Link to="#" className="btn edit-btn">Edit</Link>
-                                   </div>
+                                   </div> */}
                               </div>
                          </div>
                     </section>
@@ -68,9 +68,9 @@ const FindWork = () => {
                                         <div className="jobs-com-profile">
                                              <div className="profile-update">
                                                   <ul className="profile-jobs">
-                                                       <li><Link to="#"><span className="update-name">Job {role === 'Employer' ? 'Applied' : 'Posted'}</span>2</Link></li>
-                                                       <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Completed Jobs</span>170</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Job {role === 'Employer' ? 'Applied' : 'Posted'}: &nbsp;</span>2</Link></li>
+                                                       {/* <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Completed Jobs</span>170</Link></li> */}
                                                   </ul>
                                              </div>
                                              <div className="profile-strength">

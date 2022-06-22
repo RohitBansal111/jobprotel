@@ -242,8 +242,10 @@ section.complete-kyc {
           }
           a {
             color: #fff;
-            font-size: 18px;
+            font-size: 21px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
             @include Phone {
               color: #405451;
               font-size: 16px;

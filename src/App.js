@@ -22,7 +22,7 @@ import DetailsPage from './pages/find-work/detail-page';
 
 
 function App() {
-  var role = 'employer'
+  var role = 'student'
   return (
     <Router>
         <Routes>
@@ -31,7 +31,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           {role === 'student' && <Route path="/find-work" element={<FindWork/>} />}
           {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
-          <Route path="/applications" element={<StudentApplication/>} />
+          <Route path="/jobs-applied" element={<StudentApplication/>} />
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />
           <Route path="/invites" element={<Invites/>} />
