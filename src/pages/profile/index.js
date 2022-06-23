@@ -3,17 +3,16 @@ import Layout from "../../components/Layout"
 import UserAvtar from './../../assets/images/profile-img.jpg'
 import ConnectIcon from './../../assets/icons/connect.png'
 import EditIcon from './../../assets/icons/editicon.png'
-import ClockIcon from './../../assets/icons/clock-ico.png'
 import AddColeagueModal from "../../components/modals/addColleaguesModal"
 import CompanyLogo from '../../assets/images/company-logo2.jpeg'
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal"
 import AddProjectModal from "../../components/modals/add-project-modal"
+import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal"
 
 
 const Profile = () => {
-  // const [employmentModal, setemploymentModal] = useState(false);
-  // const handleEmploymentModal = () => {setemploymentModal(true)}
-return (
+
+    return (
         <Layout>
           <div className="inner-page-wrapper">
                <section className="complete-kyc">
@@ -51,7 +50,7 @@ return (
                             <div className="profile-connect">
                               <div className="profile-con">
                                   <img src={ConnectIcon} alt="Connect" />
-                                  <span className="conn-count">92</span>
+                                  <span className="conn-count">20</span>
                               </div>
                               <h4>Available Connects</h4>
                             </div>
@@ -176,7 +175,7 @@ return (
                                     <p className="dateP">August 2021 - Current working</p>
                                   </div>
                                 </div>
-                                <button type="button" className="icon_button_text"><i class="fas fa-pen"></i> Edit</button>
+                                <button type="button" className="icon_button_text" data-bs-toggle="modal" data-bs-target="#modifyEmploymentModal"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                               <li>
                                 <div className="designation-list-item">
@@ -189,9 +188,10 @@ return (
                                     <p className="dateP">August 2020 - July 2021</p>
                                   </div>
                                 </div>
-                                <button type="button" className="icon_button_text"><i class="fas fa-pen"></i> Edit</button>
+                                <button type="button" className="icon_button_text" data-bs-toggle="modal" data-bs-target="#modifyEmploymentModal"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                             </ul>
+                            <ModifyEmploymentModal />
                           </div>
                         </div>
                       </section>
@@ -207,7 +207,7 @@ return (
                           <div className="Project-info-list">
                             <div className="project-detail-list">
                               <div className="project-dbox">
-                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                                <h2 className="prname">Front-End Sketch to Tailwind</h2>
                                 <div className="prd-buget-column">
                                   <div className="project-tenure-skills">
                                     <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
@@ -219,8 +219,31 @@ return (
                                   </div>
                                 </div>
                                 <button type="button" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" className="btn btn-view-more">View More</button>
-                                <div className="full-project-details" class="collapse" id="collapseExample">
-                                  <p>hello</p>
+                                <div className="full-project-details collapse" id="collapseExample">
+                                  <p>Skills And Qualifications I want the design completed with Sketch to into tailwind if you contact to me I show you all details psi: My request from you is to show your projects that you have done with tailwind before.</p>
+                                  <p><b>Link:</b> <Link to="/">https://bit.ly/3HAAMCF</Link></p>
+                                  <p><b>Attachment:</b></p>
+                                  <p className="attachment"><i class="fas fa-file"></i><Link to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png" target="_blank" download>Home (5).jpg (1 KB)</Link></p>
+                                </div>
+                              </div>
+                              <div className="project-dbox">
+                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
+                                <div className="prd-buget-column">
+                                  <div className="project-tenure-skills">
+                                    <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
+                                    <ul className="tech-links">
+                                      <li>react-redux</li>
+                                      <li>flutter</li>
+                                      <li>native</li>
+                                    </ul>
+                                </div>
+                                </div>
+                                <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
+                                <div className="full-project-details collapse" id="collapseExample1">
+                                  <p>Skills And Qualifications I want the design completed with Sketch to into tailwind if you contact to me I show you all details psi: My request from you is to show your projects that you have done with tailwind before.</p>
+                                  <p><b>Link:</b> <Link to="/">https://bit.ly/3HAAMCF</Link></p>
+                                  <p><b>Attachment:</b></p>
+                                  <p className="attachment"><i class="fas fa-file"></i><Link to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png" target="_blank" download>Home (5).jpg (1 KB)</Link></p>
                                 </div>
                               </div>
                               <div className="project-dbox">
@@ -234,21 +257,13 @@ return (
                                       <li>native</li>
                                     </ul>
                                   </div>
-                                  <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
                                 </div>
-                              </div>
-                              <div className="project-dbox">
-                                <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                                <div className="prd-buget-column">
-                                  <div className="project-tenure-skills">
-                                    <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                    <ul className="tech-links">
-                                      <li>react-redux</li>
-                                      <li>flutter</li>
-                                      <li>native</li>
-                                    </ul>
-                                  </div>
-                                  <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
+                                <button type="button" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2" className="btn btn-view-more">View More</button>
+                                <div className="full-project-details collapse" id="collapseExample2">
+                                  <p>Skills And Qualifications I want the design completed with Sketch to into tailwind if you contact to me I show you all details psi: My request from you is to show your projects that you have done with tailwind before.</p>
+                                  <p><b>Link:</b> <Link to="/">https://bit.ly/3HAAMCF</Link></p>
+                                  <p><b>Attachment:</b></p>
+                                  <p className="attachment"><i class="fas fa-file"></i><Link to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png" target="_blank" download>Home (5).jpg (1 KB)</Link></p>
                                 </div>
                               </div>
                               <div className="project-pagination">

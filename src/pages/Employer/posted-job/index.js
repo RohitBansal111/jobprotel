@@ -47,7 +47,7 @@ const PostedJob = () => {
                                              <div className="profile-connect">
                                                   <div className="profile-con">
                                                        <img src={ConnectIcon} alt="Connect" />
-                                                       <span className="conn-count">92</span>
+                                                       <span className="conn-count">2</span>
                                                   </div>
                                                   <h4>Available Connects</h4>
                                              </div>

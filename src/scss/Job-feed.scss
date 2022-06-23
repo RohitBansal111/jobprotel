@@ -736,3 +736,23 @@ section.complete-kyc {
     }
   }
 }
+
+.full-project-details{
+  p{
+    font-size: 14px;
+    color: grey;
+    margin: 5px 0px;
+  }
+  .attachment{
+    cursor: pointer;
+    a{
+      color: $Theme-secondary;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+    i{
+      margin-right: 5px;
+    }
+  }
+}

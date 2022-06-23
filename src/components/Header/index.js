@@ -28,7 +28,7 @@ const Header = () => {
                                       role !== 'employer' ?  
                                       <>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/find-work">Find Work</NavLink></li>
-                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/jobs-applied">Jobs-applied</NavLink></li>
+                                        <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/jobs-applied">Jobs Applied</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/invites">Invites</NavLink></li>
                                         <li><NavLink className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link inactive')} to="/inbox">Inbox</NavLink></li>
                                       </>

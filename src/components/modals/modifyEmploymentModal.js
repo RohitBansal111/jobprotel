@@ -2,14 +2,14 @@ import { Field, Form } from "react-final-form"
 import { renderField } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
-const EmploymentDetailsModal = () => {
+const ModifyEmploymentModal = () => {
     const handleJobPost = () => {}
     return (
-          <div className="modal fade" id="employmentModal" tabIndex="-1" aria-labelledby="employmentModal" aria-hidden="true">
+          <div className="modal fade" id="modifyEmploymentModal" tabIndex="-1" aria-labelledby="modifyEmploymentModal" aria-hidden="true">
                <div className="modal-dialog">
                     <div className="modal-content">
                          <div className="modal-header">
-                              <h5 className="modal-title" id="employmentModal">Add Employment Detail</h5>
+                              <h5 className="modal-title" id="modifyEmploymentModal">Modify Employment Detail</h5>
                               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                          </div>
                          <div className="modal-body p-4">
@@ -48,4 +48,4 @@ const EmploymentDetailsModal = () => {
      )
 }
 
-export default EmploymentDetailsModal
+export default ModifyEmploymentModal
