@@ -1,13 +1,11 @@
-import { Link } from "react-router-dom"
-import JobCard from "../../components/Job-card"
-import Layout from "../../components/Layout"
-import UserAvtar from './../../assets/images/profile-img.jpg'
-import ConnectIcon from './../../assets/icons/connect.png'
-import Filtericon from './../../assets/icons/filter-ico.png'
-import CompleteKycModal from "../../components/Common/CompleteKycModal"
-import { useState } from "react"
-
-
+import { Link } from "react-router-dom";
+import JobCard from "../../components/Job-card";
+import Layout from "../../components/Layout";
+import UserAvtar from "./../../assets/images/profile-img.jpg";
+import ConnectIcon from "./../../assets/icons/connect.png";
+import Filtericon from "./../../assets/icons/filter-ico.png";
+import CompleteKycModal from "../../components/Common/CompleteKycModal";
+import { useState } from "react";
 
 const FindWork = () => {
      // eslint-disable-next-line no-unused-vars
@@ -121,4 +119,4 @@ const FindWork = () => {
      )
 }
 
-export default FindWork
+export default FindWork;

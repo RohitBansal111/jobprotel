@@ -19,7 +19,8 @@ import ReviewApplications from './pages/Employer/posted-job/review-applications'
 import EmployerProfile from './pages/Employer/profile';
 import EmployerEditProfile from './pages/Employer/profile/EditProfile';
 import DetailsPage from './pages/find-work/detail-page';
-
+import PrivacyPolicy from './policy/privacyPolicy';
+import TermsConditions from './T&C/TermsConditions';
 
 function App() {
   var role = 'student'
@@ -29,9 +30,16 @@ function App() {
           <Route exact path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
-          {role === 'student' && <Route path="/find-work" element={<FindWork/>} />}
-          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
-          <Route path="/jobs-applied" element={<StudentApplication/>} />
+          {/* {role === 'student' && <Route path="/find-workk" element={<FindWork/>} />}
+          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />} */}
+          <Route path="/find-work" element={<FindWork/>}/>
+
+          <Route path="/policy" element={<PrivacyPolicy/>}/>
+          <Route path="/terms" element={<TermsConditions/>}/>
+
+
+          <Route path="/posted-jobs" element={<PostedJob/>} />
+          <Route path="/applications" element={<StudentApplication/>} />
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />
           <Route path="/invites" element={<Invites/>} />

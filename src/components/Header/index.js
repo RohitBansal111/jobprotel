@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import Logo from './../../assets/images/inner-logo.png';
-import Notification from './../../assets/icons/notification-ico.png'
-import userAvtar from './../../assets/images/user-img.jpg';
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import Logo from "./../../assets/images/inner-logo.png";
+import Notification from "./../../assets/icons/notification-ico.png";
+import userAvtar from "./../../assets/images/user-img.jpg";
 
 const Header = () => {
      const [mobileMenu, setmobileMenu] = useState('')
@@ -100,9 +100,90 @@ const Header = () => {
                               </div>
                          </div>
                     </div>
-               </div>
-          </header>
-     )
-}
+                    <span>5 min. ago</span>
+                  </li>
+                  <li>
+                    <div className="notification-heading">
+                      <p>
+                        Your proposal to the job "I need a Logo Designer" was
+                        declined.
+                      </p>
+                    </div>
+                    <span>5 min. ago</span>
+                  </li>
+                  <li>
+                    <div className="notification-heading">
+                      <p>
+                        Your proposal to the job "I need a Logo Designer" was
+                        declined.
+                      </p>
+                    </div>
+                    <span>5 min. ago</span>
+                  </li>
+                  <li>
+                    <Link to="/notifications" className="notification-link">
+                      View All
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </span>
+          </div>
+          <div className="signin-user">
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Michael T <img src={userAvtar} alt="User Profile" />
+              </button>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="dropdownMenuButton1"
+              >
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to={
+                      role === "employer"
+                        ? "/employer/profile"
+                        : "/student/profile"
+                    }
+                  >
+                    {" "}
+                    <i className="fas fa-user"></i>Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to={role === "employer" ? "/posted-jobs" : "/find-work"}
+                  >
+                    <i className="fas fa-tachometer-alt"></i> Dashboard
+                  </Link>
+                </li>
+                {role === "employer" ? null : (
+                  <li>
+                    <Link className="dropdown-item" to="/student/edit-profile">
+                      <i className="fas fa-user-cog"></i> Edit Profile
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <Link className="dropdown-item" to="/">
+                    <i className="fas fa-sign-out-alt"></i> Logout
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
 
-export default Header
+export default Header;
