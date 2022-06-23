@@ -3,6 +3,9 @@ const Step2Validator = (values) => {
      if(!values.gender){ 
           error.gender = "Gender is Required"
      }
+     if(!values.uploadPhoto){ 
+          error.uploadPhoto = "Upload Profile is Required"
+     }
      if(!values.age){ 
           error.age = "Age is Required"
      }
@@ -20,6 +23,9 @@ const Step2Validator = (values) => {
      }
      if(!values.zipcode){ 
           error.zipcode = "Zip Code is Required"
+     }
+     if(!values.timeZone){ 
+          error.timeZone = "Time Zone is Required"
      }
      if(!values.qualification){ 
           error.qualification = "Qualification is Required"

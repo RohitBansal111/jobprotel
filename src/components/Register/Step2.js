@@ -1,13 +1,21 @@
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
-import { RenderImageField } from "../file-input";
 import {
   renderField,
   RenderRadioButtonField,
   renderSelect,
 } from "../renderField";
+import { RenderTagField } from "../renderTagField";
 import titles from "./register.json";
 import Step2Validator from "./validator/step2Validator";
+
+const interestedArea = [
+  {id: '1',text: 'react-redux'},
+  {id: '2',text: 'flutter'},
+  {id: '3',text: 'react-native'},
+  {id: '4',text: 'mongoDB'},
+  {id: '5',text: 'AWS-admin'},
+]
 
 const Step2 = ({
   userPersonalInfo,
@@ -67,13 +75,14 @@ const Step2 = ({
                   </div>
                 </div>
                 <div className="form-field flex50">
-                  <Field
-                    name="age"
-                    label={titleStrings.ageTitle}
-                    component={renderField}
-                    placeholder="Enter age"
-                    type="text"
-                    defaultValue={next && data ? data.age : ""}
+                  <label>Upload Profile</label>
+                  <input
+                    name="uploadPhoto"
+                    label={titleStrings.uploadPhotoTitle}
+                    // component={RenderImageField}
+                    accept=".jpg, .jpeg, .png"
+                    type="file"
+                    onChange={handleImageChange}
                   />
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -88,6 +97,16 @@ const Step2 = ({
                 </div>
                 <div className="form-field flex50">
                   <Field
+                    name="age"
+                    label={titleStrings.ageTitle}
+                    component={renderField}
+                    placeholder="Enter age"
+                    type="text"
+                    defaultValue={next && data ? data.age : ""}
+                  />
+                </div>
+                <div className="form-field flex50">
+                  <Field
                     name="country"
                     label={titleStrings.countryTitle}
                     component={renderSelect}
@@ -97,6 +116,7 @@ const Step2 = ({
                     <option>India</option>
                     <option>USA</option>
                     <option>Canada</option>
+                    <option>New Zealand</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -132,6 +152,15 @@ const Step2 = ({
                     defaultValue={next && data ? data.zipcode : ""}
                   />
                 </div>
+                <div className="form-field flex50">
+                  <Field
+                    name="timeZone"
+                    label="Time Zone"
+                    placeholder="Time zone"
+                    component={renderField}
+                    type="text"
+                  />
+                </div>
                 <div className="form-field flex100">
                   <Field
                     name="qualification"
@@ -145,26 +174,7 @@ const Step2 = ({
                   </Field>
                 </div>
                 <div className="form-field flex100">
-                  <Field
-                    name="interestedArea"
-                    label={titleStrings.interestedAreaTitle}
-                    component={renderSelect}
-                    defaultValue={next && data ? data.interestedArea : ""}
-                  >
-                    <option>Writing</option>
-                    <option>Photography</option>
-                    <option>Action</option>
-                  </Field>
-                </div>
-                <div className="form-field flex100">
-                  <input
-                    name="uploadPhoto"
-                    label={titleStrings.uploadPhotoTitle}
-                    // component={RenderImageField}
-                    accept=".jpg, .jpeg, .png"
-                    type="file"
-                    onChange={handleImageChange}
-                  />
+                  <Field name="interestedArea"  defaultValue={next && data ? data.interestedArea : ""} label="Interested Area" suggestions={interestedArea} placeholder="Enter Intrested Area" component={RenderTagField} />
                 </div>
               </div>
               <div className="form-action">

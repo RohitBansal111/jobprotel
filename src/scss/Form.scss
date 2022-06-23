@@ -12,7 +12,7 @@
   flex-wrap: wrap;
   .form-field {
     margin-bottom: 15px;
-    &.flex50 {
+    &.flex50 { 
       flex: 0 0 48%;
       @include Phone {
         flex: 0 0 100%;
@@ -42,6 +42,15 @@
     .form-control {
       &::placeholder {
         opacity: 0.6;
+      }
+    }
+    select{
+      opacity: 0.6;
+      option{
+        opacity: 1;
+        &:first-child{
+          opacity: 0.6;
+        }
       }
     }
     .content-link {

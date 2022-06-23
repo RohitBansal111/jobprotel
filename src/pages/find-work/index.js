@@ -8,8 +8,11 @@ import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import { useState } from "react";
 
 const FindWork = () => {
-     // eslint-disable-next-line no-unused-vars
+
      const [role, setRole] = useState('student')
+     const [showFilter, setshowFilter] = useState(false)
+     const handleFilter = () => setshowFilter(!showFilter)
+
      return (
           <Layout>
                <div className="inner-page-wrapper">
@@ -54,12 +57,15 @@ const FindWork = () => {
                                              </div>
                                              <div className="user-prof-info">
                                                   <ul className="prof-info-ul">
+                                                       <li>Hour's per/day <span className="result">4 Hour</span></li>
+                                                       <li>Timing <span className="result">10AM - 2PM</span></li>
+                                                       <li>Skills <span className="result">React-Redux, Flutter</span></li>
                                                        <li>Experience <span className="result">5+ Years</span></li>
                                                        <li>College / University <span className="result">Toronto</span></li>
                                                        <li>Education <span className="result">M-Bio Sci.</span></li>
                                                        <li>Hours / day <span className="result">8 Hours/day</span></li>
                                                   </ul>
-                                             </div>
+                                             </div> 
                                         </div>
                                    </div>
                                    <div className="jobs-feeds-sec">
@@ -93,9 +99,28 @@ const FindWork = () => {
                                                   </form>
                                              </div>
                                              <div className="feed-filter">
-                                                  <button type="button" className="btn filter-btn">
+                                                  <button onClick={handleFilter} type="button" className="btn filter-btn">
                                                        <img src={Filtericon} alt="Filter icon" />
                                                   </button>
+                                                  {showFilter &&  
+                                                  <div className="filter-container-wrapper">
+                                                       <div className="form-field-group">
+                                                            <div className="form-field">
+                                                                 <label>Hour's Per/day</label>
+                                                                 <input type="number" className="form-control" placeholder="Enter hour" />
+                                                            </div>
+                                                            <div className="form-field">
+                                                                 <label>Skills</label>
+                                                                 <input type="text" className="form-control" placeholder="Enter skills" />
+                                                            </div>
+                                                            <div className="form-field">
+                                                                 <label>Experience</label>
+                                                                 <input type="text" className="form-control" placeholder="Enter experience" />
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  }
+                                                  
                                              </div>
                                         </div>
                                         <div className="search-feeds-section">

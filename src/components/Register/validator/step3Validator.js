@@ -3,20 +3,32 @@ const Step3Validator = (values) => {
      if(!values.collegeName){ 
           error.collegeName = "Required College Name"
      }
-     if(!values.age){ 
-          error.age = "Required Age"
+     if(!values.years){ 
+          error.years = "Required Years"
      }
-     if(!values.address){ 
-          error.address = "Required Address"
+     if(!values.months){ 
+          error.months = "Required Month"
      }
-     if(!values.qualification){ 
-          error.qualification = "Required Qualification"
+     if(!values.salary){ 
+          error.salary = "Required Salary"
      }
-     if(!values.interestedArea){ 
-          error.interestedArea = "Required Interested Area"
+     if(!values.days){ 
+          error.days = "Required Days/week"
      }
-     if(!values.uploadPhoto){ 
-          error.uploadPhoto = "Required Upload Photo"
+     if(!values.hours){ 
+          error.hours = "Required Hours/day"
+     }
+     if(!values.category){ 
+          error.category = "Required Category"
+     }
+     if(!values.skills){ 
+          error.skills = "Required Skills"
+     }
+     if(!values.skills){ 
+          error.skills = "Required Working"
+     }
+     if(!values.certificate){ 
+          error.certificate = "Required Certificate"
      }
      return error;
    }

@@ -30,8 +30,8 @@ function App() {
           <Route exact path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
-          {/* {role === 'student' && <Route path="/find-workk" element={<FindWork/>} />}
-          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />} */}
+          {role === 'student' && <Route path="/find-workk" element={<FindWork/>} />}
+          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
           <Route path="/find-work" element={<FindWork/>}/>
 
           <Route path="/policy" element={<PrivacyPolicy/>}/>
@@ -39,7 +39,7 @@ function App() {
 
 
           <Route path="/posted-jobs" element={<PostedJob/>} />
-          <Route path="/applications" element={<StudentApplication/>} />
+          <Route path="/jobs-applied" element={<StudentApplication/>} />
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />
           <Route path="/invites" element={<Invites/>} />

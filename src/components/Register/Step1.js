@@ -4,7 +4,7 @@ import { renderField } from "../renderField";
 import titles from "./register.json";
 import Step1Validator from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Step1 = ({
   nextPage,

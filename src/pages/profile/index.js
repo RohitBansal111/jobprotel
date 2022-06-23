@@ -89,11 +89,11 @@ const Profile = () => {
                             <div className="profile-information-coll">
                               <div className="profile-card-head">
                                 <h3>Personal information</h3>
-                                <div className="pr-edit-icon">
+                                {/* <div className="pr-edit-icon">
                                   <button type="button" className="icon_button">
                                     <img src={EditIcon} alt="icon" />
                                   </button>
-                                </div>
+                                </div> */}
                               </div>
                               <div className="profile-info-list">
                                 <ul className="info-list-li">
@@ -120,11 +120,11 @@ const Profile = () => {
                             <div className="profile-information-coll">
                               <div className="profile-card-head">
                                 <h3>Professional information</h3>
-                                <div className="pr-edit-icon">
+                                {/* <div className="pr-edit-icon">
                                   <button type="button" className="icon_button">
                                     <img src={EditIcon} alt="icon" />
                                   </button>
-                                </div> 
+                                </div>  */}
                               </div>
                               <div className="profile-info-list">
                               <ul className="info-list-li">

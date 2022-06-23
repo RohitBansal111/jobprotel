@@ -3,13 +3,20 @@ import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
   renderField,
-  RenderFileUploadField,
   RenderRadioButtonField,
   renderSelect,
 } from "../renderField";
 import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
+import { RenderTagField } from "../renderTagField";
 
+const skillsSugguestion = [
+  {id: '1',text: 'react-redux'},
+  {id: '2',text: 'flutter'},
+  {id: '3',text: 'react-native'},
+  {id: '4',text: 'mongoDB'},
+  {id: '5',text: 'AWS-admin'},
+]
 const Step3 = ({
   userProfessionalInfo,
   prevPage,
@@ -21,12 +28,12 @@ const Step3 = ({
   const [userResume, setUserResume] = useState(false);
 
   const SaveStep3 = (values) => {
-    if (values.certificate == "Yes") {
+    if (values.certificate === "Yes") {
       if (extraCert && userResume) {
         console.log("ffff");
         userProfessionalInfo(values);
       }
-    } else if (values.certificate == "No" && userResume) {
+    } else if (values.certificate === "No" && userResume) {
       console.log("dddd");
       userProfessionalInfo(values);
     } else {
@@ -109,11 +116,25 @@ const Step3 = ({
                 <div className="form-field flex50">
                   <Field
                     name="days"
+                    label="Days / Week"
+                    component={renderSelect}
+                    type="text"
+                  >
+                    <option selected="">Select days</option>
+                    <option value="1">2 days</option>
+                    <option value="2">3 days</option>
+                    <option value="3">4 days</option>
+                    <option value="4">5 days</option>
+                  </Field>
+                </div>
+                <div className="form-field flex50">
+                  <Field
+                    name="hours"
                     label="Hours / day"
                     component={renderSelect}
                     type="text"
                   >
-                    <option selected="">Select hours</option>
+                    <option selected="" disabled>Select hours</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -126,18 +147,22 @@ const Step3 = ({
                     <option value="10">10</option>
                   </Field>
                 </div>
-                <div className="form-field flex50">
+                <div className="form-field flex100">
                   <Field
-                    name="timeZone"
-                    label="Time Zone"
+                    name="category"
+                    label="Category"
                     component={renderSelect}
                     type="text"
                   >
-                    <option selected="">Select timezone</option>
-                    <option value="1">India (GMT+5:30)</option>
-                    <option value="2">India (GMT+5:30)</option>
-                    <option value="3">India (GMT+5:30)</option>
+                    <option selected="">Select job category</option>
+                    <option value="1">Web Development</option>
+                    <option value="2">Web Designer</option>
+                    <option value="3">QA & Testing</option>
+                    <option value="4">Art & Illustration</option>
                   </Field>
+                </div>
+                <div className="form-field flex100">
+                  <Field name="skills" label="Skills" suggestions={skillsSugguestion} placeholder="Enter Intrested Area" component={RenderTagField} />
                 </div>
                 <div className="form-field flex50">
                   <label htmlFor="working"> {titleStrings.workingTitle} </label>
@@ -162,15 +187,6 @@ const Step3 = ({
                       OffSite
                     </Field>
                   </div>
-                </div>
-                <div className="form-field flex100">
-                  {/* <Field
-                    name="resume"
-                    label="Upload resume"
-                    uploadLabel="Browse resume file"
-                    component={RenderFileUploadField}
-                    type="text"
-                  /> */}
                 </div>
 
                 <div className="form-field flex100 noLabel">
