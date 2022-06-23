@@ -1,22 +1,26 @@
 import axios from "axios";
-import { API_URL } from "./../../config"; 
+import { API_URL } from "./../../config";
 import { loadState, saveState } from "./../store/localStorage";
-import { get } from "lodash"; 
-
+import { get } from "lodash";
 
 export const getInstance = () => {
   const instance = axios.create({
-    baseURL: API_URL
+    baseURL: API_URL,
   });
   instance.interceptors.response.use(
     function (response) {
       // Do something with response data
+      console.log(response, "working")
       return response;
     },
     function (error) {
-      if (get(error, 'response.data.message') === "jwt expired" || get(error, 'response.status') === 401) {
+      if (
+        get(error, "response.data.message") === "jwt expired" ||
+        get(error, "response.status") === 401
+      ) {
         saveState({});
       }
+      console.log(error, "error")
       return Promise.reject(error);
     }
   );

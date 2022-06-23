@@ -1,47 +1,65 @@
-import React, { useState } from 'react';
-import { PropTypes } from 'prop-types';
-import { getInstance } from '../redux/actions/axiosFactory';
+import React, { useState } from "react";
+import { PropTypes } from "prop-types";
+import { getInstance } from "../redux/actions/axiosFactory";
 const axiosInstance = getInstance();
 
-
-export const renderField = ({ input, label, onChange, name,children, placeholder, value, type, meta: { touched, error } }) => {
-
+export const renderField = ({
+  input,
+  label,
+  onChange,
+  name,
+  children,
+  placeholder,
+  value,
+  type,
+  meta: { touched, error },
+}) => {
   const inputProps = {
     ...input,
-    onChange: e => {
+    onChange: (e) => {
+      // console.log(e.target.name, ":", e.target.value);
       input.onChange(e);
       onChange && onChange(e);
-    }
-  }
-  return (<div className="field-render-main" >
-    <label htmlFor={`label${label}`}>{label}</label>
-    <div className="field-inner-group">
-      <input name={name} {...inputProps} placeholder={placeholder} value={value} id={`label${label}`} className="form-control" />
-      {children}
-      {touched && error && <span className="error">{error}</span>}
+    },
+  };
+  return (
+    <div className="field-render-main">
+      <label htmlFor={`label${label}`}>{label}</label>
+      <div className="field-inner-group">
+        <input
+          {...inputProps}
+          placeholder={placeholder}
+          id={`label${label}`}
+          className="form-control"
+          // value={data.value}
+        />
+        {children}
+        {touched && error && <span className="error">{error}</span>}
+      </div>
     </div>
-  </div >);
-}
+  );
+};
 
 export const renderSelect = ({
   input,
   label,
   meta: { touched, error },
   children,
-  onError, onChange
+  onError,
+  onChange,
 }) => {
-
   const inputProps = {
     ...input,
-    onClick: e => {
+    onClick: (e) => {
       input.onChange(e);
       onChange && onChange(e);
-    }
-  }
+    },
+  };
   return (
     <div
       className={
-        'field-render-main ' + (touched ? (error ? 'is-danger' : 'is-success') : '')
+        "field-render-main " +
+        (touched ? (error ? "is-danger" : "is-success") : "")
       }
     >
       <label>{label}</label>
@@ -52,7 +70,7 @@ export const renderSelect = ({
         {touched && error && <span className="error">{error}</span>}
       </div>
     </div>
-  )
+  );
 };
 
 renderSelect.propTypes = {
@@ -67,11 +85,12 @@ export const renderMultiSelect = ({
   label,
   meta: { touched, error },
   children,
-  onError
+  onError,
 }) => (
   <div
     className={
-      'field-render-main ' + (touched ? (error ? 'is-danger' : 'is-success') : '')
+      "field-render-main " +
+      (touched ? (error ? "is-danger" : "is-success") : "")
     }
   >
     <label>{label}</label>
@@ -91,21 +110,29 @@ renderMultiSelect.propTypes = {
   meta: PropTypes.object,
 };
 
-
-export const RenderRadioButtonField = ({ input, label, onChange, name,children, checked, type, meta: { touched, error } }) => {
+export const RenderRadioButtonField = ({
+  input,
+  label,
+  onChange,
+  name,
+  children,
+  checked,
+  type,
+  meta: { touched, error },
+}) => {
   const inputProps = {
     ...input,
-    onChange: e => {
+    onChange: (e) => {
       input.onChange(e);
       onChange && onChange(e);
-    }
+    },
   };
   return (
     <div className="field-render-main">
       <label className="radio-group">
-          <input type="radio" checked {...inputProps}  /> 
-          {children}
-          <span className="radiobtn"></span>
+        <input type="radio" checked {...inputProps} />
+        {children}
+        <span className="radiobtn"></span>
       </label>
     </div>
   );
@@ -118,30 +145,47 @@ export const rendercheckbox = ({
   type,
   checked,
   meta: { touched, error, warning },
-  onError
+  onError,
 }) => {
   return (
     <div className="field-render-main">
       <label className="cursor-pointer">
-        <input type="checkbox" {...input} name={name} className="checkboxInput" />
+        <input
+          type="checkbox"
+          {...input}
+          name={name}
+          className="checkboxInput"
+        />
         {touched && error ? (onError ? onError(true) : null) : null}
         {touched && !error ? (onError ? onError(false) : null) : null}
-        &nbsp;  {label}
+        &nbsp; {label}
       </label>
     </div>
   );
 };
 
-export const renderTextareaField = ({ input, label, name, values, type, meta: { touched, error } }) => (
-  <div className='field-render-main'>
+export const renderTextareaField = ({
+  input,
+  label,
+  name,
+  values,
+  type,
+  meta: { touched, error },
+}) => (
+  <div className="field-render-main">
     <label>{label}</label>
     <div className="field-inner-group">
-      <textarea name={label} {...input} placeholder={`Enter ${label}`} type={type} className="form-control"></textarea>
+      <textarea
+        name={label}
+        {...input}
+        placeholder={`Enter ${label}`}
+        type={type}
+        className="form-control"
+      ></textarea>
       {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
-)
-
+);
 
 export const RenderFileUploadField = ({
   input: { name, value, onChange },
@@ -163,17 +207,17 @@ export const RenderFileUploadField = ({
     //  onChange(event.target.files[0]);
     fileSize = event.target.files[0] && event.target.files[0].size;
     // setFileName(fileSize = event.target.files[0] && event.target.files[0].name);
-    uploadFiles(event.target.files[0]);
+    // uploadFiles(event.target.files[0]);
   };
   const uploadFiles = (file) => {
     let formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
     return new Promise(function (resolve, reject) {
       axiosInstance
-        .post('/file/uploadfile', formData, {
+        .post("/file/uploadfile", formData, {
           headers: {
-            'Content-Type': 'image/*',
-            authorization: 'Bearer ' + token,
+            "Content-Type": "image/*",
+            authorization: "Bearer " + token,
           },
           onUploadProgress: function (progressEvent) {
             setProgress((progressEvent.loaded / progressEvent.total) * 100);
@@ -195,33 +239,43 @@ export const RenderFileUploadField = ({
     });
   };
   return (
-    <div className={`fileFilledViewer d-block ${className} ${touched && error ? "error-border" : ""}`} >
+    <div
+      className={`fileFilledViewer d-block ${className} ${
+        touched && error ? "error-border" : ""
+      }`}
+    >
       <div className="uploadImageSection mb-2">
-          <label> {label} </label>
-          <div className="resume-upload">
-            <button
-              type="button"
-              className="btn themesecondarybackground fileUpload"
-            >
-              <i className="fa fa-upload me-3"></i> {uploadLabel || 'Upload File'}
-            </button>
-            <input
-              name={name}
-              onChange={onUpload}
-              id={name}
-              accept={fileType || '.jpg, .jpeg, .png'}
-              type="file"
-            ></input>
+        <label> {label} </label>
+        <div className="resume-upload">
+          <button
+            type="button"
+            className="btn themesecondarybackground fileUpload"
+          >
+            <i className="fa fa-upload me-3"></i> {uploadLabel || "Upload File"}
+          </button>
+          <input
+            name={name}
+            onChange={onUpload}
+            id={name}
+            accept={fileType || ".jpg, .jpeg, .png"}
+            type="file"
+          ></input>
+        </div>
+        {touched && error && <span className="error">{error}</span>}
+        {progress && (
+          <div className="upload-progress">
+            <progress value={progress} max="100"></progress>
+            <label>{progress}%</label>
           </div>
-          {touched && error && <span className="error">{error}</span>}
-          {progress && (
-            <div className="upload-progress">
-              <progress value={progress} max="100"></progress>
-              <label>{progress}%</label>
-            </div>
-          )}
+        )}
         {isPlaceHolderImage && (
-          <div className={!value ? "awsFileOption fileUploadPlace" : "uploadedFile-section awsFileOption"}>
+          <div
+            className={
+              !value
+                ? "awsFileOption fileUploadPlace"
+                : "uploadedFile-section awsFileOption"
+            }
+          >
             {/* <i className="fa fa-user"></i>
             <i className="fa fa-camera"></i> */}
             <div className="aws-placeholder image4 mt-3">
@@ -236,11 +290,9 @@ export const RenderFileUploadField = ({
                 />
               )}
             </div>
-          </div>)}
+          </div>
+        )}
       </div>
-
-
-
     </div>
   );
 };

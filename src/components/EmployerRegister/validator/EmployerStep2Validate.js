@@ -1,8 +1,8 @@
 const EmployerStep2Validate = (values) => { 
      const error = {}
-     if(!values.companyLogo){ 
-          error.companyLogo = "Required Company Logo"
-     }
+     // if(!values.companyLogo){ 
+     //      error.companyLogo = "Required Company Logo"
+     // }
      if(!values.companyAddress){ 
           error.companyAddress = "Required Company Address"
      }
