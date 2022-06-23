@@ -10,9 +10,9 @@ const MyApplications = () => {
                     <section className="topbg-banner">
                          <div className="container">
                               <div className="innerbg-banner">
-                                   <div className="banner-edit">
+                                   {/* <div className="banner-edit">
                                         <Link to="#" className="btn edit-btn">Edit</Link>
-                                   </div>
+                                   </div> */}
                               </div>
                          </div>
                     </section>
@@ -23,9 +23,9 @@ const MyApplications = () => {
                                         <div className="jobs-com-profile">
                                              <div className="profile-update">
                                                   <ul className="profile-jobs">
-                                                       <li><Link to="#"><span className="update-name">Job Applied</span>2</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Job Applied: &nbsp;</span>2</Link></li>
+                                                       {/* <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li> */}
                                                   </ul>
                                              </div>
                                              <div className="profile-strength">

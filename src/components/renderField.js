@@ -278,7 +278,7 @@ export const RenderFileUploadField = ({
           >
             {/* <i className="fa fa-user"></i>
             <i className="fa fa-camera"></i> */}
-            <div className="aws-placeholder image4 mt-3">
+            <div className="aws-placeholder image4">
               {value && value.Location && (
                 <img
                   src={value && value.Location}
