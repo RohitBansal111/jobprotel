@@ -30,7 +30,6 @@ function App() {
           <Route exact path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
-<<<<<<< HEAD
           {/* {role === 'student' && <Route path="/find-workk" element={<FindWork/>} />}
           {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />} */}
           <Route path="/find-work" element={<FindWork/>}/>
@@ -41,11 +40,6 @@ function App() {
 
           <Route path="/posted-jobs" element={<PostedJob/>} />
           <Route path="/applications" element={<StudentApplication/>} />
-=======
-          {role === 'student' && <Route path="/find-work" element={<FindWork/>} />}
-          {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
-          <Route path="/jobs-applied" element={<StudentApplication/>} />
->>>>>>> 9d22e5eebf744664188e8f4d019f91b1e068531d
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />
           <Route path="/invites" element={<Invites/>} />
