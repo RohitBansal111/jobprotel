@@ -143,11 +143,16 @@ const Step2 = ({
                   <Field
                     name="city"
                     label={titleStrings.cityTitle}
-                    component={renderField}
+                    component={renderSelect}
                     placeholder="Enter City"
                     type="text"
                     defaultValue={next && data ? data.city : ""}
-                  />
+                  >
+                    <option value="">Select City</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Uttrakhand">Uttrakhand</option>
+                  </Field>
                 </div>
                 <div className="form-field flex50">
                   <Field
