@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
@@ -32,11 +33,17 @@ const Step2 = ({
     nextPage();
   };
 
+  const [selectedQualification, setselectedQualification] = useState(null)
+
   const handleImageChange = async (event) => {
     let files = event.target.files[0];
     uploadFile(files);
     // console.log(files)
   };
+
+  const handleQualification = (value) => setselectedQualification(value)
+  console.log(selectedQualification)
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
@@ -112,11 +119,11 @@ const Step2 = ({
                     component={renderSelect}
                     defaultValue={next && data ? data.country : ""}
                   >
-                    <option>Select Country</option>
-                    <option>India</option>
-                    <option>USA</option>
-                    <option>Canada</option>
-                    <option>New Zealand</option>
+                    <option value="">Select Country</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="New Zealand">New Zealand</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -126,10 +133,10 @@ const Step2 = ({
                     component={renderSelect}
                     defaultValue={next && data ? data.state : ""}
                   >
-                    <option>Select State</option>
-                    <option>Punjab</option>
-                    <option>Haryana</option>
-                    <option>Uttrakhand</option>
+                    <option value="">Select State</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Uttrakhand">Uttrakhand</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -166,11 +173,13 @@ const Step2 = ({
                     name="qualification"
                     label={titleStrings.qualificationTitle}
                     component={renderSelect}
+                    onChange={handleQualification}
                     defaultValue={next && data ? data.qualification : ""}
                   >
-                    <option>B.Tech Computer science</option>
-                    <option>Bachelors in Computer Application</option>
-                    <option>Masters in Computer Application</option>
+                    <option value="B.Tech Computer science">B.Tech Computer science</option>
+                    <option value="Bachelors in Computer Application">Bachelors in Computer Application</option>
+                    <option value="Masters in Computer Application">Masters in Computer Application</option>
+                    <option value="other">Other</option>
                   </Field>
                 </div>
                 <div className="form-field flex100">
