@@ -22,6 +22,7 @@ const Step1 = ({
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);
+
   const SaveStep1 = (values) => {
     if (captcha && captcha.captchaCode.length > 0) {
       // let value = [];

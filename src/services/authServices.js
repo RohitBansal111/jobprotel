@@ -1,9 +1,12 @@
 import axios from "axios";
-import { API_URL } from "../config";
+// import { API_URL } from "../config";
 
 export const registerUser = async (data) => {
   try {
-    const resp = await axios.post(`${API_URL}/Account/Student-SignUp`, data);
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/Student-SignUp`,
+      data
+    );
     if (resp.data.status == true) {
       return resp;
     } else {
@@ -20,7 +23,10 @@ export const registerUser = async (data) => {
 
 export const loginUser = async (data) => {
   try {
-    const resp = await axios.post(`${API_URL}/Account/login`, data);
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/login`,
+      data
+    );
     if (resp.status == 200) {
       return resp;
     } else {
@@ -33,4 +39,11 @@ export const loginUser = async (data) => {
       status: 400,
     };
   }
+};
+
+export const forgotPassword = async (user) => {
+  return await axios.post(
+    `${process.env.REACT_APP_PUBLIC_API_URL}/Account/forgot-password`,
+    { ...user }
+  );
 };

@@ -7,7 +7,7 @@ import Step1 from "../../components/Register/Step1";
 import Step2 from "../../components/Register/Step2";
 import Step3 from "../../components/Register/Step3";
 import Logo from "./../../assets/images/logo.png";
-import * as SignUpService from "../../services/userRegister.Service";
+import * as authServices from "../../services/authServices";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -114,7 +114,7 @@ const Register = () => {
 
   const finalSubmit = async () => {
     if (userData.workHoursPerDay !== "") {
-      const resp = await SignUpService.registerUser(userData);
+      const resp = await authServices.registerUser(userData);
       console.log(resp);
 
       if (resp && resp.status == 200) {
@@ -122,6 +122,36 @@ const Register = () => {
         alert(resp.data.message);
       }
     }
+  };
+
+  // Employer Section starts here
+  const [employer, setEmployer] = useState([])
+  const employerInfo = (data) => {
+    console.log(data, "datra");
+    setEmployer({ ...employer, ...data });
+  };
+
+  const EmplyeCompleteInfo = (data) => {
+    console.log(data, "data1");
+    setEmployer({ ...employer, ...data });
+    finalSubmits();
+    // setPage(0);
+    nextPage();
+  };
+
+  const uploadExtraCertificateFiles = (data1) => {
+    console.log(data1, "file");
+    const extraCertificateFile = new FormData();
+    extraCertificateFile.append("extraCertificateFile", data1);
+    setEmployer({ ...employer, extraCertificateFile });
+  };
+  const finalSubmitEmployer = async (signIn) => {
+    console.log(employer, "cc");
+    // const resp = await SignUpService.registerUser(userData);
+    //   console.log(resp, "called");
+    alert("Data Submitted Successfully");
+    // navigate("/");
+    // console.log(userData);
   };
 
   return (
@@ -288,10 +318,22 @@ const Register = () => {
             {activeRole && activeRole === "Employer" && (
               <div className="studen-section">
                 {currentPage === 1 && (
-                  <EmployerStep1 prevPage={prevPage} nextPage={nextPage} />
+                  // <EmployerStep1 prevPage={prevPage} nextPage={nextPage} />
+                  <EmployerStep1
+                  prevPage={prevPage}
+                  nextPage={nextPage}
+                  employerInfo={employerInfo}
+                />
                 )}
                 {currentPage === 2 && (
-                  <EmployerStep2 prevPage={prevPage} nextPage={nextPage} />
+                  // <EmployerStep2 prevPage={prevPage} nextPage={nextPage} />
+                  <EmployerStep2
+                  prevPage={prevPage}
+                  nextPage={nextPage}
+                  userProfessionalInfo={userProfessionalInfo}
+                  EmplyeCompleteInfo={EmplyeCompleteInfo}
+                  uploadExtraCertificateFile={uploadExtraCertificateFiles}
+                />
                 )}
               </div>
             )}

@@ -6,7 +6,7 @@ import validate from "./loginValidator";
 import { renderField } from "../../components/renderField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import * as LoginService from "../../services/userRegister.Service";
+import * as authServices from "../../services/authServices";
 import { useState, useEffect } from "react";
 
 const Login = () => {
@@ -31,26 +31,26 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (userName !== "" && password !== "") {
-      const resp = await LoginService.loginUser(login);
-      console.log(resp, "response");
-      const response = resp.data.data;
-      if (resp.status == 200 && response.roles == "STUDENT") {
-        navigate("/find-work");
-      } else if (resp.status == 200 && response.roles == "EMPLOYER") {
-        navigate("/posted-jobs");
-      } else {
-        // show error message..
-      }
+      // const resp = await authServices.loginUser(login);
+      // console.log(resp, "response");
+      // const response = resp.data.data;
+      // if (resp.status == 200 && response.roles == "STUDENT") {
+      //   navigate("/find-work");
+      // } else if (resp.status == 200 && response.roles == "EMPLOYER") {
+      //   navigate("/posted-jobs");
+      // } else {
+      //   // show error message..
+      // }
     }
-    // if (userName && userName == "raj12@gmail.com" && password == "Admin@12") {
-    //   navigate("/find-work");
-    // } else if (
-    //   userName &&
-    //   userName == "sam1@gmail.com" &&
-    //   password == "Admin@12"
-    // ) {
-    //   navigate("/posted-jobs");
-    // }
+    if (userName && userName == "raj12@gmail.com" && password == "Admin@12") {
+      navigate("/find-work");
+    } else if (
+      userName &&
+      userName == "sam1@gmail.com" &&
+      password == "Admin@12"
+    ) {
+      navigate("/posted-jobs");
+    }
   };
 
   return (

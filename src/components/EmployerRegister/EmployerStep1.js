@@ -5,11 +5,12 @@ import titles from "./register.json";
 import Step1Validator from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const EmployerStep1 = (props) => {
+const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep1 = (values) => {
     console.log(values);
-    props.nextPage();
+    employerInfo(values);
+    nextPage();
   };
   function onChange(value) {
     console.log("Captcha value:", value);
@@ -78,7 +79,7 @@ const EmployerStep1 = (props) => {
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => props.prevPage()}
+                  onClick={() => prevPage()}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {" "}

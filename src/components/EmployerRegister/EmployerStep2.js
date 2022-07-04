@@ -8,7 +8,10 @@ import validate from "./validator/EmployerStep2Validate";
 const EmployerStep2 = (props) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep2 = (values) => {
-//     props.nextPage();
+    //     props.nextPage();
+    console.log(values, "value");
+    props.EmplyeCompleteInfo(values);
+    props.userProfessionalInfo();
   };
   return (
     <div className="register-form">
