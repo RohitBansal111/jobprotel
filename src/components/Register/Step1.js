@@ -16,6 +16,12 @@ const Step1 = ({
 }) => {
   const [captcha, setCaptcha] = useState({ captchaCode: "" });
   let titleStrings = new LocalizedStrings(titles);
+  const [showLoginPassword, setShowLoginPassword] = useState(true);
+  const [showLoginPassword2, setShowLoginPassword2] = useState(true);
+
+  const handlePassword = () => setShowLoginPassword(!showLoginPassword);
+  const handleConfirmPassword = () =>
+    setShowLoginPassword2(!showLoginPassword2);
   const SaveStep1 = (values) => {
     if (captcha && captcha.captchaCode.length > 0) {
       // let value = [];
@@ -36,7 +42,7 @@ const Step1 = ({
       <h4 className="text-primary text-left">Basic Information</h4>
       <div className="form-main">
         <Form onSubmit={SaveStep1} validate={Step1Validator}>
-          {({ handleSubmit, submitting, values }) => (
+          {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex50">
@@ -75,9 +81,25 @@ const Step1 = ({
                     label={titleStrings.passwordTitle}
                     component={renderField}
                     placeholder="Enter password"
-                    type="password"
-                    // defaultValue={next && data ? data.password : ""}
-                  />
+                    type={showLoginPassword ? "password" : "text"}
+                    defaultValue={next && data ? data.password : ""}
+                  >
+                    <span className="eye-btn">
+                      {showLoginPassword ? (
+                        <i
+                          className="fa fa-eye-slash"
+                          aria-hidden="true"
+                          onClick={handlePassword}
+                        />
+                      ) : (
+                        <i
+                          className="fa fa-eye"
+                          aria-hidden="true"
+                          onClick={handlePassword}
+                        />
+                      )}
+                    </span>
+                  </Field>
                 </div>
                 <div className="form-field flex100 withoutLabel">
                   <Field
@@ -85,9 +107,25 @@ const Step1 = ({
                     label={titleStrings.confirmPasswordTitle}
                     component={renderField}
                     placeholder="Enter confirm password"
-                    type="password"
-                    // defaultValue={next && data ? data.confirmPassword : ""}
-                  />
+                    type={showLoginPassword2 ? "password" : "text"}
+                    defaultValue={next && data ? data.confirmPassword : ""}
+                  >
+                    <span className="eye-btn">
+                      {showLoginPassword2 ? (
+                        <i
+                          className="fa fa-eye-slash"
+                          aria-hidden="true"
+                          onClick={handleConfirmPassword}
+                        />
+                      ) : (
+                        <i
+                          className="fa fa-eye"
+                          aria-hidden="true"
+                          onClick={handleConfirmPassword}
+                        />
+                      )}
+                    </span>
+                  </Field>
                 </div>
                 <div className="form-field flex100">
                   <label htmlFor=""> {titleStrings.recaptchaLabel} </label>

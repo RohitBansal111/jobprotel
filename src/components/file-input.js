@@ -144,6 +144,7 @@ const axiosInstance = getInstance();
 //   cssClass: PropTypes.string,
 // };
 
+
 export const RenderImageField = ({
   input: { name, value, onChange },
   label,
@@ -163,42 +164,10 @@ export const RenderImageField = ({
   const onUpload = (event) => {
     //  onChange(event.target.files[0]);
     fileSize = event.target.files[0] && event.target.files[0].size;
-    setFileName(
-      (fileSize = event.target.files[0] && event.target.files[0].name)
-    );
-    uploadFiles(event.target.files[0]);
-  };
-  const uploadFiles = (file) => {
-    let formData = new FormData();
-    formData.append("image", file);
-    return new Promise(function (resolve, reject) {
-      axiosInstance
-        .post("/file/uploadfile", formData, {
-          onUploadProgress: function (progressEvent) {
-            setProgress((progressEvent.loaded / progressEvent.total) * 100);
-          },
-        })
-        .then((response) => {
-          let file = response.data;
-          file.fileSize = fileSize;
-          //let image = { publicId: path.public_id, imageUrl: path.path }
-          onChange(file);
-          setProgress(null);
-          // onUploadSuccess(response.data.path);
-          resolve(response.data);
-        })
-        .catch((err) => {
-          error = err.message;
-          reject(err);
-        });
-    });
+    setFileName(fileSize = event.target.files[0] && event.target.files[0].name);
   };
   return (
-    <div
-      className={`fileFilledViewer d-block ${className} ${
-        touched && error ? "error-border" : ""
-      }`}
-    >
+    <div className={`fileFilledViewer d-block ${className} ${touched && error ? "error-border" : ""}`} >
       {/* <label> {fileName} </label>  */}
       <div className="uploadImageSection mb-2">
         <div className="fileUpload onlyImageFile ml-2" role="button">
@@ -208,13 +177,13 @@ export const RenderImageField = ({
               type="button"
               className="btn themesecondarybackground fileUpload"
             >
-              {uploadLabel || "Upload File"}
+              {uploadLabel || 'Upload File'}
             </button>
             <input
               name={name}
               onChange={onUpload}
               id={name}
-              accept={fileType || ".jpg, .jpeg, .png"}
+              accept={fileType || '.jpg, .jpeg, .png'}
               type="file"
             ></input>
           </div>
@@ -227,13 +196,7 @@ export const RenderImageField = ({
           )}
         </div>
         {isPlaceHolderImage && (
-          <div
-            className={
-              !value
-                ? "awsFileOption fileUploadPlace"
-                : "uploadedFile-section awsFileOption"
-            }
-          >
+          <div className={!value ? "awsFileOption fileUploadPlace" : "uploadedFile-section awsFileOption"}>
             {/* <i className="fa fa-user"></i>
             <i className="fa fa-camera"></i> */}
             <div className="aws-placeholder image4">
@@ -248,9 +211,11 @@ export const RenderImageField = ({
                 />
               )}
             </div>
-          </div>
-        )}
+          </div>)}
       </div>
+
+
+
     </div>
   );
 };

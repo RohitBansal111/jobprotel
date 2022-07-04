@@ -16,10 +16,10 @@ const Login = () => {
     userName: "",
     password: "",
   });
-  // const [email, setEmail] = useState("")
-  const [showLoginpassword, setshowLoginpassword] = useState(true);
+  const [showLoginPassword, setShowLoginPassword] = useState(true);
 
-  const handlePassword = () => setshowLoginpassword(!showLoginpassword);
+  const { userName, password } = login;
+  const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLogin({
@@ -30,18 +30,27 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const email = login.userName;
-    const password = login.password;
-
-    //   if(login){
-    //        const resp = await LoginService.loginUser(login);
-    //        console.log(resp, "called");
-    //   }
-    if (email && email == "raj12@gmail.com" && password == "P@ssw0rd") {
-      navigate("/find-work");
-    } else if (email && email == "sam1@gmail.com" && password == "P@ssw0rd") {
-      navigate("/posted-jobs");
+    if (userName !== "" && password !== "") {
+      const resp = await LoginService.loginUser(login);
+      console.log(resp, "response");
+      const response = resp.data.data;
+      if (resp.status == 200 && response.roles == "STUDENT") {
+        navigate("/find-work");
+      } else if (resp.status == 200 && response.roles == "EMPLOYER") {
+        navigate("/posted-jobs");
+      } else {
+        // show error message..
+      }
     }
+    // if (userName && userName == "raj12@gmail.com" && password == "Admin@12") {
+    //   navigate("/find-work");
+    // } else if (
+    //   userName &&
+    //   userName == "sam1@gmail.com" &&
+    //   password == "Admin@12"
+    // ) {
+    //   navigate("/posted-jobs");
+    // }
   };
 
   return (
@@ -73,7 +82,7 @@ const Login = () => {
               <div className="form-main">
                 <Form onSubmit={handleLogin} validate={validate}>
                   {({ handleSubmit, submitting, values }) => (
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLogin} autoComplete="off">
                       <div className="form-field-group">
                         <div className="form-field flex100">
                           <Field
@@ -82,7 +91,7 @@ const Login = () => {
                             component={renderField}
                             placeholder="Enter email address"
                             type="text"
-                            value={login.userName}
+                            value={userName}
                             onChange={handleChange}
                           />
                         </div>
@@ -92,17 +101,27 @@ const Login = () => {
                             label={titleStrings.passwordTitle}
                             component={renderField}
                             placeholder="Enter password"
-                            type={showLoginpassword ? "password" : "text"}
-                            value={login.password}
+                            type={showLoginPassword ? "password" : "text"}
+                            value={password}
                             onChange={handleChange}
                           >
-                            <span className="eye-btn">
-                              <i
-                                className="fa fa-eye"
-                                aria-hidden="true"
-                                onClick={handlePassword}
-                              ></i>
-                            </span>
+                            {password !== "" && (
+                              <span className="eye-btn">
+                                {showLoginPassword ? (
+                                  <i
+                                    className="fa fa-eye-slash"
+                                    aria-hidden="true"
+                                    onClick={handlePassword}
+                                  />
+                                ) : (
+                                  <i
+                                    className="fa fa-eye"
+                                    aria-hidden="true"
+                                    onClick={handlePassword}
+                                  />
+                                )}
+                              </span>
+                            )}
                           </Field>
                         </div>
                         <div className="form-field flex100">
@@ -117,7 +136,7 @@ const Login = () => {
                           </Link>{" "}
                           and Tracking Policy. Our{" "}
                           <Link to="/terms">
-                            <b> Terms & Conditions</b>
+                            <b> Terms &amp Conditions</b>
                           </Link>{" "}
                           apply.
                           <span className="checkmarks"></span>

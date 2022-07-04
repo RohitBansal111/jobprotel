@@ -127,6 +127,7 @@ export const RenderRadioButtonField = ({
       onChange && onChange(e);
     },
   };
+
   return (
     <div className="field-render-main">
       <label className="radio-group">

@@ -9,10 +9,7 @@ export const RenderTagField = ({
     suggestions,
     type,
     meta: { touched, error, warning },
-
 }) => { 
-
-
     const KeyCodes = {
         comma: 188,
         enter: 13
@@ -37,10 +34,8 @@ export const RenderTagField = ({
 
     const handleDrag = (tag, currPos, newPos) => {
         const newTags = tags.slice();
-
         newTags.splice(currPos, 1);
         newTags.splice(newPos, 0, tag);
-
         onChange(newTags);
         setTags(newTags);
     };

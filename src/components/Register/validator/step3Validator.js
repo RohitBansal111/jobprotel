@@ -3,20 +3,20 @@ const Step3Validator = (values) => {
      if(!values.collegeName){ 
           error.collegeName = "Required College Name"
      }
-     if(!values.years){ 
-          error.years = "Required Years"
+     if(!values.experienceInYears){ 
+          error.experienceInYears = "Required Years"
      }
-     if(!values.months){ 
-          error.months = "Required Month"
+     if(!values.experienceInMonths){ 
+          error.experienceInMonths = "Required Month"
      }
-     if(!values.salary){ 
-          error.salary = "Required Salary"
+     if(!values.expectedSalary){ 
+          error.expectedSalary = "Required Salary"
      }
      if(!values.days){ 
           error.days = "Required Days/week"
      }
-     if(!values.hours){ 
-          error.hours = "Required Hours/day"
+     if(!values.workHoursPerDay){ 
+          error.workHoursPerDay = "Required Hours/day"
      }
      if(!values.category){ 
           error.category = "Required Category"
@@ -27,9 +27,9 @@ const Step3Validator = (values) => {
      if(!values.skills){ 
           error.skills = "Required Working"
      }
-     if(!values.certificate){ 
-          error.certificate = "Required Certificate"
-     }
+     // if(!values.certificate){ 
+     //      error.certificate = "Required Certificate"
+     // }
      return error;
    }
    

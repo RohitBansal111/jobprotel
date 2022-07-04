@@ -9,14 +9,14 @@ import {
 import { RenderTagField } from "../renderTagField";
 import titles from "./register.json";
 import Step2Validator from "./validator/step2Validator";
-
+import { RenderImageField } from "../file-input";
 const interestedArea = [
-  {id: '1',text: 'react-redux'},
-  {id: '2',text: 'flutter'},
-  {id: '3',text: 'react-native'},
-  {id: '4',text: 'mongoDB'},
-  {id: '5',text: 'AWS-admin'},
-]
+  { id: "1", text: "react-redux" },
+  { id: "2", text: "flutter" },
+  { id: "3", text: "react-native" },
+  { id: "4", text: "mongoDB" },
+  { id: "5", text: "AWS-admin" },
+];
 
 const Step2 = ({
   userPersonalInfo,
@@ -28,22 +28,24 @@ const Step2 = ({
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep2 = (values) => {
-    console.log(values);
+    console.log(values, "called");
     userPersonalInfo(values);
     nextPage();
   };
 
-  const [selectedQualification, setselectedQualification] = useState(null)
+  const [selectedQualification, setselectedQualification] = useState(null);
 
+  const [genderData, setGenderData] = useState("Male");
   const handleImageChange = async (event) => {
     let files = event.target.files[0];
     uploadFile(files);
-    // console.log(files)
   };
 
-  const handleQualification = (value) => setselectedQualification(value)
-  console.log(selectedQualification)
+  const handleQualification = (value) => setselectedQualification(value);
 
+  const handleGender = (data) => {
+    setGenderData(data);
+  };
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
@@ -53,19 +55,21 @@ const Step2 = ({
           validate={Step2Validator}
           keepDirtyOnReinitialize={true}
         >
-          {({ handleSubmit, submitting, values }) => (
+          {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex50">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
                   <div className="radio-button-groupss">
+                    {values.gender && handleGender(values.gender)}
                     <Field
                       label={titleStrings.maleTitle}
                       name="gender"
                       value="Male"
                       component={RenderRadioButtonField}
                       type="radio"
-                      defaultValue={data ? data.gender : ""}
+                      defaultValue={genderData}
+                      // checked={radioBtn === "Male"}
                     >
                       Male
                     </Field>
@@ -75,7 +79,8 @@ const Step2 = ({
                       value="Female"
                       component={RenderRadioButtonField}
                       type="radio"
-                      defaultValue={data ? data.gender : ""}
+                      defaultValue={genderData}
+                      // checked={radioBtn === "Female"}
                     >
                       Female
                     </Field>
@@ -85,7 +90,7 @@ const Step2 = ({
                   <label>Upload Profile</label>
                   <input
                     name="uploadPhoto"
-                    label={titleStrings.uploadPhotoTitle}
+                    // label={titleStrings.uploadPhotoTitle}  
                     // component={RenderImageField}
                     accept=".jpg, .jpeg, .png"
                     type="file"
@@ -94,12 +99,12 @@ const Step2 = ({
                 </div>
                 <div className="form-field flex100 mb-2">
                   <Field
-                    name="address"
+                    name="addressLine1"
                     label={titleStrings.addressTitle}
                     component={renderField}
                     placeholder="Enter Address"
                     type="text"
-                    defaultValue={next && data ? data.address : ""}
+                    defaultValue={next && data ? data.addressLine1 : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -156,17 +161,17 @@ const Step2 = ({
                 </div>
                 <div className="form-field flex50">
                   <Field
-                    name="zipcode"
+                    name="PostalCode"
                     label={titleStrings.zipcodeTitle}
                     component={renderField}
                     placeholder="Enter Zip Code"
                     type="text"
-                    defaultValue={next && data ? data.zipcode : ""}
+                    defaultValue={next && data ? data.PostalCode : ""}
                   />
                 </div>
                 <div className="form-field flex50">
                   <Field
-                    name="timeZone"
+                    name="timezone"
                     label="Time Zone"
                     placeholder="Time zone"
                     component={renderField}
@@ -181,14 +186,27 @@ const Step2 = ({
                     onChange={handleQualification}
                     defaultValue={next && data ? data.qualification : ""}
                   >
-                    <option value="B.Tech Computer science">B.Tech Computer science</option>
-                    <option value="Bachelors in Computer Application">Bachelors in Computer Application</option>
-                    <option value="Masters in Computer Application">Masters in Computer Application</option>
+                    <option value="B.Tech Computer science">
+                      B.Tech Computer science
+                    </option>
+                    <option value="Bachelors in Computer Application">
+                      Bachelors in Computer Application
+                    </option>
+                    <option value="Masters in Computer Application">
+                      Masters in Computer Application
+                    </option>
                     <option value="other">Other</option>
                   </Field>
                 </div>
                 <div className="form-field flex100">
-                  <Field name="interestedArea"  defaultValue={next && data ? data.interestedArea : ""} label="Interested Area" suggestions={interestedArea} placeholder="Enter Intrested Area" component={RenderTagField} />
+                  <Field
+                    name="interests"
+                    defaultValue={next && data ? data.interests : ""}
+                    label="Interested Area"
+                    suggestions={interestedArea}
+                    placeholder="Enter Intrested Area"
+                    component={RenderTagField}
+                  />
                 </div>
               </div>
               <div className="form-action">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import EmployerStep1 from "../../components/EmployerRegister/EmployerStep1";
 import EmployerStep2 from "../../components/EmployerRegister/EmployerStep2";
@@ -12,14 +12,42 @@ import * as SignUpService from "../../services/userRegister.Service";
 const Register = () => {
   const navigate = useNavigate();
   const [currentPage, setPage] = useState(0);
-  const [activeRole, setactiveRole] = useState("student");
+  const [activeRole, setActiveRole] = useState("Student");
   const [userData, setUserData] = useState({
-    profileImage: null,
+    PostalCode: "",
+    address: "Chandigarh",
+    addressLine1: "",
+    addressLine2: "",
+    age: "",
+    captcha: "",
+    cityId: "9810c63c-d0e4-11ec-b3e2-8c8caafbad72",
+    collegeId: "1d7a193b-d0e5-11ec-b3e2-8c8caafbad72",
+    confirmPassword: "",
+    email: "",
+    expectedSalary: "",
+    experienceInYears: "",
+    experienceInMonths: "",
+    firstName: "",
+    genderId: "14ce6a75-7a2f-426e-a214-96a6a79a95fd",
+    interests: [],
+    lastName: "",
+    password: "",
+    profileImage: "",
+    qualificationId: "006c89a2-d0e5-11ec-b3e2-8c8caafbad72",
     resumeFile: null,
-    gender: "Female",
+    roles: activeRole,
+    timezone: "",
+    workHoursPerDay: "",
+    workingType: "0",
+    // gender:"Male",
+    // qualification:"",
+    // extraCertificateFile:null,
+    skills: [],
+    category: "",
   });
   const [next, setNext] = useState(false);
 
+  // console.log(userData.interests[0].text.toString())
   const userBasicInfo = (data) => {
     setUserData({ ...userData, ...data });
   };
@@ -32,20 +60,30 @@ const Register = () => {
     setUserData({ ...userData, ...data });
   };
 
-  const uploadFile = (data) => {
-    const personalInfoFile = new FormData();
-    personalInfoFile.append("personalInfoFile", data);
-    setUserData({ ...userData, personalInfoFile });
+  const uploadFile = (profileImage) => {
+    // console.log(profileImage)
+
+    let baseURL = "";
+    // Make new FileReader
+    let reader = new FileReader();
+
+    // Convert the file to base64 text
+    reader.readAsDataURL(profileImage);
+
+    // on reader load something...
+    reader.onload = () => {
+      console.log("Called", reader);
+      baseURL = reader.result;
+      console.log(baseURL);
+    };
+    // const profileImage = new FormData();
+    // profileImage.append("profileImage", data);
+    setUserData({ ...userData, baseURL });
   };
 
   const userProfessionalInfo = (data1) => {
-    if (currentPage === 3 && data1) {
-      setUserData({ ...userData, ...data1 });
-      finalSubmit();
-      // setPage(0);
-    } else {
-      nextPage();
-    }
+    setUserData({ ...userData, ...data1 });
+    finalSubmit();
   };
 
   const uploadExtraCertificateFile = (data) => {
@@ -63,18 +101,28 @@ const Register = () => {
   const nextPage = () => {
     setPage((prev) => ++prev);
   };
+
   const prevPage = () => {
     setNext(true);
     setPage((prev) => --prev);
   };
-  const finalSubmit = async (signIn) => {
-    //   const resp = await SignUpService.registerUser(userData);
-    //   console.log(resp, "called");
-    alert("Data Submitted Successfully")
-    navigate("/");
-    // console.log(userData);
+
+  const handleRole = (role) => {
+    console.log(role);
+    setActiveRole(role);
   };
-  console.log(userData);
+
+  const finalSubmit = async () => {
+    if (userData.workHoursPerDay !== "") {
+      const resp = await SignUpService.registerUser(userData);
+      console.log(resp);
+
+      if (resp && resp.status == 200) {
+        navigate("/");
+        alert(resp.data.message);
+      }
+    }
+  };
 
   return (
     <div className="page-wrapper">
@@ -89,7 +137,7 @@ const Register = () => {
               <h3 className="text-white">
                 #1 Intelligent time tracking application for jobs
               </h3>
-              {activeRole === "student" && (
+              {activeRole === "Student" && (
                 <ul className="resgiter-listing-steps">
                   <li
                     className={
@@ -144,7 +192,7 @@ const Register = () => {
                 </ul>
               )}
 
-              {activeRole === "employer" && (
+              {activeRole === "Employer" && (
                 <ul className="resgiter-listing-steps">
                   <li
                     className={
@@ -201,10 +249,10 @@ const Register = () => {
               <ChooseRole
                 nextPage={nextPage}
                 role={activeRole}
-                selectRole={setactiveRole}
+                selectRole={handleRole}
               />
             )}
-            {activeRole && activeRole === "student" && (
+            {activeRole && activeRole === "Student" && (
               <div className="studen-section">
                 {currentPage === 1 && (
                   <Step1
@@ -232,21 +280,18 @@ const Register = () => {
                     userProfessionalInfo={userProfessionalInfo}
                     uploadExtraCertificateFile={uploadExtraCertificateFile}
                     uploadResumeFile={uploadResumeFile}
+                    data={userData}
                   />
                 )}
               </div>
             )}
-            {activeRole && activeRole === "employer" && (
+            {activeRole && activeRole === "Employer" && (
               <div className="studen-section">
                 {currentPage === 1 && (
                   <EmployerStep1 prevPage={prevPage} nextPage={nextPage} />
                 )}
                 {currentPage === 2 && (
-                  <EmployerStep2
-                    prevPage={prevPage}
-                    nextPage={nextPage}
-                    userProfessionalInfo={userProfessionalInfo}
-                  />
+                  <EmployerStep2 prevPage={prevPage} nextPage={nextPage} />
                 )}
               </div>
             )}

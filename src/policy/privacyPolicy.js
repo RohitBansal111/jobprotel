@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 
 const PrivacyPolicy = () => {
-  useEffect(() => {
-    console.log("acheived");
-  }, []);
-
   return (
     <Layout>
       <h6>

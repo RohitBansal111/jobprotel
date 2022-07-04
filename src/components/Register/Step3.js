@@ -11,34 +11,23 @@ import Step3Validator from "./validator/step3Validator";
 import { RenderTagField } from "../renderTagField";
 
 const skillsSugguestion = [
-  {id: '1',text: 'react-redux'},
-  {id: '2',text: 'flutter'},
-  {id: '3',text: 'react-native'},
-  {id: '4',text: 'mongoDB'},
-  {id: '5',text: 'AWS-admin'},
-]
+  { id: "1", text: "react-redux" },
+  { id: "2", text: "flutter" },
+  { id: "3", text: "react-native" },
+  { id: "4", text: "mongoDB" },
+  { id: "5", text: "AWS-admin" },
+];
 const Step3 = ({
   userProfessionalInfo,
   prevPage,
   uploadExtraCertificateFile,
   uploadResumeFile,
+  data,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
-  const [extraCert, setExtraCert] = useState(false);
-  const [userResume, setUserResume] = useState(false);
 
   const SaveStep3 = (values) => {
-    if (values.certificate === "Yes") {
-      if (extraCert && userResume) {
-        console.log("ffff");
-        userProfessionalInfo(values);
-      }
-    } else if (values.certificate === "No" && userResume) {
-      console.log("dddd");
-      userProfessionalInfo(values);
-    } else {
-      alert("Wrong..");
-    }
+    userProfessionalInfo(values);
   };
 
   const handleChange = (event) => {
@@ -46,21 +35,13 @@ const Step3 = ({
   };
 
   const handleExtraCertificates = (event) => {
-    let isValidCert = true;
     let files = event.target.files[0];
     uploadExtraCertificateFile(files);
-    setExtraCert(true);
-    console.log(files);
-    return isValidCert;
   };
 
   const handleResume = (event) => {
-    let isResume = true;
     let files = event.target.files[0];
     uploadResumeFile(files);
-    setUserResume(true);
-    console.log(files);
-    return isResume;
   };
   return (
     <div className="register-form">
@@ -71,7 +52,7 @@ const Step3 = ({
           validate={Step3Validator}
           keepDirtyOnReinitialize
         >
-          {({ handleSubmit, submitting, values }) => (
+          {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex100">
@@ -88,7 +69,7 @@ const Step3 = ({
                   <label htmlFor="">Experience</label>
                   <div className="inner-multi-field">
                     <Field
-                      name="years"
+                      name="experienceInYears"
                       label="Experience"
                       component={renderField}
                       placeholder="Year's"
@@ -96,7 +77,7 @@ const Step3 = ({
                       // defaultValue={next && data ? data.years : ""}
                     />
                     <Field
-                      name="months"
+                      name="experienceInMonths"
                       label="Experience"
                       component={renderField}
                       placeholder="Month's"
@@ -106,7 +87,7 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex50">
                   <Field
-                    name="salary"
+                    name="expectedSalary"
                     label="Expected Salary"
                     component={renderField}
                     placeholder="Enter salary expectations"
@@ -121,20 +102,23 @@ const Step3 = ({
                     type="text"
                   >
                     <option selected="">Select days</option>
-                    <option value="1">2 days</option>
-                    <option value="2">3 days</option>
-                    <option value="3">4 days</option>
-                    <option value="4">5 days</option>
+                    <option value="1 day">1 day</option>
+                    <option value="2 days">2 days</option>
+                    <option value="3 days">3 days</option>
+                    <option value="4 days">4 days</option>
+                    <option value="5 days">5 days</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">
                   <Field
-                    name="hours"
+                    name="workHoursPerDay"
                     label="Hours / day"
                     component={renderSelect}
                     type="text"
                   >
-                    <option selected="" disabled>Select hours</option>
+                    <option selected="" disabled>
+                      Select hours
+                    </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -144,7 +128,6 @@ const Step3 = ({
                     <option value="7">7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
-                    <option value="10">10</option>
                   </Field>
                 </div>
                 <div className="form-field flex100">
@@ -155,32 +138,39 @@ const Step3 = ({
                     type="text"
                   >
                     <option selected="">Select job category</option>
-                    <option value="1">Web Development</option>
-                    <option value="2">Web Designer</option>
-                    <option value="3">QA & Testing</option>
-                    <option value="4">Art & Illustration</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Web Designer">Web Designer</option>
+                    <option value="QA &amp; Testing">QA &amp; Testing</option>
+                    <option value="4">Art &amp; Illustration</option>
                   </Field>
                 </div>
                 <div className="form-field flex100">
-                  <Field name="skills" label="Skills" suggestions={skillsSugguestion} placeholder="Enter Intrested Area" component={RenderTagField} />
+                  <Field
+                    name="skills"
+                    label="Skills"
+                    suggestions={skillsSugguestion}
+                    placeholder="Enter Intrested Area"
+                    component={RenderTagField}
+                  />
                 </div>
                 <div className="form-field flex50">
                   <label htmlFor="working"> {titleStrings.workingTitle} </label>
                   <div className="radio-button-groupss">
                     <Field
                       label={titleStrings.onSiteTitle}
-                      name="working"
-                      value="OnSite"
+                      name="workingType"
+                      value="0"
                       checked="checked"
                       component={RenderRadioButtonField}
                       type="radio"
+                      defaultValue={data ? data.workingType : ""}
                     >
                       OnSite
                     </Field>
                     <Field
                       label={titleStrings.offSiteTitle}
-                      name="working"
-                      value="OffSite"
+                      name="workingType"
+                      value="1"
                       component={RenderRadioButtonField}
                       type="radio"
                     >
@@ -209,7 +199,7 @@ const Step3 = ({
                 <div className="form-field flex50">
                   <label htmlFor="certificate"> Extra certificates </label>
                   <div className="radio-button-groupss">
-                    <Field
+                    {/* <Field
                       label={titleStrings.noTitle}
                       // inputOnChange={handleChange}
                       name="certificate"
@@ -228,7 +218,7 @@ const Step3 = ({
                       type="radio"
                     >
                       Yes
-                    </Field>
+                    </Field> */}
                   </div>
                 </div>
                 <div className="form-field flex100 noLabel">
@@ -275,7 +265,7 @@ const Step3 = ({
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}
-                  {titleStrings.nextTitle}{" "}
+                  {titleStrings.submitTitle}{" "}
                 </button>
               </div>
             </form>

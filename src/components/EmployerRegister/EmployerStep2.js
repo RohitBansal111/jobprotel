@@ -9,7 +9,6 @@ const EmployerStep2 = (props) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep2 = (values) => {
 //     props.nextPage();
-props.userProfessionalInfo()
   };
   return (
     <div className="register-form">
