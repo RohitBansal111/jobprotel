@@ -23,14 +23,14 @@ import PrivacyPolicy from './policy/privacyPolicy';
 import TermsConditions from './T&C/TermsConditions';
 
 function App() {
-  var role = 'student'
+  var role = 'employer'
   return (
     <Router>
         <Routes>
           <Route exact path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
-          {role === 'student' && <Route path="/find-workk" element={<FindWork/>} />}
+          {role === 'student' && <Route path="/find-work" element={<FindWork/>} />}
           {role === 'employer' && <Route path="/posted-jobs" element={<PostedJob/>} />}
           <Route path="/find-work" element={<FindWork/>}/>
 
