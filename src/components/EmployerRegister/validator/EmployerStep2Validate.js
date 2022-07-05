@@ -1,16 +1,16 @@
 const EmployerStep2Validate = (values) => { 
      const error = {}
-     // if(!values.companyLogo){ 
-     //      error.companyLogo = "Required Company Logo"
+     // if(!values.logoUrl){ 
+     //      error.logoUrl = "Required Company Logo"
      // }
-     if(!values.companyAddress){ 
-          error.companyAddress = "Required Company Address"
+     if(!values.address){ 
+          error.address = "Required Company Address"
      }
-     if(!values.manageName){ 
-          error.manageName = "Required Manager Name"
+     if(!values.recruitingManagerName){ 
+          error.recruitingManagerName = "Required Manager Name"
      }
-     if(!values.contactDetails){ 
-          error.contactDetails = "Required Contact Details"
+     if(!values.companyPhone){ 
+          error.companyPhone = "Required Contact Details"
      }
      return error;
    }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
@@ -10,6 +10,10 @@ import { RenderTagField } from "../renderTagField";
 import titles from "./register.json";
 import Step2Validator from "./validator/step2Validator";
 import { RenderImageField } from "../file-input";
+import * as dropdownServices from "../../services/dropDownServices";
+import spacetime from "spacetime";
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
+
 const interestedArea = [
   { id: "1", text: "react-redux" },
   { id: "2", text: "flutter" },
@@ -25,27 +29,67 @@ const Step2 = ({
   data,
   next,
   uploadFile,
+  setArray,
+  countrylist,
+  setUserData,
+  handleTimezone,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep2 = (values) => {
-    console.log(values, "called");
     userPersonalInfo(values);
     nextPage();
   };
 
-  const [selectedQualification, setselectedQualification] = useState(null);
+  const [qualificationList, setQualificationList] = useState(null);
+  const [stateList, setStateList] = useState([]);
+  const [inputField, setInputField] = useState(true);
 
-  const [genderData, setGenderData] = useState("Male");
-  const handleImageChange = async (event) => {
-    let files = event.target.files[0];
-    uploadFile(files);
+  const [timezone, setTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  );
+  const [datetime, setDatetime] = useState(spacetime.now());
+
+  const handleImageChange = (event) => {
+    // let image = [...event.target.files];
+    uploadFile(event.target.files[0]);
   };
 
-  const handleQualification = (value) => setselectedQualification(value);
-
-  const handleGender = (data) => {
-    setGenderData(data);
+  const handleQualification = (e) => {
+    let value = e.target.value;
+    // let data = e.target.value
+    setUserData({ ...data, qualificationId: value });
+    if (value == "other") {
+      setInputField(false);
+    }
   };
+
+  useEffect(async () => {
+    const resp = await dropdownServices.qualificationList();
+    setQualificationList(resp.data);
+  }, []);
+
+  const handleChangeCountry = async (e) => {
+    // console.log(e.target.value);
+    const resp = await dropdownServices.stateList(e.target.value);
+    setStateList(resp.data);
+  };
+
+  const genderRadio = [
+    { id: "14ce6a75-7a2f-426e-a214-96a6a79a95mal", text: "Male" },
+    { id: "14ce6a75-7a2f-426e-a214-96a6a79a95fem", text: "Female" },
+  ];
+
+  const handleTimeZone = (data) => {
+    // console.log(data.label)
+    setTimezone(data);
+    handleTimezone(data);
+  };
+
+  useMemo(() => {
+    const timezoneValue = timezone.value ?? timezone;
+    setDatetime(datetime.goto(timezoneValue));
+  }, [timezone]);
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
@@ -53,7 +97,7 @@ const Step2 = ({
         <Form
           onSubmit={SaveStep2}
           validate={Step2Validator}
-          keepDirtyOnReinitialize={true}
+          keepDirtyOnReinitialize
         >
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
@@ -61,38 +105,29 @@ const Step2 = ({
                 <div className="form-field flex50">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
                   <div className="radio-button-groupss">
-                    {values.gender && handleGender(values.gender)}
-                    <Field
-                      label={titleStrings.maleTitle}
-                      name="gender"
-                      value="Male"
-                      component={RenderRadioButtonField}
-                      type="radio"
-                      defaultValue={genderData}
-                      // checked={radioBtn === "Male"}
-                    >
-                      Male
-                    </Field>
-                    <Field
-                      label={titleStrings.feMaleTitle}
-                      name="gender"
-                      value="Female"
-                      component={RenderRadioButtonField}
-                      type="radio"
-                      defaultValue={genderData}
-                      // checked={radioBtn === "Female"}
-                    >
-                      Female
-                    </Field>
+                    {genderRadio &&
+                      genderRadio.map((gender) => (
+                        <Field
+                          label={titleStrings.maleTitle}
+                          name="genderId"
+                          value={gender.id}
+                          component={RenderRadioButtonField}
+                          type="radio"
+                          defaultValue={next && data ? data.genderId : ""}
+                        >
+                          {gender.text}
+                        </Field>
+                      ))}
                   </div>
                 </div>
                 <div className="form-field flex50">
-                  <label>Upload Profile</label>
+                  <label>Upload Profile {"\u2728"}</label>
                   <input
-                    name="uploadPhoto"
-                    // label={titleStrings.uploadPhotoTitle}  
+                    name="profileImage"
+                    // label={titleStrings.uploadPhotoTitle}
                     // component={RenderImageField}
                     accept=".jpg, .jpeg, .png"
+                    onClick={() => setArray("")}
                     type="file"
                     onChange={handleImageChange}
                   />
@@ -105,6 +140,16 @@ const Step2 = ({
                     placeholder="Enter Address"
                     type="text"
                     defaultValue={next && data ? data.addressLine1 : ""}
+                  />
+                </div>
+                <div className="form-field flex100 mb-2">
+                  <Field
+                    name="addressLine2"
+                    label={titleStrings.addressTitle2}
+                    component={renderField}
+                    placeholder="Enter Address Line 2"
+                    type="text"
+                    defaultValue={next && data ? data.addressLine2 : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -122,13 +167,15 @@ const Step2 = ({
                     name="country"
                     label={titleStrings.countryTitle}
                     component={renderSelect}
-                    defaultValue={next && data ? data.country : ""}
+                    onChange={handleChangeCountry}
                   >
                     <option value="">Select Country</option>
-                    <option value="India">India</option>
-                    <option value="USA">USA</option>
-                    <option value="Canada">Canada</option>
-                    <option value="New Zealand">New Zealand</option>
+                    {countrylist &&
+                      countrylist.map((country) => (
+                        <option value={country.id} key={country.id}>
+                          {country.countryName}
+                        </option>
+                      ))}
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -136,28 +183,26 @@ const Step2 = ({
                     name="state"
                     label={titleStrings.stateTitle}
                     component={renderSelect}
-                    defaultValue={next && data ? data.state : ""}
+                    // disabled={stateList && stateList == []}
                   >
                     <option value="">Select State</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Uttrakhand">Uttrakhand</option>
+                    {stateList &&
+                      stateList.map((state) => (
+                        <option value={state.id} key={state.id}>
+                          {state.stateName}
+                        </option>
+                      ))}
                   </Field>
                 </div>
                 <div className="form-field flex50">
                   <Field
                     name="city"
                     label={titleStrings.cityTitle}
-                    component={renderSelect}
+                    component={renderField}
                     placeholder="Enter City"
                     type="text"
                     defaultValue={next && data ? data.city : ""}
-                  >
-                    <option value="">Select City</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Haryana">Haryana</option>
-                    <option value="Uttrakhand">Uttrakhand</option>
-                  </Field>
+                  ></Field>
                 </div>
                 <div className="form-field flex50">
                   <Field
@@ -169,33 +214,51 @@ const Step2 = ({
                     defaultValue={next && data ? data.PostalCode : ""}
                   />
                 </div>
-                <div className="form-field flex50">
-                  <Field
+                {/* <div className="form-field flex50"> */}
+                {/* <Field
                     name="timezone"
                     label="Time Zone"
                     placeholder="Time zone"
                     component={renderField}
                     type="text"
-                  />
+                    defaultValue={next && data ? data.timezone : ""}
+                  /> */}
+                {/* </div> */}
+                <div className="form-field flex100">
+                  <div className="timezone--wrapper">
+                    <label>Time Zone</label>
+                    <TimezoneSelect
+                      name="timezone"
+                      value={timezone}
+                      onChange={handleTimeZone}
+                      labelStyle="Time Zone"
+                      timezones={{
+                        ...allTimezones,
+                        "America/Lima": "Pittsburgh",
+                        "Europe/Berlin": "Frankfurt",
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="qualification"
+                    name="qualificationId"
                     label={titleStrings.qualificationTitle}
-                    component={renderSelect}
+                    component={inputField ? renderSelect : renderField}
                     onChange={handleQualification}
-                    defaultValue={next && data ? data.qualification : ""}
+                    defaultValue={next && data ? data.qualificationId : ""}
                   >
-                    <option value="B.Tech Computer science">
-                      B.Tech Computer science
+                    <option value="" disabled>
+                      Select
                     </option>
-                    <option value="Bachelors in Computer Application">
-                      Bachelors in Computer Application
-                    </option>
-                    <option value="Masters in Computer Application">
-                      Masters in Computer Application
-                    </option>
-                    <option value="other">Other</option>
+                    {inputField &&
+                      qualificationList &&
+                      qualificationList.map((qualification) => (
+                        <option value={qualification.id} key={qualification.id}>
+                          {qualification.name}
+                        </option>
+                      ))}
+                    <option value="Other">Other</option>
                   </Field>
                 </div>
                 <div className="form-field flex100">

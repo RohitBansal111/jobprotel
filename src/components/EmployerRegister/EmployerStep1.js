@@ -5,11 +5,10 @@ import titles from "./register.json";
 import Step1Validator from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
+const EmployerStep1 = ({ prevPage, nextPage, employerBasicInfo, next, data }) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep1 = (values) => {
-    console.log(values);
-    employerInfo(values);
+    employerBasicInfo(values);
     nextPage();
   };
   function onChange(value) {
@@ -30,6 +29,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
                     component={renderField}
                     placeholder="Enter first name"
                     type="text"
+                    defaultValue={next && data ? data.firstName : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -39,6 +39,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
                     component={renderField}
                     placeholder="Enter last name"
                     type="text"
+                    defaultValue={next && data ? data.lastName : ""}
                   />
                 </div>
                 <div className="form-field flex100">
@@ -48,6 +49,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
                     component={renderField}
                     placeholder="Enter email address"
                     type="text"
+                    defaultValue={next && data ? data.email : ""}
                   />
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -57,6 +59,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
                     component={renderField}
                     placeholder="Enter password"
                     type="password"
+                    defaultValue={next && data ? data.password : ""}
                   />
                 </div>
                 <div className="form-field flex100 withoutLabel">
@@ -66,6 +69,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerInfo }) => {
                     component={renderField}
                     placeholder="Enter confirm password"
                     type="password"
+                    defaultValue={next && data ? data.confirmPassword : ""}
                   />
                 </div>
                 <div className="form-field flex100">

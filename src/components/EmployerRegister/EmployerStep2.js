@@ -8,10 +8,7 @@ import validate from "./validator/EmployerStep2Validate";
 const EmployerStep2 = (props) => {
   let titleStrings = new LocalizedStrings(titles);
   const SaveStep2 = (values) => {
-    //     props.nextPage();
-    console.log(values, "value");
-    props.EmplyeCompleteInfo(values);
-    props.userProfessionalInfo();
+    props.EmployerCompleteInfo(values);
   };
   return (
     <div className="register-form">
@@ -23,7 +20,7 @@ const EmployerStep2 = (props) => {
               <div className="form-field-group">
                 <div className="form-field flex100">
                   <Field
-                    name="companyLogo"
+                    name="logoUrl"
                     label={titleStrings.companyLogoTitle}
                     component={RenderImageField}
                     type="file"
@@ -31,7 +28,7 @@ const EmployerStep2 = (props) => {
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="companyAddress"
+                    name="address"
                     label={titleStrings.companyAddressTitle}
                     component={renderField}
                     placeholder="Enter company address"
@@ -40,7 +37,7 @@ const EmployerStep2 = (props) => {
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="manageName"
+                    name="recruitingManagerName"
                     label={titleStrings.managerNameTitle}
                     component={renderField}
                     placeholder="Enter recuriting manager name"
@@ -49,7 +46,7 @@ const EmployerStep2 = (props) => {
                 </div>
                 <div className="form-field flex100 mb-2">
                   <Field
-                    name="contactDetails"
+                    name="companyPhone"
                     label={titleStrings.contactDetailsTitle}
                     component={renderField}
                     placeholder="Enter contact details"

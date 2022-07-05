@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
@@ -17,6 +17,7 @@ const skillsSugguestion = [
   { id: "4", text: "mongoDB" },
   { id: "5", text: "AWS-admin" },
 ];
+
 const Step3 = ({
   userProfessionalInfo,
   prevPage,
@@ -30,19 +31,30 @@ const Step3 = ({
     userProfessionalInfo(values);
   };
 
-  const handleChange = (event) => {
-    console.log("!!!", event.target.value);
-  };
-
+  const [previewImg, setPreviewImg] = useState([]);
   const handleExtraCertificates = (event) => {
-    let files = event.target.files[0];
-    uploadExtraCertificateFile(files);
+    let image = [...event.target.files];
+    setPreviewImg(image);
   };
 
   const handleResume = (event) => {
     let files = event.target.files[0];
     uploadResumeFile(files);
   };
+
+  const manageCertificates = (img) => {
+    let arr = [];
+    previewImg
+      .filter((image) => image.name !== img)
+      .map((image) => arr.push(image));
+    setPreviewImg(arr);
+  };
+  let file = "";
+
+  useEffect(() => {
+    uploadExtraCertificateFile(previewImg);
+  }, [previewImg]);
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -62,7 +74,6 @@ const Step3 = ({
                     component={renderField}
                     placeholder="Enter college / university name"
                     type="text"
-                    // defaultValue={next && data ? data.collegeName : ""}
                   />
                 </div>
                 <div className="form-field flex50 mb-2 withoutLabel">
@@ -74,7 +85,6 @@ const Step3 = ({
                       component={renderField}
                       placeholder="Year's"
                       type="text"
-                      // defaultValue={next && data ? data.years : ""}
                     />
                     <Field
                       name="experienceInMonths"
@@ -189,7 +199,7 @@ const Step3 = ({
                     </button>
                     <input
                       label={titleStrings.resumeTitle}
-                      name="document"
+                      name="resumeFile"
                       onChange={handleResume}
                       accept=".jpg, .jpeg, .png"
                       type="file"
@@ -199,7 +209,7 @@ const Step3 = ({
                 <div className="form-field flex50">
                   <label htmlFor="certificate"> Extra certificates </label>
                   <div className="radio-button-groupss">
-                    {/* <Field
+                    <Field
                       label={titleStrings.noTitle}
                       // inputOnChange={handleChange}
                       name="certificate"
@@ -218,7 +228,7 @@ const Step3 = ({
                       type="radio"
                     >
                       Yes
-                    </Field> */}
+                    </Field>
                   </div>
                 </div>
                 <div className="form-field flex100 noLabel">
@@ -246,8 +256,25 @@ const Step3 = ({
                       onChange={handleExtraCertificates}
                       accept=".jpg, .jpeg, .png"
                       type="file"
+                      ref={(input) => {
+                        file = input;
+                      }}
+                      multiple
                     />
                   </div>
+                  {previewImg &&
+                    previewImg.length > 0 &&
+                    previewImg.map((img) => (
+                      <>
+                        <li>{img.name}</li>
+                        <i
+                          className="fa fa-times-circle"
+                          aria-hidden="true"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => manageCertificates(img.name)}
+                        />
+                      </>
+                    ))}
                 </div>
               </div>
               <div className="form-action">

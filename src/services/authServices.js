@@ -21,6 +21,26 @@ export const registerUser = async (data) => {
   }
 };
 
+export const registerEmployer = async (data) => {
+  try {
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/employer-signup`,
+      data
+    );
+    if (resp.data.status == true) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+};
+
 export const loginUser = async (data) => {
   try {
     const resp = await axios.post(
