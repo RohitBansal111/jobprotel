@@ -14,8 +14,8 @@ const Step1 = ({
   next,
   handleCaptchaCode,
 }) => {
-  const [captcha, setCaptcha] = useState({ captchaCode: "" });
   let titleStrings = new LocalizedStrings(titles);
+  const [captcha, setCaptcha] = useState({ captchaCode: "" });
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
 
@@ -24,10 +24,7 @@ const Step1 = ({
     setShowLoginPassword2(!showLoginPassword2);
 
   const SaveStep1 = (values) => {
-    if (captcha && captcha.captchaCode.length > 0) {
-      // let value = [];
-      // value.push(captcha);
-      // value.push(values);
+    if (captcha ) {
       userBasicInfo(values);
       nextPage();
     }
@@ -35,14 +32,13 @@ const Step1 = ({
   const handleCaptcha = (value) => {
     handleCaptchaCode(value);
     setCaptcha({ captchaCode: value });
-    // console.log("Captcha Code:", value);
   };
 
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Basic Information</h4>
       <div className="form-main">
-        <Form onSubmit={SaveStep1} validate={Step1Validator}>
+        <Form validate={Step1Validator} onSubmit={SaveStep1} >
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">

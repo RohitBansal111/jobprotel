@@ -1,10 +1,10 @@
 const Step2Validator = (values) => { 
      const error = {}
-     if(!values.gender){ 
-          error.gender = "Gender is Required"
+     if(!values.genderId){ 
+          error.genderId = "Gender is Required"
      }
-     // if(!values.uploadPhoto){ 
-     //      error.uploadPhoto = "Upload Profile is Required"
+     // if(!values.profileImage){ 
+     //      error.profileImage = "Upload Profile is Required"
      // }
      if(!values.age){ 
           error.age = "Age is Required"
@@ -24,11 +24,11 @@ const Step2Validator = (values) => {
      if(!values.PostalCode){ 
           error.PostalCode = "Zip Code is Required"
      }
-     if(!values.timezone){ 
-          error.timezone = "Time Zone is Required"
-     }
-     if(!values.qualification){ 
-          error.qualification = "Qualification is Required"
+     // if(!values.timezone){ 
+     //      error.timezone = "Time Zone is Required"
+     // }
+     if(!values.qualificationId){ 
+          error.qualificationId = "Qualification is Required"
      }
      // if(!values.interests){ 
      //      error.interests = "Interested Area is Required"
