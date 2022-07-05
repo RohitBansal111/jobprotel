@@ -134,7 +134,7 @@ const Register = () => {
   const EmplyeCompleteInfo = (data) => {
     console.log(data, "data1");
     setEmployer({ ...employer, ...data });
-    finalSubmits();
+    finalSubmit();
     // setPage(0);
     nextPage();
   };
