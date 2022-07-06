@@ -80,10 +80,18 @@ const Step2 = ({
   ];
 
   const handleTimeZone = (data) => {
-    // console.log(data.label)
     setTimezone(data);
     handleTimezone(data);
   };
+
+  const handleAgeChange = (e) => {
+    // console.log(e.target.validity)
+    let {name, value} = e.target
+    let data = e.target.validity.valid ? value : undefined;
+      if (data !== undefined) {
+        setUserData({ ...data, [name]: data })
+      }
+  }
 
   useMemo(() => {
     const timezoneValue = timezone.value ?? timezone;
@@ -137,7 +145,7 @@ const Step2 = ({
                     name="addressLine1"
                     label={titleStrings.addressTitle}
                     component={renderField}
-                    placeholder="Enter Address"
+                    placeholder="Enter Address Line 1"
                     type="text"
                     defaultValue={next && data ? data.addressLine1 : ""}
                   />
@@ -155,6 +163,8 @@ const Step2 = ({
                 <div className="form-field flex50">
                   <Field
                     name="age"
+                    // pattern="[0-9]"
+                    // onChange={handleAgeChange}
                     label={titleStrings.ageTitle}
                     component={renderField}
                     placeholder="Enter age"

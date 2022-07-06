@@ -97,6 +97,7 @@ const Register = () => {
   };
 
   const uploadExtraCertificateFile = (extraCertificate) => {
+    console.log(extraCertificate)
     let result = [...extraCertificate];
     result &&
       result.map((img) => {
@@ -110,7 +111,6 @@ const Register = () => {
     setUserData({ ...userData, extraCertificateFile : [...array] });
   };
 
-  console.log(userData.extraCertificateFile)
   const uploadResumeFile = (data) => {
     // const resumeFile = new FormData();
     // resumeFile.append("resumeFile", data);

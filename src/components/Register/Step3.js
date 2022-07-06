@@ -34,6 +34,8 @@ const Step3 = ({
   const [previewImg, setPreviewImg] = useState([]);
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
+    console.log(image);
+    uploadExtraCertificateFile(image);
     setPreviewImg(image);
   };
 
@@ -51,9 +53,9 @@ const Step3 = ({
   };
   let file = "";
 
-  useEffect(() => {
-    uploadExtraCertificateFile(previewImg);
-  }, [previewImg]);
+  // useEffect(() => {
+  //   uploadExtraCertificateFile(previewImg);
+  // }, [previewImg]);
 
   return (
     <div className="register-form">
@@ -82,17 +84,31 @@ const Step3 = ({
                     <Field
                       name="experienceInYears"
                       label="Experience"
-                      component={renderField}
+                      component={renderSelect}
                       placeholder="Year's"
                       type="text"
-                    />
+                    >
+                    <option value="0">0 year</option>
+                      {[...Array.from(Array(51).keys())]
+                        .slice(1)
+                        .map((num, i) => (
+                          <option key={i}>{num ? num + " year's" : ""}</option>
+                        ))}
+                    </Field>
                     <Field
                       name="experienceInMonths"
                       label="Experience"
-                      component={renderField}
+                      component={renderSelect}
                       placeholder="Month's"
                       type="text"
-                    />
+                    >
+                    <option value="0">0 month</option>
+                      {[...Array.from(Array(13).keys())]
+                        .slice(1)
+                        .map((num, i) => (
+                          <option key={i}>{num ? num + " month's" : ""}</option>
+                        ))}
+                    </Field>
                   </div>
                 </div>
                 <div className="form-field flex50">

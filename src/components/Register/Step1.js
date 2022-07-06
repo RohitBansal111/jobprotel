@@ -24,7 +24,7 @@ const Step1 = ({
     setShowLoginPassword2(!showLoginPassword2);
 
   const SaveStep1 = (values) => {
-    if (captcha ) {
+    if (captcha && captcha.captchaCode.length > 0) {
       userBasicInfo(values);
       nextPage();
     }

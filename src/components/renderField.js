@@ -17,7 +17,6 @@ export const renderField = ({
   const inputProps = {
     ...input,
     onChange: (e) => {
-      // console.log(e.target.name, ":", e.target.value);
       input.onChange(e);
       onChange && onChange(e);
     },
