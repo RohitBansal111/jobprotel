@@ -47,15 +47,17 @@ export const loginUser = async (data) => {
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/login`,
       data
     );
+    
     if (resp.status == 200) {
       return resp;
     } else {
-      throw new Error(resp.message);
+      throw new Error(resp);
     }
   } catch (err) {
+    console.log("err",err.response)
     return {
       data: "",
-      resp: err.message,
+      error: err.response && err.response.data && err.response.data.error ?err.response.data.error: err.message,
       status: 400,
     };
   }
