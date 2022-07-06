@@ -1,9 +1,20 @@
 import { Field, Form } from "react-final-form"
-import { renderField, renderTextareaField } from "./../renderField";
+import { RenderTagField } from "../renderTagField";
+import { renderField, renderSelect, renderTextareaField } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 
+const skillsSugguestion = [
+     { id: "1", text: "react-redux" },
+     { id: "2", text: "flutter" },
+     { id: "3", text: "react-native" },
+     { id: "4", text: "mongoDB" },
+     { id: "5", text: "AWS-admin" },
+];
+
 const PostedJobModal = () => {
+
     const handleJobPost = () => {}
+
     return (
           <div className="modal fade" id="postedJob" tabIndex="-1" aria-labelledby="postedJob" aria-hidden="true">
                <div className="modal-dialog modal-large">
@@ -25,16 +36,30 @@ const PostedJobModal = () => {
                                                        <Field name="designation" label="Designation" placeholder="Enter Designation" component={renderField} />
                                                   </div>
                                                   <div className="form-field flex50">
-                                                       <Field name="education" label="Education" placeholder="Enter education " component={renderField} />
+                                                       <Field name="experience" label="Experience" placeholder="Enter experience" component={renderField} />
                                                   </div>
-                                                  <div className="form-field flex50">
-                                                       <Field name="skills" label="Skills" placeholder="Enter skills" component={renderField} />
+                                                  <div className="form-field flex100">
+                                                       <Field 
+                                                            name="education" 
+                                                            label="Education" 
+                                                            placeholder="Enter education" 
+                                                            component={renderSelect} 
+                                                       >
+                                                            <option>B.Tech</option>
+                                                            <option>Other</option>
+                                                       </Field>
+                                                  </div>
+                                                  <div className="form-field flex100">
+                                                       <Field
+                                                            name="skills"
+                                                            label="Skills"
+                                                            suggestions={skillsSugguestion}
+                                                            placeholder="Enter skills"
+                                                            component={RenderTagField}
+                                                       />
                                                   </div>
                                                   <div className="form-field flex50">
                                                        <Field name="software" label="Software" placeholder="Enter software" component={renderField} />
-                                                  </div>
-                                                  <div className="form-field flex50">
-                                                       <Field name="experience" label="Experience" placeholder="Enter experience" component={renderField} />
                                                   </div>
                                                   <div className="form-field flex50">
                                                        <Field name="onsite" label="Onsite" placeholder="Enter onsite" component={renderField} />

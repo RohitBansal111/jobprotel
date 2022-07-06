@@ -5,6 +5,7 @@ import Logo from "./../../assets/images/logo.png";
 import validate from "./loginValidator";
 import { renderField } from "../../components/renderField";
 import { Link } from "react-router-dom";
+import toast from "toastr";
 import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/authServices";
 import { useState, useEffect } from "react";
@@ -12,13 +13,15 @@ import { useState, useEffect } from "react";
 const Login = () => {
   let titleStrings = new LocalizedStrings(titles);
   const navigate = useNavigate();
+  toast.options = { preventDuplicates: true };
   const [login, setLogin] = useState({
     userName: "",
     password: "",
+    termsPrivacy: false,
   });
   const [showLoginPassword, setShowLoginPassword] = useState(true);
 
-  const { userName, password } = login;
+  const { userName, password ,termsPrivacy} = login;
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,16 +45,35 @@ const Login = () => {
       //   // show error message..
       // }
     }
-    if (userName && userName == "raj12@gmail.com" && password == "Admin@12") {
+    if(!termsPrivacy)
+    { 
+      toast.error("Please accept terms policy first.");
+    }
+    
+    if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
+      toast.success("Login Successfully");
       navigate("/find-work");
     } else if (
       userName &&
       userName == "sam1@gmail.com" &&
-      password == "Admin@12"
+      password == "Admin@12" && 
+      termsPrivacy
     ) {
+      toast.success("Login Successfully");
       navigate("/posted-jobs");
     }
   };
+
+  const handleInputChange=(event)=> {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    setLogin({
+      ...login,
+      [name]: value,
+    });
+  }
 
   return (
     <div className="page-wrapper">
@@ -129,7 +151,10 @@ const Login = () => {
                             id="termsPrivacy"
                             className="checkbox-wrap checkbox-primary mb-0"
                            > */}
-                          <input type="checkbox" name="termsPrivacy" /> I have
+                          <input type="checkbox" 
+                          name="termsPrivacy"
+                          checked={termsPrivacy && termsPrivacy}
+                          onChange={handleInputChange} /> I have
                           read and agree to the{" "}
                           <Link to="/policy">
                             <b>Privacy Policy</b>

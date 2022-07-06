@@ -8,7 +8,7 @@ import {
 } from "../renderField";
 import { RenderTagField } from "../renderTagField";
 import titles from "./register.json";
-import Step2Validator from "./validator/step2Validator";
+import validate from "./validator/step2Validator";
 import { RenderImageField } from "../file-input";
 import * as dropdownServices from "../../services/dropDownServices";
 import spacetime from "spacetime";
@@ -34,20 +34,15 @@ const Step2 = ({
   setUserData,
   handleTimezone,
 }) => {
-  let titleStrings = new LocalizedStrings(titles);
-  const SaveStep2 = (values) => {
-    userPersonalInfo(values);
-    nextPage();
-  };
 
+  let titleStrings = new LocalizedStrings(titles);
   const [qualificationList, setQualificationList] = useState(null);
   const [stateList, setStateList] = useState([]);
   const [inputField, setInputField] = useState(true);
-
+  const [datetime, setDatetime] = useState(spacetime.now());
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
-  const [datetime, setDatetime] = useState(spacetime.now());
 
   const handleImageChange = (event) => {
     // let image = [...event.target.files];
@@ -61,6 +56,11 @@ const Step2 = ({
     if (value == "other") {
       setInputField(false);
     }
+  };
+
+  const SaveStep2 = (values) => {
+    userPersonalInfo(values);
+    nextPage();
   };
 
   useEffect(async () => {
@@ -104,8 +104,7 @@ const Step2 = ({
       <div className="form-main">
         <Form
           onSubmit={SaveStep2}
-          validate={Step2Validator}
-          keepDirtyOnReinitialize
+          validate={validate}
         >
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
