@@ -15,7 +15,10 @@ export const registerUser = async (data) => {
   } catch (err) {
     return {
       data: "",
-      resp: err.message,
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
       status: 400,
     };
   }
@@ -35,7 +38,10 @@ export const registerEmployer = async (data) => {
   } catch (err) {
     return {
       data: "",
-      resp: err.message,
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
       status: 400,
     };
   }

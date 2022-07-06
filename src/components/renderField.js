@@ -13,11 +13,11 @@ export const renderField = ({
   value,
   type,
   meta: { touched, error },
+  pattern
 }) => {
   const inputProps = {
     ...input,
     onChange: (e) => {
-      // console.log(e.target.name, ":", e.target.value);
       input.onChange(e);
       onChange && onChange(e);
     },
