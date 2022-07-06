@@ -56,3 +56,60 @@ export const qualificationList = async () => {
     };
   }
 };
+
+export const collegeList = async () => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/College`
+    );
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+};
+
+export const genderList = async () => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Gender`
+    );
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+};
+
+export const skillsList = async () => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Skill`
+    );
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+};

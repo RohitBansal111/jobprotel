@@ -10,13 +10,13 @@ import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
 import { RenderTagField } from "../renderTagField";
 
-const skillsSugguestion = [
-  { id: "1", text: "react-redux" },
-  { id: "2", text: "flutter" },
-  { id: "3", text: "react-native" },
-  { id: "4", text: "mongoDB" },
-  { id: "5", text: "AWS-admin" },
-];
+// const skillsSugguestion = [
+//   { id: "1", text: "react-redux" },
+//   { id: "2", text: "flutter" },
+//   { id: "3", text: "react-native" },
+//   { id: "4", text: "mongoDB" },
+//   { id: "5", text: "AWS-admin" },
+// ];
 
 const Step3 = ({
   userProfessionalInfo,
@@ -24,10 +24,15 @@ const Step3 = ({
   uploadExtraCertificateFile,
   uploadResumeFile,
   data,
+  setArray,
+  collegeList,
+  handleSalaryExpectations,
+  skillslist,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
 
   const SaveStep3 = (values) => {
+    console.log(values.skills);
     userProfessionalInfo(values);
   };
 
@@ -52,11 +57,6 @@ const Step3 = ({
     setPreviewImg(arr);
   };
   let file = "";
-
-  // useEffect(() => {
-  //   uploadExtraCertificateFile(previewImg);
-  // }, [previewImg]);
-
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -73,10 +73,24 @@ const Step3 = ({
                   <Field
                     name="collegeName"
                     label={titleStrings.collegeTitle}
-                    component={renderField}
+                    component={renderSelect}
                     placeholder="Enter college / university name"
                     type="text"
-                  />
+                  >
+                    <option value="" disabled>
+                      Select College
+                    </option>
+                    {collegeList &&
+                      collegeList.length > 0 &&
+                      collegeList.map((college) => (
+                        <option
+                          value={college.collegeId}
+                          key={college.collegeId}
+                        >
+                          {college.name}
+                        </option>
+                      ))}
+                  </Field>
                 </div>
                 <div className="form-field flex50 mb-2 withoutLabel">
                   <label htmlFor="">Experience</label>
@@ -88,11 +102,11 @@ const Step3 = ({
                       placeholder="Year's"
                       type="text"
                     >
-                    <option value="0">0 year</option>
+                      <option value="0">0 year</option>
                       {[...Array.from(Array(51).keys())]
                         .slice(1)
                         .map((num, i) => (
-                          <option key={i}>{num ? num + " year's" : ""}</option>
+                          <option key={i} value={num}>{num ? num + " year's" : ""}</option>
                         ))}
                     </Field>
                     <Field
@@ -102,22 +116,31 @@ const Step3 = ({
                       placeholder="Month's"
                       type="text"
                     >
-                    <option value="0">0 month</option>
+                      <option value="0">0 month</option>
                       {[...Array.from(Array(13).keys())]
                         .slice(1)
                         .map((num, i) => (
-                          <option key={i}>{num ? num + " month's" : ""}</option>
+                          <option key={i} value={num}>{num ? num + " month's" : ""}</option>
                         ))}
                     </Field>
                   </div>
                 </div>
                 <div className="form-field flex50">
-                  <Field
+                  {/* <Field
                     name="expectedSalary"
                     label="Expected Salary"
                     component={renderField}
                     placeholder="Enter salary expectations"
                     type="text"
+                  /> */}
+
+                  <input
+                    name="expectedSalary"
+                    type="text"
+                    pattern="[0-9]*"
+                    placeholder="Enter salary expectations"
+                    value={data ? data.expectedSalary : ""}
+                    onChange={handleSalaryExpectations}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -174,7 +197,7 @@ const Step3 = ({
                   <Field
                     name="skills"
                     label="Skills"
-                    suggestions={skillsSugguestion}
+                    suggestions={skillslist}
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
                   />
@@ -269,6 +292,7 @@ const Step3 = ({
                     <input
                       label={titleStrings.extraCertificateTitle}
                       name="document"
+                      onClick={() => setArray("")}
                       onChange={handleExtraCertificates}
                       accept=".jpg, .jpeg, .png"
                       type="file"

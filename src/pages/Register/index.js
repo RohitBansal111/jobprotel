@@ -16,16 +16,22 @@ const Register = () => {
   const [activeRole, setActiveRole] = useState("Student");
   const [array, setArray] = useState([]);
   const [countrylist, setCountrylist] = useState([]);
+  const [collegeList, setCollegelist] = useState([]);
+  const [genderList, setGenderlist] = useState([]);
+  const [skillslist, setSkillslist] = useState([]);
+  const [skills, setSkills] = useState([]);
+  
   const [userData, setUserData] = useState({
     PostalCode: "",
-    address: "Chandigarh",
+    address: "",
     addressLine1: "",
     addressLine2: "",
     age: "",
     captcha: "",
-    // cityId: "9810c63c-d0e4-11ec-b3e2-8c8caafbad72",
+    city: "",
     collegeId: "1d7a193b-d0e5-11ec-b3e2-8c8caafbad72",
     confirmPassword: "",
+    countryId:"",
     email: "",
     expectedSalary: "",
     experienceInYears: "",
@@ -36,14 +42,13 @@ const Register = () => {
     lastName: "",
     password: "",
     profileImage: null,
-    // qualification:"",
     qualificationId: "",
     resumeFile: null,
     roles: "",
+    stateId:"",
     timezone: "",
     workHoursPerDay: "",
     workingType: "",
-    // gender:"Male",
     extraCertificateFile: null,
     skills: [],
     category: "",
@@ -77,18 +82,23 @@ const Register = () => {
   };
 
   const userPersonalInfo = (data) => {
+    // let arr = []
+    // {data.interests.map(interest => (
+    //   arr.push(interest.text)
+    // ))}
+    // setSkills(arr)
     setUserData({ ...userData, ...data });
   };
-
   const uploadFile = (profileImage) => {
-    let baseURL = "";
-    let reader = new FileReader();
-    reader.readAsDataURL(profileImage);
-    reader.onload = () => {
-      baseURL = reader.result;
-      // console.log(baseURL, "baseUrl..");
-      setUserData({ ...userData, profileImage: baseURL });
-    };
+    setUserData({ ...userData, profileImage: profileImage });
+    // let baseURL = "";
+    // let reader = new FileReader();
+    // reader.readAsDataURL(profileImage);
+    // reader.onload = () => {
+    //   baseURL = reader.result;
+    //   // console.log(baseURL, "baseUrl..");
+    //   setUserData({ ...userData, profileImage: baseURL });
+    // };
   };
 
   const userProfessionalInfo = (data1) => {
@@ -96,33 +106,38 @@ const Register = () => {
     finalSubmit();
   };
 
-  const uploadExtraCertificateFile = (extraCertificate) => {
-    console.log(extraCertificate)
-    let result = [...extraCertificate];
-    result &&
-      result.map((img) => {
-        let fileReader = new FileReader();
-        fileReader.readAsDataURL(img);
-        fileReader.onloadend = async () => {
-          let res = await fileReader.result;
-          setArray([...array, res]);
-        };
-      });
-    setUserData({ ...userData, extraCertificateFile : [...array] });
+  const uploadExtraCertificateFile = async (extraCertificate) => {
+    // console.log(extraCertificate);
+    // console.log(result);
+    setUserData({ ...userData, extraCertificateFile: [...extraCertificate] });
+    // let result = [...extraCertificate];
+    // let ar = [];
+    // const count = result.length;
+    // const dt =
+    //   (await result) &&
+    //   result.map((img) => {
+    //     let fileReader = new FileReader();
+    //     fileReader.readAsDataURL(img);
+    //     fileReader.onloadend = async () => {
+    //       let res = await fileReader.result;
+    //       ar.push(res);
+    //       if (count == ar.length) {
+    //         setUserData({ ...userData, extraCertificateFile: [...ar] });
+    //       }
+    //     };
+    //   });
   };
 
   const uploadResumeFile = (data) => {
-    // const resumeFile = new FormData();
-    // resumeFile.append("resumeFile", data);
+    setUserData({ ...userData, resumeFile: data });
 
-    let baseURL = "";
-    let reader = new FileReader();
-    reader.readAsDataURL(data);
-    reader.onload = () => {
-      baseURL = reader.result;
-      // console.log(baseURL, "baseUrl..");
-      setUserData({ ...userData, resumeFile: baseURL });
-    };
+    // let baseURL = "";
+    // let reader = new FileReader();
+    // reader.readAsDataURL(data);
+    // reader.onload = () => {
+    //   baseURL = reader.result;
+    //   setUserData({ ...userData, resumeFile: baseURL });
+    // };
   };
 
   const nextPage = () => {
@@ -138,14 +153,104 @@ const Register = () => {
     setActiveRole(role);
   };
 
-  const handleTimezone = (data) => {
+  const handleTimezoneData = (data) => {
     setUserData({ ...userData, timezone: data });
   };
 
+  const handleAgeChange = (e) => {
+    let { name, value } = e.target;
+    let data = e.target.validity.valid ? value : undefined;
+    if (data !== undefined) {
+      setUserData({ ...userData, age: data });
+    }
+  };
+
+  const handlePostalCodeChange = (e) => {
+    let { name, value } = e.target;
+    let data = e.target.validity.valid ? value : undefined;
+    if (data !== undefined) {
+      setUserData({ ...userData, PostalCode: data });
+    }
+  };
+
+  const handleSalaryExpectations = (e) => {
+    let { name, value } = e.target;
+    let data = e.target.validity.valid ? value : undefined;
+    if (data !== undefined) {
+      setUserData({ ...userData, expectedSalary: data });
+    }
+  };
+  
   const finalSubmit = async () => {
-    console.log(userData);
     if (userData.workHoursPerDay !== "") {
-      const resp = await authServices.registerUser(userData);
+      let user = userData;
+      console.log(user);
+
+      let interestsArr = []
+      user.interests.map(interest => (
+        // console.log(interest.text)
+        interestsArr.push(interest.text)
+      ))
+
+      let skillsArr=[]
+      user.skills.map(skill => (
+        // console.log(skill.text)
+        skillsArr.push(skill.text)
+      ))
+      
+     //{...userData, interests: interestsArr, skills: skillsArr}
+      let formData = new FormData();
+      // let keys= Object.keys(userData);
+
+      // keys.forEach(key => {
+      // formData.append(key, userData[key]);
+      // })
+
+      formData.append("PostalCode",userData.PostalCode)
+      formData.append("address",userData.address)
+      formData.append("addressLine1",userData.addressLine1)
+      formData.append("addressLine2",userData.addressLine2)
+      formData.append("age",userData.age)
+      formData.append("captcha",userData.captcha)
+      formData.append("city",userData.city)
+      formData.append("collegeId",userData.collegeId)
+      formData.append("confirmPassword",userData.confirmPassword)
+      formData.append("countryId",userData.countryId)
+      formData.append("email",userData.email)
+      formData.append("expectedSalary",userData.expectedSalary)
+      formData.append("experienceInYears",userData.experienceInYears)
+      formData.append("experienceInMonths",userData.experienceInMonths)
+      formData.append("firstName",userData.firstName)
+      formData.append("genderId",userData.genderId)
+      // formData.append("interests",userData.interests)
+      for (var i = 0; i < interestsArr.length; i++) {
+        formData.append(`interests[${i}]`, interestsArr[i]);
+      }
+      formData.append("lastName",userData.lastName)
+      formData.append("password",userData.password)
+      formData.append("profileImage",userData.profileImage)
+      formData.append("qualificationId",userData.qualificationId)
+
+      formData.append("qualification", "BCA")
+
+      formData.append("resumeFile",userData.resumeFile)
+      formData.append("roles",userData.roles)
+      formData.append("stateId",userData.stateId)
+      formData.append("timezone",userData.timezone)
+      formData.append("workHoursPerDay",userData.workHoursPerDay)
+      formData.append("workingType",userData.workingType)
+      // formData.append("extraCertificateFile",userData.extraCertificateFile)
+      for (var i = 0; i < userData.extraCertificateFile.length; i++) {
+        formData.append(`extraCertificateFile[${i}]`, userData.extraCertificateFile[i]);
+      }
+      // formData.append("skills",userData.skills)
+      for (var i = 0; i < skillsArr.length; i++) {
+        formData.append(`skills[${i}]`, skillsArr[i]);
+      }
+      // formData.append("skills",userData.skills)
+      formData.append("category",userData.category)
+
+      const resp = await authServices.registerUser(formData);
       console.log(resp);
 
       if (resp && resp.status == 200) {
@@ -189,9 +294,21 @@ const Register = () => {
 
   useEffect(async () => {
     const countryList = await dropdownData.countryList();
+    const collegeList = await dropdownData.collegeList()
+    const genderList = await dropdownData.genderList()
+    const skillsList = await dropdownData.skillsList()
+
+    let skillListData =[]
+    skillsList.data.map((data)=>{
+      let obj = {id: data.id, text: data.name}
+      skillListData.push(obj)
+    })
+    setCollegelist(collegeList.data)
     setCountrylist(countryList.data);
+    setGenderlist(genderList.data);
+    setSkillslist(skillListData);
   }, []);
-  console.log(userData);
+
   return (
     <div className="page-wrapper">
       <div className="register-page-main">
@@ -343,9 +460,12 @@ const Register = () => {
                     setUserData={setUserData}
                     next={next}
                     uploadFile={uploadFile}
-                    setArray={setArray}
                     countrylist={countrylist}
-                    handleTimezone={handleTimezone}
+                    handleTimezoneData={handleTimezoneData}
+                    handleAgeChange={handleAgeChange}
+                    handlePostalCodeChange={handlePostalCodeChange}
+                    genderList={genderList}
+                    skillslist={skillslist}
                   />
                 )}
                 {currentPage === 3 && (
@@ -355,6 +475,10 @@ const Register = () => {
                     uploadExtraCertificateFile={uploadExtraCertificateFile}
                     uploadResumeFile={uploadResumeFile}
                     data={userData}
+                    setArray={setArray}
+                    collegeList={collegeList}
+                    handleSalaryExpectations={handleSalaryExpectations}
+                    skillslist={skillslist}
                   />
                 )}
               </div>

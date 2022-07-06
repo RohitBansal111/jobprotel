@@ -13,6 +13,7 @@ export const renderField = ({
   value,
   type,
   meta: { touched, error },
+  pattern
 }) => {
   const inputProps = {
     ...input,

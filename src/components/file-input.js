@@ -24,12 +24,6 @@ export const RenderImageField = ({
   let fileSize;
   const [fileName, setFileName] = useState();
   const onUpload = (event) => {
-    // console.log(event.target.files[0])
-    // const files = event.target.files[0];
-    // fileSize = event.target.files[0] && event.target.files[0].size;
-    // console.log(fileSize)
-    // setFileName(files && files.name);
-    // uploadFiles(file);
     const reader = new FileReader();
     reader.onload = () =>{
       if(reader.readyState == 2){
@@ -59,6 +53,7 @@ export const RenderImageField = ({
           console.log(response, "resp");
           let file = response.data;
           file.fileSize = fileSize;
+          //let image = { publicId: path.public_id, imageUrl: path.path }
           onChange(file);
           setProgress(null);
           // onUploadSuccess(response.data.path);
