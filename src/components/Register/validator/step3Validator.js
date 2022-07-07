@@ -2,8 +2,8 @@ const Step3Validator = (values) => {
   const error = {};
   const number = /^0|[1-9]\d*$/;
 
-  if (!values.collegeName) {
-    error.collegeName = "Required College Name";
+  if (!values.collegeId) {
+    error.collegeId = "Required College Name";
   }
   if (!values.experienceInYears) {
     error.experienceInYears = "Required Years";
@@ -28,8 +28,8 @@ const Step3Validator = (values) => {
   if (!values.skills) {
     error.skills = "Required Skills";
   }
-  if (!values.skills) {
-    error.skills = "Required Working";
+  if (!values.workingType) {
+    error.workingType = "Required Working Type";
   }
   // if(!values.certificate){
   //      error.certificate = "Required Certificate"

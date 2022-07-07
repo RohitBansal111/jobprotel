@@ -20,7 +20,7 @@ const Register = () => {
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
   const [skills, setSkills] = useState([]);
-  
+
   const [userData, setUserData] = useState({
     PostalCode: "",
     address: "",
@@ -29,9 +29,9 @@ const Register = () => {
     age: "",
     captcha: "",
     city: "",
-    collegeId: "1d7a193b-d0e5-11ec-b3e2-8c8caafbad72",
+    collegeId: "",
     confirmPassword: "",
-    countryId:"",
+    countryId: "",
     email: "",
     expectedSalary: "",
     experienceInYears: "",
@@ -45,7 +45,7 @@ const Register = () => {
     qualificationId: "",
     resumeFile: null,
     roles: "",
-    stateId:"",
+    stateId: "",
     timezone: "",
     workHoursPerDay: "",
     workingType: "",
@@ -61,14 +61,14 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    logoUrl: [],
+    logoUrl: null,
     address: "",
     recruitingManagerName: "",
     companyPhone: "",
     roles: "",
     // phone: "",
-    // companyEmail: "",
-    // companyName: "",
+    companyEmail: "",
+    companyName: "",
   });
 
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
@@ -89,6 +89,7 @@ const Register = () => {
     // setSkills(arr)
     setUserData({ ...userData, ...data });
   };
+
   const uploadFile = (profileImage) => {
     setUserData({ ...userData, profileImage: profileImage });
     // let baseURL = "";
@@ -107,8 +108,6 @@ const Register = () => {
   };
 
   const uploadExtraCertificateFile = async (extraCertificate) => {
-    // console.log(extraCertificate);
-    // console.log(result);
     setUserData({ ...userData, extraCertificateFile: [...extraCertificate] });
     // let result = [...extraCertificate];
     // let ar = [];
@@ -180,25 +179,25 @@ const Register = () => {
       setUserData({ ...userData, expectedSalary: data });
     }
   };
-  
+
   const finalSubmit = async () => {
     if (userData.workHoursPerDay !== "") {
       let user = userData;
       console.log(user);
 
-      let interestsArr = []
-      user.interests.map(interest => (
+      let interestsArr = [];
+      user.interests.map((interest) =>
         // console.log(interest.text)
         interestsArr.push(interest.text)
-      ))
+      );
 
-      let skillsArr=[]
-      user.skills.map(skill => (
+      let skillsArr = [];
+      user.skills.map((skill) =>
         // console.log(skill.text)
         skillsArr.push(skill.text)
-      ))
-      
-     //{...userData, interests: interestsArr, skills: skillsArr}
+      );
+
+      //{...userData, interests: interestsArr, skills: skillsArr}
       let formData = new FormData();
       // let keys= Object.keys(userData);
 
@@ -206,49 +205,52 @@ const Register = () => {
       // formData.append(key, userData[key]);
       // })
 
-      formData.append("PostalCode",userData.PostalCode)
-      formData.append("address",userData.address)
-      formData.append("addressLine1",userData.addressLine1)
-      formData.append("addressLine2",userData.addressLine2)
-      formData.append("age",userData.age)
-      formData.append("captcha",userData.captcha)
-      formData.append("city",userData.city)
-      formData.append("collegeId",userData.collegeId)
-      formData.append("confirmPassword",userData.confirmPassword)
-      formData.append("countryId",userData.countryId)
-      formData.append("email",userData.email)
-      formData.append("expectedSalary",userData.expectedSalary)
-      formData.append("experienceInYears",userData.experienceInYears)
-      formData.append("experienceInMonths",userData.experienceInMonths)
-      formData.append("firstName",userData.firstName)
-      formData.append("genderId",userData.genderId)
+      formData.append("PostalCode", userData.PostalCode);
+      formData.append("address", userData.address);
+      formData.append("addressLine1", userData.addressLine1);
+      formData.append("addressLine2", userData.addressLine2);
+      formData.append("age", userData.age);
+      formData.append("captcha", userData.captcha);
+      formData.append("city", userData.city);
+      formData.append("collegeId", userData.collegeId);
+      formData.append("confirmPassword", userData.confirmPassword);
+      formData.append("countryId", userData.countryId);
+      formData.append("email", userData.email);
+      formData.append("expectedSalary", userData.expectedSalary);
+      formData.append("experienceInYears", userData.experienceInYears);
+      formData.append("experienceInMonths", userData.experienceInMonths);
+      formData.append("firstName", userData.firstName);
+      formData.append("genderId", userData.genderId);
       // formData.append("interests",userData.interests)
       for (var i = 0; i < interestsArr.length; i++) {
         formData.append(`interests[${i}]`, interestsArr[i]);
       }
-      formData.append("lastName",userData.lastName)
-      formData.append("password",userData.password)
-      formData.append("profileImage",userData.profileImage)
-      formData.append("qualificationId",userData.qualificationId)
+      formData.append("lastName", userData.lastName);
+      formData.append("password", userData.password);
+      formData.append("profileImage", userData.profileImage);
+      formData.append("qualificationId", userData.qualificationId);
 
-      formData.append("qualification", "BCA")
+      formData.append("qualification", "BCA");
 
-      formData.append("resumeFile",userData.resumeFile)
-      formData.append("roles",userData.roles)
-      formData.append("stateId",userData.stateId)
-      formData.append("timezone",userData.timezone)
-      formData.append("workHoursPerDay",userData.workHoursPerDay)
-      formData.append("workingType",userData.workingType)
+      formData.append("resumeFile", userData.resumeFile);
+      formData.append("roles", userData.roles);
+      formData.append("stateId", userData.stateId);
+      formData.append("timezone", userData.timezone);
+      formData.append("workHoursPerDay", userData.workHoursPerDay);
+      formData.append("workingType", userData.workingType);
       // formData.append("extraCertificateFile",userData.extraCertificateFile)
       for (var i = 0; i < userData.extraCertificateFile.length; i++) {
-        formData.append(`extraCertificateFile[${i}]`, userData.extraCertificateFile[i]);
+        formData.append(
+          `extraCertificateFile[${i}]`,
+          userData.extraCertificateFile[i]
+        );
       }
       // formData.append("skills",userData.skills)
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
       }
       // formData.append("skills",userData.skills)
-      formData.append("category",userData.category)
+      formData.append("category", userData.category);
 
       const resp = await authServices.registerUser(formData);
       console.log(resp);
@@ -272,18 +274,39 @@ const Register = () => {
     setCompleteEmpInfo(true);
   };
 
-  const uploadExtraCertificateFiles = (data) => {
-    console.log(data, "file");
-    const logoUrl = new FormData();
-    logoUrl.append("logoUrl", data);
-    setEmployer({ ...employer, logoUrl });
+  const uploadLogoFile = (data) => {
+    setEmployer({ ...employer, logoUrl: data });
+  };
+
+  const compPhoneChange = (e) => {
+    let { name, value } = e.target;
+    let data = e.target.validity.valid ? value : undefined;
+    if (data !== undefined) {
+      setEmployer({ ...employer, companyPhone: data });
+    }
   };
 
   const finalSubmitEmployer = async () => {
-    console.log(employer, "employerData");
-    alert("Data Submitted Successfully");
-    const resp = await authServices.registerEmployer(employer);
-    navigate("/");
+    let formData = new FormData();
+    formData.append("firstName", employer.firstName);
+    formData.append("lastName", employer.lastName);
+    formData.append("email", employer.email);
+    formData.append("password", employer.password);
+    formData.append("confirmPassword", employer.confirmPassword);
+    formData.append("logoUrl", employer.logoUrl);
+    formData.append("address", employer.address);
+    formData.append("recruitingManagerName", employer.recruitingManagerName);
+    formData.append("companyPhone", employer.companyPhone);
+    formData.append("roles", employer.roles);
+    // formData.append("phone", employer.phone)
+    formData.append("companyEmail", employer.companyEmail);
+    formData.append("companyName", employer.companyName);
+
+    const resp = await authServices.registerEmployer(formData);
+    if (resp && resp.status == 200) {
+      navigate("/");
+      alert(resp.data.message);
+    }
   };
 
   useEffect(() => {
@@ -294,16 +317,16 @@ const Register = () => {
 
   useEffect(async () => {
     const countryList = await dropdownData.countryList();
-    const collegeList = await dropdownData.collegeList()
-    const genderList = await dropdownData.genderList()
-    const skillsList = await dropdownData.skillsList()
+    const collegeList = await dropdownData.collegeList();
+    const genderList = await dropdownData.genderList();
+    const skillsList = await dropdownData.skillsList();
 
-    let skillListData =[]
-    skillsList.data.map((data)=>{
-      let obj = {id: data.id, text: data.name}
-      skillListData.push(obj)
-    })
-    setCollegelist(collegeList.data)
+    let skillListData = [];
+    skillsList.data.map((data) => {
+      let obj = { id: data.id, text: data.name };
+      skillListData.push(obj);
+    });
+    setCollegelist(collegeList.data);
     setCountrylist(countryList.data);
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
@@ -502,7 +525,9 @@ const Register = () => {
                     nextPage={nextPage}
                     userProfessionalInfo={userProfessionalInfo}
                     EmployerCompleteInfo={EmployerCompleteInfo}
-                    uploadExtraCertificateFile={uploadExtraCertificateFiles}
+                    uploadLogoFile={uploadLogoFile}
+                    compPhoneChange={compPhoneChange}
+                    employer={employer}
                   />
                 )}
               </div>

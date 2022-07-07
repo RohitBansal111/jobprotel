@@ -45,17 +45,17 @@ const Step2 = ({
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+  const [err, setErr] = useState([]);
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
 
   const handleImageChange = (event) => {
-    if(event.target.files && event.target.files.length > 0)
-    {
-    uploadFile(event.target.files[0]);
-    setImg({personalInfoImg: URL.createObjectURL(event.target.files[0])})
-    } 
+    if (event.target.files && event.target.files.length > 0) {
+      uploadFile(event.target.files[0]);
+      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
+    }
   };
 
   const handleQualification = (e) => {
@@ -67,9 +67,37 @@ const Step2 = ({
     }
   };
 
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    if (!data.profileImage) {
+      error.profileImage = "Profile Image is Required";
+      isValid = false;
+    }
+    if (!data.age) {
+      error.age = "Age is Required";
+      isValid = false;
+    }
+    if (!data.PostalCode) {
+      error.PostalCode = "Zip Code is Required";
+      isValid = false;
+    }
+    // if (!data.timezone) {
+    //   error.timezone = "Time Zone is Required";
+    //   isValid = false;
+    // }
+    // if (data.interests == []) {
+    //   error.interests = "Interested Area is Required";
+    //   isValid = false;
+    // }
+    setErr(error);
+    return isValid;
+  };
   const SaveStep2 = (values) => {
-    userPersonalInfo(values);
-    nextPage();
+    if (validation()) {
+      userPersonalInfo(values);
+      nextPage();
+    }
   };
 
   useEffect(async () => {
@@ -84,7 +112,7 @@ const Step2 = ({
   };
 
   const handleTimeZone = (data) => {
-    console.log(data)
+    console.log(data);
     setTimezone(data.value);
     handleTimezoneData(data.value);
   };
@@ -105,7 +133,8 @@ const Step2 = ({
                 <div className="form-field flex50">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
                   <div className="radio-button-groupss">
-                    {genderList && genderList.length > 0 &&
+                    {genderList &&
+                      genderList.length > 0 &&
                       genderList.map((gender) => (
                         <Field
                           label={titleStrings.maleTitle}
@@ -127,10 +156,11 @@ const Step2 = ({
                     id="profileImage"
                     // label={titleStrings.uploadPhotoTitle}
                     // component={RenderImageField}
-                    accept= ".jpg, .jpeg, .png"
+                    accept=".jpg, .jpeg, .png"
                     type="file"
                     onChange={handleImageChange}
                   />
+                  <div style={{ color: "red" }}>{err && err.profileImage}</div>
                   <div className="aws-placeholder image4">
                     <img
                       src={img.personalInfoImg}
@@ -173,6 +203,7 @@ const Step2 = ({
                   />
                 </div>
                 <div className="form-field flex50">
+                  <div>Age</div>
                   <input
                     name="age"
                     type="text"
@@ -181,6 +212,7 @@ const Step2 = ({
                     value={data ? data.age : ""}
                     onChange={handleAgeChange}
                   />
+                  <div style={{ color: "red" }}>{err && err.age}</div>
                 </div>
                 <div className="form-field flex50">
                   <Field
@@ -205,7 +237,9 @@ const Step2 = ({
                     component={renderSelect}
                     // disabled={stateList && stateList == []}
                   >
-                    <option value="" disabled>Select State</option>
+                    <option value="" disabled>
+                      Select State
+                    </option>
                     {stateList &&
                       stateList.map((state) => (
                         <option value={state.id} key={state.id}>
@@ -224,7 +258,7 @@ const Step2 = ({
                     defaultValue={next && data ? data.city : ""}
                   ></Field>
                 </div>
-                <div className="form-field flex50">
+                <div className="form-field flex100">
                   {/* <Field
                     name="PostalCode"
                     label={titleStrings.zipcodeTitle}
@@ -233,7 +267,7 @@ const Step2 = ({
                     type="text"
                     defaultValue={next && data ? data.PostalCode : ""}
                   /> */}
-
+                  <div>Zip Code</div>
                   <input
                     name="PostalCode"
                     type="text"
@@ -242,6 +276,7 @@ const Step2 = ({
                     value={data ? data.PostalCode : ""}
                     onChange={handlePostalCodeChange}
                   />
+                  <div style={{ color: "red" }}>{err && err.PostalCode}</div>
                 </div>
                 {/* <div className="form-field flex50"> */}
                 {/* <Field
@@ -267,6 +302,7 @@ const Step2 = ({
                         "Europe/Berlin": "Frankfurt",
                       }}
                     />
+                    <div style={{ color: "red" }}>{err && err.timeZone}</div>
                   </div>
                 </div>
                 <div className="form-field flex100">
@@ -299,6 +335,7 @@ const Step2 = ({
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
                   />
+                  <div style={{ color: "red" }}>{err && err.interests}</div>
                 </div>
               </div>
               <div className="form-action">

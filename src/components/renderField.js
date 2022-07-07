@@ -131,7 +131,7 @@ export const RenderRadioButtonField = ({
   return (
     <div className="field-render-main">
       <label className="radio-group">
-        <input type="radio" checked {...inputProps} />
+        <input type="radio" checked {...inputProps} defaultValue="No" />
         {children}
         <span className="radiobtn"></span>
       </label>

@@ -10,14 +10,6 @@ import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
 import { RenderTagField } from "../renderTagField";
 
-// const skillsSugguestion = [
-//   { id: "1", text: "react-redux" },
-//   { id: "2", text: "flutter" },
-//   { id: "3", text: "react-native" },
-//   { id: "4", text: "mongoDB" },
-//   { id: "5", text: "AWS-admin" },
-// ];
-
 const Step3 = ({
   userProfessionalInfo,
   prevPage,
@@ -32,14 +24,12 @@ const Step3 = ({
   let titleStrings = new LocalizedStrings(titles);
 
   const SaveStep3 = (values) => {
-    console.log(values.skills);
     userProfessionalInfo(values);
   };
 
   const [previewImg, setPreviewImg] = useState([]);
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
-    console.log(image);
     uploadExtraCertificateFile(image);
     setPreviewImg(image);
   };
@@ -71,7 +61,7 @@ const Step3 = ({
               <div className="form-field-group">
                 <div className="form-field flex100">
                   <Field
-                    name="collegeName"
+                    name="collegeId"
                     label={titleStrings.collegeTitle}
                     component={renderSelect}
                     placeholder="Enter college / university name"
@@ -208,8 +198,7 @@ const Step3 = ({
                     <Field
                       label={titleStrings.onSiteTitle}
                       name="workingType"
-                      value="0"
-                      checked="checked"
+                      value="1"
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={data ? data.workingType : ""}
@@ -219,7 +208,7 @@ const Step3 = ({
                     <Field
                       label={titleStrings.offSiteTitle}
                       name="workingType"
-                      value="1"
+                      value="2"
                       component={RenderRadioButtonField}
                       type="radio"
                     >
