@@ -5,18 +5,11 @@ import {
   renderField,
   RenderRadioButtonField,
   renderSelect,
+  renderNumberField
 } from "../renderField";
 import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
 import { RenderTagField } from "../renderTagField";
-
-const skillsSugguestion = [
-  { id: "1", text: "react-redux" },
-  { id: "2", text: "flutter" },
-  { id: "3", text: "react-native" },
-  { id: "4", text: "mongoDB" },
-  { id: "5", text: "AWS-admin" },
-];
 
 const Step3 = ({
   userProfessionalInfo,
@@ -24,6 +17,10 @@ const Step3 = ({
   uploadExtraCertificateFile,
   uploadResumeFile,
   data,
+  setArray,
+  collegeList,
+  handleSalaryExpectations,
+  skillslist,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
 
@@ -34,6 +31,7 @@ const Step3 = ({
   const [previewImg, setPreviewImg] = useState([]);
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
+    uploadExtraCertificateFile(image);
     setPreviewImg(image);
   };
 
@@ -50,16 +48,12 @@ const Step3 = ({
     setPreviewImg(arr);
   };
   let file = "";
-
-  useEffect(() => {
-    uploadExtraCertificateFile(previewImg);
-  }, [previewImg]);
-
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
       <div className="form-main">
         <Form
+          initialValues={data}
           onSubmit={SaveStep3}
           validate={Step3Validator}
           keepDirtyOnReinitialize
@@ -69,12 +63,26 @@ const Step3 = ({
               <div className="form-field-group">
                 <div className="form-field flex100">
                   <Field
-                    name="collegeName"
+                    name="collegeId"
                     label={titleStrings.collegeTitle}
-                    component={renderField}
+                    component={renderSelect}
                     placeholder="Enter college / university name"
                     type="text"
-                  />
+                  >
+                    <option value="" disabled>
+                      Select College
+                    </option>
+                    {collegeList &&
+                      collegeList.length > 0 &&
+                      collegeList.map((college) => (
+                        <option
+                          value={college.collegeId}
+                          key={college.collegeId}
+                        >
+                          {college.name}
+                        </option>
+                      ))}
+                  </Field>
                 </div>
                 <div className="form-field flex50 mb-2 withoutLabel">
                   <label htmlFor="">Experience</label>
@@ -82,27 +90,51 @@ const Step3 = ({
                     <Field
                       name="experienceInYears"
                       label="Experience"
-                      component={renderField}
+                      component={renderSelect}
                       placeholder="Year's"
                       type="text"
-                    />
+                    >
+                      <option value="0">0 year</option>
+                      {[...Array.from(Array(51).keys())]
+                        .slice(1)
+                        .map((num, i) => (
+                          <option key={i} value={num}>{num ? num + " year's" : ""}</option>
+                        ))}
+                    </Field>
                     <Field
                       name="experienceInMonths"
                       label="Experience"
-                      component={renderField}
+                      component={renderSelect}
                       placeholder="Month's"
                       type="text"
-                    />
+                    >
+                      <option value="0">0 month</option>
+                      {[...Array.from(Array(13).keys())]
+                        .slice(1)
+                        .map((num, i) => (
+                          <option key={i} value={num}>{num ? num + " month's" : ""}</option>
+                        ))}
+                    </Field>
                   </div>
                 </div>
                 <div className="form-field flex50">
                   <Field
                     name="expectedSalary"
-                    label="Expected Salary"
-                    component={renderField}
+                    label={titleStrings.expectedSalary}
+                    component={renderNumberField}
                     placeholder="Enter salary expectations"
                     type="text"
+                    pattern="[0-9]*"
                   />
+
+                  {/* <input
+                    name="expectedSalary"
+                    type="text"
+                    pattern="[0-9]*"
+                    placeholder="Enter salary expectations"
+                    value={data ? data.expectedSalary : ""}
+                    onChange={handleSalaryExpectations}
+                  /> */}
                 </div>
                 <div className="form-field flex50">
                   <Field
@@ -158,7 +190,7 @@ const Step3 = ({
                   <Field
                     name="skills"
                     label="Skills"
-                    suggestions={skillsSugguestion}
+                    suggestions={skillslist}
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
                   />
@@ -169,8 +201,7 @@ const Step3 = ({
                     <Field
                       label={titleStrings.onSiteTitle}
                       name="workingType"
-                      value="0"
-                      checked="checked"
+                      value="1"
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={data ? data.workingType : ""}
@@ -180,7 +211,7 @@ const Step3 = ({
                     <Field
                       label={titleStrings.offSiteTitle}
                       name="workingType"
-                      value="1"
+                      value="2"
                       component={RenderRadioButtonField}
                       type="radio"
                     >
@@ -253,6 +284,7 @@ const Step3 = ({
                     <input
                       label={titleStrings.extraCertificateTitle}
                       name="document"
+                      onClick={() => setArray("")}
                       onChange={handleExtraCertificates}
                       accept=".jpg, .jpeg, .png"
                       type="file"

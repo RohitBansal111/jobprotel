@@ -4,11 +4,46 @@ import { renderField } from "../renderField";
 import titles from "./register.json";
 import { RenderImageField } from "../file-input";
 import validate from "./validator/EmployerStep2Validate";
+import { useState } from "react";
 
-const EmployerStep2 = (props) => {
+const EmployerStep2 = ({
+  prevPage,
+  EmployerCompleteInfo,
+  uploadLogoFile,
+  compPhoneChange,
+  employer,
+}) => {
   let titleStrings = new LocalizedStrings(titles);
+
+  const [err, setErr] = useState([]);
+
+  const [img, setImg] = useState({
+    LogoImg:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  });
+
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    if (!employer.companyPhone) {
+      error.companyPhone = "Required Contact Details";
+      isValid = false;
+    }
+    setErr(error);
+    return isValid;
+  };
+
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      uploadLogoFile(event.target.files[0]);
+      setImg({ LogoImg: URL.createObjectURL(event.target.files[0]) });
+    }
+  };
+
   const SaveStep2 = (values) => {
-    props.EmployerCompleteInfo(values);
+    if (validation()) {
+      EmployerCompleteInfo(values);
+    }
   };
   return (
     <div className="register-form">
@@ -19,12 +54,24 @@ const EmployerStep2 = (props) => {
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex100">
-                  <Field
+                  <input
                     name="logoUrl"
-                    label={titleStrings.companyLogoTitle}
-                    component={RenderImageField}
+                    // label={titleStrings.companyLogoTitle}
+                    // component={RenderImageField}
+                    accept=".jpg, .jpeg, .png"
+                    onChange={handleImageChange}
                     type="file"
                   />
+                  <div className="aws-placeholder image4">
+                    <img
+                      src={img.LogoImg}
+                      className="img-aws"
+                      alt="image"
+                      width={100}
+                      height={100}
+                      layout="fill"
+                    />
+                  </div>
                 </div>
                 <div className="form-field flex100">
                   <Field
@@ -44,7 +91,7 @@ const EmployerStep2 = (props) => {
                     type="text"
                   />
                 </div>
-                <div className="form-field flex100 mb-2">
+                {/* <div className="form-field flex100 mb-2">
                   <Field
                     name="companyPhone"
                     label={titleStrings.contactDetailsTitle}
@@ -52,12 +99,24 @@ const EmployerStep2 = (props) => {
                     placeholder="Enter contact details"
                     type="text"
                   />
+                </div> */}
+                <div className="form-field flex50">
+                  <div>Company Phone</div>
+                  <input
+                    name="companyPhone"
+                    type="text"
+                    pattern="[0-9]*"
+                    placeholder="Enter contact details"
+                    value={employer ? employer.companyPhone : ""}
+                    onChange={compPhoneChange}
+                  />
+                  <div style={{ color: "red" }}>{err && err.companyPhone}</div>
                 </div>
               </div>
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => props.prevPage()}
+                  onClick={() => prevPage()}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {" "}

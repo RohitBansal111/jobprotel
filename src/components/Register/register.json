@@ -12,7 +12,8 @@
     "feMaleTitle": "Female",
     "ageTitle": "Age",
     "addressTitle": "Address",
-    "addressTitle2": "Address LIne 2",
+    "addressTitleLine1": "Address Line 1",
+    "addressTitleLine2": "Address Line 2",
     "countryTitle": "Country",
     "stateTitle": "State",
     "cityTitle": "City",
@@ -30,6 +31,7 @@
     "nextTitle": "Next",
     "submitTitle": "Submit",
     "resumeTitle": "Upload resume",
-    "extraCertificateTitle": "Extra certificates"
+    "extraCertificateTitle": "Extra certificates",
+    "expectedSalary": "Expected salary"
   }
 }

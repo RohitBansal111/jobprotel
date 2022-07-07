@@ -3,6 +3,48 @@ import { PropTypes } from "prop-types";
 import { getInstance } from "../redux/actions/axiosFactory";
 const axiosInstance = getInstance();
 
+export const renderNumberField = ({
+  input,
+  label,
+  onChange,
+  name,
+  children,
+  placeholder,
+  value,
+  type,
+  meta: { touched, error },
+  pattern
+}) => {
+  const inputProps = {
+    ...input,
+    onChange: (e) => {
+      let { name, value } = e.target;
+      let data = e.target.validity.valid ? value : undefined;
+      if (data !== undefined) {
+      input.onChange(e);
+      onChange && onChange(e);
+      }
+    },
+  };
+  return (
+    <div className="field-render-main">
+      <label htmlFor={`label${label}`}>{label}</label>
+      <div className="field-inner-group">
+        <input
+          {...inputProps}
+          placeholder={placeholder}
+          id={`label${label}`}
+          className="form-control"
+          pattern={pattern}
+          // value={data.value}
+        />
+        {children}
+        {touched && error && <span className="error">{error}</span>}
+      </div>
+    </div>
+  );
+};
+
 export const renderField = ({
   input,
   label,
@@ -13,11 +55,11 @@ export const renderField = ({
   value,
   type,
   meta: { touched, error },
+  pattern
 }) => {
   const inputProps = {
     ...input,
     onChange: (e) => {
-      // console.log(e.target.name, ":", e.target.value);
       input.onChange(e);
       onChange && onChange(e);
     },
@@ -131,9 +173,13 @@ export const RenderRadioButtonField = ({
   return (
     <div className="field-render-main">
       <label className="radio-group">
-        <input type="radio" checked {...inputProps} />
+        <input type="radio" checked {...inputProps} defaultValue="No" />
         {children}
         <span className="radiobtn"></span>
+        {/* {touched && error ? (onError ? onError(true) : null) : null}
+        {touched && !error ? (onError ? onError(false) : null) : null}
+        &nbsp; {label} */}
+        {touched && error && <span className="error">{error}</span>}
       </label>
     </div>
   );
