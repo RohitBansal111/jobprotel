@@ -34,6 +34,7 @@ const Register = () => {
     collegeId: "",
     confirmPassword: "",
     countryId: "",
+    certificate: "",
     email: "",
     expectedSalary: "",
     experienceInYears: "",
@@ -46,7 +47,7 @@ const Register = () => {
     profileImage: null,
     profileImageUrl: "",
     qualificationId: "",
-    qualification:"",
+    qualification: "",
     resumeFile: null,
     roles: "",
     stateId: "",
@@ -55,7 +56,7 @@ const Register = () => {
     workingType: "",
     extraCertificateFile: null,
     resumeFileName: "",
-    extraCertificateArray:[],
+    extraCertificateArray: [],
     skills: [],
     category: "",
   });
@@ -78,6 +79,8 @@ const Register = () => {
   });
 
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
+
+  const [error, setError] = useState([]);
 
   const userBasicInfo = (data) => {
     setUserData({ ...userData, ...data });
@@ -197,16 +200,18 @@ const Register = () => {
       console.log(user);
 
       let interestsArr = [];
-      user.interests && user.interests.map((interest) =>
-        // console.log(interest.text)
-        interestsArr.push(interest.text)
-      );
+      user.interests &&
+        user.interests.map((interest) =>
+          // console.log(interest.text)
+          interestsArr.push(interest.text)
+        );
 
       let skillsArr = [];
-      user.skills && user.skills.map((skill) =>
-        // console.log(skill.text)
-        skillsArr.push(skill.text)
-      );
+      user.skills &&
+        user.skills.map((skill) =>
+          // console.log(skill.text)
+          skillsArr.push(skill.text)
+        );
 
       //{...userData, interests: interestsArr, skills: skillsArr}
       let formData = new FormData();
@@ -239,15 +244,11 @@ const Register = () => {
       formData.append("lastName", userData.lastName);
       formData.append("password", userData.password);
       formData.append("profileImage", userData.profileImage);
-      if(userData.qualificationId == "Other")
-      {
+      if (userData.qualificationId == "Other") {
         formData.append("qualification", userData.qualification);
-      }else{
+      } else {
         formData.append("qualificationId", userData.qualificationId);
       }
-      
-
-      
 
       formData.append("resumeFile", userData.resumeFile);
       formData.append("roles", userData.roles);
@@ -256,15 +257,17 @@ const Register = () => {
       formData.append("workHoursPerDay", userData.workHoursPerDay);
       formData.append("workingType", userData.workingType);
       // formData.append("extraCertificateFile",userData.extraCertificateFile)
-      if(userData.extraCertificateFile && userData.extraCertificateFile.length> 0)
-      {
-      for (var i = 0; i < userData.extraCertificateFile.length; i++) {
-        formData.append(
-          `extraCertificateFile[${i}]`,
-          userData.extraCertificateFile[i]
-        );
+      if (
+        userData.extraCertificateFile &&
+        userData.extraCertificateFile.length > 0
+      ) {
+        for (var i = 0; i < userData.extraCertificateFile.length; i++) {
+          formData.append(
+            `extraCertificateFile[${i}]`,
+            userData.extraCertificateFile[i]
+          );
+        }
       }
-    }
       // formData.append("skills",userData.skills)
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
@@ -272,30 +275,30 @@ const Register = () => {
       // formData.append("skills",userData.skills)
       formData.append("category", userData.category);
 
-      const resp = await authServices.registerUser(formData);
-      console.log(resp);
+      
+        const resp = await authServices.registerUser(formData);
+        console.log(resp);
 
-      if (resp && resp.status == 200) {
-        navigate("/");
-        toast.success(resp.data.message ?resp.data.message:"Something went wrong");
-        
-      }else{
-        if(resp.errors && typeof resp.errors === 'object')
-        {
-           let errors = '';
-           let keys= Object.keys(resp.errors);
-           keys.forEach(key => {
-            errors = key+','+errors
-            }) 
+        if (resp && resp.status == 200) {
+          navigate("/");
+          toast.success(
+            resp.data.message ? resp.data.message : "Something went wrong"
+          );
+        } else {
+          if (resp.errors && typeof resp.errors === "object") {
+            let errors = "";
+            let keys = Object.keys(resp.errors);
+            keys.forEach((key) => {
+              errors = key + "," + errors;
+            });
 
             errors = errors.replace(/,\s*$/, "");
-            toast.error(errors+ "is Required");    
-      
-        }else if(resp.error)
-        {
-        toast.error(resp.error ?resp.error:"Something went wrong");
+            toast.error(errors + "is Required");
+          } else if (resp.error) {
+            toast.error(resp.error ? resp.error : "Something went wrong");
+          }
         }
-      }
+      
     }
   };
 
@@ -303,6 +306,8 @@ const Register = () => {
   const employerBasicInfo = (data) => {
     setEmployer({ ...employer, ...data });
   };
+
+  
 
   const EmployerCompleteInfo = (data) => {
     if (employer.recruitingManagerName !== "") {
@@ -335,7 +340,7 @@ const Register = () => {
     formData.append("recruitingManagerName", employer.recruitingManagerName);
     formData.append("companyPhone", employer.companyPhone);
     formData.append("roles", employer.roles);
-    formData.append("phone", "1212343123",)
+    formData.append("phone", "1212343123");
     formData.append("companyEmail", "ASD@gmail.com");
     formData.append("companyName", "asdfg");
 
@@ -541,6 +546,7 @@ const Register = () => {
                     skillslist={skillslist}
                     next={next}
                     initialProfInfo={initialProfInfo}
+                    error={error}
                   />
                 )}
               </div>
