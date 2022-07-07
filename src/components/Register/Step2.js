@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import React,{ useState, useEffect, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
@@ -14,14 +14,9 @@ import { RenderImageField } from "../file-input";
 import * as dropdownServices from "../../services/dropDownServices";
 import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import ImageCropperModal from "../Image-cropper";
 
-// const interestedArea = [
-//   { id: "1", text: "react-redux" },
-//   { id: "2", text: "flutter" },
-//   { id: "3", text: "react-native" },
-//   { id: "4", text: "mongoDB" },
-//   { id: "5", text: "AWS-admin" },
-// ];
+
 
 const Step2 = ({
   userPersonalInfo,
@@ -44,6 +39,10 @@ const Step2 = ({
   const [profileImage, setProfileImage] = useState("");
   const [qualificationId, setQualificationId] = useState("");
   const [inputField, setInputField] = useState(false);
+  const [cropperFinalMedia, setcropperFinalMedia] = useState(null);
+  const [imageSrc, setImageSrc] = React.useState(null);
+  const [userProfileAvtar, setUserProfileAvtar] = useState({});
+  const [showImageCropModal, setshowImageCropModal] = useState(false);
   const [datetime, setDatetime] = useState(spacetime.now());
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -65,6 +64,7 @@ const Step2 = ({
     return isValid;
   };
   const handleImageChange = (event) => {
+    setshowImageCropModal(true)
     if (event.target.files && event.target.files.length > 0) {
       setProfileImage(event.target.files[0])
       //setUserData({ ...data, profileImage: event.target.files[0] });
@@ -130,7 +130,41 @@ const Step2 = ({
     setDatetime(datetime.goto(timezoneValue));
   }, [timezone]);
 
-  console.log("data",data)
+
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(reader.result), false);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const uploadImage = async (e) => {
+    setshowImageCropModal(true);
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      let imageDataUrl = await readFile(file);
+      setImageSrc(imageDataUrl);
+    }
+  };
+
+  const uploadCrop = async (cropperFinalMedia) => {
+    console.log("rahul", cropperFinalMedia);
+    // if (cropperFinalMedia != "") {
+    //   setshowImageCropModal(false);
+    //   const data = { folder: "images", base64: cropperFinalMedia };
+    //   const upload = await uploadImg(data);
+    //   console.log(upload, "crop");
+    //   if (upload && upload.code == 200) {
+    //     console.log("upload.data.fileName", upload.data.data.fileName);
+    //     setUserProfileAvtar(upload.data.data.fileName);
+    //   } else {
+    //     console.log("out");
+    //   }
+    // }
+  };
+
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
@@ -174,10 +208,18 @@ const Step2 = ({
                     <img
                       src={img.personalInfoImg}
                       className="img-aws"
-                      alt="image"
+                      alt="avtar"
                       width={100}
                       height={100}
                       layout="fill"
+                    />
+                    <ImageCropperModal
+                        setshowImageCropModal={setshowImageCropModal}
+                        showImageCropModal={showImageCropModal}
+                        readFile={readFile}
+                        imageSrc={imageSrc}
+                        setcropperFinalMedia={setcropperFinalMedia}
+                        uploadCrop={uploadCrop}
                     />
                   </div>
                 </div>
