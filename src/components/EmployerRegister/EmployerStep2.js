@@ -6,7 +6,13 @@ import { RenderImageField } from "../file-input";
 import validate from "./validator/EmployerStep2Validate";
 import { useState } from "react";
 
-const EmployerStep2 = ({ prevPage, EmployerCompleteInfo, uploadLogoFile, compPhoneChange, employer }) => {
+const EmployerStep2 = ({
+  prevPage,
+  EmployerCompleteInfo,
+  uploadLogoFile,
+  compPhoneChange,
+  employer,
+}) => {
   let titleStrings = new LocalizedStrings(titles);
 
   const [err, setErr] = useState([]);
@@ -20,12 +26,12 @@ const EmployerStep2 = ({ prevPage, EmployerCompleteInfo, uploadLogoFile, compPho
     let isValid = true;
     let error = {};
     if (!employer.companyPhone) {
-      error.companyPhone = "Company Phone is Required";
+      error.companyPhone = "Required Contact Details";
       isValid = false;
     }
     setErr(error);
     return isValid;
-  }
+  };
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
