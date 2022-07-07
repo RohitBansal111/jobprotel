@@ -13,8 +13,6 @@ const Step3Validator = (values) => {
   }
   if (!values.expectedSalary) {
     error.expectedSalary = "Required Salary";
-  } else if (!(values.expectedSalary + "").match(number)) {
-    error.expectedSalary = "Expected-Salary must be numeric";
   }
   if (!values.days) {
     error.days = "Required Days/week";
@@ -25,15 +23,16 @@ const Step3Validator = (values) => {
   if (!values.category) {
     error.category = "Required Category";
   }
-  if (!values.skills) {
-    error.skills = "Required Skills";
-  }
+  
+  if(!values.skills || values.skills && values.skills.length ===0){
+    error.skills = "Required Skills"
+ }
   if (!values.workingType) {
     error.workingType = "Required Working Type";
   }
-  // if(!values.certificate){
-  //      error.certificate = "Required Certificate"
-  // }
+  if(!values.certificate){
+       error.certificate = "Required Certificate"
+  }
   return error;
 };
 

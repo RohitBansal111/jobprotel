@@ -5,6 +5,7 @@ import {
   renderField,
   RenderRadioButtonField,
   renderSelect,
+  renderNumberField,
 } from "../renderField";
 import { RenderTagField } from "../renderTagField";
 import titles from "./register.json";
@@ -94,10 +95,11 @@ const Step2 = ({
     return isValid;
   };
   const SaveStep2 = (values) => {
-    if (validation()) {
+    console.log("values",values)
+   // if (validation()) {
       userPersonalInfo(values);
       nextPage();
-    }
+   // }
   };
 
   useEffect(async () => {
@@ -203,16 +205,25 @@ const Step2 = ({
                   />
                 </div>
                 <div className="form-field flex50">
-                  <div>Age</div>
-                  <input
+                  {/* <div>Age</div> */}
+                  {/* <input
                     name="age"
                     type="text"
                     pattern="[0-9]*"
                     placeholder="Enter Age"
                     value={data ? data.age : ""}
                     onChange={handleAgeChange}
+                  /> */}
+                  {/* <div style={{ color: "red" }}>{err && err.age}</div> */}
+                  <Field
+                    name="age"
+                    label={titleStrings.ageTitle}
+                    component={renderNumberField}
+                    placeholder="Enter Age"
+                    type="text"
+                    pattern="[0-9]*"
+                    defaultValue={next && data ? data.age : ""}
                   />
-                  <div style={{ color: "red" }}>{err && err.age}</div>
                 </div>
                 <div className="form-field flex50">
                   <Field
@@ -259,15 +270,17 @@ const Step2 = ({
                   ></Field>
                 </div>
                 <div className="form-field flex100">
-                  {/* <Field
+                  
+                  <Field
                     name="PostalCode"
                     label={titleStrings.zipcodeTitle}
-                    component={renderField}
+                    component={renderNumberField}
                     placeholder="Enter Zip Code"
                     type="text"
+                    pattern="[0-9]*"
                     defaultValue={next && data ? data.PostalCode : ""}
-                  /> */}
-                  <div>Zip Code</div>
+                  />
+                  {/* <div>Zip Code</div>
                   <input
                     name="PostalCode"
                     type="text"
@@ -276,7 +289,7 @@ const Step2 = ({
                     value={data ? data.PostalCode : ""}
                     onChange={handlePostalCodeChange}
                   />
-                  <div style={{ color: "red" }}>{err && err.PostalCode}</div>
+                  <div style={{ color: "red" }}>{err && err.PostalCode}</div> */}
                 </div>
                 {/* <div className="form-field flex50"> */}
                 {/* <Field

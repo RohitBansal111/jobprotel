@@ -37,7 +37,7 @@ const Login = () => {
     { 
       toast.error("Please accept terms policy first.");
     }
-    if (userName !== "" && password !== "") {
+    if (userName !== "" && password !== "" && termsPrivacy) {
       const resp = await authServices.loginUser(login);
       const response = resp.data.data;
       if (resp.status == 200 && response.roles == "STUDENT") {

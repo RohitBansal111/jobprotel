@@ -5,6 +5,7 @@ import {
   renderField,
   RenderRadioButtonField,
   renderSelect,
+  renderNumberField
 } from "../renderField";
 import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
@@ -116,22 +117,23 @@ const Step3 = ({
                   </div>
                 </div>
                 <div className="form-field flex50">
-                  {/* <Field
+                  <Field
                     name="expectedSalary"
-                    label="Expected Salary"
-                    component={renderField}
+                    label={titleStrings.expectedSalary}
+                    component={renderNumberField}
                     placeholder="Enter salary expectations"
                     type="text"
-                  /> */}
+                    pattern="[0-9]*"
+                  />
 
-                  <input
+                  {/* <input
                     name="expectedSalary"
                     type="text"
                     pattern="[0-9]*"
                     placeholder="Enter salary expectations"
                     value={data ? data.expectedSalary : ""}
                     onChange={handleSalaryExpectations}
-                  />
+                  /> */}
                 </div>
                 <div className="form-field flex50">
                   <Field
