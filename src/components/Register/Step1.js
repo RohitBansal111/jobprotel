@@ -19,20 +19,31 @@ const Step1 = ({
   const [captcha, setCaptcha] = useState({ captchaCode: "" });
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
+  const [err, setErr] = useState([]);
 
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);
 
+  const validation = () => {
+      let isValid = true;
+      let error = {};
+      if (!captcha || captcha.captchaCode.length == 0) {
+        error.captcha = "Please verify captcha";
+        isValid = false;
+      }
+      setErr(error);
+      return isValid;
+  };
   const SaveStep1 = (values) => {
-    if (captcha && captcha.captchaCode.length > 0) {
+    if (validation()) {
       userBasicInfo(values);
       nextPage();
     }
   };
 
   const handleCaptcha = (value) => {
-    handleCaptchaCode(value);
+    //handleCaptchaCode(value);
     setCaptcha({ captchaCode: value });
   };
 
@@ -136,6 +147,7 @@ const Step1 = ({
                       value={captcha}
                       onChange={handleCaptcha}
                     />
+                    <div style={{ color: "red" }}>{err && err.captcha}</div>
                   </div>
                 </div>
                 <div className="form-action">

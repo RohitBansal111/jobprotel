@@ -10,15 +10,20 @@ export const registerUser = async (data) => {
     if (resp.data.status == true) {
       return resp;
     } else {
-      throw new Error(resp.message);
+      throw new Error(resp);
     }
   } catch (err) {
+    console.log(err.response,"err-res")
     return {
       data: "",
       error:
         err.response && err.response.data && err.response.data.error
           ? err.response.data.error
           : err.message,
+      errors:
+          err.response && err.response.data && err.response.data.errors
+            ? err.response.data.errors
+            : err.message,    
       status: 400,
     };
   }
@@ -33,7 +38,7 @@ export const registerEmployer = async (data) => {
     if (resp.data.status == true) {
       return resp;
     } else {
-      throw new Error(resp.message);
+      throw new Error(resp);
     }
   } catch (err) {
     return {

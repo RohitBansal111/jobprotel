@@ -41,7 +41,9 @@ const Step2 = ({
   let titleStrings = new LocalizedStrings(titles);
   const [qualificationList, setQualificationList] = useState(null);
   const [stateList, setStateList] = useState([]);
-  const [inputField, setInputField] = useState(true);
+  const [profileImage, setProfileImage] = useState("");
+  const [qualificationId, setQualificationId] = useState("");
+  const [inputField, setInputField] = useState(false);
   const [datetime, setDatetime] = useState(spacetime.now());
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -52,22 +54,6 @@ const Step2 = ({
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
 
-  const handleImageChange = (event) => {
-    if (event.target.files && event.target.files.length > 0) {
-      uploadFile(event.target.files[0]);
-      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
-    }
-  };
-
-  const handleQualification = (e) => {
-    let value = e.target.value;
-    // let data = e.target.value
-    setUserData({ ...data, qualificationId: value });
-    if (value == "other") {
-      setInputField(false);
-    }
-  };
-
   const validation = () => {
     let isValid = true;
     let error = {};
@@ -75,37 +61,57 @@ const Step2 = ({
       error.profileImage = "Profile Image is Required";
       isValid = false;
     }
-    if (!data.age) {
-      error.age = "Age is Required";
-      isValid = false;
-    }
-    if (!data.PostalCode) {
-      error.PostalCode = "Zip Code is Required";
-      isValid = false;
-    }
-    // if (!data.timezone) {
-    //   error.timezone = "Time Zone is Required";
-    //   isValid = false;
-    // }
-    // if (data.interests == []) {
-    //   error.interests = "Interested Area is Required";
-    //   isValid = false;
-    // }
     setErr(error);
     return isValid;
   };
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setProfileImage(event.target.files[0])
+      //setUserData({ ...data, profileImage: event.target.files[0] });
+      //uploadFile(event.target.files[0]);
+      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
+    }
+  };
+
+  const handleQualification = (e) => {
+    let value = e.target.value;
+    setQualificationId(value)
+    // let data = e.target.value
+    //setUserData({ ...data, qualificationId: value });
+    if (value == "Other") {
+      setInputField(true);
+    }else{
+      setInputField(false);
+    }
+  };
+
+ 
   const SaveStep2 = (values) => {
     console.log("values",values)
-   // if (validation()) {
-      userPersonalInfo(values);
+    if(validation)
+    {
+      userPersonalInfo({...values,timezone: timezone,qualificationId:qualificationId,profileImageUrl:img,profileImage: profileImage});
       nextPage();
-   // }
-  };
+    }
+   };
 
   useEffect(async () => {
     const resp = await dropdownServices.qualificationList();
     setQualificationList(resp.data);
+    setQualificationId(data.qualificationId && data.qualificationId)
+    console.log("data.profileImageUrl-9",data.profileImageUrl)
+    if(data.profileImageUrl)
+    {  console.log("data.profileImageUrl",data.profileImageUrl)
+      setImg({personalInfoImg: data.profileImageUrl.personalInfoImg})
+      setProfileImage(data.profileImage)
+    }
+    
   }, []);
+
+  useEffect(async () => {
+    const resp = await dropdownServices.stateList(data.countryId);
+    setStateList(resp.data);
+  }, [data.countryId]);
 
   const handleChangeCountry = async (e) => {
     // console.log(e.target.value);
@@ -116,7 +122,7 @@ const Step2 = ({
   const handleTimeZone = (data) => {
     console.log(data);
     setTimezone(data.value);
-    handleTimezoneData(data.value);
+    //handleTimezoneData(data.value);
   };
 
   useMemo(() => {
@@ -124,11 +130,12 @@ const Step2 = ({
     setDatetime(datetime.goto(timezoneValue));
   }, [timezone]);
 
+  console.log("data",data)
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
       <div className="form-main">
-        <Form onSubmit={SaveStep2} validate={validate}>
+        <Form  initialValues={data} onSubmit={SaveStep2} validate={validate}>
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
@@ -231,6 +238,7 @@ const Step2 = ({
                     label={titleStrings.countryTitle}
                     component={renderSelect}
                     onChange={handleChangeCountry}
+                    defaultValue={next && data ? data.countryId : ""}
                   >
                     <option value="">Select Country</option>
                     {countrylist &&
@@ -246,7 +254,7 @@ const Step2 = ({
                     name="stateId"
                     label={titleStrings.stateTitle}
                     component={renderSelect}
-                    // disabled={stateList && stateList == []}
+                    defaultValue={next && data ? data.stateId : ""}
                   >
                     <option value="" disabled>
                       Select State
@@ -280,27 +288,9 @@ const Step2 = ({
                     pattern="[0-9]*"
                     defaultValue={next && data ? data.PostalCode : ""}
                   />
-                  {/* <div>Zip Code</div>
-                  <input
-                    name="PostalCode"
-                    type="text"
-                    pattern="[0-9]*"
-                    placeholder="Enter Zip Code"
-                    value={data ? data.PostalCode : ""}
-                    onChange={handlePostalCodeChange}
-                  />
-                  <div style={{ color: "red" }}>{err && err.PostalCode}</div> */}
+                  
                 </div>
-                {/* <div className="form-field flex50"> */}
-                {/* <Field
-                    name="timezone"
-                    label="Time Zone"
-                    placeholder="Time zone"
-                    component={renderField}
-                    type="text"
-                    defaultValue={next && data ? data.timezone : ""}
-                  /> */}
-                {/* </div> */}
+               
                 <div className="form-field flex100">
                   <div className="timezone--wrapper">
                     <label>Time Zone</label>
@@ -318,19 +308,18 @@ const Step2 = ({
                     <div style={{ color: "red" }}>{err && err.timeZone}</div>
                   </div>
                 </div>
-                <div className="form-field flex100">
+              <div className="form-field flex100">
                   <Field
                     name="qualificationId"
                     label={titleStrings.qualificationTitle}
-                    component={inputField ? renderSelect : renderField}
+                    component={renderSelect}
                     onChange={handleQualification}
                     defaultValue={next && data ? data.qualificationId : ""}
                   >
                     <option value="" disabled>
                       Select
                     </option>
-                    {inputField &&
-                      qualificationList &&
+                    {qualificationList &&
                       qualificationList.map((qualification) => (
                         <option value={qualification.id} key={qualification.id}>
                           {qualification.name}
@@ -339,6 +328,17 @@ const Step2 = ({
                     <option value="Other">Other</option>
                   </Field>
                 </div>
+                {inputField && 
+                <div className="form-field flex100">
+                  <Field
+                    name="qualification"
+                    label={titleStrings.qualificationTitle}
+                    component={renderField}
+                    // onChange={handleQualification}
+                    defaultValue={next && data ? data.qualification : ""}
+                  />
+                </div>
+              }
                 <div className="form-field flex100">
                   <Field
                     name="interests"

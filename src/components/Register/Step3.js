@@ -53,6 +53,7 @@ const Step3 = ({
       <h4 className="text-primary text-left">Professional Information</h4>
       <div className="form-main">
         <Form
+          initialValues={data}
           onSubmit={SaveStep3}
           validate={Step3Validator}
           keepDirtyOnReinitialize

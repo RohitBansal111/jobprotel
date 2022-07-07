@@ -9,9 +9,11 @@ import Step3 from "../../components/Register/Step3";
 import Logo from "./../../assets/images/logo.png";
 import * as authServices from "../../services/authServices";
 import * as dropdownData from "../../services/dropDownServices";
+import toast from "toastr";
 
 const Register = () => {
   const navigate = useNavigate();
+  toast.options = { preventDuplicates: true };
   const [currentPage, setPage] = useState(0);
   const [activeRole, setActiveRole] = useState("Student");
   const [array, setArray] = useState([]);
@@ -42,7 +44,9 @@ const Register = () => {
     lastName: "",
     password: "",
     profileImage: null,
+    profileImageUrl: "",
     qualificationId: "",
+    qualification:"",
     resumeFile: null,
     roles: "",
     stateId: "",
@@ -104,7 +108,7 @@ const Register = () => {
 
   const userProfessionalInfo = (data1) => {
     setUserData({ ...userData, ...data1 });
-    finalSubmit();
+    finalSubmit({ ...userData, ...data1 });
   };
 
   const uploadExtraCertificateFile = async (extraCertificate) => {
@@ -180,19 +184,19 @@ const Register = () => {
     }
   };
 
-  const finalSubmit = async () => {
+  const finalSubmit = async (userData) => {
     if (userData.workHoursPerDay !== "") {
       let user = userData;
       console.log(user);
 
       let interestsArr = [];
-      user.interests.map((interest) =>
+      user.interests && user.interests.map((interest) =>
         // console.log(interest.text)
         interestsArr.push(interest.text)
       );
 
       let skillsArr = [];
-      user.skills.map((skill) =>
+      user.skills && user.skills.map((skill) =>
         // console.log(skill.text)
         skillsArr.push(skill.text)
       );
@@ -228,9 +232,15 @@ const Register = () => {
       formData.append("lastName", userData.lastName);
       formData.append("password", userData.password);
       formData.append("profileImage", userData.profileImage);
-      formData.append("qualificationId", userData.qualificationId);
+      if(userData.qualificationId == "Other")
+      {
+        formData.append("qualification", userData.qualification);
+      }else{
+        formData.append("qualificationId", userData.qualificationId);
+      }
+      
 
-      formData.append("qualification", "BCA");
+      
 
       formData.append("resumeFile", userData.resumeFile);
       formData.append("roles", userData.roles);
@@ -239,12 +249,15 @@ const Register = () => {
       formData.append("workHoursPerDay", userData.workHoursPerDay);
       formData.append("workingType", userData.workingType);
       // formData.append("extraCertificateFile",userData.extraCertificateFile)
+      if(userData.extraCertificateFile && userData.extraCertificateFile.length> 0)
+      {
       for (var i = 0; i < userData.extraCertificateFile.length; i++) {
         formData.append(
           `extraCertificateFile[${i}]`,
           userData.extraCertificateFile[i]
         );
       }
+    }
       // formData.append("skills",userData.skills)
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
@@ -257,7 +270,24 @@ const Register = () => {
 
       if (resp && resp.status == 200) {
         navigate("/");
-        alert(resp.data.message);
+        toast.success(resp.data.message ?resp.data.message:"Something went wrong");
+        
+      }else{
+        if(resp.errors && typeof resp.errors === 'object')
+        {
+           let errors = '';
+           let keys= Object.keys(resp.errors);
+           keys.forEach(key => {
+            errors = errors+','+key
+            }) 
+
+            errors = errors.replace(/,\s*$/, "");
+            toast.error(errors+ "is Required");    
+      
+        }else if(resp.error)
+        {
+        toast.error(resp.error ?resp.error:"Something went wrong");
+        }
       }
     }
   };
