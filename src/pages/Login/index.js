@@ -9,9 +9,11 @@ import toast from "toastr";
 import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/authServices";
 import { useState, useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import * as authActions from "../../store/action/authActions";
 const Login = () => {
   let titleStrings = new LocalizedStrings(titles);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   toast.options = { preventDuplicates: true };
   const [login, setLogin] = useState({
@@ -21,7 +23,7 @@ const Login = () => {
   });
   const [showLoginPassword, setShowLoginPassword] = useState(true);
 
-  const { userName, password ,termsPrivacy} = login;
+  const { userName, password, termsPrivacy } = login;
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,51 +33,83 @@ const Login = () => {
     });
   };
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   if(!termsPrivacy)
+  //   {
+  //     toast.error("Please accept terms policy first.");
+  //   }
+  //   if (userName !== "" && password !== "" && termsPrivacy) {
+  //     const resp = await authServices.loginUser(login);
+  //     const response = resp.data.data;
+  //     if (resp.status == 200 && response.roles == "STUDENT") {
+  //       toast.success("Login Successfully");
+  //       navigate("/find-work");
+  //     } else if (resp.status == 200 && response.roles == "EMPLOYER") {
+  //       toast.success("Login Successfully");
+  //       navigate("/posted-jobs");
+  //     } else if (resp.status == 400){
+  //       toast.error(resp.error ?resp.error:"Something went wrong");
+  //     }
+  //   }
+
+  //   // if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
+  //   //   toast.success("Login Successfully");
+  //   //   navigate("/find-work");
+  //   // } else if (
+  //   //   userName &&
+  //   //   userName == "sam1@gmail.com" &&
+  //   //   password == "Admin@12" &&
+  //   //   termsPrivacy
+  //   // ) {
+  //   //   toast.success("Login Successfully");
+  //   //   navigate("/posted-jobs");
+  //   // }
+  // };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    if(!termsPrivacy)
-    { 
+    if (!termsPrivacy) {
       toast.error("Please accept terms policy first.");
     }
     if (userName !== "" && password !== "" && termsPrivacy) {
-      const resp = await authServices.loginUser(login);
-      const response = resp.data.data;
-      if (resp.status == 200 && response.roles == "STUDENT") {
-        toast.success("Login Successfully");
-        navigate("/find-work");
-      } else if (resp.status == 200 && response.roles == "EMPLOYER") {
-        toast.success("Login Successfully");
-        navigate("/posted-jobs");
-      } else if (resp.status == 400){
-        toast.error(resp.error ?resp.error:"Something went wrong");
-      }
+      dispatch(authActions.login(login, navigate));
+      // const resp = await authServices.loginUser(login);
+      // const response = resp.data.data;
+      // if (resp.status == 200 && response.roles == "STUDENT") {
+      //   toast.success("Login Successfully");
+      //   navigate("/find-work");
+      // } else if (resp.status == 200 && response.roles == "EMPLOYER") {
+      //   toast.success("Login Successfully");
+      //   navigate("/posted-jobs");
+      // } else if (resp.status == 400) {
+      //   toast.error(resp.error ? resp.error : "Something went wrong");
+      // }
     }
-    
-    
+
     // if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
     //   toast.success("Login Successfully");
     //   navigate("/find-work");
     // } else if (
     //   userName &&
     //   userName == "sam1@gmail.com" &&
-    //   password == "Admin@12" && 
+    //   password == "Admin@12" &&
     //   termsPrivacy
     // ) {
     //   toast.success("Login Successfully");
     //   navigate("/posted-jobs");
     // }
   };
-
-  const handleInputChange=(event)=> {
+  const handleInputChange = (event) => {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     setLogin({
       ...login,
       [name]: value,
     });
-  }
+  };
 
   return (
     <div className="page-wrapper">
@@ -153,11 +187,13 @@ const Login = () => {
                             id="termsPrivacy"
                             className="checkbox-wrap checkbox-primary mb-0"
                            > */}
-                          <input type="checkbox" 
-                          name="termsPrivacy"
-                          checked={termsPrivacy && termsPrivacy}
-                          onChange={handleInputChange} /> I have
-                          read and agree to the{" "}
+                          <input
+                            type="checkbox"
+                            name="termsPrivacy"
+                            checked={termsPrivacy && termsPrivacy}
+                            onChange={handleInputChange}
+                          />{" "}
+                          I have read and agree to the{" "}
                           <Link to="/policy">
                             <b>Privacy Policy</b>
                           </Link>{" "}
