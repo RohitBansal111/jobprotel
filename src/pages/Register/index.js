@@ -66,9 +66,9 @@ const Register = () => {
     recruitingManagerName: "",
     companyPhone: "",
     roles: "",
-    // phone: "",
-    companyEmail: "",
-    companyName: "",
+    phone: "1212343123",
+    companyEmail: "ASD@gmail.com",
+    companyName: "asdfg",
   });
 
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
@@ -298,9 +298,9 @@ const Register = () => {
     formData.append("recruitingManagerName", employer.recruitingManagerName);
     formData.append("companyPhone", employer.companyPhone);
     formData.append("roles", employer.roles);
-    // formData.append("phone", employer.phone)
-    formData.append("companyEmail", employer.companyEmail);
-    formData.append("companyName", employer.companyName);
+    formData.append("phone", "1212343123",)
+    formData.append("companyEmail", "ASD@gmail.com");
+    formData.append("companyName", "asdfg");
 
     const resp = await authServices.registerEmployer(formData);
     if (resp && resp.status == 200) {
