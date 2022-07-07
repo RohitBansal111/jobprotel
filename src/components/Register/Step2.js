@@ -42,7 +42,7 @@ const Step2 = ({
   const [cropperFinalMedia, setcropperFinalMedia] = useState(null);
   const [imageSrc, setImageSrc] = React.useState(null);
   const [userProfileAvtar, setUserProfileAvtar] = useState({});
-  const [showImageCropModal, setshowImageCropModal] = useState(false);
+  const [modal, setModal] = useState(false);
   const [datetime, setDatetime] = useState(spacetime.now());
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -64,9 +64,9 @@ const Step2 = ({
     return isValid;
   };
   const handleImageChange = (event) => {
-    setshowImageCropModal(true)
+    setModal(true)
     if (event.target.files && event.target.files.length > 0) {
-      setProfileImage(event.target.files[0])
+      //setProfileImage(event.target.files[0])
       //setUserData({ ...data, profileImage: event.target.files[0] });
       //uploadFile(event.target.files[0]);
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
@@ -139,36 +139,25 @@ const Step2 = ({
     });
   }
 
-  const uploadImage = async (e) => {
-    setshowImageCropModal(true);
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      let imageDataUrl = await readFile(file);
-      setImageSrc(imageDataUrl);
-    }
-  };
+  const closeModal=()=>{
+    console.log("inclose")
+    setModal(false)
+  }
 
-  const uploadCrop = async (cropperFinalMedia) => {
-    console.log("rahul", cropperFinalMedia);
-    // if (cropperFinalMedia != "") {
-    //   setshowImageCropModal(false);
-    //   const data = { folder: "images", base64: cropperFinalMedia };
-    //   const upload = await uploadImg(data);
-    //   console.log(upload, "crop");
-    //   if (upload && upload.code == 200) {
-    //     console.log("upload.data.fileName", upload.data.data.fileName);
-    //     setUserProfileAvtar(upload.data.data.fileName);
-    //   } else {
-    //     console.log("out");
-    //   }
-    // }
-  };
-
+console.log("show",modal)
 
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
       <div className="form-main">
+      <ImageCropperModal
+                        closeModal={closeModal}
+                        showImageCropModal={modal}
+                        readFile={readFile}
+                        imageSrc={img.personalInfoImg}
+                        setProfileImage={setProfileImage}
+                        setImg={setImg}
+                    />
         <Form  initialValues={data} onSubmit={SaveStep2} validate={validate}>
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
@@ -213,14 +202,7 @@ const Step2 = ({
                       height={100}
                       layout="fill"
                     />
-                    <ImageCropperModal
-                        setshowImageCropModal={setshowImageCropModal}
-                        showImageCropModal={showImageCropModal}
-                        readFile={readFile}
-                        imageSrc={imageSrc}
-                        setcropperFinalMedia={setcropperFinalMedia}
-                        uploadCrop={uploadCrop}
-                    />
+                    
                   </div>
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -411,6 +393,7 @@ const Step2 = ({
             </form>
           )}
         </Form>
+         
       </div>
     </div>
   );

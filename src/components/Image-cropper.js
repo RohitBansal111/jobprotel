@@ -1,17 +1,19 @@
 import { Modal } from "react-responsive-modal";
+import 'react-responsive-modal/styles.css';
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@mui/material/Slider";
 import { getCroppedImg } from "./canvasUtils";
 
 const ImageCropperModal = ({
-  setshowImageCropModal,
+  closeModal,
   showImageCropModal,
   readFile,
   imageSrc,
-  setcropperFinalMedia,
-  uploadCrop,
+  setProfileImage,
+  setImg
 }) => {
+  console.log("showImageCropModal23",showImageCropModal)
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
@@ -22,10 +24,9 @@ const ImageCropperModal = ({
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  const onCloseModal = setshowImageCropModal(false)
 
   const showCroppedImage = useCallback(async () => {
-    setshowImageCropModal(false);
+    // closeModal();
     try {
       const croppedImage = await getCroppedImg(
         imageSrc,
@@ -34,19 +35,21 @@ const ImageCropperModal = ({
       );
       console.log("donee", { croppedImage });
       setCroppedImage(croppedImage);
-      setcropperFinalMedia(croppedImage);
-      uploadCrop(croppedImage);
-      setshowImageCropModal(false);
+      setProfileImage(croppedImage);
+      setImg({personalInfoImg: croppedImage})
+      closeModal()
+      console.log("cropped")
     } catch (e) {
       console.error(e);
     }
-  }, [imageSrc, croppedAreaPixels, rotation, uploadCrop]);
+  }, [imageSrc, croppedAreaPixels, rotation,closeModal,setProfileImage,setImg]);
 
+  console.log("showImageCropModal",showImageCropModal)
   return (
     <Modal
       open={showImageCropModal}
       center
-      onClose={onCloseModal}
+      onClose={closeModal}
       classNames={{ modal: "medium-size theme-modal" }}
     >
       <div className="normal-react-modal modal-content">
@@ -69,7 +72,7 @@ const ImageCropperModal = ({
           </div>
           <div className="image-cropper-actions">
             <div className="action-sliders">
-              <p> Zoom </p>
+              <p> Zoomm </p>
               <Slider
                 value={zoom}
                 min={1}
