@@ -54,6 +54,8 @@ const Register = () => {
     workHoursPerDay: "",
     workingType: "",
     extraCertificateFile: null,
+    resumeFileName: "",
+    extraCertificateArray:[],
     skills: [],
     category: "",
   });
@@ -109,6 +111,11 @@ const Register = () => {
   const userProfessionalInfo = (data1) => {
     setUserData({ ...userData, ...data1 });
     finalSubmit({ ...userData, ...data1 });
+  };
+
+  const initialProfInfo = (data) => {
+    setUserData({ ...userData, ...data });
+    // finalSubmit({ ...userData, ...data1 });
   };
 
   const uploadExtraCertificateFile = async (extraCertificate) => {
@@ -278,7 +285,7 @@ const Register = () => {
            let errors = '';
            let keys= Object.keys(resp.errors);
            keys.forEach(key => {
-            errors = errors+','+key
+            errors = key+','+errors
             }) 
 
             errors = errors.replace(/,\s*$/, "");
@@ -532,6 +539,8 @@ const Register = () => {
                     collegeList={collegeList}
                     handleSalaryExpectations={handleSalaryExpectations}
                     skillslist={skillslist}
+                    next={next}
+                    initialProfInfo={initialProfInfo}
                   />
                 )}
               </div>

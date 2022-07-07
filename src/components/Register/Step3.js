@@ -21,14 +21,32 @@ const Step3 = ({
   collegeList,
   handleSalaryExpectations,
   skillslist,
+  next,
+  initialProfInfo,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
+  const [resumeFile, setResumeFile] = useState("")
+  const [previewImg, setPreviewImg] = useState([]);
 
   const SaveStep3 = (values) => {
     userProfessionalInfo(values);
   };
+  const initaialSaveStep3 = (values) => {
+    initialProfInfo({...values,resumeFileName:resumeFile, extraCertificateArray:previewImg})
+    prevPage()
+  }
 
-  const [previewImg, setPreviewImg] = useState([]);
+  useEffect(()=>{
+    if(data.resumeFileName)
+    {
+      setResumeFile(data.resumeFileName)
+    }
+    if(data.extraCertificateArray && data.extraCertificateArray.length > 0)
+    {
+      setPreviewImg(data.extraCertificateArray);
+    }
+  },[data])
+  
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
     uploadExtraCertificateFile(image);
@@ -37,6 +55,7 @@ const Step3 = ({
 
   const handleResume = (event) => {
     let files = event.target.files[0];
+    setResumeFile(files.name)
     uploadResumeFile(files);
   };
 
@@ -68,6 +87,7 @@ const Step3 = ({
                     component={renderSelect}
                     placeholder="Enter college / university name"
                     type="text"
+                    defaultValue={next && data ? data.collegeId : ""}
                   >
                     <option value="" disabled>
                       Select College
@@ -93,6 +113,7 @@ const Step3 = ({
                       component={renderSelect}
                       placeholder="Year's"
                       type="text"
+                    defaultValue={next && data ? data.experienceInYears : ""}
                     >
                       <option value="0">0 year</option>
                       {[...Array.from(Array(51).keys())]
@@ -107,6 +128,7 @@ const Step3 = ({
                       component={renderSelect}
                       placeholder="Month's"
                       type="text"
+                    defaultValue={next && data ? data.experienceInMonths : ""}
                     >
                       <option value="0">0 month</option>
                       {[...Array.from(Array(13).keys())]
@@ -125,6 +147,7 @@ const Step3 = ({
                     placeholder="Enter salary expectations"
                     type="text"
                     pattern="[0-9]*"
+                    defaultValue={next && data ? data.expectedSalary : ""}
                   />
 
                   {/* <input
@@ -142,6 +165,7 @@ const Step3 = ({
                     label="Days / Week"
                     component={renderSelect}
                     type="text"
+                    defaultValue={next && data ? data.days : ""}
                   >
                     <option selected="">Select days</option>
                     <option value="1 day">1 day</option>
@@ -157,6 +181,7 @@ const Step3 = ({
                     label="Hours / day"
                     component={renderSelect}
                     type="text"
+                    defaultValue={next && data ? data.workHoursPerDay : ""}
                   >
                     <option selected="" disabled>
                       Select hours
@@ -178,6 +203,7 @@ const Step3 = ({
                     label="Category"
                     component={renderSelect}
                     type="text"
+                    defaultValue={next && data ? data.category : ""}
                   >
                     <option selected="">Select job category</option>
                     <option value="Web Development">Web Development</option>
@@ -193,6 +219,7 @@ const Step3 = ({
                     suggestions={skillslist}
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
+                    defaultValue={next && data ? data.skills : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -204,7 +231,7 @@ const Step3 = ({
                       value="1"
                       component={RenderRadioButtonField}
                       type="radio"
-                      defaultValue={data ? data.workingType : ""}
+                      defaultValue={next && data ? data.workingType : ""}
                     >
                       OnSite
                     </Field>
@@ -214,6 +241,7 @@ const Step3 = ({
                       value="2"
                       component={RenderRadioButtonField}
                       type="radio"
+                    defaultValue={next && data ? data.workingType : ""}
                     >
                       OffSite
                     </Field>
@@ -235,6 +263,7 @@ const Step3 = ({
                       accept=".jpg, .jpeg, .png"
                       type="file"
                     />
+                    {resumeFile && resumeFile.length > 0 && <li>{resumeFile}</li>}
                   </div>
                 </div>
                 <div className="form-field flex50">
@@ -247,6 +276,7 @@ const Step3 = ({
                       value="No"
                       component={RenderRadioButtonField}
                       type="radio"
+                    defaultValue={next && data ? data.certificate : ""}
                     >
                       No
                     </Field>
@@ -257,6 +287,7 @@ const Step3 = ({
                       value="Yes"
                       component={RenderRadioButtonField}
                       type="radio"
+                    defaultValue={next && data ? data.certificate : ""}
                     >
                       Yes
                     </Field>
@@ -312,7 +343,7 @@ const Step3 = ({
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => prevPage()}
+                  onClick={() => initaialSaveStep3(values)}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {" "}
