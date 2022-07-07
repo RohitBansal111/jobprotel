@@ -5,7 +5,7 @@ import {
   renderField,
   RenderRadioButtonField,
   renderSelect,
-  renderNumberField
+  renderNumberField,
 } from "../renderField";
 import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
@@ -23,30 +23,56 @@ const Step3 = ({
   skillslist,
   next,
   initialProfInfo,
+  
 }) => {
   let titleStrings = new LocalizedStrings(titles);
-  const [resumeFile, setResumeFile] = useState("")
+  const [resumeFile, setResumeFile] = useState("");
   const [previewImg, setPreviewImg] = useState([]);
+  const [error, setError] = useState([]);
+  const [certificate, setCertificate] = useState("");
 
-  const SaveStep3 = (values) => {
-    userProfessionalInfo(values);
-  };
+  // const [submit, setSubmit] = useState(false)
+  console.log(certificate);
+  
   const initaialSaveStep3 = (values) => {
-    initialProfInfo({...values,resumeFileName:resumeFile, extraCertificateArray:previewImg})
-    prevPage()
-  }
+    initialProfInfo({
+      ...values,
+      resumeFileName: resumeFile,
+      extraCertificateArray: previewImg,
+    });
+    prevPage();
+  };
 
-  useEffect(()=>{
-    if(data.resumeFileName)
-    {
-      setResumeFile(data.resumeFileName)
+  const validation = () => {
+    let err = {};
+    let isValid = true;
+    if(!resumeFile) {
+      err.resume = "resume file required"
+      isValid = false;
     }
-    if(data.extraCertificateArray && data.extraCertificateArray.length > 0)
-    {
+    if (certificate && certificate == "Yes" && previewImg && previewImg.length == 0) {
+      err.certificate = "certificate required"
+      isValid = false;
+    }
+    setError(err);
+    // setSubmit(true)
+    return isValid;
+  };
+  const SaveStep3 = (values) => {
+     if (validation()) {
+      userProfessionalInfo(values);
+     }
+  };
+
+  useEffect(() => {
+    if (data.resumeFileName) {
+      setResumeFile(data.resumeFileName);
+    }
+    if (data.extraCertificateArray && data.extraCertificateArray.length > 0) {
       setPreviewImg(data.extraCertificateArray);
     }
-  },[data])
-  
+  }, [data]);
+
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
     uploadExtraCertificateFile(image);
@@ -55,7 +81,7 @@ const Step3 = ({
 
   const handleResume = (event) => {
     let files = event.target.files[0];
-    setResumeFile(files.name)
+    setResumeFile(files.name);
     uploadResumeFile(files);
   };
 
@@ -113,13 +139,15 @@ const Step3 = ({
                       component={renderSelect}
                       placeholder="Year's"
                       type="text"
-                    defaultValue={next && data ? data.experienceInYears : ""}
+                      defaultValue={next && data ? data.experienceInYears : ""}
                     >
                       <option value="0">0 year</option>
                       {[...Array.from(Array(51).keys())]
                         .slice(1)
                         .map((num, i) => (
-                          <option key={i} value={num}>{num ? num + " year's" : ""}</option>
+                          <option key={i} value={num}>
+                            {num ? num + " year's" : ""}
+                          </option>
                         ))}
                     </Field>
                     <Field
@@ -128,13 +156,15 @@ const Step3 = ({
                       component={renderSelect}
                       placeholder="Month's"
                       type="text"
-                    defaultValue={next && data ? data.experienceInMonths : ""}
+                      defaultValue={next && data ? data.experienceInMonths : ""}
                     >
                       <option value="0">0 month</option>
                       {[...Array.from(Array(13).keys())]
                         .slice(1)
                         .map((num, i) => (
-                          <option key={i} value={num}>{num ? num + " month's" : ""}</option>
+                          <option key={i} value={num}>
+                            {num ? num + " month's" : ""}
+                          </option>
                         ))}
                     </Field>
                   </div>
@@ -241,7 +271,7 @@ const Step3 = ({
                       value="2"
                       component={RenderRadioButtonField}
                       type="radio"
-                    defaultValue={next && data ? data.workingType : ""}
+                      defaultValue={next && data ? data.workingType : ""}
                     >
                       OffSite
                     </Field>
@@ -263,7 +293,12 @@ const Step3 = ({
                       accept=".jpg, .jpeg, .png"
                       type="file"
                     />
-                    {resumeFile && resumeFile.length > 0 && <li>{resumeFile}</li>}
+                    <p style={{ color: "red" }}>
+                    {error && error.resume ? error.resume : ""}
+                  </p>
+                    {resumeFile && resumeFile.length > 0 && (
+                      <li>{resumeFile}</li>
+                    )}
                   </div>
                 </div>
                 <div className="form-field flex50">
@@ -276,7 +311,8 @@ const Step3 = ({
                       value="No"
                       component={RenderRadioButtonField}
                       type="radio"
-                    defaultValue={next && data ? data.certificate : ""}
+                      defaultValue={next && data ? data.certificate : ""}
+                      onChange={(e)=> setCertificate(e.target.value)}
                     >
                       No
                     </Field>
@@ -287,7 +323,8 @@ const Step3 = ({
                       value="Yes"
                       component={RenderRadioButtonField}
                       type="radio"
-                    defaultValue={next && data ? data.certificate : ""}
+                      defaultValue={next && data ? data.certificate : ""}
+                      onChange={(e)=> setCertificate(e.target.value)}
                     >
                       Yes
                     </Field>
@@ -325,6 +362,9 @@ const Step3 = ({
                       multiple
                     />
                   </div>
+                  <p style={{ color: "red" }}>
+                    {error && error.certificate ? error.certificate : ""}
+                  </p>
                   {previewImg &&
                     previewImg.length > 0 &&
                     previewImg.map((img) => (
