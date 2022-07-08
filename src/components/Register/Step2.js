@@ -17,7 +17,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import ImageCropperModal from "../Image-cropper";
 
 const Step2 = ({
-  userPersonalInfo,
+  userPersonalInfo, 
   nextPage,
   prevPage,
   data,
