@@ -18,7 +18,7 @@ import ImageCropperModal from "../Image-cropper";
 
 
 const Step2 = ({
-  userPersonalInfo,
+  userPersonalInfo, 
   nextPage,
   prevPage,
   data,
@@ -146,15 +146,15 @@ console.log("show",modal)
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
-      <div className="form-main">
-      <ImageCropperModal
-                        closeModal={closeModal}
-                        showImageCropModal={modal}
-                        readFile={readFile}
-                        imageSrc={img.personalInfoImg}
-                        setProfileImage={setProfileImage}
-                        setImg={setImg}
-                    />
+        <div className="form-main">
+          <ImageCropperModal
+            closeModal={closeModal}
+            showImageCropModal={modal}
+            readFile={readFile}
+            imageSrc={img.personalInfoImg}
+            setProfileImage={setProfileImage}
+            setImg={setImg}
+          />
         <Form  initialValues={data} onSubmit={SaveStep2} validate={validate}>
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>

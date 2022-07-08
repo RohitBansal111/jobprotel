@@ -2,11 +2,11 @@ import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import { renderField, renderNumberField } from "../renderField";
 import titles from "./register.json";
-import { RenderImageField } from "../file-input";
 import validate from "./validator/EmployerStep2Validate";
-import { useState } from "react";
+import React,{ useState } from "react";
+import ImageCropperModal from "../Image-cropper";
 
-const EmployerStep2 = ({
+const EmployerStep2 = ({ 
   prevPage,
   EmployerCompleteInfo,
   uploadLogoFile,
@@ -17,7 +17,11 @@ const EmployerStep2 = ({
   let titleStrings = new LocalizedStrings(titles);
 
   const [err, setErr] = useState([]);
-
+  const [cropperFinalMedia, setcropperFinalMedia] = useState(null);
+  const [imageSrc, setImageSrc] = React.useState(null);
+  const [profileImage, setProfileImage] = useState("");
+  const [userProfileAvtar, setUserProfileAvtar] = useState({});
+  const [modal, setModal] = useState(false);
   const [logo, setLogo] = useState("");
   const [img, setImg] = useState({
     LogoImg:
@@ -36,9 +40,10 @@ const EmployerStep2 = ({
   };
 
   const handleImageChange = (event) => {
+    setModal(true)
     if (event.target.files && event.target.files.length > 0) {
-      uploadLogoFile(event.target.files[0]);
-      setLogo(event.target.files[0]);
+      // uploadLogoFile(event.target.files[0]);
+      // setLogo(event.target.files[0]);
       setImg({ LogoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
@@ -56,9 +61,31 @@ const EmployerStep2 = ({
     });
     prevPage();
   };
+
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(reader.result), false);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const closeModal=()=>{
+    console.log("inclose")
+    setModal(false)
+  }
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Complete Information</h4>
+      <ImageCropperModal
+        closeModal={closeModal}
+        showImageCropModal={modal}
+        readFile={readFile}
+        imageSrc={img.personalInfoImg}
+        setProfileImage={setProfileImage}
+        setImg={setImg}
+      />
       <div className="form-main">
         <Form onSubmit={SaveStep2} validate={validate} initialValues={employer}>
           {({ handleSubmit, submitting, values }) => (
