@@ -9,9 +9,9 @@ const EmployerStep2Validate = (values) => {
      if(!values.recruitingManagerName){ 
           error.recruitingManagerName = "Required Manager Name"
      }
-     // if(!values.companyPhone){ 
-     //      error.companyPhone = "Required Contact Details"
-     // }
+     if(!values.companyPhone){ 
+          error.companyPhone = "Required Contact Details"
+     }
      return error;
    }
    

@@ -33,40 +33,6 @@ const Login = () => {
     });
   };
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   if(!termsPrivacy)
-  //   {
-  //     toast.error("Please accept terms policy first.");
-  //   }
-  //   if (userName !== "" && password !== "" && termsPrivacy) {
-  //     const resp = await authServices.loginUser(login);
-  //     const response = resp.data.data;
-  //     if (resp.status == 200 && response.roles == "STUDENT") {
-  //       toast.success("Login Successfully");
-  //       navigate("/find-work");
-  //     } else if (resp.status == 200 && response.roles == "EMPLOYER") {
-  //       toast.success("Login Successfully");
-  //       navigate("/posted-jobs");
-  //     } else if (resp.status == 400){
-  //       toast.error(resp.error ?resp.error:"Something went wrong");
-  //     }
-  //   }
-
-  //   // if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
-  //   //   toast.success("Login Successfully");
-  //   //   navigate("/find-work");
-  //   // } else if (
-  //   //   userName &&
-  //   //   userName == "sam1@gmail.com" &&
-  //   //   password == "Admin@12" &&
-  //   //   termsPrivacy
-  //   // ) {
-  //   //   toast.success("Login Successfully");
-  //   //   navigate("/posted-jobs");
-  //   // }
-  // };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!termsPrivacy) {
