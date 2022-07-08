@@ -36,7 +36,6 @@ export const renderNumberField = ({
           id={`label${label}`}
           className="form-control"
           pattern={pattern}
-          // value={data.value}
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

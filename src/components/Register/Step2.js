@@ -17,7 +17,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import ImageCropperModal from "../Image-cropper";
 
 const Step2 = ({
-  userPersonalInfo, 
+  userPersonalInfo,
   nextPage,
   prevPage,
   data,
@@ -25,6 +25,7 @@ const Step2 = ({
   countrylist,
   genderList,
   skillslist,
+  initialPersonalInfo,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [qualificationList, setQualificationList] = useState(null);
@@ -72,7 +73,6 @@ const Step2 = ({
   };
 
   const SaveStep2 = (values) => {
-    console.log("values", values);
     if (validation) {
       userPersonalInfo({
         ...values,
@@ -102,15 +102,12 @@ const Step2 = ({
   }, [data.countryId]);
 
   const handleChangeCountry = async (e) => {
-    // console.log(e.target.value);
     const resp = await dropdownServices.stateList(e.target.value);
     setStateList(resp.data);
   };
 
   const handleTimeZone = (data) => {
-    console.log(data);
     setTimezone(data.value);
-    //handleTimezoneData(data.value);
   };
 
   useMemo(() => {
@@ -128,6 +125,15 @@ const Step2 = ({
 
   const closeModal = () => {
     setModal(false);
+  };
+
+  const instanceSaveStep2 = (values) => {
+    initialPersonalInfo({
+      ...values,
+      profileImageUrl: img,
+      profileImage: profileImage,
+    });
+    prevPage();
   };
 
   return (
@@ -158,7 +164,7 @@ const Step2 = ({
                           value={gender.id}
                           component={RenderRadioButtonField}
                           type="radio"
-                          defaultValue={next && data ? data.genderId : ""}
+                          // defaultValue={next && data ? data.genderId : ""}
                         >
                           {gender.name}
                         </Field>
@@ -194,7 +200,7 @@ const Step2 = ({
                     component={renderField}
                     placeholder="Enter Address"
                     type="text"
-                    defaultValue={next && data ? data.address : ""}
+                    // defaultValue={next && data ? data.address : ""}
                   />
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -204,7 +210,7 @@ const Step2 = ({
                     component={renderField}
                     placeholder="Enter Address Line 1"
                     type="text"
-                    defaultValue={next && data ? data.addressLine1 : ""}
+                    // defaultValue={next && data ? data.addressLine1 : ""}
                   />
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -214,7 +220,7 @@ const Step2 = ({
                     component={renderField}
                     placeholder="Enter Address Line 2"
                     type="text"
-                    defaultValue={next && data ? data.addressLine2 : ""}
+                    // defaultValue={next && data ? data.addressLine2 : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -225,7 +231,7 @@ const Step2 = ({
                     placeholder="Enter Age"
                     type="text"
                     pattern="[0-9]*"
-                    defaultValue={next && data ? data.age : ""}
+                    // defaultValue={next && data ? data.age : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -234,9 +240,11 @@ const Step2 = ({
                     label={titleStrings.countryTitle}
                     component={renderSelect}
                     onChange={handleChangeCountry}
-                    defaultValue={next && data ? data.countryId : ""}
+                    // defaultValue={next && data ? data.countryId : ""}
                   >
-                    <option value="" disabled>Select Country</option>
+                    <option value="" disabled>
+                      Select Country
+                    </option>
                     {countrylist &&
                       countrylist.map((country) => (
                         <option value={country.id} key={country.id}>
@@ -250,7 +258,7 @@ const Step2 = ({
                     name="stateId"
                     label={titleStrings.stateTitle}
                     component={renderSelect}
-                    defaultValue={next && data ? data.stateId : ""}
+                    // defaultValue={next && data ? data.stateId : ""}
                   >
                     <option value="" disabled>
                       Select State
@@ -270,7 +278,7 @@ const Step2 = ({
                     component={renderField}
                     placeholder="Enter City"
                     type="text"
-                    defaultValue={next && data ? data.city : ""}
+                    // defaultValue={next && data ? data.city : ""}
                   ></Field>
                 </div>
                 <div className="form-field flex100">
@@ -281,7 +289,7 @@ const Step2 = ({
                     placeholder="Enter Zip Code"
                     type="text"
                     pattern="[0-9]*"
-                    defaultValue={next && data ? data.PostalCode : ""}
+                    // defaultValue={next && data ? data.PostalCode : ""}
                   />
                 </div>
 
@@ -308,7 +316,7 @@ const Step2 = ({
                     label={titleStrings.qualificationTitle}
                     component={renderSelect}
                     onChange={handleQualification}
-                    defaultValue={next && data ? data.qualificationId : ""}
+                    // defaultValue={next && data ? data.qualificationId : ""}
                   >
                     <option value="" disabled>
                       Select
@@ -328,7 +336,7 @@ const Step2 = ({
                       name="qualification"
                       label={titleStrings.qualificationTitle}
                       component={renderField}
-                      defaultValue={next && data ? data.qualification : ""}
+                      // defaultValue={next && data ? data.qualification : ""}
                     />
                   </div>
                 )}
@@ -347,7 +355,7 @@ const Step2 = ({
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => prevPage()}
+                  onClick={() => instanceSaveStep2(values)}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {titleStrings.prevTitle}{" "}

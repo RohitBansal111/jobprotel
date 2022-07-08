@@ -79,6 +79,7 @@ const Register = () => {
     companyName: "Desire",
   });
 
+  console.log(userData)
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
 
   const userBasicInfo = (data) => {
@@ -150,7 +151,6 @@ const Register = () => {
   const finalSubmit = async (userData) => {
     if (userData.workHoursPerDay !== "") {
       let user = userData;
-      console.log(user);
 
       let interestsArr = [];
       user.interests &&
@@ -246,15 +246,13 @@ const Register = () => {
   };
 
   const EmployerCompleteInfo = (data) => {
-    if (employer.recruitingManagerName !== "") {
-      setEmployer({ ...employer, ...data });
-    }
+    setEmployer({ ...employer, ...data });
     setCompleteEmpInfo(true);
   };
 
-  const uploadLogoFile = (data) => {
-    setEmployer({ ...employer, logoUrl: data });
-  };
+  const initialPersonalInfo = (data) => {
+    setEmployer({...employer, ...data})
+  }
 
   const finalSubmitEmployer = async () => {
     let formData = new FormData();
@@ -323,7 +321,9 @@ const Register = () => {
         <div className="register-sidebar">
           <div className="register-info-steps">
             <div className="brand-media">
-              <Link to="/register"><img src={Logo} alt="Real Job" /></Link>
+              <Link to="/register">
+                <img src={Logo} alt="Real Job" />
+              </Link>
             </div>
             <div className="register-content">
               <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>
@@ -467,6 +467,7 @@ const Register = () => {
                     countrylist={countrylist}
                     genderList={genderList}
                     skillslist={skillslist}
+                    initialPersonalInfo={initialPersonalInfo}
                   />
                 )}
                 {currentPage === 3 && (
@@ -500,12 +501,10 @@ const Register = () => {
                   <EmployerStep2
                     prevPage={prevPage}
                     nextPage={nextPage}
-                    userProfessionalInfo={userProfessionalInfo}
                     EmployerCompleteInfo={EmployerCompleteInfo}
-                    uploadLogoFile={uploadLogoFile}
                     employer={employer}
-                    next={next}
                     initialEmpStep2={initialEmpStep2}
+                    countrylist={countrylist}
                   />
                 )}
               </div>

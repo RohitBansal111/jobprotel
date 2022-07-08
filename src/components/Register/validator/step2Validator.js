@@ -4,7 +4,6 @@ const Step2Validator = (values) => {
   if (!values.genderId) {
     error.genderId = "Gender is Required";
   }
-  console.log("values-er",values)
   // if(!values.profileImage){
   //      error.profileImage = "Profile Image is Required"
   // }

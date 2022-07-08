@@ -4,74 +4,82 @@ import { renderField, renderNumberField, renderSelect } from "../renderField";
 import titles from "./register.json";
 import validate from "./validator/EmployerStep2Validate";
 import ImageCropperModal from "../Image-cropper";
-import React, { useState,useEffect } from "react";
-import RenderPhoneInput from "../renderPhoneInput";
+import React, { useState, useEffect } from "react";
+// import RenderPhoneInput from "../renderPhoneInput";
+import * as dropdownServices from "../../services/dropDownServices";
+import PhoneInput from "react-phone-number-input";
 
-const EmployerStep2 = ({ 
+const EmployerStep2 = ({
   prevPage,
   EmployerCompleteInfo,
-  uploadLogoFile,
   employer,
-  next,
   initialEmpStep2,
+  countrylist,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [modal, setModal] = useState(false);
   const [logoImage, setLogoImage] = useState([]);
   const [err, setErr] = useState([]);
-  const [cropperFinalMedia, setcropperFinalMedia] = useState(null);
-  const [imageSrc, setImageSrc] = React.useState(null);
   const [profileImage, setProfileImage] = useState("");
-  const [userProfileAvtar, setUserProfileAvtar] = useState({});
-  const [logo, setLogo] = useState("");
+  const [stateList, setStateList] = useState([]);
+  const [phoneNumberFlag, setphoneNumberFlag] = useState();
+
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
 
+  const handleImageChange = (event) => {
+    setModal(true);
+    if (event.target.files && event.target.files.length > 0) {
+      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
+    }
+  };
+
+  const handleChangeCountry = async (e) => {
+    const resp = await dropdownServices.stateList(e.target.value);
+    setStateList(resp.data);
+  };
+
+  useEffect(async () => {
+    const resp = await dropdownServices.stateList(employer.countryId);
+    setStateList(resp.data);
+  }, [employer.countryId]);
+
+  useEffect(async () => {
+    if (employer.logoImageUrl) {
+      setImg({ personalInfoImg: employer.logoImageUrl.personalInfoImg });
+      setLogoImage(employer.logoUrl);
+    }
+  }, []);
+
+  const SaveStep2 = (values) => {
+    console.log("called", values)
+    // if (validation()) {
+      EmployerCompleteInfo(values);
+    // }
+  };
+
+  const instanceSaveStep2 = (values) => {
+    console.log(values);
+    initialEmpStep2({
+      ...values,
+      logoImageUrl: img,
+      logoUrl: logoImage,
+      companyPhone: phoneNumberFlag,
+    });
+    prevPage();
+  };
+
   const validation = () => {
     let isValid = true;
     let error = {};
-    if (!logo) {
+    if (!img) {
       error.logo = "Profile Image is Required";
       isValid = false;
     }
     setErr(error);
     return isValid;
-  };
-
-  const handleImageChange = (event) => {
-    setModal(true)
-    if (event.target.files && event.target.files.length > 0) {
-      //uploadLogoFile(event.target.files[0]);
-      //setLogo(event.target.files[0]);
-      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
-    }
-  };
-
-  useEffect(async () => {
-    if(employer.logoImageUrl)
-    {  
-      setImg({personalInfoImg: employer.logoImageUrl.personalInfoImg})
-      setLogoImage(employer.logoUrl)
-    }
-    
-  }, []);
-
-  const SaveStep2 = (values) => {
-    if (validation()) {
-      EmployerCompleteInfo(values);
-    }
-  };
-
-  const instanceSaveStep2 = (values) => {
-    
-    initialEmpStep2({
-      ...values,
-      logoImageUrl:img,
-      logoUrl: logoImage
-    });
-    prevPage();
   };
 
   function readFile(file) {
@@ -82,10 +90,17 @@ const EmployerStep2 = ({
     });
   }
 
-  const closeModal=()=>{
-    console.log("inclose")
-    setModal(false)
-  }
+  const closeModal = () => {
+    console.log("inclose");
+    setModal(false);
+  };
+
+  useEffect(() => {
+    if (employer.companyPhone && employer.companyPhone !== "") {
+      setphoneNumberFlag(employer.companyPhone);
+    }
+  }, []);
+
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Company Information</h4>
@@ -97,14 +112,14 @@ const EmployerStep2 = ({
         setProfileImage={setProfileImage}
         setImg={setImg}
       />
-        <div className="form-main">
-          <ImageCropperModal
-            closeModal={closeModal}
-            showImageCropModal={modal}
-            readFile={readFile}
-            imageSrc={img.personalInfoImg}
-            setProfileImage={setLogoImage}
-            setImg={setImg}
+      <div className="form-main">
+        <ImageCropperModal
+          closeModal={closeModal}
+          showImageCropModal={modal}
+          readFile={readFile}
+          imageSrc={img.personalInfoImg}
+          setProfileImage={setLogoImage}
+          setImg={setImg}
         />
         <Form onSubmit={SaveStep2} validate={validate} initialValues={employer}>
           {({ handleSubmit, submitting, values }) => (
@@ -138,26 +153,40 @@ const EmployerStep2 = ({
                   <div style={{ color: "red" }}>{err && err.logo}</div>
                 </div>
                 <div className="form-field flex50 mb-2">
-                  <Field
+                  {/* <Field
                     name="companyPhone"
                     label={titleStrings.companyPhoneNoTitle}
                     component={RenderPhoneInput}
                     placeholder="Enter Company Phone Number"
                     type="text"
                     pattern="[0-9]*"
-                    defaultValue={next && employer ? employer.companyPhone : ""}
-                  />
-                 
+                  /> */}
+                  <div className="field-render-main">
+                    <label>Company Phone Number</label>
+                    <PhoneInput
+                    name="companyPhone"
+                      placeholder="Enter Company Phone Number"
+                      value={phoneNumberFlag}
+                      onChange={setphoneNumberFlag}
+                    />
+                  </div>
                 </div>
                 <div className="form-field flex50">
                   <Field
                     name="countryId"
                     label={titleStrings.countryTitle}
                     component={renderSelect}
+                    onChange={handleChangeCountry}
                   >
-                    <option value="">Select Country</option>
-                    <option>India</option>
-                    <option>USA</option>
+                    <option value="" disabled>
+                      Select Country
+                    </option>
+                    {countrylist &&
+                      countrylist.map((country) => (
+                        <option value={country.id} key={country.id}>
+                          {country.countryName}
+                        </option>
+                      ))}
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -166,10 +195,15 @@ const EmployerStep2 = ({
                     label={titleStrings.stateTitle}
                     component={renderSelect}
                   >
-                    <option value="" disabled>Select State</option>
-                    <option>Haryana</option>
-                    <option>Punjab</option>
-                    <option>Alaska</option>
+                    <option value="" disabled>
+                      Select State
+                    </option>
+                    {stateList &&
+                      stateList.map((state) => (
+                        <option value={state.id} key={state.id}>
+                          {state.stateName}
+                        </option>
+                      ))}
                   </Field>
                 </div>
                 <div className="form-field flex50">
@@ -188,7 +222,6 @@ const EmployerStep2 = ({
                     component={renderField}
                     placeholder="Enter company address"
                     type="text"
-                    defaultValue={next && employer ? employer.address : ""}
                   />
                 </div>
                 <div className="form-field flex100">
@@ -198,9 +231,6 @@ const EmployerStep2 = ({
                     component={renderField}
                     placeholder="Enter recuriting manager name"
                     type="text"
-                    defaultValue={
-                      next && employer ? employer.recruitingManagerName : ""
-                    }
                   />
                 </div>
               </div>
@@ -216,6 +246,7 @@ const EmployerStep2 = ({
                 <button
                   type="submit"
                   className="btn btn-primary next-btn text-white text-center"
+                  onClick={()=>SaveStep2(values)}
                 >
                   {" "}
                   {titleStrings.nextTitle}{" "}
