@@ -47,6 +47,8 @@
       }
       .brand-media {
         padding-bottom: 55px;
+        position: relative;
+        z-index: 99;
       }
     }
   }
@@ -323,6 +325,38 @@
         background-color: transparent !important;
         border: none !important;
       }
+    }
+  }
+}
+
+
+// Upload media
+.uploadImageSection{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  label{
+    flex: 0 0 100%;
+  }
+  .file-label-image{
+    flex: 0 0 80%;
+  }
+  .file-upload{
+      background-color: $Theme-primary-light;
+      padding: 10px;
+      height: 50px;
+      border-radius: 5px;
+      border: 1px solid #3ec2b3;
+     
+  }
+  .aws-placeholder{
+    border: 2px solid #1fbdad;
+    border-radius: 7px;
+    box-sizing: border-box;
+    img{
+      padding: 5px;
+      border-radius: 5px;
     }
   }
 }

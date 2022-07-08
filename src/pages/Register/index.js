@@ -10,6 +10,7 @@ import Logo from "./../../assets/images/logo.png";
 import * as authServices from "../../services/authServices";
 import * as dropdownData from "../../services/dropDownServices";
 import toast from "toastr";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -369,7 +370,7 @@ const Register = () => {
         <div className="register-sidebar">
           <div className="register-info-steps">
             <div className="brand-media">
-              <img src={Logo} alt="Real Job" />
+              <Link to="/register"><img src={Logo} alt="Real Job" /></Link>
             </div>
             <div className="register-content">
               <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>
@@ -473,7 +474,7 @@ const Register = () => {
                     }
                   >
                     <div className="register-steps">
-                      <h5>Complete Information</h5>
+                      <h5>Company Information</h5>
                       <p>Please add complete the profile</p>
                     </div>
                   </li>

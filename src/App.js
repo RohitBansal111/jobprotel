@@ -14,6 +14,7 @@ import Profile from './pages/profile';
 import EditProfile from './pages/profile/EditProfile';
 import Register from './pages/Register';
 import './scss/Main.scss' 
+import 'react-phone-number-input/style.css'
 import EmployerRoles from './pages/Employer/roles';
 import ReviewApplications from './pages/Employer/posted-job/review-applications';
 import EmployerProfile from './pages/Employer/profile';

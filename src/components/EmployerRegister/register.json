@@ -3,13 +3,16 @@
          "pageTitle": "Mentor List",
          "firstNameTitle": "First Name",
          "lastNameTitle": "Last Name",
-         "emailAddressTitle": "Email Address",
+         "companyEmailAddressTitle": "Company Email Address",
          "passwordTitle": "Password",
          "confirmPasswordTitle": "Confirm Password",
          "companyLogoTitle": "Company Logo",
          "companyAddressTitle": "Company Address",
          "managerNameTitle": "Recruiting Manager Name",
-         "contactDetailsTitle": "Contact Details",
+         "companyPhoneNoTitle": "Company Phone Number",
+         "countryTitle": "Country",
+         "stateTitle": "State",
+         "cityTitle": "City",
          "prevTitle": "Previous",
          "nextTitle": "Next"
      }

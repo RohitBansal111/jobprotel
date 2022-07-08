@@ -72,7 +72,7 @@ const ImageCropperModal = ({
           </div>
           <div className="image-cropper-actions">
             <div className="action-sliders">
-              <p> Zoomm </p>
+              <p> Zoom </p>
               <Slider
                 value={zoom}
                 min={1}

@@ -83,7 +83,7 @@ const Login = () => {
         <div className="register-sidebar">
           <div className="register-info-steps justify-content-start">
             <div className="brand-media">
-              <img src={Logo} alt="Real Job" />
+              <Link to="/"><img src={Logo} alt="Real Job" /></Link>
             </div>
             <div className="register-content">
               <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>

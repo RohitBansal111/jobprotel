@@ -1,11 +1,11 @@
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
-import { renderField, renderNumberField } from "../renderField";
+import { renderField, renderNumberField, renderSelect } from "../renderField";
 import titles from "./register.json";
 import validate from "./validator/EmployerStep2Validate";
 import ImageCropperModal from "../Image-cropper";
-
 import React, { useState,useEffect } from "react";
+import RenderPhoneInput from "../renderPhoneInput";
 
 const EmployerStep2 = ({ 
   prevPage,
@@ -88,7 +88,7 @@ const EmployerStep2 = ({
   }
   return (
     <div className="register-form">
-      <h4 className="text-primary text-left">Complete Information</h4>
+      <h4 className="text-primary text-left">Company Information</h4>
       <ImageCropperModal
         closeModal={closeModal}
         showImageCropModal={modal}
@@ -97,38 +97,89 @@ const EmployerStep2 = ({
         setProfileImage={setProfileImage}
         setImg={setImg}
       />
-      <div className="form-main">
-                     <ImageCropperModal
-                        closeModal={closeModal}
-                        showImageCropModal={modal}
-                        readFile={readFile}
-                        imageSrc={img.personalInfoImg}
-                        setProfileImage={setLogoImage}
-                        setImg={setImg}
-                    />
+        <div className="form-main">
+          <ImageCropperModal
+            closeModal={closeModal}
+            showImageCropModal={modal}
+            readFile={readFile}
+            imageSrc={img.personalInfoImg}
+            setProfileImage={setLogoImage}
+            setImg={setImg}
+        />
         <Form onSubmit={SaveStep2} validate={validate} initialValues={employer}>
           {({ handleSubmit, submitting, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex100">
-                  <input
-                    name="logoUrl"
-                    label={titleStrings.companyLogoTitle}
-                    accept=".jpg, .jpeg, .png"
-                    onChange={handleImageChange}
-                    type="file"
-                  />
-                  <div className="aws-placeholder image4">
-                    <img
-                      src={img.personalInfoImg}
-                      className="img-aws"
-                      alt="user"
-                      width={100}
-                      height={100}
-                      layout="fill"
-                    />
+                  <div className="uploadImageSection mb-2">
+                    <div className="file-label-image">
+                      <label>Upload Profile</label>
+                      <div className="file-upload">
+                        <input
+                          name="logoUrl"
+                          label={titleStrings.companyLogoTitle}
+                          accept=".jpg, .jpeg, .png"
+                          onChange={handleImageChange}
+                          type="file"
+                        />
+                      </div>
+                    </div>
+                    <div className="aws-placeholder image4">
+                      <img
+                        src={img.personalInfoImg}
+                        className="img-aws"
+                        alt="user"
+                        width={100}
+                        height={100}
+                        layout="fill"
+                      />
+                    </div>
                   </div>
                   <div style={{ color: "red" }}>{err && err.logo}</div>
+                </div>
+                <div className="form-field flex50 mb-2">
+                  <Field
+                    name="companyPhone"
+                    label={titleStrings.companyPhoneNoTitle}
+                    component={RenderPhoneInput}
+                    placeholder="Enter Company Phone Number"
+                    type="text"
+                    pattern="[0-9]*"
+                    defaultValue={next && employer ? employer.companyPhone : ""}
+                  />
+                 
+                </div>
+                <div className="form-field flex50">
+                  <Field
+                    name="countryId"
+                    label={titleStrings.countryTitle}
+                    component={renderSelect}
+                  >
+                    <option value="">Select Country</option>
+                    <option>India</option>
+                    <option>USA</option>
+                  </Field>
+                </div>
+                <div className="form-field flex50">
+                  <Field
+                    name="stateId"
+                    label={titleStrings.stateTitle}
+                    component={renderSelect}
+                  >
+                    <option value="" disabled>Select State</option>
+                    <option>Haryana</option>
+                    <option>Punjab</option>
+                    <option>Alaska</option>
+                  </Field>
+                </div>
+                <div className="form-field flex50">
+                  <Field
+                    name="city"
+                    label={titleStrings.cityTitle}
+                    component={renderField}
+                    placeholder="Enter City"
+                    type="text"
+                  ></Field>
                 </div>
                 <div className="form-field flex100">
                   <Field
@@ -150,17 +201,6 @@ const EmployerStep2 = ({
                     defaultValue={
                       next && employer ? employer.recruitingManagerName : ""
                     }
-                  />
-                </div>
-                <div className="form-field flex100 mb-2">
-                  <Field
-                    name="companyPhone"
-                    label={titleStrings.contactDetailsTitle}
-                    component={renderNumberField}
-                    placeholder="Enter contact details"
-                    type="text"
-                    pattern="[0-9]*"
-                    defaultValue={next && employer ? employer.companyPhone : ""}
                   />
                 </div>
               </div>
