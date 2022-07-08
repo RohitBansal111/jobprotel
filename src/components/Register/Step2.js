@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
 import {
@@ -16,19 +16,13 @@ import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import ImageCropperModal from "../Image-cropper";
 
-
 const Step2 = ({
   userPersonalInfo,
   nextPage,
   prevPage,
   data,
   next,
-  uploadFile,
   countrylist,
-  setUserData,
-  handleTimezoneData,
-  handleAgeChange,
-  handlePostalCodeChange,
   genderList,
   skillslist,
 }) => {
@@ -38,9 +32,6 @@ const Step2 = ({
   const [profileImage, setProfileImage] = useState("");
   const [qualificationId, setQualificationId] = useState("");
   const [inputField, setInputField] = useState(false);
-  const [cropperFinalMedia, setcropperFinalMedia] = useState(null);
-  const [imageSrc, setImageSrc] = React.useState(null);
-  const [userProfileAvtar, setUserProfileAvtar] = useState({});
   const [modal, setModal] = useState(false);
   const [datetime, setDatetime] = useState(spacetime.now());
   const [timezone, setTimezone] = useState(
@@ -64,45 +55,45 @@ const Step2 = ({
   };
 
   const handleImageChange = (event) => {
-    setModal(true)
+    setModal(true);
     if (event.target.files && event.target.files.length > 0) {
-      //setProfileImage(event.target.files[0])
-      //setUserData({ ...data, profileImage: event.target.files[0] });
-      //uploadFile(event.target.files[0]);
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
 
   const handleQualification = (e) => {
     let value = e.target.value;
-    setQualificationId(value)
+    setQualificationId(value);
     if (value == "Other") {
       setInputField(true);
-    }else{
+    } else {
       setInputField(false);
     }
   };
 
   const SaveStep2 = (values) => {
-    console.log("values",values)
-    if(validation)
-    {
-      userPersonalInfo({...values,timezone: timezone,qualificationId:qualificationId,profileImageUrl:img,profileImage: profileImage});
+    console.log("values", values);
+    if (validation) {
+      userPersonalInfo({
+        ...values,
+        timezone: timezone,
+        qualificationId: qualificationId,
+        profileImageUrl: img,
+        profileImage: profileImage,
+      });
       nextPage();
     }
-   };
+  };
 
   useEffect(async () => {
     const resp = await dropdownServices.qualificationList();
     setQualificationList(resp.data);
-    setQualificationId(data.qualificationId && data.qualificationId)
-    console.log("data.profileImageUrl-9",data.profileImageUrl)
-    if(data.profileImageUrl)
-    {  
-      setImg({personalInfoImg: data.profileImageUrl.personalInfoImg})
-      setProfileImage(data.profileImage)
+    setQualificationId(data.qualificationId && data.qualificationId);
+    console.log("data.profileImageUrl-9", data.profileImageUrl);
+    if (data.profileImageUrl) {
+      setImg({ personalInfoImg: data.profileImageUrl.personalInfoImg });
+      setProfileImage(data.profileImage);
     }
-    
   }, []);
 
   useEffect(async () => {
@@ -127,7 +118,6 @@ const Step2 = ({
     setDatetime(datetime.goto(timezoneValue));
   }, [timezone]);
 
-
   function readFile(file) {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -136,26 +126,23 @@ const Step2 = ({
     });
   }
 
-  const closeModal=()=>{
-    console.log("inclose")
-    setModal(false)
-  }
-
-console.log("show",modal)
+  const closeModal = () => {
+    setModal(false);
+  };
 
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Personal Information</h4>
       <div className="form-main">
-      <ImageCropperModal
-                        closeModal={closeModal}
-                        showImageCropModal={modal}
-                        readFile={readFile}
-                        imageSrc={img.personalInfoImg}
-                        setProfileImage={setProfileImage}
-                        setImg={setImg}
-                    />
-        <Form  initialValues={data} onSubmit={SaveStep2} validate={validate}>
+        <ImageCropperModal
+          closeModal={closeModal}
+          showImageCropModal={modal}
+          readFile={readFile}
+          imageSrc={img.personalInfoImg}
+          setProfileImage={setProfileImage}
+          setImg={setImg}
+        />
+        <Form initialValues={data} onSubmit={SaveStep2} validate={validate}>
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
@@ -198,7 +185,6 @@ console.log("show",modal)
                       height={100}
                       layout="fill"
                     />
-                    
                   </div>
                 </div>
                 <div className="form-field flex100 mb-2">
@@ -232,16 +218,6 @@ console.log("show",modal)
                   />
                 </div>
                 <div className="form-field flex50">
-                  {/* <div>Age</div> */}
-                  {/* <input
-                    name="age"
-                    type="text"
-                    pattern="[0-9]*"
-                    placeholder="Enter Age"
-                    value={data ? data.age : ""}
-                    onChange={handleAgeChange}
-                  /> */}
-                  {/* <div style={{ color: "red" }}>{err && err.age}</div> */}
                   <Field
                     name="age"
                     label={titleStrings.ageTitle}
@@ -260,7 +236,7 @@ console.log("show",modal)
                     onChange={handleChangeCountry}
                     defaultValue={next && data ? data.countryId : ""}
                   >
-                    <option value="">Select Country</option>
+                    <option value="" disabled>Select Country</option>
                     {countrylist &&
                       countrylist.map((country) => (
                         <option value={country.id} key={country.id}>
@@ -298,7 +274,6 @@ console.log("show",modal)
                   ></Field>
                 </div>
                 <div className="form-field flex100">
-                  
                   <Field
                     name="PostalCode"
                     label={titleStrings.zipcodeTitle}
@@ -308,9 +283,8 @@ console.log("show",modal)
                     pattern="[0-9]*"
                     defaultValue={next && data ? data.PostalCode : ""}
                   />
-                  
                 </div>
-               
+
                 <div className="form-field flex100">
                   <div className="timezone--wrapper">
                     <label>Time Zone</label>
@@ -328,7 +302,7 @@ console.log("show",modal)
                     <div style={{ color: "red" }}>{err && err.timeZone}</div>
                   </div>
                 </div>
-              <div className="form-field flex100">
+                <div className="form-field flex100">
                   <Field
                     name="qualificationId"
                     label={titleStrings.qualificationTitle}
@@ -348,17 +322,16 @@ console.log("show",modal)
                     <option value="Other">Other</option>
                   </Field>
                 </div>
-                {inputField && 
-                <div className="form-field flex100">
-                  <Field
-                    name="qualification"
-                    label={titleStrings.qualificationTitle}
-                    component={renderField}
-                    // onChange={handleQualification}
-                    defaultValue={next && data ? data.qualification : ""}
-                  />
-                </div>
-              }
+                {inputField && (
+                  <div className="form-field flex100">
+                    <Field
+                      name="qualification"
+                      label={titleStrings.qualificationTitle}
+                      component={renderField}
+                      defaultValue={next && data ? data.qualification : ""}
+                    />
+                  </div>
+                )}
                 <div className="form-field flex100">
                   <Field
                     name="interests"
@@ -389,7 +362,6 @@ console.log("show",modal)
             </form>
           )}
         </Form>
-         
       </div>
     </div>
   );

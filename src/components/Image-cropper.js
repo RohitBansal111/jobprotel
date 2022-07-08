@@ -13,7 +13,6 @@ const ImageCropperModal = ({
   setProfileImage,
   setImg
 }) => {
-  console.log("showImageCropModal23",showImageCropModal)
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
@@ -34,17 +33,27 @@ const ImageCropperModal = ({
         rotation
       );
       console.log("donee", { croppedImage });
+      // convertToBlob(croppedImage)
       setCroppedImage(croppedImage);
       setProfileImage(croppedImage);
       setImg({personalInfoImg: croppedImage})
       closeModal()
-      console.log("cropped")
     } catch (e) {
       console.error(e);
     }
   }, [imageSrc, croppedAreaPixels, rotation,closeModal,setProfileImage,setImg]);
 
-  console.log("showImageCropModal",showImageCropModal)
+  const convertToBlob = async (base64) => {
+    try {
+      const base64Response = await fetch(`${base64}`);
+      const blob = await base64Response.blob();
+      console.log(blob);
+      return blob;
+    } catch (error) {
+      return null;
+    }
+  };
+  
   return (
     <Modal
       open={showImageCropModal}

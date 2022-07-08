@@ -21,7 +21,6 @@ const Register = () => {
   const [collegeList, setCollegelist] = useState([]);
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
-  const [skills, setSkills] = useState([]);
 
   const [userData, setUserData] = useState({
     PostalCode: "",
@@ -34,13 +33,13 @@ const Register = () => {
     collegeId: "",
     confirmPassword: "",
     countryId: "",
-    certificate: "",
+    certificate: "No",
     email: "",
     expectedSalary: "",
     experienceInYears: "",
     experienceInMonths: "",
     firstName: "",
-    genderId: "14ce6a75-7a2f-426e-a214-96a6a79a95mal",
+    genderId: "d123278e-e84e-487d-b4ed-643e8340e9fc",
     interests: [],
     lastName: "",
     password: "",
@@ -53,7 +52,7 @@ const Register = () => {
     stateId: "",
     timezone: "",
     workHoursPerDay: "",
-    workingType: "",
+    workingType: "1",
     extraCertificateFile: null,
     resumeFileName: "",
     extraCertificateArray: [],
@@ -74,36 +73,18 @@ const Register = () => {
     companyPhone: "",
     roles: "",
     phone: "1212343123",
-    companyEmail: "ASD@gmail.com",
-    companyName: "asdfg",
+    companyEmail: "Aslam11@gmail.com",
+    companyName: "Desire",
   });
 
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
-
-  const [error, setError] = useState([]);
 
   const userBasicInfo = (data) => {
     setUserData({ ...userData, ...data });
   };
 
-  const handleCaptchaCode = (captcha) => {
-    setUserData({ ...userData, captcha: captcha });
-  };
-
   const userPersonalInfo = (data) => {
     setUserData({ ...userData, ...data });
-  };
-
-  const uploadFile = (profileImage) => {
-    setUserData({ ...userData, profileImage: profileImage });
-    // let baseURL = "";
-    // let reader = new FileReader();
-    // reader.readAsDataURL(profileImage);
-    // reader.onload = () => {
-    //   baseURL = reader.result;
-   // console.log(baseURL, "baseUrl..");
-    //   setUserData({ ...userData, profileImage: baseURL });
-    // };
   };
 
   const userProfessionalInfo = (data1) => {
@@ -162,34 +143,6 @@ const Register = () => {
 
   const handleRole = (role) => {
     setActiveRole(role);
-  };
-
-  const handleTimezoneData = (data) => {
-    setUserData({ ...userData, timezone: data });
-  };
-
-  const handleAgeChange = (e) => {
-    let { name, value } = e.target;
-    let data = e.target.validity.valid ? value : undefined;
-    if (data !== undefined) {
-      setUserData({ ...userData, age: data });
-    }
-  };
-
-  const handlePostalCodeChange = (e) => {
-    let { name, value } = e.target;
-    let data = e.target.validity.valid ? value : undefined;
-    if (data !== undefined) {
-      setUserData({ ...userData, PostalCode: data });
-    }
-  };
-
-  const handleSalaryExpectations = (e) => {
-    let { name, value } = e.target;
-    let data = e.target.validity.valid ? value : undefined;
-    if (data !== undefined) {
-      setUserData({ ...userData, expectedSalary: data });
-    }
   };
 
   const finalSubmit = async (userData) => {
@@ -500,8 +453,6 @@ const Register = () => {
                     nextPage={nextPage}
                     userBasicInfo={userBasicInfo}
                     data={userData}
-                    next={next}
-                    handleCaptchaCode={handleCaptchaCode}
                   />
                 )}
                 {currentPage === 2 && (
@@ -510,13 +461,8 @@ const Register = () => {
                     nextPage={nextPage}
                     userPersonalInfo={userPersonalInfo}
                     data={userData}
-                    setUserData={setUserData}
                     next={next}
-                    uploadFile={uploadFile}
                     countrylist={countrylist}
-                    handleTimezoneData={handleTimezoneData}
-                    handleAgeChange={handleAgeChange}
-                    handlePostalCodeChange={handlePostalCodeChange}
                     genderList={genderList}
                     skillslist={skillslist}
                   />
@@ -530,11 +476,9 @@ const Register = () => {
                     data={userData}
                     setArray={setArray}
                     collegeList={collegeList}
-                    handleSalaryExpectations={handleSalaryExpectations}
                     skillslist={skillslist}
                     next={next}
                     initialProfInfo={initialProfInfo}
-                    error={error}
                   />
                 )}
               </div>

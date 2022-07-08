@@ -113,3 +113,22 @@ export const skillsList = async () => {
     };
   }
 };
+
+export const tagsList = async () => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Tag`
+    );
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+};

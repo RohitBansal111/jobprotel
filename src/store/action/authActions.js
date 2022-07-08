@@ -1,6 +1,7 @@
 import * as types from "../../types/auth";
 import { loginUser } from "../../services/authServices";
 import toast from "toastr";
+
 export const login = (user, navigate) => {
   toast.options = { preventDuplicates: true };
   return async (dispatch) => {

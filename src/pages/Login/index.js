@@ -39,7 +39,7 @@ const Login = () => {
       toast.error("Please accept terms policy first.");
     }
     if (userName !== "" && password !== "" && termsPrivacy) {
-      dispatch(authActions.login(login, navigate));
+      // dispatch(authActions.login(login, navigate));
       // const resp = await authServices.loginUser(login);
       // const response = resp.data.data;
       // if (resp.status == 200 && response.roles == "STUDENT") {
@@ -53,18 +53,18 @@ const Login = () => {
       // }
     }
 
-    // if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
-    //   toast.success("Login Successfully");
-    //   navigate("/find-work");
-    // } else if (
-    //   userName &&
-    //   userName == "sam1@gmail.com" &&
-    //   password == "Admin@12" &&
-    //   termsPrivacy
-    // ) {
-    //   toast.success("Login Successfully");
-    //   navigate("/posted-jobs");
-    // }
+    if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
+      toast.success("Login Successfully");
+      navigate("/find-work");
+    } else if (
+      userName &&
+      userName == "sam1@gmail.com" &&
+      password == "Admin@12" &&
+      termsPrivacy
+    ) {
+      toast.success("Login Successfully");
+      navigate("/posted-jobs");
+    }
   };
   const handleInputChange = (event) => {
     const target = event.target;

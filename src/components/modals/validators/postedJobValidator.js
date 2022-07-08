@@ -3,8 +3,8 @@ const PostedJobValidator = (values) => {
      if(!values.designation){ 
           error.designation = "Required designation"
      }
-     if(!values.education){ 
-          error.education = "Required education"
+     if(!values.qualification){ 
+          error.qualification = "Required education"
      }
      if(!values.skills){ 
           error.skills = "Required skills"
@@ -12,17 +12,17 @@ const PostedJobValidator = (values) => {
      if(!values.software){ 
           error.software = "Required software"
      }
-     if(!values.experience){ 
-          error.experience = "Required experience"
+     if(!values.experienceInYears){ 
+          error.experienceInYears = "Required experience in Years"
      }
      if(!values.onsite){ 
           error.onsite = "Required onsite"
      }
-     if(!values.hoursDays){ 
-          error.hoursDays = "Required hours/Days"
+     if(!values.hoursPerDay){ 
+          error.hoursPerDay = "Required hours/Days"
      }
-     if(!values.jobTimingDays){ 
-          error.jobTimingDays = "Required Job Timing/Days"
+     if(!values.timing){ 
+          error.timing = "Required Job Timing/Days"
      }
      if(!values.salary){ 
           error.salary = "Required salary"
@@ -32,6 +32,9 @@ const PostedJobValidator = (values) => {
      }
      if(!values.description){ 
           error.description = "Required Job Description"
+     }
+     if(!values.location){ 
+          error.location = "Required Job Description"
      }
     return error;
 }

@@ -19,11 +19,9 @@ const Step3 = ({
   data,
   setArray,
   collegeList,
-  handleSalaryExpectations,
   skillslist,
   next,
   initialProfInfo,
-  
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [resumeFile, setResumeFile] = useState("");
@@ -31,9 +29,8 @@ const Step3 = ({
   const [error, setError] = useState([]);
   const [certificate, setCertificate] = useState("");
 
-  // const [submit, setSubmit] = useState(false)
   console.log(certificate);
-  
+
   const instanceSaveStep3 = (values) => {
     initialProfInfo({
       ...values,
@@ -46,22 +43,26 @@ const Step3 = ({
   const validation = () => {
     let err = {};
     let isValid = true;
-    if(!resumeFile) {
-      err.resume = "resume file required"
+    if (!resumeFile) {
+      err.resume = "resume file required";
       isValid = false;
     }
-    if (certificate && certificate == "Yes" && previewImg && previewImg.length == 0) {
-      err.certificate = "certificate required"
+    if (
+      certificate &&
+      certificate == "Yes" &&
+      previewImg &&
+      previewImg.length == 0
+    ) {
+      err.certificate = "certificate required";
       isValid = false;
     }
     setError(err);
-    // setSubmit(true)
     return isValid;
   };
   const SaveStep3 = (values) => {
-     if (validation()) {
+    if (validation()) {
       userProfessionalInfo(values);
-     }
+    }
   };
 
   useEffect(() => {
@@ -281,12 +282,12 @@ const Step3 = ({
                       label={titleStrings.resumeTitle}
                       name="resumeFile"
                       onChange={handleResume}
-                      accept=".jpg, .jpeg, .png"
+                      accept=".jpg, .jpeg, .png, application/pdf"
                       type="file"
                     />
                     <p style={{ color: "red" }}>
-                    {error && error.resume ? error.resume : ""}
-                  </p>
+                      {error && error.resume ? error.resume : ""}
+                    </p>
                     {resumeFile && resumeFile.length > 0 && (
                       <li>{resumeFile}</li>
                     )}
@@ -297,40 +298,28 @@ const Step3 = ({
                   <div className="radio-button-groupss">
                     <Field
                       label={titleStrings.noTitle}
-                      // inputOnChange={handleChange}
                       name="certificate"
                       value="No"
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
-                      onChange={(e)=> setCertificate(e.target.value)}
+                      onChange={(e) => setCertificate(e.target.value)}
                     >
                       No
                     </Field>
                     <Field
                       label={titleStrings.yesTitle}
-                      // inputOnChange={handleChange}
                       name="certificate"
                       value="Yes"
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
-                      onChange={(e)=> setCertificate(e.target.value)}
+                      onChange={(e) => setCertificate(e.target.value)}
                     >
                       Yes
                     </Field>
                   </div>
                 </div>
-                <div className="form-field flex100 noLabel">
-                  {/* <Field
-                    name="document"
-                    label="Extra Documents"
-                    uploadLabel="Browse Documents"
-                    component={RenderFileUploadField}
-                    type="text"
-                  /> */}
-                </div>
-
                 <div className="form-field flex100 noLabel">
                   <div className="resume-upload">
                     <button
