@@ -91,11 +91,6 @@ const Register = () => {
   };
 
   const userPersonalInfo = (data) => {
-    // let arr = []
-    // {data.interests.map(interest => (
-    //   arr.push(interest.text)
-    // ))}
-    // setSkills(arr)
     setUserData({ ...userData, ...data });
   };
 
@@ -106,7 +101,7 @@ const Register = () => {
     // reader.readAsDataURL(profileImage);
     // reader.onload = () => {
     //   baseURL = reader.result;
-    //   // console.log(baseURL, "baseUrl..");
+   // console.log(baseURL, "baseUrl..");
     //   setUserData({ ...userData, profileImage: baseURL });
     // };
   };
@@ -118,7 +113,10 @@ const Register = () => {
 
   const initialProfInfo = (data) => {
     setUserData({ ...userData, ...data });
-    // finalSubmit({ ...userData, ...data1 });
+  };
+
+  const initialEmpStep2 = (data) => {
+    setEmployer({ ...employer, ...data });
   };
 
   const uploadExtraCertificateFile = async (extraCertificate) => {
@@ -201,19 +199,11 @@ const Register = () => {
 
       let interestsArr = [];
       user.interests &&
-        user.interests.map((interest) =>
-          // console.log(interest.text)
-          interestsArr.push(interest.text)
-        );
+        user.interests.map((interest) => interestsArr.push(interest.text));
 
       let skillsArr = [];
-      user.skills &&
-        user.skills.map((skill) =>
-          // console.log(skill.text)
-          skillsArr.push(skill.text)
-        );
+      user.skills && user.skills.map((skill) => skillsArr.push(skill.text));
 
-      //{...userData, interests: interestsArr, skills: skillsArr}
       let formData = new FormData();
       // let keys= Object.keys(userData);
 
@@ -226,18 +216,18 @@ const Register = () => {
       formData.append("addressLine1", userData.addressLine1);
       formData.append("addressLine2", userData.addressLine2);
       formData.append("age", userData.age);
-      formData.append("captcha", userData.captcha);
+      // formData.append("captcha", userData.captcha);
       formData.append("city", userData.city);
       formData.append("collegeId", userData.collegeId);
       formData.append("confirmPassword", userData.confirmPassword);
       formData.append("countryId", userData.countryId);
+      formData.append("category", userData.category);
       formData.append("email", userData.email);
       formData.append("expectedSalary", userData.expectedSalary);
       formData.append("experienceInYears", userData.experienceInYears);
       formData.append("experienceInMonths", userData.experienceInMonths);
       formData.append("firstName", userData.firstName);
       formData.append("genderId", userData.genderId);
-      // formData.append("interests",userData.interests)
       for (var i = 0; i < interestsArr.length; i++) {
         formData.append(`interests[${i}]`, interestsArr[i]);
       }
@@ -256,7 +246,6 @@ const Register = () => {
       formData.append("timezone", userData.timezone);
       formData.append("workHoursPerDay", userData.workHoursPerDay);
       formData.append("workingType", userData.workingType);
-      // formData.append("extraCertificateFile",userData.extraCertificateFile)
       if (
         userData.extraCertificateFile &&
         userData.extraCertificateFile.length > 0
@@ -268,37 +257,31 @@ const Register = () => {
           );
         }
       }
-      // formData.append("skills",userData.skills)
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
       }
-      // formData.append("skills",userData.skills)
-      formData.append("category", userData.category);
 
-      
-        const resp = await authServices.registerUser(formData);
-        console.log(resp);
+      const resp = await authServices.registerUser(formData);
 
-        if (resp && resp.status == 200) {
-          navigate("/");
-          toast.success(
-            resp.data.message ? resp.data.message : "Something went wrong"
-          );
-        } else {
-          if (resp.errors && typeof resp.errors === "object") {
-            let errors = "";
-            let keys = Object.keys(resp.errors);
-            keys.forEach((key) => {
-              errors = key + "," + errors;
-            });
+      if (resp && resp.status == 200) {
+        navigate("/");
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+      } else {
+        if (resp.errors && typeof resp.errors === "object") {
+          let errors = "";
+          let keys = Object.keys(resp.errors);
+          keys.forEach((key) => {
+            errors = key + "," + errors;
+          });
 
-            errors = errors.replace(/,\s*$/, "");
-            toast.error(errors + "is Required");
-          } else if (resp.error) {
-            toast.error(resp.error ? resp.error : "Something went wrong");
-          }
+          errors = errors.replace(/,\s*$/, "");
+          toast.error(errors + "is Required");
+        } else if (resp.error) {
+          toast.error(resp.error ? resp.error : "Something went wrong");
         }
-      
+      }
     }
   };
 
@@ -306,8 +289,6 @@ const Register = () => {
   const employerBasicInfo = (data) => {
     setEmployer({ ...employer, ...data });
   };
-
-  
 
   const EmployerCompleteInfo = (data) => {
     if (employer.recruitingManagerName !== "") {
@@ -318,14 +299,6 @@ const Register = () => {
 
   const uploadLogoFile = (data) => {
     setEmployer({ ...employer, logoUrl: data });
-  };
-
-  const compPhoneChange = (e) => {
-    let { name, value } = e.target;
-    let data = e.target.validity.valid ? value : undefined;
-    if (data !== undefined) {
-      setEmployer({ ...employer, companyPhone: data });
-    }
   };
 
   const finalSubmitEmployer = async () => {
@@ -347,7 +320,22 @@ const Register = () => {
     const resp = await authServices.registerEmployer(formData);
     if (resp && resp.status == 200) {
       navigate("/");
-      alert(resp.data.message);
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    } else {
+      if (resp.errors && typeof resp.errors === "object") {
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
+        });
+
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      }
     }
   };
 
@@ -554,7 +542,6 @@ const Register = () => {
             {activeRole && activeRole === "Employer" && (
               <div className="studen-section">
                 {currentPage === 1 && (
-                  // <EmployerStep1 prevPage={prevPage} nextPage={nextPage} />
                   <EmployerStep1
                     prevPage={prevPage}
                     nextPage={nextPage}
@@ -564,15 +551,15 @@ const Register = () => {
                   />
                 )}
                 {currentPage === 2 && (
-                  // <EmployerStep2 prevPage={prevPage} nextPage={nextPage} />
                   <EmployerStep2
                     prevPage={prevPage}
                     nextPage={nextPage}
                     userProfessionalInfo={userProfessionalInfo}
                     EmployerCompleteInfo={EmployerCompleteInfo}
                     uploadLogoFile={uploadLogoFile}
-                    compPhoneChange={compPhoneChange}
                     employer={employer}
+                    next={next}
+                    initialEmpStep2={initialEmpStep2}
                   />
                 )}
               </div>

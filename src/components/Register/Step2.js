@@ -17,7 +17,6 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import ImageCropperModal from "../Image-cropper";
 
 
-
 const Step2 = ({
   userPersonalInfo,
   nextPage,
@@ -63,6 +62,7 @@ const Step2 = ({
     setErr(error);
     return isValid;
   };
+
   const handleImageChange = (event) => {
     setModal(true)
     if (event.target.files && event.target.files.length > 0) {
@@ -76,8 +76,6 @@ const Step2 = ({
   const handleQualification = (e) => {
     let value = e.target.value;
     setQualificationId(value)
-    // let data = e.target.value
-    //setUserData({ ...data, qualificationId: value });
     if (value == "Other") {
       setInputField(true);
     }else{
@@ -85,7 +83,6 @@ const Step2 = ({
     }
   };
 
- 
   const SaveStep2 = (values) => {
     console.log("values",values)
     if(validation)
@@ -101,7 +98,7 @@ const Step2 = ({
     setQualificationId(data.qualificationId && data.qualificationId)
     console.log("data.profileImageUrl-9",data.profileImageUrl)
     if(data.profileImageUrl)
-    {  console.log("data.profileImageUrl",data.profileImageUrl)
+    {  
       setImg({personalInfoImg: data.profileImageUrl.personalInfoImg})
       setProfileImage(data.profileImage)
     }
@@ -186,8 +183,7 @@ console.log("show",modal)
                   <input
                     name="profileImage"
                     id="profileImage"
-                    // label={titleStrings.uploadPhotoTitle}
-                    // component={RenderImageField}
+                    label={titleStrings.uploadPhotoTitle}
                     accept=".jpg, .jpeg, .png"
                     type="file"
                     onChange={handleImageChange}

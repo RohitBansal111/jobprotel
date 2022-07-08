@@ -1,6 +1,6 @@
 import { Field, Form } from "react-final-form";
 import LocalizedStrings from "react-localization";
-import { renderField } from "../renderField";
+import { renderField, renderNumberField } from "../renderField";
 import titles from "./register.json";
 import { RenderImageField } from "../file-input";
 import validate from "./validator/EmployerStep2Validate";
@@ -10,13 +10,15 @@ const EmployerStep2 = ({
   prevPage,
   EmployerCompleteInfo,
   uploadLogoFile,
-  compPhoneChange,
   employer,
+  next,
+  initialEmpStep2,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
 
   const [err, setErr] = useState([]);
 
+  const [logo, setLogo] = useState("");
   const [img, setImg] = useState({
     LogoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -25,8 +27,8 @@ const EmployerStep2 = ({
   const validation = () => {
     let isValid = true;
     let error = {};
-    if (!employer.companyPhone) {
-      error.companyPhone = "Required Contact Details";
+    if (!logo) {
+      error.logo = "Profile Image is Required";
       isValid = false;
     }
     setErr(error);
@@ -36,6 +38,7 @@ const EmployerStep2 = ({
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       uploadLogoFile(event.target.files[0]);
+      setLogo(event.target.files[0]);
       setImg({ LogoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
@@ -45,19 +48,26 @@ const EmployerStep2 = ({
       EmployerCompleteInfo(values);
     }
   };
+
+  const instanceSaveStep2 = (values) => {
+    initialEmpStep2({
+      ...values,
+      // logoUrl: logo,
+    });
+    prevPage();
+  };
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Complete Information</h4>
       <div className="form-main">
-        <Form onSubmit={SaveStep2} validate={validate}>
+        <Form onSubmit={SaveStep2} validate={validate} initialValues={employer}>
           {({ handleSubmit, submitting, values }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex100">
                   <input
                     name="logoUrl"
-                    // label={titleStrings.companyLogoTitle}
-                    // component={RenderImageField}
+                    label={titleStrings.companyLogoTitle}
                     accept=".jpg, .jpeg, .png"
                     onChange={handleImageChange}
                     type="file"
@@ -72,6 +82,7 @@ const EmployerStep2 = ({
                       layout="fill"
                     />
                   </div>
+                  <div style={{ color: "red" }}>{err && err.logo}</div>
                 </div>
                 <div className="form-field flex100">
                   <Field
@@ -80,6 +91,7 @@ const EmployerStep2 = ({
                     component={renderField}
                     placeholder="Enter company address"
                     type="text"
+                    defaultValue={next && employer ? employer.address : ""}
                   />
                 </div>
                 <div className="form-field flex100">
@@ -89,34 +101,27 @@ const EmployerStep2 = ({
                     component={renderField}
                     placeholder="Enter recuriting manager name"
                     type="text"
+                    defaultValue={
+                      next && employer ? employer.recruitingManagerName : ""
+                    }
                   />
                 </div>
-                {/* <div className="form-field flex100 mb-2">
+                <div className="form-field flex100 mb-2">
                   <Field
                     name="companyPhone"
                     label={titleStrings.contactDetailsTitle}
-                    component={renderField}
+                    component={renderNumberField}
                     placeholder="Enter contact details"
-                    type="text"
-                  />
-                </div> */}
-                <div className="form-field flex50">
-                  <div>Company Phone</div>
-                  <input
-                    name="companyPhone"
                     type="text"
                     pattern="[0-9]*"
-                    placeholder="Enter contact details"
-                    value={employer ? employer.companyPhone : ""}
-                    onChange={compPhoneChange}
+                    defaultValue={next && employer ? employer.companyPhone : ""}
                   />
-                  <div style={{ color: "red" }}>{err && err.companyPhone}</div>
                 </div>
               </div>
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => prevPage()}
+                  onClick={() => instanceSaveStep2(values)}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {" "}

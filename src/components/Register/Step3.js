@@ -34,7 +34,7 @@ const Step3 = ({
   // const [submit, setSubmit] = useState(false)
   console.log(certificate);
   
-  const initaialSaveStep3 = (values) => {
+  const instanceSaveStep3 = (values) => {
     initialProfInfo({
       ...values,
       resumeFileName: resumeFile,
@@ -179,15 +179,6 @@ const Step3 = ({
                     pattern="[0-9]*"
                     defaultValue={next && data ? data.expectedSalary : ""}
                   />
-
-                  {/* <input
-                    name="expectedSalary"
-                    type="text"
-                    pattern="[0-9]*"
-                    placeholder="Enter salary expectations"
-                    value={data ? data.expectedSalary : ""}
-                    onChange={handleSalaryExpectations}
-                  /> */}
                 </div>
                 <div className="form-field flex50">
                   <Field
@@ -383,7 +374,7 @@ const Step3 = ({
               <div className="form-action">
                 <button
                   type="button"
-                  onClick={() => initaialSaveStep3(values)}
+                  onClick={() => instanceSaveStep3(values)}
                   className="btn btn-secondary prev-btn text-white text-center"
                 >
                   {" "}
