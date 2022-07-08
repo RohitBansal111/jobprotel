@@ -52,9 +52,9 @@ const Applications = () => {
                                         <div className="jobs-com-profile">
                                              <div className="profile-update">
                                                   <ul className="profile-jobs">
-                                                       <li><Link to="#"><span className="update-name">Posted Job</span>2</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
-                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Posted Job: &nbsp;</span>2</Link></li>
+                                                       {/* <li><Link to="#"><span className="update-name">Inprogress</span>1</Link></li>
+                                                       <li><Link to="#"><span className="update-name">Completed</span>170</Link></li> */}
                                                   </ul>
                                              </div>
                                              <div className="profile-strength">

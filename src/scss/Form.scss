@@ -128,6 +128,9 @@
     .field-render-main {
       flex: 0 0 47%;
     }
+    label{
+      display: none;
+    }
   }
   .error {
     color: red;
@@ -267,6 +270,11 @@
 .radio-group input:checked ~ .radiobtn:after {
   display: block !important;
 }
+.connect-warn{
+  color: #1fbdad;
+  font-size: 12px;
+  font-weight: 600;
+}
 
 .field-render-main {
   label {
@@ -391,6 +399,13 @@
     >div{
       min-height: 50px;
       background-color: #f8f8f8;
+    }
+  }
+}
+.rangeField-wrapper{
+  .field-inner-group{
+    .form-control{
+      appearance: auto !important;
     }
   }
 }
