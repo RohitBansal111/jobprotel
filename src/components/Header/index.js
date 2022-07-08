@@ -6,7 +6,7 @@ import userAvtar from "./../../assets/images/user-img.jpg";
 
 const Header = () => {
   const [mobileMenu, setmobileMenu] = useState("");
-  var role = "student";
+  var role = "employer";
   const menuToggle = () => {
     setmobileMenu("navbar-mobile");
     if (mobileMenu === "navbar-mobile") {
@@ -92,7 +92,7 @@ const Header = () => {
                       Applications
                     </NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link inactive"
@@ -101,7 +101,7 @@ const Header = () => {
                     >
                       Roles
                     </NavLink>
-                  </li>
+                  </li> */}
                   <li>
                     <NavLink
                       className={({ isActive }) =>
@@ -195,7 +195,7 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Michael Taylor <img src={userAvtar} alt="User Profile" />
+                Eminence Technology <img src={userAvtar} alt="User Profile" />
               </button>
               <ul
                 className="dropdown-menu"

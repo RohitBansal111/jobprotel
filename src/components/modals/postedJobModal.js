@@ -119,15 +119,21 @@ const PostedJobModal = () => {
               aria-label="Close"
             />
           </div>
-          <div className="modal-body p-4">
-            <div className="kyc-detail-form">
-              <Form
-                onSubmit={handleJobPost}
-                validate={validate}
-              >
+          <div className="modal-body p-0">
+            <p className="px-4 py-2 connect-warn text-right">2 connects will be deducted for this job</p>
+            <div className="kyc-detail-form p-4">
+              <Form onSubmit={handleJobPost} validate={validate}>
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
+                      <div className="form-field flex50">
+                        <Field
+                          name="jobTitle"
+                          label="Job Title"
+                          placeholder="Enter Job Title"
+                          component={renderField}
+                        />
+                      </div>
                       <div className="form-field flex50">
                         <Field
                           name="designation"
@@ -137,23 +143,33 @@ const PostedJobModal = () => {
                         />
                       </div>
                       <div className="form-field flex50">
-                        <Field
-                          name="experience"
-                          label="Experience"
-                          placeholder="Enter Experience in Year's"
-                          component={renderSelect}
-                        >
-                          <option value="0">0 year</option>
-                          {[...Array.from(Array(51).keys())]
-                            .slice(1)
-                            .map((num, i) => (
-                              <option key={i} value={num}>
-                                {num ? num + " year's" : ""}
-                              </option>
-                            ))}
-                        </Field>
+                        <label>Experience</label>
+                        <div className="inner-multi-field">
+                          <div className="form-field flex50">
+                            <Field
+                              name="month"
+                              label=""
+                              component={renderSelect}
+                            >
+                              <option value="january">January</option>
+                              <option value="february">February</option>
+                            </Field>
+                          </div>
+                          <div className="form-field flex50">
+                            <Field
+                              name="year"
+                              label=""
+                              component={renderSelect}
+                            >
+                              <option value="2021">2021</option>
+                              <option value="2020">2020</option>
+                              <option value="2019">2019</option>
+                              <option value="2018">2018</option>
+                            </Field>
+                          </div>
+                        </div>
                       </div>
-                      <div className="form-field flex100">
+                      <div className="form-field flex50">
                         <Field
                           name="qualification"
                           label="Education"
@@ -194,7 +210,7 @@ const PostedJobModal = () => {
                           component={RenderTagField}
                         />
                       </div>
-                      <div className="form-field flex50">
+                      {/* <div className="form-field flex50">
                         <Field
                           name="software"
                           label="Software"
@@ -209,12 +225,12 @@ const PostedJobModal = () => {
                           placeholder="Enter onsite"
                           component={renderField}
                         />
-                      </div>
+                      </div> */}
                       <div className="form-field flex50">
                         <Field
-                          name="location"
-                          label="Job location"
-                          placeholder="Enter Job Location"
+                          name="jobLocation"
+                          label="Job location (if applicable)"
+                          placeholder="Enter jobLocation"
                           component={renderField}
                           type="text"
                         />
@@ -222,9 +238,23 @@ const PostedJobModal = () => {
                       <div className="form-field flex50">
                         <Field
                           name="hoursDays"
-                          label="Hours/days"
-                          placeholder="Enter hours/days"
+                          label="Hours / Days"
                           component={renderSelect}
+                        >
+                          <option selected="">Select hours</option>
+                          {[...Array.from(Array(16).keys())]
+                            .slice(1)
+                            .map((num, i) => (
+                              <option key={i} value={num}>{num ? num + " hour's" : ""}</option>
+                            ))}
+                        </Field>
+                      </div>
+                      <div className="form-field flex50">
+                        <Field
+                          name="days"
+                          label="Days / Week"
+                          component={renderSelect}
+                          type="text"
                         >
                           <option value="0">0 hour</option>
                           {[...Array.from(Array(16).keys())]
@@ -246,8 +276,32 @@ const PostedJobModal = () => {
                       </div>
                       <div className="form-field flex50">
                         <Field
+                          name="timeZone"
+                          label="Time Zone"
+                          component={renderSelect}
+                        >
+                          <option>Doesn't matter</option>
+                          <option>IST</option>
+                        </Field>
+                      </div>
+                      <div className="form-field flex50">
+                        <Field
+                          name="category"
+                          label="Category"
+                          component={renderSelect}
+                        >
+                          <option selected="">Select job category</option>
+                          <option value="Web Development">Web Development</option>
+                          <option value="Web Designer">Web Designer</option>
+                          <option value="QA &amp; Testing">QA &amp; Testing</option>
+                          <option value="4">Art &amp; Illustration</option>
+                        </Field>
+                      </div>
+                      <div className="form-field rangeField-wrapper flex50">
+                        <Field
                           name="salary"
                           label="Salary"
+                          type="range"
                           placeholder="Enter salary"
                           component={renderNumberField}
                           pattern="[0-9]*"

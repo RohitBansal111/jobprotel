@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import CompanyProfile from "./../../../assets/images/company-logo.png";
 import ConnectIcon from "./../../../assets/icons/connect.png";
-import Filtericon from "./../../../assets/icons/filter-ico.png";
+// import Filtericon from "./../../../assets/icons/filter-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 import PostedJobModal from "../../../components/modals/postedJobModal";
 
@@ -11,14 +11,14 @@ const PostedJob = () => {
     <Layout>
       <div className="inner-page-wrapper">
         {/* <section className="complete-kyc">
-                         <div className="container">
-                              <div className="kyc-update">
-                                   <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
-                                   <button type="button" className="btn submit-kyc" data-bs-toggle="modal" data-bs-target="#kycpopup">Complete KYC</button>
-                                   <CompleteKycModal />
-                              </div>
-                         </div>
-                    </section> */}
+          <div className="container">
+              <div className="kyc-update">
+                    <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
+                    <button type="button" className="btn submit-kyc" data-bs-toggle="modal" data-bs-target="#kycpopup">Complete KYC</button>
+                    <CompleteKycModal />
+              </div>
+          </div>
+        </section> */}
         <section className="topbg-banner">
           <div className="container">
             <div className="innerbg-banner">
@@ -51,7 +51,7 @@ const PostedJob = () => {
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">2</span>
+                      <span className="conn-count">20</span>
                     </div>
                     <h4>Available Connects</h4>
                   </div>
@@ -86,10 +86,10 @@ const PostedJob = () => {
                     <ul className="profile-jobs">
                       <li>
                         <Link to="#">
-                          <span className="update-name">Posted Job</span>2
+                          <span className="update-name">Posted Job: &nbsp;</span>2
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link to="#">
                           <span className="update-name">Inprogress</span>1
                         </Link>
@@ -98,7 +98,7 @@ const PostedJob = () => {
                         <Link to="#">
                           <span className="update-name">Completed</span>170
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                   <div className="profile-strength">
@@ -136,7 +136,7 @@ const PostedJob = () => {
                       <input
                         className="form-control"
                         type="search"
-                        placeholder="Find related Jobs"
+                        placeholder="Find posted Jobs"
                         aria-label="Search"
                       />
                       <button className="btn btn-outline-success" type="submit">
@@ -144,11 +144,11 @@ const PostedJob = () => {
                       </button>
                     </form>
                   </div>
-                  <div className="feed-filter">
+                  {/* <div className="feed-filter">
                     <button type="button" className="btn filter-btn">
                       <img src={Filtericon} alt="Filter icon" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="search-feeds-section">
                   <div className="feed-title">
