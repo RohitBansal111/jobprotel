@@ -177,7 +177,7 @@ const Register = () => {
       formData.append("collegeId", userData.collegeId);
       formData.append("confirmPassword", userData.confirmPassword);
       formData.append("countryId", userData.countryId);
-      formData.append("category", userData.category);
+      formData.append("designationId", userData.designation);
       formData.append("email", userData.email);
       formData.append("expectedSalary", userData.expectedSalary);
       formData.append("experienceInYears", userData.experienceInYears);

@@ -31,8 +31,6 @@ const Step3 = ({
   const [certificate, setCertificate] = useState("");
   const [designationlist, setDesignationlist] = useState([]);
 
-  console.log(certificate);
-
   const instanceSaveStep3 = (values) => {
     initialProfInfo({
       ...values,
@@ -292,7 +290,7 @@ const Step3 = ({
                       label={titleStrings.resumeTitle}
                       name="resumeFile"
                       onChange={handleResume}
-                      accept=".jpg, .jpeg, .png, application/pdf"
+                      accept=".jpg, .jpeg, .png, application/pdf, .doc"
                       type="file"
                     />
                     <p style={{ color: "red" }}>
@@ -344,7 +342,7 @@ const Step3 = ({
                       name="document"
                       onClick={() => setArray("")}
                       onChange={handleExtraCertificates}
-                      accept=".jpg, .jpeg, .png"
+                      accept=".jpg, .jpeg, .png, application/pdf, .doc"
                       type="file"
                       ref={(input) => {
                         file = input;
@@ -381,7 +379,7 @@ const Step3 = ({
                 </button>
                 <button
                   type="submit"
-                  onClick={() => SaveStep3(values)}
+                  // onClick={() => SaveStep3(values)}
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}
