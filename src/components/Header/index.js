@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./../../assets/images/inner-logo.png";
 import Notification from "./../../assets/icons/notification-ico.png";
 import userAvtar from "./../../assets/images/user-img.jpg";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  
+
   const [mobileMenu, setmobileMenu] = useState("");
   var role = "employer";
   const menuToggle = () => {
@@ -13,6 +16,19 @@ const Header = () => {
       setmobileMenu("");
     }
   };
+  const selector = useSelector((state)=> state.auth.user);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("jobPortalUser")
+    console.log(JSON.parse(localData))
+    console.log(selector)
+  }, [selector])
+  
+
+  const handleLogout = () =>{
+    localStorage.removeItem("jobPortalUser")
+    localStorage.removeItem("jobPortalUserToken")
+  }
   return (
     <header id="header" className="header header-scrolled">
       <div className="container d-flex align-items-center justify-content-between">
@@ -230,7 +246,7 @@ const Header = () => {
                   </li>
                 )}
                 <li>
-                  <Link className="dropdown-item" to="/">
+                  <Link className="dropdown-item" to="/" onClick={handleLogout}>
                     <i className="fas fa-sign-out-alt"></i> Logout
                   </Link>
                 </li>

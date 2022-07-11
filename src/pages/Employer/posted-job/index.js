@@ -86,7 +86,10 @@ const PostedJob = () => {
                     <ul className="profile-jobs">
                       <li>
                         <Link to="#">
-                          <span className="update-name">Posted Job: &nbsp;</span>2
+                          <span className="update-name">
+                            Posted Job: &nbsp;
+                          </span>
+                          2
                         </Link>
                       </li>
                       {/* <li>

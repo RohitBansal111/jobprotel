@@ -1,4 +1,5 @@
 import * as types from "../../types/auth";
+import { login } from "../action/authActions";
 
 const initState = {
   isAuthenticated: false,
@@ -8,6 +9,7 @@ const initState = {
 };
 
 const authReducers = (state = initState, action) => {
+  console.log(action);
   switch (action.type) {
     case types.LOGIN_USER:
       return {
@@ -19,8 +21,8 @@ const authReducers = (state = initState, action) => {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload.user,
-        token: action.payload.token,
+        user: action.payload,
+        token: action.token,
       };
 
     case types.LOGIN_USER_FAILURE:

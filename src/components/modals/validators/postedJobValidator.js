@@ -9,17 +9,14 @@ const PostedJobValidator = (values) => {
      if(!values.skills){ 
           error.skills = "Required skills"
      }
-     if(!values.software){ 
-          error.software = "Required software"
+     if(!values.title){ 
+          error.title = "Required job-title"
      }
      if(!values.experienceInYears){ 
           error.experienceInYears = "Required experience in Years"
      }
      if(!values.experienceInMonths){ 
           error.experienceInMonths = "Required experience in Months"
-     }
-     if(!values.onsite){ 
-          error.onsite = "Required onsite"
      }
      if(!values.hoursPerDay){ 
           error.hoursPerDay = "Required hours/Days"
@@ -38,6 +35,12 @@ const PostedJobValidator = (values) => {
      }
      if(!values.location){ 
           error.location = "Required Job Description"
+     }
+     if(!values.hoursDays){ 
+          error.hoursDays = "Required Hours/Day"
+     }
+     if(!values.days){ 
+          error.days = "Required Job Days/Week"
      }
     return error;
 }
