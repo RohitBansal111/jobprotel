@@ -10,6 +10,7 @@ import {
 import titles from "./register.json";
 import Step3Validator from "./validator/step3Validator";
 import { RenderTagField } from "../renderTagField";
+import * as dropdownServices from "../../services/dropDownServices";
 
 const Step3 = ({
   userProfessionalInfo,
@@ -28,6 +29,7 @@ const Step3 = ({
   const [previewImg, setPreviewImg] = useState([]);
   const [error, setError] = useState([]);
   const [certificate, setCertificate] = useState("");
+  const [designationlist, setDesignationlist] = useState([]);
 
   console.log(certificate);
 
@@ -93,6 +95,13 @@ const Step3 = ({
       .map((image) => arr.push(image));
     setPreviewImg(arr);
   };
+
+  useEffect(async () => {
+    const designationList = await dropdownServices.designationList();
+
+    setDesignationlist(designationList.data);
+  }, []);
+
   let file = "";
   return (
     <div className="register-form">
@@ -221,17 +230,18 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="category"
+                    name="designation"
                     label="Category"
                     component={renderSelect}
-                    type="text"
-                    defaultValue={next && data ? data.category : ""}
+                    placeholder="Enter category"
+                    defaultValue={next && data ? data.designation : ""}
                   >
-                    <option selected="">Select job category</option>
-                    <option value="Web Development">Web Development</option>
-                    <option value="Web Designer">Web Designer</option>
-                    <option value="QA &amp; Testing">QA &amp; Testing</option>
-                    <option value="4">Art &amp; Illustration</option>
+                    {designationlist &&
+                      designationlist.map((designation) => (
+                        <option value={designation.id} key={designation.id}>
+                          {designation.title}
+                        </option>
+                      ))}
                   </Field>
                 </div>
                 <div className="form-field flex100">

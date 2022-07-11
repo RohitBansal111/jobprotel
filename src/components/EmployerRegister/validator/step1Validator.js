@@ -13,10 +13,10 @@ const Step1Validator = (values) => {
      if (!values.lastName) {
        error.lastName = "Required Last Name";
      }
-     if (!values.email) {
-       error.email = "Required Email Address";
-     } else if (!regex.test(values.email)) {
-       error.email = "Please enter a valid email address";
+     if (!values.companyEmail) {
+       error.companyEmail = "Required Email Address";
+     } else if (!regex.test(values.companyEmail)) {
+       error.companyEmail = "Please enter a valid email address";
      }
      if (!values.password) {
        error.password = "Required Password";

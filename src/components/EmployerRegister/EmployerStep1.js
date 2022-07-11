@@ -71,7 +71,7 @@ const EmployerStep1 = ({ prevPage, nextPage, employerBasicInfo, data }) => {
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="email"
+                    name="companyEmail"
                     label={titleStrings.companyEmailAddressTitle}
                     component={renderField}
                     placeholder="Enter company email address"
