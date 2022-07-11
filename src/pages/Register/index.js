@@ -269,10 +269,11 @@ const Register = () => {
     formData.append("companyName", employer.companyName);
     formData.append("countryId", employer.countryId);
     formData.append("stateId", employer.stateId);
-    formData.append("city", employer.city);
+    formData.append("cityName", employer.city);
     formData.append("firstName", employer.firstName);
     formData.append("lastName", employer.lastName);
     formData.append("companyEmail", employer.companyEmail);
+    formData.append("email", employer.companyEmail);
     formData.append("password", employer.password);
     formData.append("confirmPassword", employer.confirmPassword);
     formData.append("logoUrl", employer.logoUrl);

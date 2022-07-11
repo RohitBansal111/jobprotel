@@ -3,6 +3,51 @@ import { PropTypes } from "prop-types";
 import { getInstance } from "../redux/actions/axiosFactory";
 const axiosInstance = getInstance();
 
+export const renderRangeField = ({
+  input,
+  label,
+  onChange,
+  name,
+  children,
+  placeholder,
+  value,
+  type,
+  min,
+  max,
+  step,
+  meta: { touched, error },
+}) => {
+  const inputProps = {
+    ...input,
+    onChange: (e) => {
+      let { name, value } = e.target;
+      let data = e.target.validity.valid ? value : undefined;
+      if (data !== undefined) {
+      input.onChange(e);
+      onChange && onChange(e);
+      }
+    },
+  };
+  return (
+    <div className="field-render-main">
+      <label htmlFor={`label${label}`}>{label}</label>
+      <div className="field-inner-group">
+        <input
+          {...inputProps}
+          placeholder={placeholder}
+          id={`label${label}`}
+          className="form-control"
+          min={min}
+          max={max}
+          step={step}
+        />
+        {children}
+        {touched && error && <span className="error">{error}</span>}
+      </div>
+    </div>
+  );
+};
+
 export const renderNumberField = ({
   input,
   label,

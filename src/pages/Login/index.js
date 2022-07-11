@@ -76,7 +76,7 @@ const Login = () => {
       [name]: value,
     });
   };
-
+  
   return (
     <div className="page-wrapper">
       <div className="register-page-main">

@@ -8,7 +8,8 @@ export const login = (user, navigate) => {
     try {
       let resp = await loginUser(user);
       const response = resp.data.data;
-      console.log(resp, "response");
+      console.log(resp.data.data, "response");
+      
       dispatch({ type: types.LOGIN_USER });
       if (resp.status === 200) {
         if (resp.status === 200 && response.roles === "STUDENT") {
@@ -20,9 +21,14 @@ export const login = (user, navigate) => {
         } else if (resp.status === 400) {
           toast.error(resp.error ? resp.error : "Something went wrong");
         }
+        if(resp.data.userToken) {
+          localStorage.setItem("jobPortalUserToken", resp.data.userToken)
+          localStorage.setItem("jobPortalUser", JSON.stringify(response))
+        }
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
           payload: resp.data.data,
+          token: resp.data.userToken,
         });
       } else {
         dispatch({

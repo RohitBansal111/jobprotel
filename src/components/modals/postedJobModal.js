@@ -5,6 +5,8 @@ import {
   renderSelect,
   renderTextareaField,
   renderNumberField,
+  RenderRadioButtonField,
+  renderRangeField,
 } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 import * as dropdownServices from "../../services/dropDownServices";
@@ -24,8 +26,9 @@ const PostedJobModal = () => {
   const [skillslist, setSkillslist] = useState([]);
   const [tagslist, setTagslist] = useState([]);
   const [designationlist, setDesignationlist] = useState([]);
-  const [salary, setSalary] = useState("")
+  const [salary, setSalary] = useState("10,000");
   const [datetime, setDatetime] = useState(spacetime.now());
+  const [timezone2, setTimezone2] = useState("");
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
@@ -34,6 +37,7 @@ const PostedJobModal = () => {
     setTimezone(data.value);
   };
 
+  const [showTimeZone, setShowTimeZone] = useState(false);
   useMemo(() => {
     const timezoneValue = timezone.value ?? timezone;
     setDatetime(datetime.goto(timezoneValue));
@@ -49,30 +53,36 @@ const PostedJobModal = () => {
   };
 
   const handleSal = (e) => {
-    let value = e.target.value
-    let sal = ""
-    if(value > 0) {
-     sal = value + "," + "000"
-    }else {
+    let value = e.target.value;
+    let sal = "";
+    if (value > 0) {
+      sal = value + "," + "000";
+    } else {
       sal = 0;
     }
-    setSalary(sal)
+    setSalary(sal);
   };
 
   const handleJobPost = (values) => {
+    console.log(values.timeZonePick);
     let value = [];
     value = values;
     console.log("jobs ok", value);
     let tagsArr = [];
-    value.tags.map((tag) => tagsArr.push(tag.text));
+    value &&
+      value.tags.length > 0 &&
+      value.tags.map((tag) => tagsArr.push(tag.text));
 
     let skillsArr = [];
-    value.skills.map((skill) => skillsArr.push(skill.text));
+    value &&
+      value.skills.length > 0 &&
+      value.skills.map((skill) => skillsArr.push(skill.text));
 
-    console.log(skillsArr)
+    console.log(skillsArr);
     let formData = new FormData();
 
-    formData.append("jobTitle", value.jobTitle);
+    formData.append("employerId", "3fa85f64-5717-4562-b3fc-2c963f66afa6");
+    formData.append("title", value.title);
     formData.append("designation", value.designation);
     formData.append("experienceInYears", value.experienceInYears);
     formData.append("experienceInMonths", value.experienceInMonths);
@@ -86,7 +96,11 @@ const PostedJobModal = () => {
     formData.append("hoursDays", value.hoursDays);
     formData.append("days", value.days);
     formData.append("timing", value.timing);
-    formData.append("timezone", timezone);
+    {
+      showTimeZone
+        ? formData.append("timezone", timezone)
+        : formData.append("timezone", timezone2);
+    }
     formData.append("category", value.category);
     formData.append("salary", salary);
 
@@ -128,6 +142,16 @@ const PostedJobModal = () => {
     });
     setSkillslist(skillListData);
   }, []);
+
+  const handleTimeZonePick = (e) => {
+    let value = e.target.value;
+    if (value == "Yes") {
+      setShowTimeZone(true);
+    } else {
+      setShowTimeZone(false);
+      setTimezone2(value);
+    }
+  };
   return (
     <div
       className="modal fade"
@@ -160,7 +184,7 @@ const PostedJobModal = () => {
                     <div className="form-field-group mt-0">
                       <div className="form-field flex50">
                         <Field
-                          name="jobTitle"
+                          name="title"
                           label="Job Title"
                           placeholder="Enter Job Title"
                           component={renderField}
@@ -264,22 +288,6 @@ const PostedJobModal = () => {
                           component={RenderTagField}
                         />
                       </div>
-                      {/* <div className="form-field flex50">
-                        <Field
-                          name="software"
-                          label="Software"
-                          placeholder="Enter software"
-                          component={renderField}
-                        />
-                      </div>
-                      <div className="form-field flex50">
-                        <Field
-                          name="onsite"
-                          label="Onsite"
-                          placeholder="Enter onsite"
-                          component={renderField}
-                        />
-                      </div> */}
                       <div className="form-field flex50">
                         <Field
                           name="location"
@@ -330,22 +338,49 @@ const PostedJobModal = () => {
                           component={renderField}
                         />
                       </div>
+
                       <div className="form-field flex50">
-                        <div className="timezone--wrapper">
-                          <label>Time Zone</label>
-                          <TimezoneSelect
-                            name="timezone"
-                            value={timezone}
-                            onChange={handleTimeZone}
-                            labelStyle="Time Zone"
-                            timezones={{
-                              ...allTimezones,
-                              "America/Lima": "Pittsburgh",
-                              "Europe/Berlin": "Frankfurt",
-                            }}
-                          />
+                        <label htmlFor="working">Select Time Zone</label>
+                        <div className="radio-button-groupss">
+                          <Field
+                            name="timeZonePick"
+                            value="Yes"
+                            component={RenderRadioButtonField}
+                            type="radio"
+                            onChange={handleTimeZonePick}
+                          >
+                            Yes
+                          </Field>
+                          <Field
+                            name="timeZonePick"
+                            value="Doesn't Matter"
+                            component={RenderRadioButtonField}
+                            type="radio"
+                            onChange={handleTimeZonePick}
+                          >
+                            No
+                          </Field>
                         </div>
                       </div>
+
+                      {showTimeZone && (
+                        <div className="form-field flex50">
+                          <div className="timezone--wrapper">
+                            <label>Time Zone</label>
+                            <TimezoneSelect
+                              name="timezone"
+                              value={timezone}
+                              onChange={handleTimeZone}
+                              labelStyle="Time Zone"
+                              timezones={{
+                                ...allTimezones,
+                                "America/Lima": "Pittsburgh",
+                                "Europe/Berlin": "Frankfurt",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
                       <div className="form-field flex50">
                         <Field
                           name="category"
@@ -368,11 +403,15 @@ const PostedJobModal = () => {
                           name="salary"
                           label="Salary"
                           type="range"
-                          placeholder="Enter salary"
-                          component={renderNumberField}
-                          pattern="[0-9]*"
+                          component={renderRangeField}
                           onChange={handleSal}
+                          min="10"
+                          max="100"
+                          step="10"
+                          defaultValue="10"
+                          value={salary}
                         />
+                        <p>$ {salary && salary}</p>
                       </div>
                       <div className="form-field flex50">
                         <Field
