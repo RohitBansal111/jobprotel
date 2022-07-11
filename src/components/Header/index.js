@@ -3,11 +3,12 @@ import { Link, NavLink } from "react-router-dom";
 import Logo from "./../../assets/images/inner-logo.png";
 import Notification from "./../../assets/icons/notification-ico.png";
 import userAvtar from "./../../assets/images/user-img.jpg";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
+import * as types from "../../types/auth";
 
 const Header = () => {
   
-
+  const dispatch = useDispatch()
   const [mobileMenu, setmobileMenu] = useState("");
   var role = "employer";
   const menuToggle = () => {
@@ -16,13 +17,21 @@ const Header = () => {
       setmobileMenu("");
     }
   };
-  const selector = useSelector((state)=> state.auth.user);
+  const authData = useSelector((state)=> state.auth.user);
 
   useEffect(() => {
     const localData = localStorage.getItem("jobPortalUser")
-    console.log(JSON.parse(localData))
-    console.log(selector)
-  }, [selector])
+    const userData = JSON.parse(localData);
+    if(!authData && userData)
+    {
+      dispatch({
+        type: types.LOGIN_USER_SUCCESS,
+        payload: userData,
+        token: localStorage.getItem("jobPortalUserToken"),
+      });
+    }
+    console.log(authData)
+  }, [authData])
   
 
   const handleLogout = () =>{

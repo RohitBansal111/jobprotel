@@ -7,20 +7,17 @@ export const login = (user, navigate) => {
   return async (dispatch) => {
     try {
       let resp = await loginUser(user);
-      const response = resp.data.data;
-      console.log(resp.data.data, "response");
-      
-      dispatch({ type: types.LOGIN_USER });
+      console.log(resp,"--resp");
+
       if (resp.status === 200) {
+        const response = resp.data.data
         if (resp.status === 200 && response.roles === "STUDENT") {
           toast.success("Login Successfully");
           navigate("/find-work");
         } else if (resp.status === 200 && response.roles === "EMPLOYER") {
           toast.success("Login Successfully");
           navigate("/posted-jobs");
-        } else if (resp.status === 400) {
-          toast.error(resp.error ? resp.error : "Something went wrong");
-        }
+        } 
         if(resp.data.userToken) {
           localStorage.setItem("jobPortalUserToken", resp.data.userToken)
           localStorage.setItem("jobPortalUser", JSON.stringify(response))
@@ -31,10 +28,11 @@ export const login = (user, navigate) => {
           token: resp.data.userToken,
         });
       } else {
-        dispatch({
-          type: types.LOGIN_USER_FAILURE,
-          payload: resp.error,
-        });
+        toast.error(resp.error ? resp.error : "Something went wrong");
+        // dispatch({
+        //   type: types.LOGIN_USER_FAILURE,
+        //   payload: resp.error,
+        // });
       }
     } catch (e) {
       dispatch({
