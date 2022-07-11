@@ -17,6 +17,7 @@ import titles from "../Register/register.json";
 import { login } from "../../store/action/authActions";
 import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import { useNavigate } from "react-router";
 
 const PostedJobModal = () => {
   let titleStrings = new LocalizedStrings(titles);
@@ -32,6 +33,9 @@ const PostedJobModal = () => {
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+
+  const navigate = useNavigate()
+  
 
   const handleTimeZone = (data) => {
     console.log("data",data)
@@ -116,6 +120,8 @@ const PostedJobModal = () => {
 
   const postJob = async (data) => {
     const resp = await employerServices.jobPost(data);
+    // redirect on success
+    //navigate('/sugguestion')
     console.log(resp);
   };
 
@@ -179,7 +185,7 @@ const PostedJobModal = () => {
               2 connects will be deducted for this job
             </p>
             <div className="kyc-detail-form p-4">
-              <Form onSubmit={handleJobPost} validate={validate}>
+              <Form onSubmit={handleJobPost} >
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">

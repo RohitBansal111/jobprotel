@@ -5,6 +5,7 @@ import Notification from "./../../assets/icons/notification-ico.png";
 import userAvtar from "./../../assets/images/user-img.jpg";
 import { useSelector ,useDispatch} from "react-redux";
 import * as types from "../../types/auth";
+import CompanyProfile from "./../../assets/images/company-logo.png";
 
 const Header = () => {
   const [userData, setUserData] = useState([])

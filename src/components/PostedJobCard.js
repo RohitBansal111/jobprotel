@@ -13,10 +13,10 @@ const PostedJobCard = () => {
                     <div className="feeds-search-head">
                          <div className="feeds-head-left">
                               <div className="feeds-s-logo">
-                                   <img src={CompanyLogo} alt="Company Logo" />
+                                 <Link to="/job-details"><img src={CompanyLogo} alt="Company Logo" /></Link>  
                               </div>
                               <div className="feeds-s-name">
-                                   <h2><Link to="#">Fullstack project assessment &amp; advice </Link></h2>
+                                   <h2><Link to="/job-details">Mobile/Tablet Front-End Developer </Link></h2>
                                    <ul className="feeds-s-ul">
                                         <li><img src={LocationIcon} alt="Location" />United States</li>
                                         <li><img src={VerifiedIcon} alt="Company Verified" />Verified post</li>
@@ -24,8 +24,8 @@ const PostedJobCard = () => {
                               </div>
                          </div>
                          <div className="feeds-budget">
-                              <p>Est. Budget</p>
-                              <span className="project-budget">$550</span>
+                              <p>Salary Range</p>
+                              <span className="project-budget">10LPA-12LPA</span>
                          </div>
                     </div>
                     <div className="feeds-search-detail">
