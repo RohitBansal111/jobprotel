@@ -8,7 +8,7 @@ export const login = (user, navigate) => {
     try {
       let resp = await loginUser(user);
       const response = resp.data.data;
-      console.log(resp.data.data, "response");
+      console.log(resp, "response");
       
       dispatch({ type: types.LOGIN_USER });
       if (resp.status === 200) {

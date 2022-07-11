@@ -6,8 +6,6 @@ import userAvtar from "./../../assets/images/user-img.jpg";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  
-
   const [mobileMenu, setmobileMenu] = useState("");
   var role = "employer";
   const menuToggle = () => {
@@ -23,12 +21,12 @@ const Header = () => {
     console.log(JSON.parse(localData))
     console.log(selector)
   }, [selector])
-  
 
   const handleLogout = () =>{
     localStorage.removeItem("jobPortalUser")
     localStorage.removeItem("jobPortalUserToken")
   }
+
   return (
     <header id="header" className="header header-scrolled">
       <div className="container d-flex align-items-center justify-content-between">

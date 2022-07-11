@@ -7,4 +7,3 @@ function PrivateRoutes({ children }) {
   return auth ? children : <Navigate to="/" />;
 }
 export default PrivateRoutes;
-

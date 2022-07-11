@@ -9,7 +9,6 @@ const initState = {
 };
 
 const authReducers = (state = initState, action) => {
-  console.log(action);
   switch (action.type) {
     case types.LOGIN_USER:
       return {

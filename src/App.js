@@ -24,6 +24,7 @@ import PrivacyPolicy from "./policy/privacyPolicy";
 import TermsConditions from "./T&C/TermsConditions";
 import ProtectedRoutes from "./HOC/ProtectedRoutes";
 import PrivateRoutes from "./HOC/PrivateRoutes";
+
 function App() {
   var role = "employer";
   return (
