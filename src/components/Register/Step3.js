@@ -100,7 +100,7 @@ const Step3 = ({
       <div className="form-main">
         <Form
           initialValues={data}
-          onSubmit={SaveStep3}
+          
           validate={Step3Validator}
           keepDirtyOnReinitialize
         >
