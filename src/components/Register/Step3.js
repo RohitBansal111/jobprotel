@@ -58,6 +58,7 @@ const Step3 = ({
     return isValid;
   };
   const SaveStep3 = (values) => {
+    console.log("in submit")
     if (validation()) {
       userProfessionalInfo(values);
     }
@@ -218,7 +219,7 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex100">
                   <Field
-                    name="category"
+                    name="designation"
                     label="Category"
                     component={renderSelect}
                     type="text"
@@ -368,7 +369,7 @@ const Step3 = ({
                 </button>
                 <button
                   type="submit"
-                  // onClick={() => SaveStep3(values)}
+                  onClick={() => SaveStep3(values)}
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}
