@@ -1,35 +1,27 @@
 import { Link } from "react-router-dom"
-import Layout from "../../components/Layout"
-import UserAvtar from './../../assets/images/profile-img.jpg'
-import ConnectIcon from './../../assets/icons/connect.png'
-import EditIcon from './../../assets/icons/editicon.png'
-import AddColeagueModal from "../../components/modals/addColleaguesModal"
-import CompanyLogo from '../../assets/images/company-logo2.jpeg'
-import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal"
-import AddProjectModal from "../../components/modals/add-project-modal"
-import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal"
+import Layout from "../../../components/Layout"
+import UserAvtar from './../../../assets/images/profile-img.jpg'
+import ConnectIcon from './../../../assets/icons/connect.png'
+import CompanyLogo from '../../../assets/images/company-logo2.jpeg'
 
 
-const Profile = () => {
+const PublicProfile = () => {
 
     return (
         <Layout>
           <div className="inner-page-wrapper">
-               <section className="complete-kyc">
+               {/* <section className="complete-kyc">
                 <div className="container">
                   <div className="kyc-update">
                     <p><i className="fa fa-info-circle" aria-hidden="true"></i> KYC is pending, please click on button and complete your KYC </p>
                     <button type="button" className="btn submit-kyc" data-bs-toggle="modal" data-bs-target="#kycpopup">Complete KYC</button>
                   </div>
                 </div>
-               </section>
+               </section> */}
                <section className="topbg-banner">
                 <div className="container">
                   <div className="innerbg-banner">
-                    <div className="banner-edit">
-                    <Link to="/student/edit-profile" className="btn edit-btn">
-                    Edit Profile</Link>
-                    </div>
+                    <div className="banner-edit"></div>
                   </div>
                 </div>
                </section>
@@ -63,8 +55,6 @@ const Profile = () => {
                               </ul>
                             </div>
                           </div>
-                          {/* <button type="button" className="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addColleague"> Add colleague </button>
-                          <AddColeagueModal /> */}
                          </div>
                          <div className="jobs-feeds-sec">
                           <div className="jobs-com-profile">
@@ -136,7 +126,7 @@ const Profile = () => {
                                     <span className="plabel">Resume </span>
                                     <span className="result">
                                     <ul className="tags">
-                                    <li>My-resumefile.pdf</li>
+                                    <li><Link target="_blank" to="https://www.coolfreecv.com/images/modern_resume_with_photo01.jpg" download>My-resumefile.pdf</Link></li>
                                     </ul>
                                     </span>
                                 </li>
@@ -144,8 +134,8 @@ const Profile = () => {
                                 <span className="plabel">Extra certificates </span>
                                 <span className="result">
                                 <ul className="tags">
-                                  <li>Master-of-science.pdf</li>
-                                  <li>Certificate of .net technology</li>
+                                  <li><Link target="_blank" to="https://www.coolfreecv.com/images/modern_resume_with_photo01.jpg" download>Master-of-science.pdf</Link></li>
+                                  <li><Link target="_blank" to="https://www.coolfreecv.com/images/modern_resume_with_photo01.jpg" download>Certificate of .net technology</Link></li>
                                 </ul>
                                 </span>
                               </li>
@@ -157,10 +147,6 @@ const Profile = () => {
                         <div className="profile-information-coll">
                           <div className="profile-card-head">
                             <h3>Employment Details</h3>
-                            <div className="pr-edit-icon">
-                              <button type="button" className="icon_button" data-bs-toggle="modal" data-bs-target="#employmentModal"><i class="fas fa-plus"></i></button>
-                              <EmploymentDetailsModal />
-                            </div>
                           </div>
                           <div className="profile-info-list">
                             <ul className="info-list-li additional-box">
@@ -175,7 +161,6 @@ const Profile = () => {
                                     <p className="dateP">August 2021 - Current working</p>
                                   </div>
                                 </div>
-                                <button type="button" className="icon_button_text" data-bs-toggle="modal" data-bs-target="#modifyEmploymentModal"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                               <li>
                                 <div className="designation-list-item">
@@ -188,10 +173,8 @@ const Profile = () => {
                                     <p className="dateP">August 2020 - July 2021</p>
                                   </div>
                                 </div>
-                                <button type="button" className="icon_button_text" data-bs-toggle="modal" data-bs-target="#modifyEmploymentModal"><i class="fas fa-pen"></i> Edit</button>
                               </li>
                             </ul>
-                            <ModifyEmploymentModal />
                           </div>
                         </div>
                       </section>
@@ -199,10 +182,6 @@ const Profile = () => {
                         <div className="Project-information-coll">
                           <div className="profile-card-head">
                             <h3>Project history</h3>
-                            <div className="pr-edit-icon">
-                              <button type="button" className="icon_button" data-bs-toggle="modal" data-bs-target="#addProjectModal"><i class="fas fa-plus"></i></button>
-                              <AddProjectModal />
-                            </div>
                           </div>
                           <div className="Project-info-list">
                             <div className="project-detail-list">
@@ -238,7 +217,7 @@ const Profile = () => {
                                     </ul>
                                 </div>
                                 </div>
-                                <button type="button" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
+                                <button type="button" data-bs-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1" className="btn btn-view-more">View More</button>
                                 <div className="full-project-details collapse" id="collapseExample1">
                                   <p>Skills And Qualifications I want the design completed with Sketch to into tailwind if you contact to me I show you all details psi: My request from you is to show your projects that you have done with tailwind before.</p>
                                   <p><b>Link:</b> <Link to="/">https://bit.ly/3HAAMCF</Link></p>
@@ -258,7 +237,7 @@ const Profile = () => {
                                     </ul>
                                   </div>
                                 </div>
-                                <button type="button" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2" className="btn btn-view-more">View More</button>
+                                <button type="button" data-bs-toggle="collapse" href="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2" className="btn btn-view-more">View More</button>
                                 <div className="full-project-details collapse" id="collapseExample2">
                                   <p>Skills And Qualifications I want the design completed with Sketch to into tailwind if you contact to me I show you all details psi: My request from you is to show your projects that you have done with tailwind before.</p>
                                   <p><b>Link:</b> <Link to="/">https://bit.ly/3HAAMCF</Link></p>
@@ -290,4 +269,4 @@ const Profile = () => {
      )
 }
 
-export default Profile
+export default PublicProfile

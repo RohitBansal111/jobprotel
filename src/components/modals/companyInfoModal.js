@@ -55,6 +55,15 @@ const CompanyInfoModal = () => {
                                                             </div>
                                                        </div>
                                                   </div>
+                                                  <div className="form-field flex100">
+                                                       <Field
+                                                            name="companyName"
+                                                            label="Company Name"
+                                                            component={renderField}
+                                                            placeholder="Enter company name"
+                                                            type="text"
+                                                       />
+                                                  </div>
                                                   <div className="form-field flex50">
                                                        <Field name="companyEmailAddress" label="Company Email Address" value="info@eminencetechnolofy.com" component={renderField} />
                                                   </div>

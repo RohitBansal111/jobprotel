@@ -153,7 +153,7 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing 1-20 of 581 results</p>
+                    <p>Showing 1-4 of 4 results</p>
                   </div>
                   <div className="default-feeds-search">
                     <PostedJobCard />

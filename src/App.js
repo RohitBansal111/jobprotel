@@ -22,6 +22,10 @@ import EmployerEditProfile from './pages/Employer/profile/EditProfile';
 import DetailsPage from './pages/find-work/detail-page';
 import PrivacyPolicy from './policy/privacyPolicy';
 import TermsConditions from './T&C/TermsConditions';
+import EmployerJobDetailsPage from './pages/Employer/posted-job/detail-page';
+import PublicProfile from './pages/Employer/public';
+import EmployerJobSuggestion from './pages/Employer/suggestions';
+
 
 function App() {
   var role = 'employer'
@@ -39,7 +43,10 @@ function App() {
           <Route path="/terms" element={<TermsConditions/>}/>
 
 
-          <Route path="/posted-jobs" element={<PostedJob/>} />
+          <Route path="/public" element={<PublicProfile/>} />
+          <Route path="/job-details" element={<EmployerJobDetailsPage/>} />
+          <Route path="/sugguestion" element={<EmployerJobSuggestion/>} />
+          <Route path="/job-details" element={<EmployerJobDetailsPage/>} />
           <Route path="/jobs-applied" element={<StudentApplication/>} />
           <Route path="/inbox" element={<Inbox/>} />
           <Route path="/notifications" element={<Notification/>} />

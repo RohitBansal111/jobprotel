@@ -8,6 +8,8 @@ import {
 import validate from "./validators/postedJobValidator";
 import * as dropdownServices from "../../services/dropDownServices";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+
 
 const skillsSugguestion = [
   { id: "1", text: "react-redux" },
@@ -18,7 +20,11 @@ const skillsSugguestion = [
 ];
 
 const PostedJobModal = () => {
-  const handleJobPost = () => {};
+
+  const navigate = useNavigate()
+  const handleJobPost = () => {
+    navigate('/sugguestion')
+  };
   const [qualificationList, setQualificationList] = useState(null);
 
   useEffect(async () => {
@@ -49,7 +55,7 @@ const PostedJobModal = () => {
           <div className="modal-body p-0">
             <p className="px-4 py-2 connect-warn text-right">2 connects will be deducted for this job</p>
             <div className="kyc-detail-form p-4">
-              <Form onSubmit={handleJobPost} validate={validate}>
+              <Form onSubmit={handleJobPost} >
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">

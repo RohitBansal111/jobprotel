@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import Logo from "./../../assets/images/inner-logo.png";
 import Notification from "./../../assets/icons/notification-ico.png";
 import userAvtar from "./../../assets/images/user-img.jpg";
+import CompanyProfile from "./../../assets/images/company-logo.png";
 
 const Header = () => {
   const [mobileMenu, setmobileMenu] = useState("");
@@ -195,7 +196,11 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Eminence Technology <img src={userAvtar} alt="User Profile" />
+                Eminence Technology <img src={
+                      role === "employer"
+                        ? CompanyProfile
+                        : userAvtar
+                    } alt="User Profile" />
               </button>
               <ul
                 className="dropdown-menu"

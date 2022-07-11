@@ -43,7 +43,7 @@ return (
                                     <div className="user-prof-info">
                                         <ul className="prof-info-ul">
                                               <li>Recruiting Manager <span className="result">Akshika Singh</span></li>
-                                              <li>Contact Details <span className="result">skype: hr.eminencetechnology</span></li>
+                                              <li>Contact Number <span className="result">+91-9315189662</span></li>
                                         </ul>
                                     </div>
                               </div>
@@ -93,7 +93,7 @@ return (
                               <CompanyInfoModal />
                               <ul className="info-list-li">
                                 <li><span className="plabel">Recruiting Manager</span><span className="result">Akshika Singh</span></li>
-                                <li><span className="plabel">Contact Details</span> <span className="result">+91-9315189662</span></li>
+                                <li><span className="plabel">Contact Number</span> <span className="result">+91-9315189662</span></li>
                                 <li><span className="plabel">Company Address</span> <span className="result">Sector 72, Sahibzada Ajit Singh Nagar, Punjab</span></li>
                             </ul>
                           </div>
@@ -106,9 +106,8 @@ return (
                     </div>
                     <div className="Project-info-list">
                       <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button className="nav-link active" id="nav-completed-tab" data-bs-toggle="tab" data-bs-target="#nav-completed" type="button" role="tab" aria-controls="nav-completed" aria-selected="true">Completed</button>
-                        <button className="nav-link" id="nav-inprogress-tab" data-bs-toggle="tab" data-bs-target="#nav-inprogress" type="button" role="tab" aria-controls="nav-inprogress" aria-selected="false">In progress</button>
-                        <button className="nav-link" id="nav-applied-tab" data-bs-toggle="tab" data-bs-target="#nav-applied" type="button" role="tab" aria-controls="nav-applied" aria-selected="false">Posted</button>
+                        <button className="nav-link active" id="nav-completed-tab" data-bs-toggle="tab" data-bs-target="#nav-completed" type="button" role="tab" aria-controls="nav-completed" aria-selected="true">Active Jobs</button>
+                        <button className="nav-link" id="nav-inprogress-tab" data-bs-toggle="tab" data-bs-target="#nav-inprogress" type="button" role="tab" aria-controls="nav-inprogress" aria-selected="false">Archive Jobs</button>
                       </div>
                       <div className="tab-content" id="nav-tabContent">
                         <div className="tab-pane fade show active" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
@@ -117,14 +116,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -132,14 +125,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -147,14 +134,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -177,14 +158,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -192,14 +167,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -207,14 +176,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -237,14 +200,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -252,14 +209,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
@@ -267,14 +218,8 @@ return (
                               <h2 className="prname">Fullstack project assessment &amp; advice</h2>
                               <div className="prd-buget-column">
                                 <div className="prdate-budgetprice">
-                                  <span className="prdate">JAN 05, 2022 - JAN 15, 2022</span>
-                                  <span className="prbudget">With Budget <b>$550</b></span>
-                                </div>
-                                <div className="prtime">
-                                  <span className="complete-pr-time">
-                                    <img src={ClockIcon} alt="clock-icon" />
-                                  Completed in <b>15 hours</b>
-                                  </span>
+                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
+                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                 </div>
                               </div>
                             </div>
