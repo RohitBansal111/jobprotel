@@ -30,7 +30,7 @@ const Step3 = ({
   const [error, setError] = useState([]);
   const [certificate, setCertificate] = useState("");
   const [designationlist, setDesignationlist] = useState([]);
-
+const [newTest, SetNew] = useState("")
   const instanceSaveStep3 = (values) => {
     initialProfInfo({
       ...values,
