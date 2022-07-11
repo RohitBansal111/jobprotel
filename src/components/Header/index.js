@@ -7,7 +7,7 @@ import { useSelector ,useDispatch} from "react-redux";
 import * as types from "../../types/auth";
 
 const Header = () => {
-  
+  const [userData, setUserData] = useState([])
   const dispatch = useDispatch()
   const [mobileMenu, setmobileMenu] = useState("");
   var role = "employer";
@@ -22,6 +22,7 @@ const Header = () => {
   useEffect(() => {
     const localData = localStorage.getItem("jobPortalUser")
     const userData = JSON.parse(localData);
+    setUserData(userData)
     if(!authData && userData)
     {
       dispatch({
@@ -30,7 +31,6 @@ const Header = () => {
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-    console.log(authData)
   }, [authData])
   
 
@@ -221,7 +221,7 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Eminence Technology <img src={userAvtar} alt="User Profile" />
+                {userData && userData.fullName && userData.fullName }<img src={userAvtar} alt="User Profile" />
               </button>
               <ul
                 className="dropdown-menu"

@@ -5,8 +5,24 @@ import ConnectIcon from "./../../../assets/icons/connect.png";
 // import Filtericon from "./../../../assets/icons/filter-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 import PostedJobModal from "../../../components/modals/postedJobModal";
+import { useState, useEffect } from "react";
+import * as employerServices from "../../../services/employerServices";
 
 const PostedJob = () => {
+  const [employerData, setEmployerData] = useState([]);
+  const [companyLogo, setCompanyLogo] = useState("")
+  useEffect(async () => {
+    const localData = localStorage.getItem("jobPortalUser");
+    const userData = JSON.parse(localData);
+    const resp = await employerServices.getEmployerDetails(userData.id);
+    console.log(resp, "okay");
+    setEmployerData(resp.data.data.result);
+    
+    setCompanyLogo(resp.data.data.result.logoPath)
+  }, []);
+
+  console.log(companyLogo);
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -45,13 +61,33 @@ const PostedJob = () => {
                         <img src={CompanyProfile} alt="Company profile" />
                       </span>
                     </div>
-                    <h3>Eminence Technology</h3>
-                    <p>Sector 72, Sahibzada Ajit Singh Nagar, Punjab</p>
+                    <h3>
+                      {employerData &&
+                        employerData.companyName &&
+                        employerData.companyName}
+                    </h3>
+                    <p>
+                      {employerData &&
+                        employerData.address &&
+                        employerData.address}
+                      {", "}
+                      {employerData && employerData.cityName}{" "}
+                      <p>
+                        {employerData &&
+                          employerData.stateResponse &&
+                          employerData.stateResponse.stateName &&
+                          employerData.stateResponse.stateName}
+                      </p>
+                    </p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">20</span>
+                      <span className="conn-count">
+                        {employerData &&
+                          employerData.availableConnects &&
+                          employerData.availableConnects}
+                      </span>
                     </div>
                     <h4>Available Connects</h4>
                   </div>
@@ -59,12 +95,18 @@ const PostedJob = () => {
                     <ul className="prof-info-ul">
                       <li>
                         Recruiting Manager{" "}
-                        <span className="result">Akshika Singh</span>
+                        <span className="result">
+                          {employerData &&
+                            employerData.recruitingManagerName &&
+                            employerData.recruitingManagerName}
+                        </span>
                       </li>
                       <li>
                         Contact Details{" "}
                         <span className="result">
-                          skype: hr.eminencetechnology
+                          {employerData &&
+                            employerData.companyEmail &&
+                            employerData.companyEmail}
                         </span>
                       </li>
                     </ul>
