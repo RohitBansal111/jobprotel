@@ -85,9 +85,6 @@ const PostedJobModal = () => {
     formData.append("location", value.location);
     formData.append("hoursDays", value.hoursDays);
     formData.append("days", value.days);
-
-    // formData.append("software", value.software);
-    // formData.append("onsite", value.onsite);
     formData.append("timing", value.timing);
     formData.append("timezone", timezone);
     formData.append("category", value.category);
@@ -98,8 +95,6 @@ const PostedJobModal = () => {
     }
 
     formData.append("description", value.description);
-
-    console.log("Yes FormData", formData);
 
     postJob(formData);
   };
