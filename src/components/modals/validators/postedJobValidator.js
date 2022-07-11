@@ -15,6 +15,9 @@ const PostedJobValidator = (values) => {
      if(!values.experienceInYears){ 
           error.experienceInYears = "Required experience in Years"
      }
+     if(!values.experienceInMonths){ 
+          error.experienceInMonths = "Required experience in Months"
+     }
      if(!values.onsite){ 
           error.onsite = "Required onsite"
      }

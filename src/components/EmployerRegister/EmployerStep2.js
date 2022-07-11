@@ -54,8 +54,8 @@ const EmployerStep2 = ({
   }, []);
 
   const SaveStep2 = (values) => {
-    console.log("called", values)
-    // if (validation()) {
+    console.log("called", values);
+    // if(validation ()){
       EmployerCompleteInfo(values);
     // }
   };
@@ -91,7 +91,6 @@ const EmployerStep2 = ({
   }
 
   const closeModal = () => {
-    console.log("inclose");
     setModal(false);
   };
 
@@ -153,18 +152,10 @@ const EmployerStep2 = ({
                   <div style={{ color: "red" }}>{err && err.logo}</div>
                 </div>
                 <div className="form-field flex50 mb-2">
-                  {/* <Field
-                    name="companyPhone"
-                    label={titleStrings.companyPhoneNoTitle}
-                    component={RenderPhoneInput}
-                    placeholder="Enter Company Phone Number"
-                    type="text"
-                    pattern="[0-9]*"
-                  /> */}
                   <div className="field-render-main">
                     <label>Company Phone Number</label>
                     <PhoneInput
-                    name="companyPhone"
+                      name="companyPhone"
                       placeholder="Enter Company Phone Number"
                       value={phoneNumberFlag}
                       onChange={setphoneNumberFlag}
@@ -246,7 +237,7 @@ const EmployerStep2 = ({
                 <button
                   type="submit"
                   className="btn btn-primary next-btn text-white text-center"
-                  onClick={()=>SaveStep2(values)}
+                  onClick={() => SaveStep2(values)}
                 >
                   {" "}
                   {titleStrings.nextTitle}{" "}

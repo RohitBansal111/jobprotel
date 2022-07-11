@@ -79,7 +79,7 @@ const Register = () => {
     companyName: "Desire",
   });
 
-  console.log(userData)
+  console.log(employer)
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
 
   const userBasicInfo = (data) => {
@@ -256,19 +256,22 @@ const Register = () => {
 
   const finalSubmitEmployer = async () => {
     let formData = new FormData();
+    formData.append("address", employer.address);
+    formData.append("recruitingManagerName", employer.recruitingManagerName);
+    formData.append("companyPhone", employer.companyPhone);
+    // formData.append("companyEmail", "ASD@gmail.com");
+    // formData.append("companyName", "asdfg");
+    formData.append("countryId", employer.countryId);
+    formData.append("stateId", employer.stateId);
+
+    formData.append("city", employer.city);
     formData.append("firstName", employer.firstName);
     formData.append("lastName", employer.lastName);
     formData.append("email", employer.email);
     formData.append("password", employer.password);
     formData.append("confirmPassword", employer.confirmPassword);
     formData.append("logoUrl", employer.logoUrl);
-    formData.append("address", employer.address);
-    formData.append("recruitingManagerName", employer.recruitingManagerName);
-    formData.append("companyPhone", employer.companyPhone);
     formData.append("roles", employer.roles);
-    formData.append("phone", "1212343123");
-    formData.append("companyEmail", "ASD@gmail.com");
-    formData.append("companyName", "asdfg");
 
     const resp = await authServices.registerEmployer(formData);
     if (resp && resp.status == 200) {

@@ -93,6 +93,7 @@ const Step2 = ({
     if (data.profileImageUrl) {
       setImg({ personalInfoImg: data.profileImageUrl.personalInfoImg });
       setProfileImage(data.profileImage);
+      console.log(data.profileImage);
     }
   }, []);
 
@@ -307,7 +308,6 @@ const Step2 = ({
                         "Europe/Berlin": "Frankfurt",
                       }}
                     />
-                    <div style={{ color: "red" }}>{err && err.timeZone}</div>
                   </div>
                 </div>
                 <div className="form-field flex100">

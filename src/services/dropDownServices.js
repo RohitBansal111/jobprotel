@@ -132,3 +132,20 @@ export const tagsList = async () => {
     };
   }
 };
+
+export const designationList = async() => {
+  try {
+    const resp = await axios.get(`${process.env.REACT_APP_PUBLIC_API_URL}/Designations`)
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp.message);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      resp: err.message,
+      status: 400,
+    };
+  }
+}
