@@ -34,6 +34,7 @@ const PostedJobModal = () => {
   );
 
   const handleTimeZone = (data) => {
+    console.log("data",data)
     setTimezone(data.value);
   };
 

@@ -220,10 +220,11 @@ const Register = () => {
       const resp = await authServices.registerUser(formData);
 
       if (resp && resp.status == 200) {
-        navigate("/");
+        
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
+        navigate("/");
       } else {
         if (resp.errors && typeof resp.errors === "object") {
           let errors = "";
