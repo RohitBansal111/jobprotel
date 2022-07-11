@@ -100,9 +100,8 @@ const Step3 = ({
       <div className="form-main">
         <Form
           initialValues={data}
-          
+          onSubmit={SaveStep3}
           validate={Step3Validator}
-          keepDirtyOnReinitialize
         >
           {({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
@@ -371,7 +370,7 @@ const Step3 = ({
                 </button>
                 <button
                   type="submit"
-                  onClick={() => SaveStep3(values)}
+                  
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}

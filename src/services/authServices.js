@@ -13,7 +13,6 @@ export const registerUser = async (data) => {
       throw new Error(resp);
     }
   } catch (err) {
-    console.log(err.response,"err-res")
     return {
       data: "",
       error:
@@ -21,9 +20,9 @@ export const registerUser = async (data) => {
           ? err.response.data.error
           : err.message,
       errors:
-          err.response && err.response.data && err.response.data.errors
-            ? err.response.data.errors
-            : err.message,    
+        err.response && err.response.data && err.response.data.errors
+          ? err.response.data.errors
+          : err.message,
       status: 400,
     };
   }
@@ -58,17 +57,19 @@ export const loginUser = async (data) => {
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/login`,
       data
     );
-    
+
     if (resp.status == 200) {
       return resp;
     } else {
       throw new Error(resp);
     }
   } catch (err) {
-    console.log("err",err.response)
     return {
       data: "",
-      error: err.response && err.response.data && err.response.data.error ?err.response.data.error: err.message,
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
       status: 400,
     };
   }

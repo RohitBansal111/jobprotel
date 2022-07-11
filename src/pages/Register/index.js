@@ -35,6 +35,7 @@ const Register = () => {
     confirmPassword: "",
     countryId: "",
     certificate: "No",
+    designation: "",
     email: "",
     expectedSalary: "",
     experienceInYears: "",
@@ -58,14 +59,13 @@ const Register = () => {
     resumeFileName: "",
     extraCertificateArray: [],
     skills: [],
-    category: "",
   });
   const [next, setNext] = useState(false);
 
   const [employer, setEmployer] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    companyEmail: "",
     password: "",
     confirmPassword: "",
     logoUrl: "",
@@ -73,13 +73,15 @@ const Register = () => {
     address: "",
     recruitingManagerName: "",
     companyPhone: "",
+    countryId: "",
+    stateId: "",
+    city: "",
     roles: "",
-    phone: "1212343123",
-    companyEmail: "Aslam11@gmail.com",
-    companyName: "Desire",
+    // companyEmail: "Aslam11@gmail.com",
+    companyName: "",
   });
 
-  console.log(employer)
+  console.log(employer);
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
 
   const userBasicInfo = (data) => {
@@ -171,12 +173,11 @@ const Register = () => {
       formData.append("addressLine1", userData.addressLine1);
       formData.append("addressLine2", userData.addressLine2);
       formData.append("age", userData.age);
-      // formData.append("captcha", userData.captcha);
       formData.append("city", userData.city);
       formData.append("collegeId", userData.collegeId);
       formData.append("confirmPassword", userData.confirmPassword);
       formData.append("countryId", userData.countryId);
-      formData.append("category", userData.category);
+      formData.append("designationId", userData.designation);
       formData.append("email", userData.email);
       formData.append("expectedSalary", userData.expectedSalary);
       formData.append("experienceInYears", userData.experienceInYears);
@@ -246,29 +247,33 @@ const Register = () => {
     setEmployer({ ...employer, ...data });
   };
 
-  const EmployerCompleteInfo = (data) => {
-    setEmployer({ ...employer, ...data });
+  const EmployerCompleteInfo = (data, phoneNumberFlag, img) => {
+    console.log(img, "imgg");
+    setEmployer({
+      ...employer,
+      ...data,
+      companyPhone: phoneNumberFlag,
+      logoUrl: img.personalInfoImg,
+    });
     setCompleteEmpInfo(true);
   };
 
   const initialPersonalInfo = (data) => {
-    setEmployer({...employer, ...data})
-  }
+    setEmployer({ ...employer, ...data });
+  };
 
   const finalSubmitEmployer = async () => {
     let formData = new FormData();
     formData.append("address", employer.address);
     formData.append("recruitingManagerName", employer.recruitingManagerName);
     formData.append("companyPhone", employer.companyPhone);
-    // formData.append("companyEmail", "ASD@gmail.com");
-    // formData.append("companyName", "asdfg");
+    formData.append("companyName", employer.companyName);
     formData.append("countryId", employer.countryId);
     formData.append("stateId", employer.stateId);
-
     formData.append("city", employer.city);
     formData.append("firstName", employer.firstName);
     formData.append("lastName", employer.lastName);
-    formData.append("email", employer.email);
+    formData.append("companyEmail", employer.companyEmail);
     formData.append("password", employer.password);
     formData.append("confirmPassword", employer.confirmPassword);
     formData.append("logoUrl", employer.logoUrl);

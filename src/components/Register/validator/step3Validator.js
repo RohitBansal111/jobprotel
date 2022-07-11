@@ -20,8 +20,8 @@ const Step3Validator = (values) => {
   if (!values.workHoursPerDay) {
     error.workHoursPerDay = "Required Hours/day";
   }
-  if (!values.category) {
-    error.category = "Required Category";
+  if (!values.designation) {
+    error.designation = "Required Category";
   }
   
   if(!values.skills || values.skills && values.skills.length ===0){
