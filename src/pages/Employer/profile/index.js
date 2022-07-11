@@ -51,7 +51,7 @@ return (
                          <div className="jobs-feeds-sec">
                           <div className="jobs-com-profile">
                             <div className="profile-update">
-                              <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p>
+                              {/* <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p> */}
                             </div>
                             <div className="profile-strength">
                               <div className="profile-strength-inner">
@@ -69,7 +69,9 @@ return (
                           </div>
                          <section className="profile-information-view">
                             <div className="profile-information-coll">
-                              <h3>Personal Information</h3>
+                              <div className="profile-card-head">
+                                <h3>Personal Information</h3>
+                              </div>
                               <div className="profile-info-list">
                                    <ul className="info-list-li">
                                     <li><span className="plabel">Name</span> <span className="result">Rahul Nair</span></li>
@@ -80,11 +82,14 @@ return (
                           </section>
                           <section className="profile-information-view">
                             <div className="profile-information-coll">
-                              <h3>Company Information</h3>
-                              <div className="profile-info-list">
-                              <div className="pr-edit-icon">
-                                  <button type="button" className="btn-edit" data-bs-toggle="modal" data-bs-target="#companyInfo"><img src={EditIcon} alt="icon" /></button>
+                              <div className="profile-card-head">
+                                <h3>Company Information</h3>
+                                <div className="pr-edit-icon">
+                                    <button type="button" className="btn-edit" data-bs-toggle="modal" data-bs-target="#companyInfo"><img src={EditIcon} alt="icon" /></button>
+                                </div>
                               </div>
+                              <div className="profile-info-list">
+                             
                               <CompanyInfoModal />
                               <ul className="info-list-li">
                                 <li><span className="plabel">Recruiting Manager</span><span className="result">Akshika Singh</span></li>
@@ -96,7 +101,9 @@ return (
                       </section>
                       <section className="profile-information-view">
                   <div className="Project-information-coll">
-                    <h3>Jobs history</h3>
+                    <div className="profile-card-head">
+                      <h3>Jobs history</h3>
+                    </div>
                     <div className="Project-info-list">
                       <div className="nav nav-tabs" id="nav-tab" role="tablist">
                         <button className="nav-link active" id="nav-completed-tab" data-bs-toggle="tab" data-bs-target="#nav-completed" type="button" role="tab" aria-controls="nav-completed" aria-selected="true">Completed</button>

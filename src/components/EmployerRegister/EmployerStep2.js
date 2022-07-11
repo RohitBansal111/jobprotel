@@ -151,6 +151,15 @@ const EmployerStep2 = ({
                   </div>
                   <div style={{ color: "red" }}>{err && err.logo}</div>
                 </div>
+                <div className="form-field flex100">
+                  <Field
+                    name="companyName"
+                    label="Company Name"
+                    component={renderField}
+                    placeholder="Enter company name"
+                    type="text"
+                  />
+                </div>
                 <div className="form-field flex50 mb-2">
                   <div className="field-render-main">
                     <label>Company Phone Number</label>
