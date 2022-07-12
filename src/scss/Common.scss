@@ -68,3 +68,19 @@ ul {
     width: 20px;
   }
 }
+
+.uploaded-documents{
+  margin-top: 3px;
+  li{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    .btn-remove{
+      padding: 0px;
+      padding-left: 10px;
+      i{
+        color: red;
+      }
+    }
+  }
+}

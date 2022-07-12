@@ -113,14 +113,6 @@ console.log(profileImage)
         setImg={setImg}
       />
       <div className="form-main">
-        <ImageCropperModal
-          closeModal={closeModal}
-          showImageCropModal={modal}
-          readFile={readFile}
-          imageSrc={img.personalInfoImg}
-          setProfileImage={setLogoImage}
-          setImg={setImg}
-        />
         <Form onSubmit={SaveStep2} validate={validate} initialValues={employer}>
           {({ handleSubmit, submitting, values }) => (
             <form onSubmit={handleSubmit}>

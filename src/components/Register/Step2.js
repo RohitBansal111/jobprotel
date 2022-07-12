@@ -172,26 +172,32 @@ const Step2 = ({
                       ))}
                   </div>
                 </div>
-                <div className="form-field flex50">
-                  <label>Upload Profile {"\u2728"}</label>
-                  <input
-                    name="profileImage"
-                    id="profileImage"
-                    label={titleStrings.uploadPhotoTitle}
-                    accept=".jpg, .jpeg, .png"
-                    type="file"
-                    onChange={handleImageChange}
-                  />
-                  <div style={{ color: "red" }}>{err && err.profileImage}</div>
-                  <div className="aws-placeholder image4">
-                    <img
-                      src={img.personalInfoImg}
-                      className="img-aws"
-                      alt="avtar"
-                      width={100}
-                      height={100}
-                      layout="fill"
-                    />
+                <div className="form-field flex100">
+                  <div className="uploadImageSection mb-2">
+                    <div className="file-label-image">
+                      <label>Upload Profile</label>
+                      <div className="file-upload">
+                        <input
+                          name="profileImage"
+                          id="profileImage"
+                          label={titleStrings.uploadPhotoTitle}
+                          accept=".jpg, .jpeg, .png"
+                          type="file"
+                          onChange={handleImageChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="aws-placeholder image4">
+                      <img
+                        src={img.personalInfoImg}
+                        className="img-aws"
+                        alt="avtar"
+                        width={100}
+                        height={100}
+                        layout="fill"
+                      />
+                    </div>
+                    <div style={{ color: "red" }}>{err && err.profileImage}</div>
                   </div>
                 </div>
                 <div className="form-field flex100 mb-2">

@@ -296,9 +296,12 @@ const Step3 = ({
                     <p style={{ color: "red" }}>
                       {error && error.resume ? error.resume : ""}
                     </p>
-                    {resumeFile && resumeFile.length > 0 && (
-                      <li>{resumeFile}</li>
-                    )}
+                    <ul className="uploaded-documents">
+                      {resumeFile && resumeFile.length > 0 && (
+                        <li>{resumeFile}</li>
+                      )}
+                    </ul>
+                    
                   </div>
                 </div>
                 <div className="form-field flex50">
@@ -353,19 +356,23 @@ const Step3 = ({
                   <p style={{ color: "red" }}>
                     {error && error.certificate ? error.certificate : ""}
                   </p>
-                  {previewImg &&
-                    previewImg.length > 0 &&
-                    previewImg.map((img) => (
-                      <>
-                        <li>{img.name}</li>
-                        <i
-                          className="fa fa-times-circle"
-                          aria-hidden="true"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => manageCertificates(img.name)}
-                        />
-                      </>
+                  <ul className="uploaded-documents">
+                    {previewImg &&
+                      previewImg.length > 0 &&
+                      previewImg.map((img, index) => (
+                        <>
+                          <li>{index + 1}. {img.name} <button className="btn btn-remove">
+                            <i
+                            className="fa fa-times-circle"
+                            aria-hidden="true"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => manageCertificates(img.name)}
+                          />
+                            </button></li>
+                          
+                        </>
                     ))}
+                  </ul>
                 </div>
               </div>
               <div className="form-action">
