@@ -24,8 +24,7 @@ const FindWork = () => {
     if (resp.status == 200) {
       const response = resp.data.data.result;
       setStudentData(response);
-      let path = "http://3.97.197.26:5000/";
-      setStudentProfilePic(`${path}${response.pictureUrl}`);
+      setStudentProfilePic(`${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`);
     }
   }, []);
 

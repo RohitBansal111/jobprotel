@@ -11,21 +11,19 @@ import * as employerServices from "../../../services/employerServices";
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
-  
+  const [id, setId] = useState("")
+
   useEffect(async () => {
     const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
     const resp = await employerServices.getEmployerDetails(userData.id);
-
+    setId(userData.id)
     if (resp.status == 200) {
-      setEmployerData(resp.data.data.result);
-      let path = "http://3.97.197.26:5000/";
-      let img = [];
-      for (let i = 8; i < resp.data.data.result.logoPath.length; i++) {
-        img.push(resp.data.data.result.logoPath[i]);
-      }
-      img = img.join("");
-      setCompanyLogo(`${path}${img}`);
+      const response = resp.data.data.result;
+      console.log(response);
+      setEmployerData(response);
+
+      setCompanyLogo(`${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`);
     }
   }, []);
 
@@ -126,7 +124,7 @@ const PostedJob = () => {
                 >
                   Post New Job
                 </button>
-                <PostedJobModal />
+                <PostedJobModal id={id} />
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">

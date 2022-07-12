@@ -18,7 +18,7 @@ import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import { useNavigate } from "react-router";
 
-const PostedJobModal = () => {
+const PostedJobModal = ({id}) => {
   let titleStrings = new LocalizedStrings(titles);
 
   const [qualificationList, setQualificationList] = useState(null);
@@ -33,8 +33,13 @@ const PostedJobModal = () => {
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
 
+  // const [postJobData, setPostJobData] = useState({
+  //   employerId: id,
+  //   title: "",
+
+  // })
+
   const navigate = useNavigate()
-  
 
   const handleTimeZone = (data) => {
     console.log("data", data);
@@ -85,34 +90,34 @@ const PostedJobModal = () => {
     console.log(skillsArr);
     let formData = new FormData();
 
-    formData.append("employerId", "3fa85f64-5717-4562-b3fc-2c963f66afa6");
+    formData.append("employerId", id);
     formData.append("title", value.title);
-    formData.append("designation", value.designation);
+    formData.append("description", value.description);
+    formData.append("designationId", value.designation);
     formData.append("experienceInYears", value.experienceInYears);
     formData.append("experienceInMonths", value.experienceInMonths);
+    formData.append("hoursPerDay", value.hoursDays);
+    formData.append("daysPerWeek", value.days);
+    formData.append("salary", salary);
+    formData.append("location", value.location);
+    formData.append("timing", value.timing);
+
     formData.append("qualification", value.qualification);
 
     for (var i = 0; i < skillsArr.length; i++) {
       formData.append(`skills[${i}]`, skillsArr[i]);
     }
 
-    formData.append("location", value.location);
-    formData.append("hoursDays", value.hoursDays);
-    formData.append("days", value.days);
-    formData.append("timing", value.timing);
-    {
-      showTimeZone
-        ? formData.append("timezone", timezone)
-        : formData.append("timezone", timezone2);
-    }
-    formData.append("category", value.category);
-    formData.append("salary", salary);
+    // {
+    //   showTimeZone
+    //     ? formData.append("timezone", timezone)
+    //     : formData.append("timezone", timezone2);
+    // }
 
     for (var i = 0; i < tagsArr.length; i++) {
       formData.append(`tags[${i}]`, tagsArr[i]);
     }
 
-    formData.append("description", value.description);
 
     postJob(formData);
   };
