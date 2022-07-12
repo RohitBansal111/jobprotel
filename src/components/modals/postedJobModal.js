@@ -14,7 +14,6 @@ import { useState, useEffect, useMemo } from "react";
 import * as employerServices from "../../services/employerServices";
 import LocalizedStrings from "react-localization";
 import titles from "../Register/register.json";
-import { login } from "../../store/action/authActions";
 import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 
@@ -34,7 +33,7 @@ const PostedJobModal = () => {
   );
 
   const handleTimeZone = (data) => {
-    console.log("data",data)
+    console.log("data", data);
     setTimezone(data.value);
   };
 

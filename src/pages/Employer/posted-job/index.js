@@ -10,18 +10,23 @@ import * as employerServices from "../../../services/employerServices";
 
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
-  const [companyLogo, setCompanyLogo] = useState("")
+  const [companyLogo, setCompanyLogo] = useState("");
   useEffect(async () => {
     const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
     const resp = await employerServices.getEmployerDetails(userData.id);
-    console.log(resp, "okay");
-    setEmployerData(resp.data.data.result);
-    
-    setCompanyLogo(resp.data.data.result.logoPath)
-  }, []);
 
-  console.log(companyLogo);
+    if (resp.status == 200) {
+      setEmployerData(resp.data.data.result);
+      let path = "http://3.97.197.26:5000/";
+      let img = [];
+      for (let i = 8; i < resp.data.data.result.logoPath.length; i++) {
+        img.push(resp.data.data.result.logoPath[i]);
+      }
+      img = img.join("");
+      setCompanyLogo(`${path}${img}`);
+    }
+  }, []);
 
   return (
     <Layout>
@@ -58,7 +63,7 @@ const PostedJob = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={CompanyProfile} alt="Company profile" />
+                        <img src={companyLogo} alt="Company profile" />
                       </span>
                     </div>
                     <h3>

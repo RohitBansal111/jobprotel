@@ -23,8 +23,8 @@ export const renderRangeField = ({
       let { name, value } = e.target;
       let data = e.target.validity.valid ? value : undefined;
       if (data !== undefined) {
-      input.onChange(e);
-      onChange && onChange(e);
+        input.onChange(e);
+        onChange && onChange(e);
       }
     },
   };
@@ -58,7 +58,7 @@ export const renderNumberField = ({
   value,
   type,
   meta: { touched, error },
-  pattern
+  pattern,
 }) => {
   const inputProps = {
     ...input,
@@ -66,8 +66,8 @@ export const renderNumberField = ({
       let { name, value } = e.target;
       let data = e.target.validity.valid ? value : undefined;
       if (data !== undefined) {
-      input.onChange(e);
-      onChange && onChange(e);
+        input.onChange(e);
+        onChange && onChange(e);
       }
     },
   };
@@ -99,7 +99,7 @@ export const renderField = ({
   value,
   type,
   meta: { touched, error },
-  pattern
+  pattern,
 }) => {
   const inputProps = {
     ...input,
@@ -217,12 +217,9 @@ export const RenderRadioButtonField = ({
   return (
     <div className="field-render-main">
       <label className="radio-group">
-        <input type="radio" checked {...inputProps} defaultValue="No" />
+        <input type="radio" checked {...inputProps} />
         {children}
         <span className="radiobtn"></span>
-        {/* {touched && error ? (onError ? onError(true) : null) : null}
-        {touched && !error ? (onError ? onError(false) : null) : null}
-        &nbsp; {label} */}
         {touched && error && <span className="error">{error}</span>}
       </label>
     </div>
