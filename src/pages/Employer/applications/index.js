@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
-import JobCard from "../../../components/Job-card"
+import PostedJobCard from "../../../components/PostedJobCard";
 import Layout from "../../../components/Layout"
-import UserAvtar from './../../../assets/images/profile-img.jpg'
+import CompanyProfile from "./../../../assets/images/company-logo.png";
 import ConnectIcon from './../../../assets/icons/connect.png'
 import Filtericon from './../../../assets/icons/filter-ico.png'
-
+import PostedJobModal from "../../../components/modals/postedJobModal"
 
 
 const Applications = () => {
@@ -23,30 +23,51 @@ const Applications = () => {
                                    <div className="user-profile-left">
                                         <div className="user-profile-coll">
                                              <div className="user-profile-detail">
-                                                  <div className="profile-pic-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                                       <span className="profile-img">
-                                                            <img src={UserAvtar} alt="user profile" />
-                                                       </span>
+                                                  <div
+                                                  className="profile-pic-progress"
+                                                  role="progressbar"
+                                                  aria-valuenow="60"
+                                                  aria-valuemin="0"
+                                                  aria-valuemax="100"
+                                                  >
+                                                  <span className="profile-img">
+                                                  <img src={CompanyProfile} alt="Company profile" />
+                                                  </span>
                                                   </div>
-                                                  <h3>Michael Taylor</h3>
-                                                  <p>Washington United States</p>
+                                                  <h3>Eminence Technology</h3>
+                                                  <p>Sector 72, Sahibzada Ajit Singh Nagar, Punjab</p>
                                              </div>
                                              <div className="profile-connect">
                                                   <div className="profile-con">
-                                                       <img src={ConnectIcon} alt="Connect" />
-                                                       <span className="conn-count">20</span>
+                                                  <img src={ConnectIcon} alt="Connect" />
+                                                  <span className="conn-count">20</span>
                                                   </div>
                                                   <h4>Available Connects</h4>
                                              </div>
                                              <div className="user-prof-info">
                                                   <ul className="prof-info-ul">
-                                                       <li>Experience <span className="result">5+ Years</span></li>
-                                                       <li>College / University <span className="result">Toronto</span></li>
-                                                       <li>Education <span className="result">M-Bio Sci.</span></li>
-                                                       <li>Hours / day <span className="result">8 Hours/day</span></li>
+                                                  <li>
+                                                  Recruiting Manager{" "}
+                                                  <span className="result">Akshika Singh</span>
+                                                  </li>
+                                                  <li>
+                                                  Contact Details{" "}
+                                                  <span className="result">
+                                                       skype: hr.eminencetechnology
+                                                  </span>
+                                                  </li>
                                                   </ul>
                                              </div>
                                         </div>
+                                        {/* <button
+                                        type="button"
+                                        className="btn btn-primary w-100 mt-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#postedJob"
+                                        >
+                                        Post New Job
+                                        </button>
+                                        <PostedJobModal /> */}
                                    </div>
                                    <div className="jobs-feeds-sec">
                                         <div className="jobs-com-profile">
@@ -74,26 +95,26 @@ const Applications = () => {
                                         <div className="feeds-search-bar">
                                              <div className="search-bar">
                                                   <form className="form-inline">
-                                                       <input className="form-control" type="search" placeholder="Find related Jobs" aria-label="Search" />
+                                                       <input className="form-control" type="search" placeholder="Find posted Jobs" aria-label="Search" />
                                                        <button className="btn btn-outline-success" type="submit">Search</button>
                                                   </form>
                                              </div>
-                                             <div className="feed-filter">
+                                             {/* <div className="feed-filter">
                                                   <button type="button" className="btn filter-btn">
                                                        <img src={Filtericon} alt="Filter icon" />
                                                   </button>
-                                             </div>
+                                             </div> */}
                                         </div>
                                         <div className="search-feeds-section">
                                              <div className="feed-title">
                                                   <h2>Top results you might like</h2>
-                                                  <p>Showing 1-20 of 581 results</p>
+                                                  <p>Showing 1-4 of 4 results</p>
                                              </div>
                                              <div className="default-feeds-search">
-                                                  <JobCard />
-                                                  <JobCard />
-                                                  <JobCard />
-                                                  <JobCard />
+                                                  <PostedJobCard />
+                                                  <PostedJobCard />
+                                                  <PostedJobCard />
+                                                  <PostedJobCard />
                                              </div>
                                         </div>
                                    </div>
