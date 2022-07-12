@@ -5,13 +5,31 @@ import UserAvtar from "./../../assets/images/profile-img.jpg";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import Filtericon from "./../../assets/icons/filter-ico.png";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as studentServices from "../../services/studentServices";
 
 const FindWork = () => {
   const [role, setRole] = useState("student");
   const [showFilter, setshowFilter] = useState(false);
+  const [studentData, setStudentData] = useState([]);
+  const [studentProfilePic, setStudentProfilePic] = useState("");
+
   const handleFilter = () => setshowFilter(!showFilter);
 
+  useEffect(async () => {
+    const localData = localStorage.getItem("jobPortalUser");
+    const userData = JSON.parse(localData);
+    const resp = await studentServices.getStudentDetails(userData.id);
+
+    if (resp.status == 200) {
+      const response = resp.data.data.result;
+      setStudentData(response);
+      let path = "http://3.97.197.26:5000/";
+      setStudentProfilePic(`${path}${response.pictureUrl}`);
+    }
+  }, []);
+
+  console.log(studentData);
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -59,43 +77,108 @@ const FindWork = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={UserAvtar} alt="user profile" />
+                        <img src={studentProfilePic} alt="user profile" />
                       </span>
                     </div>
-                    <h3>Michael Taylor</h3>
-                    <p>Washington United States</p>
+                    <h3>
+                      {studentData &&
+                        studentData.firstName &&
+                        studentData.firstName}{" "}
+                      {studentData &&
+                        studentData.lastName &&
+                        studentData.lastName}{" "}
+                    </h3>
+                    <p>
+                      {studentData &&
+                        studentData.address &&
+                        studentData.address}
+                      {", "}
+                      {studentData &&
+                        studentData.addressLine1 &&
+                        studentData.addressLine1}
+                      {", "}
+                      {studentData &&
+                        studentData.addressLine2 &&
+                        studentData.addressLine2}
+                    </p>
+                    <p>
+                      {studentData &&
+                        studentData.cityName &&
+                        studentData.cityName}
+                    </p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">20</span>
+                      <span className="conn-count">
+                        {studentData &&
+                          studentData.availableConnects &&
+                          studentData.availableConnects}
+                      </span>
                     </div>
                     <h4>Available Connects</h4>
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
-                        Hour's per/day <span className="result">4 Hour</span>
+                        Hour's per/day{" "}
+                        <span className="result">
+                          {studentData &&
+                            studentData.workHoursPerDay &&
+                            studentData.workHoursPerDay}
+                        </span>
                       </li>
                       <li>
                         Timing <span className="result">10AM - 2PM</span>
                       </li>
                       <li>
                         Skills{" "}
-                        <span className="result">React-Redux, Flutter</span>
+                        {/* <span className="result">React-Redux, Flutter</span> */}
+                        <span className="result">
+                          {studentData &&
+                            studentData.skills &&
+                            studentData.skills}
+                        </span>
                       </li>
                       <li>
-                        Experience <span className="result">5+ Years</span>
+                        Experience{" "}
+                        <span className="result">
+                          {studentData &&
+                            studentData.experienceInYears &&
+                            studentData.experienceInYears}
+                          Year{", "}
+                          {studentData &&
+                            studentData.experienceInMonths &&
+                            studentData.experienceInMonths}{" "}
+                          Month
+                        </span>
                       </li>
                       <li>
                         College / University{" "}
-                        <span className="result">Toronto</span>
+                        <span className="result">
+                          {studentData &&
+                            studentData.collegeResponse &&
+                            studentData.collegeResponse.collegeName &&
+                            studentData.collegeResponse.collegeName}
+                        </span>
                       </li>
                       <li>
-                        Education <span className="result">M-Bio Sci.</span>
+                        Education{" "}
+                        <span className="result">
+                          {studentData &&
+                            studentData.qualificationResponse &&
+                            studentData.qualificationResponse
+                              .qualificationName &&
+                            studentData.qualificationResponse.qualificationName}
+                        </span>
                       </li>
                       <li>
-                        Hours / day <span className="result">8 Hours/day</span>
+                        Hours / day{" "}
+                        <span className="result">
+                          {studentData &&
+                            studentData.workHoursPerDay &&
+                            studentData.workHoursPerDay}
+                        </span>
                       </li>
                     </ul>
                   </div>

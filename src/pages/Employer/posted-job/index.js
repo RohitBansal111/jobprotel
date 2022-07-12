@@ -11,6 +11,7 @@ import * as employerServices from "../../../services/employerServices";
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
+  
   useEffect(async () => {
     const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
