@@ -39,6 +39,7 @@ const Step2 = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
   const [err, setErr] = useState([]);
+  const [genderId, setGenderId] = useState("")
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -51,10 +52,14 @@ const Step2 = ({
       error.profileImage = "Profile Image is Required";
       isValid = false;
     }
+    if (!genderId) {
+      error.genderId = "Gender is Required";
+      isValid = false;
+    }
     setErr(error);
     return isValid;
   };
-
+console.log(err);
   const handleImageChange = (event) => {
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
@@ -73,7 +78,7 @@ const Step2 = ({
   };
 
   const SaveStep2 = (values) => {
-    if (validation) {
+    if (validation()) {
       userPersonalInfo({
         ...values,
         timezone: timezone,
@@ -150,7 +155,7 @@ const Step2 = ({
           setImg={setImg}
         />
         <Form initialValues={data} onSubmit={SaveStep2} validate={validate}>
-          {({ handleSubmit, values }) => (
+          {({ handleSubmit, values,  touched, error  }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex50">
@@ -165,12 +170,14 @@ const Step2 = ({
                           value={gender.id}
                           component={RenderRadioButtonField}
                           type="radio"
+                          onChange={(e)=>setGenderId(e.target.value)}
                           // defaultValue={next && data ? data.genderId : ""}
                         >
                           {gender.name}
                         </Field>
                       ))}
                   </div>
+                      {/* <p style={{color:"red"}}>{err && err.genderId}</p> */}
                 </div>
                 <div className="form-field flex50">
                   <label>Upload Profile {"\u2728"}</label>

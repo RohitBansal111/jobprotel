@@ -20,7 +20,7 @@ const PostedJob = () => {
     setId(userData.id)
     if (resp.status == 200) {
       const response = resp.data.data.result;
-      console.log(response);
+      // console.log(response);
       setEmployerData(response);
 
       setCompanyLogo(`${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`);
@@ -70,7 +70,7 @@ const PostedJob = () => {
                         employerData.companyName &&
                         employerData.companyName}
                     </h3>
-                    <p>
+                    <div>
                       {employerData &&
                         employerData.address &&
                         employerData.address}
@@ -82,7 +82,7 @@ const PostedJob = () => {
                           employerData.stateResponse.stateName &&
                           employerData.stateResponse.stateName}
                       </p>
-                    </p>
+                    </div>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">

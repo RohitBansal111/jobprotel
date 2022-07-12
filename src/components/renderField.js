@@ -220,7 +220,7 @@ export const RenderRadioButtonField = ({
         <input type="radio" checked {...inputProps} />
         {children}
         <span className="radiobtn"></span>
-        {touched && error && <span className="error">{error}</span>}
+        {/* {touched && error && <span className="error">{error}</span>} */}
       </label>
     </div>
   );

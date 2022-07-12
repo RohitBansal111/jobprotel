@@ -1,7 +1,7 @@
 const PostedJobValidator = (values) => { 
     const error = {}
-     if(!values.designation){ 
-          error.designation = "Required designation"
+     if(!values.designationId){ 
+          error.designationId = "Required designation"
      }
      if(!values.qualification){ 
           error.qualification = "Required education"

@@ -18,7 +18,7 @@ import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import { useNavigate } from "react-router";
 
-const PostedJobModal = ({id}) => {
+const PostedJobModal = ({ id }) => {
   let titleStrings = new LocalizedStrings(titles);
 
   const [qualificationList, setQualificationList] = useState(null);
@@ -33,13 +33,26 @@ const PostedJobModal = ({id}) => {
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
 
-  // const [postJobData, setPostJobData] = useState({
-  //   employerId: id,
-  //   title: "",
+  const [submit, setSubmit] = useState(false)
+  const [postJobData, setPostJobData] = useState({
+    employerId: id,
+    title: "",
+    description: "",
+    designationId: "",
+    experienceInYears: "",
+    experienceInMonths: "",
+    hoursPerDay: "",
+    daysPerWeek: "",
+    salary: salary,
+    location: "",
+    timing: "",
+    qualification: "",
+    skills: "",
+    timezone: "",
+    tags: "",
+  });
 
-  // })
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleTimeZone = (data) => {
     console.log("data", data);
@@ -73,40 +86,50 @@ const PostedJobModal = ({id}) => {
   };
 
   const handleJobPost = (values) => {
-    console.log(values.timeZonePick);
-    let value = [];
-    value = values;
-    console.log("jobs ok", value);
+    console.log(values);
     let tagsArr = [];
-    value &&
-      value.tags.length > 0 &&
-      value.tags.map((tag) => tagsArr.push(tag.text));
+    values &&
+      values.tags.length > 0 &&
+      values.tags.map((tag) => tagsArr.push(tag.text));
 
     let skillsArr = [];
-    value &&
-      value.skills.length > 0 &&
-      value.skills.map((skill) => skillsArr.push(skill.text));
+    values &&
+      values.skills.length > 0 &&
+      values.skills.map((skill) => skillsArr.push(skill.text));
 
-    console.log(skillsArr);
-    let formData = new FormData();
+    setPostJobData({
+      ...values,
+      hoursPerDay: values.hoursDays,
+      daysPerWeek: values.days,
+      skills: skillsArr,
+      tags: tagsArr,
+      timezone: showTimeZone ? timezone : timezone2,
+    });
 
-    formData.append("employerId", id);
-    formData.append("title", value.title);
-    formData.append("description", value.description);
-    formData.append("designationId", value.designation);
-    formData.append("experienceInYears", value.experienceInYears);
-    formData.append("experienceInMonths", value.experienceInMonths);
-    formData.append("hoursPerDay", value.hoursDays);
-    formData.append("daysPerWeek", value.days);
-    formData.append("salary", salary);
-    formData.append("location", value.location);
-    formData.append("timing", value.timing);
+    setSubmit(true)
+    // let value = [];
+    // value = values;
+    // console.log("jobs ok", value);
+    // console.log(skillsArr);
+    // let formData = new FormData();
 
-    formData.append("qualification", value.qualification);
+    // formData.append("employerId", id);
+    // formData.append("title", value.title);
+    // formData.append("description", value.description);
+    // formData.append("designationId", value.designation);
+    // formData.append("experienceInYears", value.experienceInYears);
+    // formData.append("experienceInMonths", value.experienceInMonths);
+    // formData.append("hoursPerDay", value.hoursDays);
+    // formData.append("daysPerWeek", value.days);
+    // formData.append("salary", salary);
+    // formData.append("location", value.location);
+    // formData.append("timing", value.timing);
 
-    for (var i = 0; i < skillsArr.length; i++) {
-      formData.append(`skills[${i}]`, skillsArr[i]);
-    }
+    // formData.append("qualification", value.qualification);
+
+    // for (var i = 0; i < skillsArr.length; i++) {
+    //   formData.append(`skills[${i}]`, skillsArr[i]);
+    // }
 
     // {
     //   showTimeZone
@@ -114,20 +137,27 @@ const PostedJobModal = ({id}) => {
     //     : formData.append("timezone", timezone2);
     // }
 
-    for (var i = 0; i < tagsArr.length; i++) {
-      formData.append(`tags[${i}]`, tagsArr[i]);
-    }
+    // for (var i = 0; i < tagsArr.length; i++) {
+    //   formData.append(`tags[${i}]`, tagsArr[i]);
+    // }
 
-
-    postJob(formData);
+    // postJob(formData);
   };
 
-  const postJob = async (data) => {
-    const resp = await employerServices.jobPost(data);
-    // redirect on success
-    //navigate('/sugguestion')
+  const postJob = async () => {
+    const resp = await employerServices.jobPost(postJobData);
     console.log(resp);
+    // redirect on success
+    // if(resp.status == 200) {
+      //navigate('/sugguestion')
+    // }
   };
+
+  useEffect(() => {
+    if (submit) {
+      postJob();
+    }
+  }, [handleJobPost]);
 
   useEffect(async () => {
     const resp = await dropdownServices.qualificationList();
@@ -189,7 +219,7 @@ const PostedJobModal = ({id}) => {
               2 connects will be deducted for this job
             </p>
             <div className="kyc-detail-form p-4">
-              <Form onSubmit={handleJobPost} >
+              <Form onSubmit={handleJobPost} validate={validate}>
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
@@ -203,7 +233,7 @@ const PostedJobModal = ({id}) => {
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="designation"
+                          name="designationId"
                           label="Designation"
                           placeholder="Enter Designation"
                           component={renderSelect}
