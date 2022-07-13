@@ -8,18 +8,31 @@ import PostedJobModal from "../../../components/modals/postedJobModal";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
 import * as jobServices from "../../../services/jobServices";
+import { useSelector ,useDispatch} from "react-redux";
+import Pagination from "react-js-pagination";
 
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
+  const [search, setSearch] = useState("")
+  const [activePage, setActivePage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [totalRecords, setTotalRecords] = useState(20)
+  
+  const authData = useSelector((state)=> state.auth.user);
 
   useEffect(async () => {
-    const localData = localStorage.getItem("jobPortalUser");
-    const userData = JSON.parse(localData);
-    setId(userData.id);
-    const resp = await employerServices.getEmployerDetails(userData.id);
+    setId(authData.id);
+    console.log(authData,"authData")
+    getEmployerDetails(authData.id)
+    getJobList(authData.id,activePage)
+  }, [authData]);
+
+  const getEmployerDetails =async (id=authData.id)=>{
+    
+    const resp = await employerServices.getEmployerDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
       console.log(response);
@@ -30,19 +43,31 @@ const PostedJob = () => {
       );
     }
 
-    let data = {
-      serachItem: "",
-      employerId: userData.id,
-      pageNumber: 1,
-      pageSize: 1
+   
+  }
+  const getJobList =async (id=authData.id,activePage=activePage,search="")=>{
+     let data = {
+      serachItem: search,
+      employerId: id,
+      pageNumber: activePage,
+      pageSize: pageSize
     }
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
       console.log(response);
       setJobList(response.data.data);
     }
-  }, []);
-console.log(jobList);
+  }
+
+  const handlePageChange=(pageNumber)=> {
+    console.log(`active page is ${pageNumber}`);
+    setActivePage(pageNumber)
+    getJobList(authData.id,pageNumber)
+  }
+  const handleSearch=(e)=>{
+    e.preventDefault()
+    getJobList(authData.id,activePage,search)
+  }
   return (
     <Layout>
       
@@ -198,12 +223,14 @@ console.log(jobList);
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">
-                    <form className="form-inline">
+                    <form className="form-inline" onSubmit={handleSearch}>
                       <input
                         className="form-control"
                         type="search"
                         placeholder="Find posted Jobs"
                         aria-label="Search"
+                        value={search}
+                        onChange={(e)=>setSearch(e.target.value)}
                       />
                       <button className="btn btn-outline-success" type="submit">
                         Search
@@ -231,6 +258,13 @@ console.log(jobList);
                     <PostedJobCard />
                     <PostedJobCard /> */}
                   </div>
+                  <Pagination
+                      activePage={activePage}
+                      itemsCountPerPage={pageSize}
+                      totalItemsCount={totalRecords}
+                      pageRangeDisplayed={totalRecords/pageSize}
+                      onChange={handlePageChange}
+                    />
                 </div>
               </div>
             </div>

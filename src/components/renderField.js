@@ -206,8 +206,7 @@ export const RenderRadioButtonField = ({
   type,
   optionLength,
   currentIndex,
-  meta: { touched, error },
-  currentIndex,
+  meta: { touched, error }
 }) => {
   const inputProps = {
     ...input,
