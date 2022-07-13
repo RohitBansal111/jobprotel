@@ -204,6 +204,8 @@ export const RenderRadioButtonField = ({
   children,
   checked,
   type,
+  optionLength,
+  currentIndex,
   meta: { touched, error },
 }) => {
   const inputProps = {
@@ -220,7 +222,7 @@ export const RenderRadioButtonField = ({
         <input type="radio" checked {...inputProps} />
         {children}
         <span className="radiobtn"></span>
-        {touched && error && <span className="error">{error}</span>}
+        {touched && error &&  currentIndex === 0?<span className="error">{error}</span>:null}
       </label>
     </div>
   );

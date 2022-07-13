@@ -158,13 +158,14 @@ const Step2 = ({
                   <div className="radio-button-groupss">
                     {genderList &&
                       genderList.length > 0 &&
-                      genderList.map((gender) => (
+                      genderList.map((gender,index) => (
                         <Field
                           label={titleStrings.maleTitle}
                           name="genderId"
                           value={gender.id}
                           component={RenderRadioButtonField}
                           type="radio"
+                          currentIndex={index}
                           // defaultValue={next && data ? data.genderId : ""}
                         >
                           {gender.name}
