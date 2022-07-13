@@ -97,7 +97,7 @@ const FindWork = () => {
                         studentData.addressLine1}
                       {", "}
                       {studentData &&
-                        studentData.addressLine2 &&
+                        studentData.addressLine2 !== "undefined" &&
                         studentData.addressLine2}
                     </p>
                     <p>

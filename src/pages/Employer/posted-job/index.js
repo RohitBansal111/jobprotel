@@ -8,7 +8,7 @@ import PostedJobModal from "../../../components/modals/postedJobModal";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
 import * as jobServices from "../../../services/jobServices";
-import { useSelector ,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 
 const PostedJob = () => {
@@ -16,22 +16,21 @@ const PostedJob = () => {
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("")
-  const [activePage, setActivePage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [totalRecords, setTotalRecords] = useState(20)
-  
-  const authData = useSelector((state)=> state.auth.user);
+  const [search, setSearch] = useState("");
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(20);
+
+  const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
     setId(authData.id);
-    console.log(authData,"authData")
-    getEmployerDetails(authData.id)
-    getJobList(authData.id,activePage)
+    console.log(authData, "authData");
+    getEmployerDetails(authData.id);
+    getJobList(authData.id, activePage);
   }, [authData]);
 
-  const getEmployerDetails =async (id=authData.id)=>{
-    
+  const getEmployerDetails = async (id = authData.id) => {
     const resp = await employerServices.getEmployerDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
@@ -42,35 +41,36 @@ const PostedJob = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
       );
     }
-
-   
-  }
-  const getJobList =async (id=authData.id,activePage=activePage,search="")=>{
-     let data = {
+  };
+  const getJobList = async (
+    id = authData.id,
+    activePage = activePage,
+    search = ""
+  ) => {
+    let data = {
       serachItem: search,
       employerId: id,
       pageNumber: activePage,
-      pageSize: pageSize
-    }
+      pageSize: pageSize,
+    };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
       console.log(response);
       setJobList(response.data.data);
     }
-  }
+  };
 
-  const handlePageChange=(pageNumber)=> {
+  const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
-    setActivePage(pageNumber)
-    getJobList(authData.id,pageNumber)
-  }
-  const handleSearch=(e)=>{
-    e.preventDefault()
-    getJobList(authData.id,activePage,search)
-  }
+    setActivePage(pageNumber);
+    getJobList(authData.id, pageNumber);
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getJobList(authData.id, activePage, search);
+  };
   return (
     <Layout>
-      
       <div className="inner-page-wrapper">
         {/* <section className="complete-kyc">
           <div className="container">
@@ -180,16 +180,6 @@ const PostedJob = () => {
                           2
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link to="#">
-                          <span className="update-name">Inprogress</span>1
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          <span className="update-name">Completed</span>170
-                        </Link>
-                      </li> */}
                     </ul>
                   </div>
                   <div className="profile-strength">
@@ -230,7 +220,7 @@ const PostedJob = () => {
                         placeholder="Find posted Jobs"
                         aria-label="Search"
                         value={search}
-                        onChange={(e)=>setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                       <button className="btn btn-outline-success" type="submit">
                         Search
@@ -254,17 +244,14 @@ const PostedJob = () => {
                       jobList.map((jobs, index) => (
                         <PostedJobCard jobs={jobs} key={index} />
                       ))}
-                    {/* <PostedJobCard />
-                    <PostedJobCard />
-                    <PostedJobCard /> */}
                   </div>
                   <Pagination
-                      activePage={activePage}
-                      itemsCountPerPage={pageSize}
-                      totalItemsCount={totalRecords}
-                      pageRangeDisplayed={totalRecords/pageSize}
-                      onChange={handlePageChange}
-                    />
+                    activePage={activePage}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={totalRecords}
+                    pageRangeDisplayed={totalRecords / pageSize}
+                    onChange={handlePageChange}
+                  />
                 </div>
               </div>
             </div>

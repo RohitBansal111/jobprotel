@@ -14,7 +14,7 @@ const EmployerJobDetailsPage = () => {
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
-
+  const [skills, setSkills] = useState([])
   const handleApplicationReceived = () => {
     navigate("/review-applications");
   };
@@ -30,10 +30,15 @@ const EmployerJobDetailsPage = () => {
       const response = resp.data.data;
       setJobDetails(response);
       setQualifications(response.qualifications);
+
       let exp = response.experience.split(".");
       exp[0] = `${exp[0]} years`;
       exp[1] = `${exp[1]} month`;
       setExp(exp);
+
+      let skills = response.skills;
+      skills = response && response.skills && response.skills.split(",");
+      setSkills(skills);
     }
   };
 
@@ -54,7 +59,8 @@ const EmployerJobDetailsPage = () => {
                   <p>Mobile/Tablet Front-End Developer</p>
                 </div>
                 <div className="job-description">
-                  <p>
+                  <p>{jobDetails && jobDetails.description && jobDetails.description}</p>
+                  {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
                   <p>
@@ -74,7 +80,7 @@ const EmployerJobDetailsPage = () => {
                   <p>
                     Beautiful woven collection of classic motifs: buffalo plaid,
                     paisley, ticking stripes & more.
-                  </p>
+                  </p> */}
                 </div>
                 <div className="education-info">
                   <p>
@@ -134,7 +140,15 @@ const EmployerJobDetailsPage = () => {
                 <div className="inner-info-section">
                   <h3>Skills and Expertise</h3>
                   <ul className="feeds-ul">
-                    <li>
+                  {skills &&
+                skills.length > 0 &&
+                skills.map((skill, index) => (
+                  <li key={index}>
+                    <Link to="#">{skill}</Link>
+                  </li>
+                ))}
+
+                    {/* <li>
                       <Link to="#">API </Link>
                     </li>
                     <li>
@@ -142,7 +156,7 @@ const EmployerJobDetailsPage = () => {
                     </li>
                     <li>
                       <Link to="#">Wearable Technology </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
