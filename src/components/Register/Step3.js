@@ -40,29 +40,8 @@ const Step3 = ({
     prevPage();
   };
 
-  const validation = () => {
-    let err = {};
-    let isValid = true;
-    if (!resumeFile) {
-      err.resume = "resume file required";
-      isValid = false;
-    }
-    if (
-      certificate &&
-      certificate == "Yes" &&
-      previewImg &&
-      previewImg.length == 0
-    ) {
-      err.certificate = "certificate required";
-      isValid = false;
-    }
-    setError(err);
-    return isValid;
-  };
   const SaveStep3 = (values) => {
-    if (validation()) {
       userProfessionalInfo(values);
-    }
   };
 
   useEffect(() => {
@@ -262,6 +241,7 @@ const Step3 = ({
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.workingType : ""}
+                      currentIndex="0"
                     >
                       OnSite
                     </Field>
@@ -272,6 +252,7 @@ const Step3 = ({
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.workingType : ""}
+                      currentIndex="1"
                     >
                       OffSite
                     </Field>
@@ -296,9 +277,12 @@ const Step3 = ({
                     <p style={{ color: "red" }}>
                       {error && error.resume ? error.resume : ""}
                     </p>
-                    {resumeFile && resumeFile.length > 0 && (
-                      <li>{resumeFile}</li>
-                    )}
+                    <ul className="uploaded-documents">
+                      {resumeFile && resumeFile.length > 0 && (
+                        <li>{resumeFile}</li>
+                      )}
+                    </ul>
+                    
                   </div>
                 </div>
                 <div className="form-field flex50">
@@ -312,6 +296,7 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => setCertificate(e.target.value)}
+                      currentIndex="0"
                     >
                       No
                     </Field>
@@ -323,6 +308,7 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => setCertificate(e.target.value)}
+                      currentIndex="1"
                     >
                       Yes
                     </Field>
@@ -353,19 +339,23 @@ const Step3 = ({
                   <p style={{ color: "red" }}>
                     {error && error.certificate ? error.certificate : ""}
                   </p>
-                  {previewImg &&
-                    previewImg.length > 0 &&
-                    previewImg.map((img) => (
-                      <>
-                        <li>{img.name}</li>
-                        <i
-                          className="fa fa-times-circle"
-                          aria-hidden="true"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => manageCertificates(img.name)}
-                        />
-                      </>
+                  <ul className="uploaded-documents">
+                    {previewImg &&
+                      previewImg.length > 0 &&
+                      previewImg.map((img, index) => (
+                        <>
+                          <li>{index + 1}. {img.name} <button className="btn btn-remove">
+                            <i
+                            className="fa fa-times-circle"
+                            aria-hidden="true"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => manageCertificates(img.name)}
+                          />
+                            </button></li>
+                          
+                        </>
                     ))}
+                  </ul>
                 </div>
               </div>
               <div className="form-action">

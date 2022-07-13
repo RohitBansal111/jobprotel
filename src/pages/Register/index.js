@@ -41,7 +41,7 @@ const Register = () => {
     experienceInYears: "",
     experienceInMonths: "",
     firstName: "",
-    genderId: "d123278e-e84e-487d-b4ed-643e8340e9fc",
+    genderId: "",
     interests: [],
     lastName: "",
     password: "",

@@ -165,7 +165,7 @@ const Login = () => {
                           </Link>{" "}
                           and Tracking Policy. Our{" "}
                           <Link to="/terms">
-                            <b> Terms &amp Conditions</b>
+                            <b> Terms & Conditions</b>
                           </Link>{" "}
                           apply.
                           <span className="checkmarks"></span>

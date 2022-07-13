@@ -100,7 +100,7 @@
               width: 22px;
               height: 15px;
               background: url('./../assets/images/next-btn.png');
-              margin-left: 70px;
+              margin-left: 90px;
               top: 23px;
             }
           }
@@ -357,6 +357,7 @@
     img{
       padding: 5px;
       border-radius: 5px;
+      object-fit: cover;
     }
   }
 }

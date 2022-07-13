@@ -39,6 +39,7 @@ const Step2 = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
   const [err, setErr] = useState([]);
+  const [genderId, setGenderId] = useState("")
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -51,10 +52,14 @@ const Step2 = ({
       error.profileImage = "Profile Image is Required";
       isValid = false;
     }
+    if (!genderId) {
+      error.genderId = "Gender is Required";
+      isValid = false;
+    }
     setErr(error);
     return isValid;
   };
-
+console.log(err);
   const handleImageChange = (event) => {
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
@@ -73,7 +78,7 @@ const Step2 = ({
   };
 
   const SaveStep2 = (values) => {
-    if (validation) {
+    // if (validation()) {
       userPersonalInfo({
         ...values,
         timezone: timezone,
@@ -82,7 +87,7 @@ const Step2 = ({
         profileImage: profileImage,
       });
       nextPage();
-    }
+    // }
   };
 
   useEffect(async () => {
@@ -150,7 +155,7 @@ const Step2 = ({
           setImg={setImg}
         />
         <Form initialValues={data} onSubmit={SaveStep2} validate={validate}>
-          {({ handleSubmit, values }) => (
+          {({ handleSubmit, values,  touched, error  }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex50">
@@ -158,7 +163,7 @@ const Step2 = ({
                   <div className="radio-button-groupss">
                     {genderList &&
                       genderList.length > 0 &&
-                      genderList.map((gender,index) => (
+                      genderList.map((gender, index) => (
                         <Field
                           label={titleStrings.maleTitle}
                           name="genderId"
@@ -173,26 +178,32 @@ const Step2 = ({
                       ))}
                   </div>
                 </div>
-                <div className="form-field flex50">
-                  <label>Upload Profile {"\u2728"}</label>
-                  <input
-                    name="profileImage"
-                    id="profileImage"
-                    label={titleStrings.uploadPhotoTitle}
-                    accept=".jpg, .jpeg, .png"
-                    type="file"
-                    onChange={handleImageChange}
-                  />
-                  <div style={{ color: "red" }}>{err && err.profileImage}</div>
-                  <div className="aws-placeholder image4">
-                    <img
-                      src={img.personalInfoImg}
-                      className="img-aws"
-                      alt="avtar"
-                      width={100}
-                      height={100}
-                      layout="fill"
-                    />
+                <div className="form-field flex100">
+                  <div className="uploadImageSection mb-2">
+                    <div className="file-label-image">
+                      <label>Upload Profile</label>
+                      <div className="file-upload">
+                        <input
+                          name="profileImage"
+                          id="profileImage"
+                          label={titleStrings.uploadPhotoTitle}
+                          accept=".jpg, .jpeg, .png"
+                          type="file"
+                          onChange={handleImageChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="aws-placeholder image4">
+                      <img
+                        src={img.personalInfoImg}
+                        className="img-aws"
+                        alt="avtar"
+                        width={100}
+                        height={100}
+                        layout="fill"
+                      />
+                    </div>
+                    <div style={{ color: "red" }}>{err && err.profileImage}</div>
                   </div>
                 </div>
                 <div className="form-field flex100 mb-2">
