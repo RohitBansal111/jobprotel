@@ -1,17 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../components/Layout";
 import VerifiedIcon from "./../../../assets/icons/verify.png";
 import LocationIcon from "./../../../assets/icons/loc-ico.png";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import * as jobServices from "../../../services/jobServices";
 
 const EmployerJobDetailsPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [jobDetails, setJobDetails] = useState([]);
+  const [qualifications, setQualifications] = useState([]);
+  const [experience, setExperience] = useState("");
+  const [exp, setExp] = useState([]);
 
   const handleApplicationReceived = () => {
-    navigate('/review-applications')
-  }
+    navigate("/review-applications");
+  };
+
+  useEffect(() => {
+    getJobDetails(id);
+  }, [id]);
+
+  const getJobDetails = async (id) => {
+    const resp = await jobServices.getJobDetails(id);
+    console.log(resp);
+    if (resp.status == 200) {
+      const response = resp.data.data;
+      setJobDetails(response);
+      setQualifications(response.qualifications);
+      let exp = response.experience.split(".");
+      exp[0] = `${exp[0]} years`;
+      exp[1] = `${exp[1]} month`;
+      setExp(exp);
+    }
+  };
+
   return (
     <Layout>
       <section className="job-details-wrapper">
@@ -22,7 +47,8 @@ const EmployerJobDetailsPage = () => {
               <div className="details-card">
                 <div className="head43">
                   <h2>
-                    React Js Developer
+                    {/* React Js Developer */}
+                    {jobDetails && jobDetails.title && jobDetails.title}
                     <span>Posted 8 hours ago</span>
                   </h2>
                   <p>Mobile/Tablet Front-End Developer</p>
@@ -51,17 +77,59 @@ const EmployerJobDetailsPage = () => {
                   </p>
                 </div>
                 <div className="education-info">
-                  <p><b>Experience: </b> 5 Year 7 Months</p>
-                  <p><b>Education:</b> B.Sc Computer Science</p>
-                  <p><b>SKills: </b> Html, Css, Scss, Bootstrap, Material, React js, Angular js UI</p>
-                  <p><b>Job Location: </b> Gurgaon</p>
-                  <p><b>Hour/day: </b> 34hr</p>
-                  <p><b>Days / Week: </b> 5days</p>
-                  <p><b>Job Timings/days: </b>9:00AM - 6:00PM</p>
-                  <p><b>Time Zone: </b> India Standard Time (IST) is 5:30 hours</p>
-                  <p><b>Category: </b> Web Development</p>
-                  <p><b>Salary: </b> 8LPA</p>
-                  <p><b>Tags:</b> react, flutter, angular, figma</p>
+                  <p>
+                    <b>Experience: </b>{" "}
+                    {exp &&
+                      exp.length > 0 &&
+                      exp.map((exp, index) => <span key={index}>{exp} </span>)}
+                  </p>
+                  <p>
+                    <b>Education:</b>{" "}
+                    {qualifications && qualifications.map((qual) => qual.name)}
+                  </p>
+                  <p>
+                    <b>SKills: </b>{" "}
+                    {jobDetails && jobDetails.skills && jobDetails.skills}
+                  </p>
+                  <p>
+                    <b>Job Location: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.hoursPerDay &&
+                      jobDetails.hoursPerDay}
+                  </p>
+                  <p>
+                    <b>Hour/day: </b>{" "}
+                    {jobDetails && jobDetails.location && jobDetails.location}
+                  </p>
+                  <p>
+                    <b>Days / Week: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.daysPerWeek &&
+                      jobDetails.daysPerWeek}
+                  </p>
+                  <p>
+                    <b>Job Timings/days: </b>
+                    {jobDetails && jobDetails.timing && jobDetails.timing}
+                  </p>
+                  <p>
+                    <b>Time Zone: </b>{" "}
+                    {jobDetails && jobDetails.timeZone && jobDetails.timeZone}
+                  </p>
+                  <p>
+                    <b>Category: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.category &&
+                      jobDetails.category.name &&
+                      jobDetails.category.name}
+                  </p>
+                  <p>
+                    <b>Salary: </b> ${" "}
+                    {jobDetails && jobDetails.salary && jobDetails.salary}
+                  </p>
+                  <p>
+                    <b>Tags:</b>{" "}
+                    {jobDetails && jobDetails.tags && jobDetails.tags}
+                  </p>
                 </div>
                 <div className="inner-info-section">
                   <h3>Skills and Expertise</h3>
@@ -82,7 +150,11 @@ const EmployerJobDetailsPage = () => {
             <div className="col-12 col-md-3">
               <div className="details-right-sidebar">
                 <div className="post-action">
-                  <button type="button" onClick={handleApplicationReceived} className="btn btn-primary">
+                  <button
+                    type="button"
+                    onClick={handleApplicationReceived}
+                    className="btn btn-primary"
+                  >
                     Applications received (17)
                   </button>
                   <button type="button" className="btn btn-primary-outline">
@@ -90,8 +162,12 @@ const EmployerJobDetailsPage = () => {
                   </button>
                 </div>
                 <div className="connects-info">
-                  <p>Required Connects to submit a proposal: <b>2</b> </p>
-                  <p>Available Connects: <b>14</b></p>
+                  <p>
+                    Required Connects to submit a proposal: <b>2</b>{" "}
+                  </p>
+                  <p>
+                    Available Connects: <b>14</b>
+                  </p>
                 </div>
               </div>
             </div>

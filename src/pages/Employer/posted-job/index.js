@@ -34,7 +34,7 @@ const PostedJob = () => {
       serachItem: "",
       employerId: userData.id,
       pageNumber: 1,
-      pageSize: 1
+      pageSize: 40
     }
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {

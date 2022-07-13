@@ -39,27 +39,12 @@ const Step2 = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
   const [err, setErr] = useState([]);
-  const [genderId, setGenderId] = useState("")
+  const [genderId, setGenderId] = useState("");
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
 
-  const validation = () => {
-    let isValid = true;
-    let error = {};
-    if (!data.profileImage) {
-      error.profileImage = "Profile Image is Required";
-      isValid = false;
-    }
-    if (!genderId) {
-      error.genderId = "Gender is Required";
-      isValid = false;
-    }
-    setErr(error);
-    return isValid;
-  };
-console.log(err);
   const handleImageChange = (event) => {
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
@@ -78,16 +63,14 @@ console.log(err);
   };
 
   const SaveStep2 = (values) => {
-    // if (validation()) {
-      userPersonalInfo({
-        ...values,
-        timezone: timezone,
-        qualificationId: qualificationId,
-        profileImageUrl: img,
-        profileImage: profileImage,
-      });
-      nextPage();
-    // }
+    userPersonalInfo({
+      ...values,
+      timezone: timezone,
+      qualificationId: qualificationId,
+      profileImageUrl: img,
+      profileImage: profileImage,
+    });
+    nextPage();
   };
 
   useEffect(async () => {
@@ -155,7 +138,7 @@ console.log(err);
           setImg={setImg}
         />
         <Form initialValues={data} onSubmit={SaveStep2} validate={validate}>
-          {({ handleSubmit, values,  touched, error  }) => (
+          {({ handleSubmit, values, touched, error }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
                 <div className="form-field flex50">
@@ -170,7 +153,6 @@ console.log(err);
                           value={gender.id}
                           component={RenderRadioButtonField}
                           type="radio"
-                          onChange={(e)=>setGenderId(e.target.value)}
                           currentIndex={index}
                         >
                           {gender.name}
@@ -203,7 +185,9 @@ console.log(err);
                         layout="fill"
                       />
                     </div>
-                    <div style={{ color: "red" }}>{err && err.profileImage}</div>
+                    <div style={{ color: "red" }}>
+                      {err && err.profileImage}
+                    </div>
                   </div>
                 </div>
                 <div className="form-field flex100 mb-2">
