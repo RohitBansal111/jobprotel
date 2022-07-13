@@ -1,9 +1,9 @@
 const Step2Validator = (values) => {
   const error = {};
   const number = /^0|[1-9]\d*$/;
-  // if (!values.genderId) {
-  //   error.genderId = "Gender is Required";
-  // }
+  if (!values.genderId) {
+    error.genderId = "Gender is Required";
+  }
   // if(!values.profileImage){
   //      error.profileImage = "Profile Image is Required"
   // }

@@ -40,29 +40,8 @@ const Step3 = ({
     prevPage();
   };
 
-  const validation = () => {
-    let err = {};
-    let isValid = true;
-    if (!resumeFile) {
-      err.resume = "resume file required";
-      isValid = false;
-    }
-    if (
-      certificate &&
-      certificate == "Yes" &&
-      previewImg &&
-      previewImg.length == 0
-    ) {
-      err.certificate = "certificate required";
-      isValid = false;
-    }
-    setError(err);
-    return isValid;
-  };
   const SaveStep3 = (values) => {
-    if (validation()) {
       userProfessionalInfo(values);
-    }
   };
 
   useEffect(() => {
@@ -262,6 +241,7 @@ const Step3 = ({
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.workingType : ""}
+                      currentIndex="0"
                     >
                       OnSite
                     </Field>
@@ -272,6 +252,7 @@ const Step3 = ({
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.workingType : ""}
+                      currentIndex="1"
                     >
                       OffSite
                     </Field>
@@ -315,6 +296,7 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => setCertificate(e.target.value)}
+                      currentIndex="0"
                     >
                       No
                     </Field>
@@ -326,6 +308,7 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => setCertificate(e.target.value)}
+                      currentIndex="1"
                     >
                       Yes
                     </Field>

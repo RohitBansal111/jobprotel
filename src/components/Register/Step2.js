@@ -78,7 +78,7 @@ console.log(err);
   };
 
   const SaveStep2 = (values) => {
-    if (validation()) {
+    // if (validation()) {
       userPersonalInfo({
         ...values,
         timezone: timezone,
@@ -87,7 +87,7 @@ console.log(err);
         profileImage: profileImage,
       });
       nextPage();
-    }
+    // }
   };
 
   useEffect(async () => {
@@ -163,7 +163,7 @@ console.log(err);
                   <div className="radio-button-groupss">
                     {genderList &&
                       genderList.length > 0 &&
-                      genderList.map((gender) => (
+                      genderList.map((gender, index) => (
                         <Field
                           label={titleStrings.maleTitle}
                           name="genderId"
@@ -171,13 +171,12 @@ console.log(err);
                           component={RenderRadioButtonField}
                           type="radio"
                           onChange={(e)=>setGenderId(e.target.value)}
-                          // defaultValue={next && data ? data.genderId : ""}
+                          currentIndex={index}
                         >
                           {gender.name}
                         </Field>
                       ))}
                   </div>
-                      {/* <p style={{color:"red"}}>{err && err.genderId}</p> */}
                 </div>
                 <div className="form-field flex100">
                   <div className="uploadImageSection mb-2">

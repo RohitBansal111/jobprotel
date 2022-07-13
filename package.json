@@ -26,6 +26,7 @@
     "react-final-form-file-field": "^0.0.6",
     "react-google-recaptcha": "^2.1.0",
     "react-localization": "^1.0.17",
+    "react-multi-select-component": "^4.2.9",
     "react-phone-number-input": "^3.2.3",
     "react-redux": "^7.2.6",
     "react-responsive-modal": "^6.2.0",
