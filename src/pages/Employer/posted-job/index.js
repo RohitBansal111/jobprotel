@@ -41,13 +41,9 @@ const PostedJob = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
       );
     }
-  };
-  const getJobList = async (
-    id = authData.id,
-    activePage = activePage,
-    search = ""
-  ) => {
-    let data = {
+ }
+  const getJobList =async (id=authData.id,activePage=activePage,search="")=>{
+     let data = {
       serachItem: search,
       employerId: id,
       pageNumber: activePage,
