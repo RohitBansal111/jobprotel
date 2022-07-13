@@ -32,18 +32,24 @@ const PostedJob = () => {
 
   const getEmployerDetails = async (id = authData.id) => {
     const resp = await employerServices.getEmployerDetails(id);
+    console.log(resp, "resp");
+
     if (resp.status == 200) {
       const response = resp.data.data.result;
-      console.log(response);
+      console.log(response, "resp");
       setEmployerData(response);
 
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
       );
     }
- }
-  const getJobList =async (id=authData.id,activePage=activePage,search="")=>{
-     let data = {
+  };
+  const getJobList = async (
+    id = authData.id,
+    activePage = activePage,
+    search = ""
+  ) => {
+    let data = {
       serachItem: search,
       employerId: id,
       pageNumber: activePage,
@@ -51,7 +57,7 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
-      console.log(response);
+      console.log(response, "resp");
       setJobList(response.data.data);
     }
   };
@@ -61,12 +67,14 @@ const PostedJob = () => {
     setActivePage(pageNumber);
     getJobList(authData.id, pageNumber);
   };
+
   const handleSearch = (e) => {
     e.preventDefault();
     getJobList(authData.id, activePage, search);
   };
+
   return (
-    <Layout>
+    <Layout companyLogo={companyLogo}>
       <div className="inner-page-wrapper">
         {/* <section className="complete-kyc">
           <div className="container">

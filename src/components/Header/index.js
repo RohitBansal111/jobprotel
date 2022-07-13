@@ -3,13 +3,13 @@ import { Link, NavLink } from "react-router-dom";
 import Logo from "./../../assets/images/inner-logo.png";
 import Notification from "./../../assets/icons/notification-ico.png";
 import userAvtar from "./../../assets/images/user-img.jpg";
-import { useSelector ,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../types/auth";
 import CompanyProfile from "./../../assets/images/company-logo.png";
 
-const Header = () => {
-  const [userData, setUserData] = useState([])
-  const dispatch = useDispatch()
+const Header = ({ companyLogo }) => {
+  const [userData, setUserData] = useState([]);
+  const dispatch = useDispatch();
   const [mobileMenu, setmobileMenu] = useState("");
   var role = "employer";
   const menuToggle = () => {
@@ -18,27 +18,25 @@ const Header = () => {
       setmobileMenu("");
     }
   };
-  const authData = useSelector((state)=> state.auth.user);
+  const authData = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    const localData = localStorage.getItem("jobPortalUser")
+    const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
-    setUserData(userData)
-    if(!authData && userData)
-    {
+    setUserData(userData);
+    if (!authData && userData) {
       dispatch({
         type: types.LOGIN_USER_SUCCESS,
         payload: userData,
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-  }, [authData])
-  
+  }, [authData]);
 
-  const handleLogout = () =>{
-    localStorage.removeItem("jobPortalUser")
-    localStorage.removeItem("jobPortalUserToken")
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("jobPortalUser");
+    localStorage.removeItem("jobPortalUserToken");
+  };
 
   return (
     <header id="header" className="header header-scrolled">
@@ -222,7 +220,8 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {userData && userData.fullName && userData.fullName }<img src={userAvtar} alt="User Profile" />
+                {userData && userData.fullName && userData.fullName}
+                <img src={companyLogo} alt="User Profile" />
               </button>
               <ul
                 className="dropdown-menu"
