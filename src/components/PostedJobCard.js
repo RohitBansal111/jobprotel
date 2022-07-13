@@ -5,8 +5,17 @@ import VerifiedIcon from "./../assets/icons/verify.png";
 import LocationIcon from "./../assets/icons/loc-ico.png";
 import ClockIcon from "./../assets/icons/clock-ico.png";
 import SendInvitationModal from "./Common/SendInvitationModal";
-// import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'javascript-time-ago'
+import ReactTimeAgo from 'react-time-ago'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+import en from 'javascript-time-ago/locale/en.json'
+import ru from 'javascript-time-ago/locale/ru.json'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(ru)
+// import ReactTimeAgo from 'react-time-ago'
+
 
 const PostedJobCard = ({ jobs }) => {
   const [tags, setTags] = useState([]);
@@ -20,7 +29,7 @@ const PostedJobCard = ({ jobs }) => {
   };
 
   useEffect(() => {
-    const id = jobs.jobQualitifications[0].jobId;
+    const id = jobs.id;
     GetTags();
     setJobId(id);
   }, [jobs]);
@@ -91,7 +100,8 @@ const PostedJobCard = ({ jobs }) => {
           </div>
           <div className="posted-submit">
             <p className="post-ago">
-              <img src={ClockIcon} alt="clock" /> Posted 30 mints ago
+              <img src={ClockIcon} alt="clock" /> 
+              <ReactTimeAgo date= {jobs && jobs.createdOn && jobs.createdOn} locale="en-US"/>
               {/* <ReactTimeAgo  locale="en-US" timeStyle="twitter"/> */}
             </p>
             <div className="d-flex">
