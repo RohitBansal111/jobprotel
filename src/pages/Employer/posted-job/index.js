@@ -7,28 +7,45 @@ import PostedJobCard from "../../../components/PostedJobCard";
 import PostedJobModal from "../../../components/modals/postedJobModal";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
+import * as jobServices from "../../../services/jobServices";
 
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
-  const [id, setId] = useState("")
+  const [id, setId] = useState("");
+  const [jobList, setJobList] = useState([]);
 
   useEffect(async () => {
     const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
+    setId(userData.id);
     const resp = await employerServices.getEmployerDetails(userData.id);
-    setId(userData.id)
     if (resp.status == 200) {
       const response = resp.data.data.result;
-      // console.log(response);
+      console.log(response);
       setEmployerData(response);
 
-      setCompanyLogo(`${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`);
+      setCompanyLogo(
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
+      );
+    }
+
+    let data = {
+      serachItem: "",
+      employerId: userData.id,
+      pageNumber: 1,
+      pageSize: 1
+    }
+    const response = await jobServices.getJobList(data);
+    if (response.status == 200) {
+      console.log(response);
+      setJobList(response.data.data);
     }
   }, []);
-
+console.log(jobList);
   return (
     <Layout>
+      
       <div className="inner-page-wrapper">
         {/* <section className="complete-kyc">
           <div className="container">
@@ -205,10 +222,14 @@ const PostedJob = () => {
                     <p>Showing 1-4 of 4 results</p>
                   </div>
                   <div className="default-feeds-search">
+                    {jobList &&
+                      jobList.length > 0 &&
+                      jobList.map((jobs, index) => (
+                        <PostedJobCard jobs={jobs} key={index} />
+                      ))}
+                    {/* <PostedJobCard />
                     <PostedJobCard />
-                    <PostedJobCard />
-                    <PostedJobCard />
-                    <PostedJobCard />
+                    <PostedJobCard /> */}
                   </div>
                 </div>
               </div>

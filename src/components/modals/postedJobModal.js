@@ -14,7 +14,7 @@ import {
 import validate from "./validators/postedJobValidator";
 import * as dropdownServices from "../../services/dropDownServices";
 import { useState, useEffect, useMemo } from "react";
-import * as employerServices from "../../services/employerServices";
+import * as jobServies from "../../services/jobServices";
 import LocalizedStrings from "react-localization";
 import titles from "../Register/register.json";
 import spacetime from "spacetime";
@@ -104,27 +104,31 @@ const PostedJobModal = ({ id }) => {
     //   timeZone: showTimeZone ? timezone : timezone2,
     //   employerId: id,
     // });
-
-    postJob({
-      ...values,
-      hoursPerDay: values.hoursDays,
-      daysPerWeek: values.days,
-      skills: skillsArr,
-      tags: tagsArr,
-      qualification: qualifictionsArr,
-      timeZone: showTimeZone ? timezone : timezone2,
-      employerId: id,
-      salary: sal,
-      experienceInYears: values.experienceInYears ? values.experienceInYears : 0,
-      experienceInMonth: values.experienceInMonth ? values.experienceInMonth : 0,
-      hoursDays: values.hoursDays ? values.hoursDays : 1,
-      days: values.days ? values.days : 1,
-
-    });
+    if (values.skills.length > 0 && values.tags.length > 0) {
+      postJob({
+        ...values,
+        hoursPerDay: values.hoursDays,
+        daysPerWeek: values.days,
+        skills: skillsArr,
+        tags: tagsArr,
+        qualification: qualifictionsArr,
+        timeZone: showTimeZone ? timezone : timezone2,
+        employerId: id,
+        salary: sal,
+        experienceInYears: values.experienceInYears
+          ? values.experienceInYears
+          : 0,
+        experienceInMonth: values.experienceInMonth
+          ? values.experienceInMonth
+          : 0,
+        hoursDays: values.hoursDays ? values.hoursDays : 1,
+        days: values.days ? values.days : 1,
+      });
+    }
   };
 
   const postJob = async (data) => {
-    const resp = await employerServices.jobPost(data);
+    const resp = await jobServies.jobPost(data);
     console.log(resp);
     // redirect on success
     if (resp.status == 200) {
