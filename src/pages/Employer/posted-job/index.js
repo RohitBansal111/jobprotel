@@ -42,9 +42,7 @@ const PostedJob = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
       );
     }
-
-   
-  }
+ }
   const getJobList =async (id=authData.id,activePage=activePage,search="")=>{
      let data = {
       serachItem: search,
@@ -254,9 +252,6 @@ const PostedJob = () => {
                       jobList.map((jobs, index) => (
                         <PostedJobCard jobs={jobs} key={index} />
                       ))}
-                    {/* <PostedJobCard />
-                    <PostedJobCard />
-                    <PostedJobCard /> */}
                   </div>
                   <Pagination
                       activePage={activePage}

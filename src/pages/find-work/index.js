@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import JobCard from "../../components/Job-card";
+import PostedJobCard from "../../components/PostedJobCard";
 import Layout from "../../components/Layout";
 import UserAvtar from "./../../assets/images/profile-img.jpg";
 import ConnectIcon from "./../../assets/icons/connect.png";
@@ -7,26 +7,66 @@ import Filtericon from "./../../assets/icons/filter-ico.png";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import { useState, useEffect } from "react";
 import * as studentServices from "../../services/studentServices";
+import * as jobServices from "../../services/jobServices";
+import { useSelector ,useDispatch} from "react-redux";
+import Pagination from "react-js-pagination";
 
 const FindWork = () => {
   const [role, setRole] = useState("student");
   const [showFilter, setshowFilter] = useState(false);
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
-
-  const handleFilter = () => setshowFilter(!showFilter);
+  const [id, setId] = useState("");
+  const [jobList, setJobList] = useState([]);
+  const [search, setSearch] = useState("")
+  const [activePage, setActivePage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [totalRecords, setTotalRecords] = useState(20)
+  
+  const authData = useSelector((state)=> state.auth.user);
 
   useEffect(async () => {
-    const localData = localStorage.getItem("jobPortalUser");
-    const userData = JSON.parse(localData);
-    const resp = await studentServices.getStudentDetails(userData.id);
+    setId(authData.id);
+    console.log(authData,"authData")
+    getStudentDetails(authData.id)
+    getJobList(activePage)
+  }, [authData]);
 
+  const getStudentDetails =async (id=authData.id)=>{
+    
+    const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
       setStudentData(response);
       setStudentProfilePic(`${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`);
     }
-  }, []);
+ }
+  const getJobList =async (activePage=activePage,search="")=>{
+     let data = {
+      serachItem: search,
+      pageNumber: activePage,
+      pageSize: pageSize
+    }
+    const response = await jobServices.getJobListByStudent(data);
+    if (response.status == 200) {
+      console.log(response);
+      setJobList(response.data.data);
+    }
+  }
+
+  const handlePageChange=(pageNumber)=> {
+    console.log(`active page is ${pageNumber}`);
+    setActivePage(pageNumber)
+    getJobList(pageNumber)
+  }
+  const handleSearch=(e)=>{
+    e.preventDefault()
+    getJobList(activePage,search)
+  }
+
+  const handleFilter = () => setshowFilter(!showFilter);
+
+  
 
   console.log(studentData);
   return (
@@ -231,12 +271,14 @@ const FindWork = () => {
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">
-                    <form className="form-inline">
+                  <form className="form-inline" onSubmit={handleSearch}>
                       <input
                         className="form-control"
                         type="search"
-                        placeholder="Find related Jobs"
+                        placeholder="Find posted Jobs"
                         aria-label="Search"
+                        value={search}
+                        onChange={(e)=>setSearch(e.target.value)}
                       />
                       <button className="btn btn-outline-success" type="submit">
                         Search
@@ -286,14 +328,22 @@ const FindWork = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing 1-20 of 581 results</p>
+                    <p>Showing 1-4 of 4 results</p>
                   </div>
                   <div className="default-feeds-search">
-                    <JobCard />
-                    <JobCard />
-                    <JobCard />
-                    <JobCard />
+                    {jobList &&
+                      jobList.length > 0 &&
+                      jobList.map((jobs, index) => (
+                        <PostedJobCard jobs={jobs} key={index} />
+                      ))}
                   </div>
+                  <Pagination
+                      activePage={activePage}
+                      itemsCountPerPage={pageSize}
+                      totalItemsCount={totalRecords}
+                      pageRangeDisplayed={totalRecords/pageSize}
+                      onChange={handlePageChange}
+                    />
                 </div>
               </div>
             </div>
