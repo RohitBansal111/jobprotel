@@ -63,7 +63,7 @@ const ImageCropperModal = ({
     >
       <div className="normal-react-modal modal-content">
           <div className="modal-header modal-multi-heading">
-            <h5 class="modal-title">Crop Profile Image</h5>
+            <h5 className="modal-title">Crop Profile Image</h5>
           </div>
           <div className="modal-body">
           <div className="image-cropper-wrapper">

@@ -8,6 +8,7 @@ export const RenderTagField = ({
   label,
   suggestions,
   type,
+  dvalue,
   meta: { touched, error, warning },
 }) => {
   const KeyCodes = {
@@ -15,11 +16,11 @@ export const RenderTagField = ({
     enter: 13,
   };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
-  const [tags, setTags] = useState(value ? value : []);
+  const [tags, setTags] = useState(dvalue ? dvalue : []);
 
   useEffect(() => {
-    setTags(value || []);
-  }, [value]);
+    setTags(dvalue || []);
+  }, [dvalue]);
   const handleDelete = (i) => {
     let newTags = tags.filter((tag, index) => index !== i);
     onChange(newTags);
@@ -43,7 +44,6 @@ export const RenderTagField = ({
   const handleTagClick = (index) => {
     console.log("The tag at index " + index + " was clicked");
   };
-
   return (
     <div className="field-render-main">
       <label> {label} </label>

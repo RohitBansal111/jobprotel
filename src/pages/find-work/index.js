@@ -8,7 +8,7 @@ import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import { useState, useEffect } from "react";
 import * as studentServices from "../../services/studentServices";
 import * as jobServices from "../../services/jobServices";
-import { useSelector ,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 
 const FindWork = () => {
@@ -18,57 +18,54 @@ const FindWork = () => {
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("")
-  const [activePage, setActivePage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [totalRecords, setTotalRecords] = useState(20)
-  
-  const authData = useSelector((state)=> state.auth.user);
+  const [search, setSearch] = useState("");
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(20);
+
+  const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
-    setId(authData.id);
-    console.log(authData,"authData")
-    getStudentDetails(authData.id)
-    getJobList(activePage)
+    if(authData) {
+      setId(authData.id);
+      getStudentDetails(authData.id);
+    }
+    getJobList(activePage);
   }, [authData]);
 
-  const getStudentDetails =async (id=authData.id)=>{
-    
+  const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
       setStudentData(response);
-      setStudentProfilePic(`${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`);
+      setStudentProfilePic(
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
+      );
     }
- }
-  const getJobList =async (activePage=activePage,search="")=>{
-     let data = {
+  };
+  const getJobList = async (activePage = activePage, search = "") => {
+    let data = {
       serachItem: search,
       pageNumber: activePage,
-      pageSize: pageSize
-    }
+      pageSize: pageSize,
+    };
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
-      console.log(response);
       setJobList(response.data.data);
     }
-  }
+  };
 
-  const handlePageChange=(pageNumber)=> {
+  const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
-    setActivePage(pageNumber)
-    getJobList(pageNumber)
-  }
-  const handleSearch=(e)=>{
-    e.preventDefault()
-    getJobList(activePage,search)
-  }
+    setActivePage(pageNumber);
+    getJobList(pageNumber);
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getJobList(activePage, search);
+  };
 
   const handleFilter = () => setshowFilter(!showFilter);
-
-  
-
-  console.log(studentData);
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -271,14 +268,14 @@ const FindWork = () => {
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">
-                  <form className="form-inline" onSubmit={handleSearch}>
+                    <form className="form-inline" onSubmit={handleSearch}>
                       <input
                         className="form-control"
                         type="search"
                         placeholder="Find posted Jobs"
                         aria-label="Search"
                         value={search}
-                        onChange={(e)=>setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                       <button className="btn btn-outline-success" type="submit">
                         Search
@@ -338,12 +335,12 @@ const FindWork = () => {
                       ))}
                   </div>
                   <Pagination
-                      activePage={activePage}
-                      itemsCountPerPage={pageSize}
-                      totalItemsCount={totalRecords}
-                      pageRangeDisplayed={totalRecords/pageSize}
-                      onChange={handlePageChange}
-                    />
+                    activePage={activePage}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={totalRecords}
+                    pageRangeDisplayed={totalRecords / pageSize}
+                    onChange={handlePageChange}
+                  />
                 </div>
               </div>
             </div>

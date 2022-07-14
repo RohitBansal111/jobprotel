@@ -6,6 +6,9 @@ const EmployerStep2Validate = (values) => {
   if (!values.companyPhone) {
     error.companyPhone = "Required Contact Details";
   }
+  if (!values.companyName) {
+    error.companyName = "Required Contact Name";
+  }
   if (!values.countryId) {
     error.countryId = "Required Company Logo";
   }

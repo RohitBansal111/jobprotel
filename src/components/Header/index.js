@@ -13,9 +13,6 @@ const Header = ({ companyLogo }) => {
   const [mobileMenu, setmobileMenu] = useState("");
   const [role, setRole] = useState("EMPLOYER");
 
-  
-
-  //var role = "employer";
   const menuToggle = () => {
     setmobileMenu("navbar-mobile");
     if (mobileMenu === "navbar-mobile") {
@@ -26,7 +23,7 @@ const Header = ({ companyLogo }) => {
 
   
 
-  useEffect(() => { console.log("authData",authData)
+  useEffect(() => { 
     const localData = localStorage.getItem("jobPortalUser")
     const userData = JSON.parse(localData);
     setUserData(userData);
@@ -37,7 +34,7 @@ const Header = ({ companyLogo }) => {
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-    setRole(authData.userRoles[0])
+    setRole(authData && authData.userRoles[0])
   }, [authData])
   
 

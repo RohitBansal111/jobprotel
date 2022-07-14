@@ -38,8 +38,6 @@ const Step2 = ({
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
-  const [err, setErr] = useState([]);
-  const [genderId, setGenderId] = useState("");
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -185,9 +183,6 @@ const Step2 = ({
                         height={100}
                         layout="fill"
                       />
-                    </div>
-                    <div style={{ color: "red" }}>
-                      {err && err.profileImage}
                     </div>
                   </div>
                 </div>
@@ -346,7 +341,6 @@ const Step2 = ({
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
                   />
-                  <div style={{ color: "red" }}>{err && err.interests}</div>
                 </div>
               </div>
               <div className="form-action">

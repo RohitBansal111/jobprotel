@@ -151,16 +151,6 @@ const EmployerJobDetailsPage = () => {
                           <Link to="#">{skill}</Link>
                         </li>
                       ))}
-
-                    {/* <li>
-                      <Link to="#">API </Link>
-                    </li>
-                    <li>
-                      <Link to="#">Web Application </Link>
-                    </li>
-                    <li>
-                      <Link to="#">Wearable Technology </Link>
-                    </li> */}
                   </ul>
                 </div>
               </div>
