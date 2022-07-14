@@ -10,6 +10,7 @@ import * as employerServices from "../../../services/employerServices";
 import * as jobServices from "../../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
+import { Loader } from "../../../components/Loader/Loader";
 
 const PostedJob = () => {
   const [employerData, setEmployerData] = useState([]);
@@ -20,13 +21,19 @@ const PostedJob = () => {
   const [activePage, setActivePage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [totalRecords, setTotalRecords] = useState(0)
+  const [loading, setLoading] = useState(true);
   
   const authData = useSelector((state)=> state.auth.user);
 
   useEffect(async () => {
-    setId(authData.id);
-    getEmployerDetails(authData.id);
-    getJobList(authData.id, activePage);
+    console.log(authData,"authData")
+    if(authData)
+    {
+      setId(authData.id);
+      getEmployerDetails(authData.id);
+      getJobList(authData.id, activePage);
+    }
+    
   }, [authData]);
 
   const getEmployerDetails = async (id = authData.id) => {
@@ -55,19 +62,25 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
+      setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
+    }else if(response.status == 400)
+    {
+      setLoading(false);
     }
   };
 
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
     setActivePage(pageNumber);
+    setLoading(true);
     getJobList(authData.id, pageNumber);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setLoading(true);
     getJobList(authData.id, activePage, search);
   };
 
@@ -179,7 +192,7 @@ const PostedJob = () => {
                           <span className="update-name">
                             Posted Job: &nbsp;
                           </span>
-                          2
+                          {totalRecords && totalRecords}
                         </Link>
                       </li>
                     </ul>
@@ -238,17 +251,22 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing {activePage}-{pageSize} of {totalRecords} results</p>
+                    <p>Showing {activePage ==1?activePage:(1+(activePage-1)*pageSize)}-
+                      {jobList && jobList.length?(activePage-1)*pageSize+jobList.length:0} of {totalRecords} results</p>
                   </div>
                   <div className="default-feeds-search">
-                    {jobList &&
+                  {loading ? (
+                      <Loader />
+                    ) : jobList && jobList.length === 0 ? (
+                      <h4>No jobs found</h4>
+                    ) : (
+                      jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard
-                          jobs={jobs}
-                          key={index}
-                        />
-                      ))}
+                        <PostedJobCard jobs={jobs} key={index} />
+                      ))
+                    )}
+                      
                   </div>
                   <Pagination
                     activePage={activePage}

@@ -106,7 +106,7 @@ export const RenderTagFieldOnlySuggestions = ({
   };
 
   const handleAddition = (tag) => {
-    console.log(tag, "tag");
+   
     const isFound = suggestions.some((element) => {
       if (element.id === tag.id) {
         let newTags = [...tags, tag];

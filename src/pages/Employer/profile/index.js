@@ -5,8 +5,43 @@ import ClockIcon from './../../../assets/icons/clock-ico.png'
 import CompanyProfile from './../../../assets/images/company-logo.png'
 import CompanyInfoModal from "../../../components/modals/companyInfoModal"
 import { Link } from "react-router-dom"
+import { useState, useEffect } from "react";
+import * as employerServices from "../../../services/employerServices";
+import * as jobServices from "../../../services/jobServices";
+import { useSelector, useDispatch } from "react-redux";
+
 
 const EmployerProfile = () => {
+
+  const [employerData, setEmployerData] = useState([]);
+  const [companyLogo, setCompanyLogo] = useState("");
+  const [id, setId] = useState("");
+  const authData = useSelector((state)=> state.auth.user);
+  useEffect(async () => {
+    console.log(authData,"authData")
+    if(authData)
+    {
+      setId(authData.id);
+      getEmployerDetails(authData.id);
+    }
+    
+  }, [authData]);
+
+  const getEmployerDetails = async (id = authData.id) => {
+    const resp = await employerServices.getEmployerDetails(id);
+
+    if (resp.status == 200) {
+      const response = resp.data.data.result;
+      setEmployerData(response);
+
+      setCompanyLogo(
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
+      );
+    }
+  };
+
+  console.log(employerData,"employerData")
+
 return (
         <Layout>
           <div className="inner-page-wrapper">
@@ -22,32 +57,73 @@ return (
                <section className="job-feeds-wrapper">
                   <div className="container">
                     <div className="profile-feed-inner">
-                        <div className="user-profile-left">
-                              <div className="user-profile-coll">
-                                    <div className="user-profile-detail">
-                                        <div className="profile-pic-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                              <span className="profile-img">
-                                                  <img src={CompanyProfile} alt="Company profile" />
-                                              </span>
-                                        </div>
-                                        <h3>Eminence Technology</h3>
-                                        <p>Sector 72, Sahibzada Ajit Singh Nagar, Punjab</p>
-                                    </div>
-                                    <div className="profile-connect">
-                                        <div className="profile-con">
-                                              <img src={ConnectIcon} alt="Connect" />
-                                              <span className="conn-count">20</span>
-                                        </div>
-                                        <h4>Available Connects</h4>
-                                    </div>
-                                    <div className="user-prof-info">
-                                        <ul className="prof-info-ul">
-                                              <li>Recruiting Manager <span className="result">Akshika Singh</span></li>
-                                              <li>Contact Number <span className="result">+91-9315189662</span></li>
-                                        </ul>
-                                    </div>
-                              </div>
-                          </div>
+                        
+                          <div className="user-profile-left">
+                <div className="user-profile-coll">
+                  <div className="user-profile-detail">
+                    <div
+                      className="profile-pic-progress"
+                      role="progressbar"
+                      aria-valuenow="60"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <span className="profile-img">
+                        <img src={companyLogo} alt="Company profile" />
+                      </span>
+                    </div>
+                    <h3>
+                      {employerData &&
+                        employerData.companyName &&
+                        employerData.companyName}
+                    </h3>
+                    <div>
+                      {employerData &&
+                        employerData.address &&
+                        employerData.address}
+                      {", "}
+                      {employerData && employerData.cityName}{" "}
+                      <p>
+                        {employerData &&
+                          employerData.stateResponse &&
+                          employerData.stateResponse.stateName &&
+                          employerData.stateResponse.stateName}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="profile-connect">
+                    <div className="profile-con">
+                      <img src={ConnectIcon} alt="Connect" />
+                      <span className="conn-count">
+                        {employerData &&
+                          employerData.availableConnects &&
+                          employerData.availableConnects}
+                      </span>
+                    </div>
+                    <h4>Available Connects</h4>
+                  </div>
+                  <div className="user-prof-info">
+                    <ul className="prof-info-ul">
+                      <li>
+                        Recruiting Manager{" "}
+                        <span className="result">
+                          {employerData &&
+                            employerData.recruitingManagerName &&
+                            employerData.recruitingManagerName}
+                        </span>
+                      </li>
+                      <li>
+                        Contact Details{" "}
+                        <span className="result">
+                          {employerData &&
+                            employerData.companyEmail &&
+                            employerData.companyEmail}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
                          <div className="jobs-feeds-sec">
                           <div className="jobs-com-profile">
                             <div className="profile-update">
@@ -74,8 +150,8 @@ return (
                               </div>
                               <div className="profile-info-list">
                                    <ul className="info-list-li">
-                                    <li><span className="plabel">Name</span> <span className="result">Rahul Nair</span></li>
-                                    <li><span className="plabel">Email ID </span><span className="result">rahulnair.eminence@gmail.com</span></li>
+                                    <li><span className="plabel">Name</span> <span className="result">{employerData && employerData.firstName && employerData.firstName} {employerData && employerData.lastName && employerData.lastName}</span></li>
+                                    <li><span className="plabel">Email ID </span><span className="result">{employerData && employerData.companyEmail && employerData.companyEmail}</span></li>
                                    </ul>
                               </div>
                             </div>
@@ -90,11 +166,14 @@ return (
                               </div>
                               <div className="profile-info-list">
                              
-                              <CompanyInfoModal />
+                              <CompanyInfoModal 
+                              employerData={employerData}
+                              getEmployerDetails={getEmployerDetails}
+                              />
                               <ul className="info-list-li">
-                                <li><span className="plabel">Recruiting Manager</span><span className="result">Akshika Singh</span></li>
-                                <li><span className="plabel">Contact Number</span> <span className="result">+91-9315189662</span></li>
-                                <li><span className="plabel">Company Address</span> <span className="result">Sector 72, Sahibzada Ajit Singh Nagar, Punjab</span></li>
+                                <li><span className="plabel">Recruiting Manager</span><span className="result">{employerData && employerData.recruitingManagerName && employerData.recruitingManagerName}</span></li>
+                                <li><span className="plabel">Contact Number</span> <span className="result">{employerData && employerData.companyPhone && employerData.companyPhone}</span></li>
+                                <li><span className="plabel">Company Address</span> <span className="result">{employerData && employerData.address && employerData.address} , {employerData && employerData.stateResponse && employerData.stateResponse.stateName && employerData.stateResponse.stateName} , {employerData && employerData.countryResponse && employerData.countryResponse.countryName && employerData.countryResponse.countryName}</span></li>
                             </ul>
                           </div>
                         </div>
