@@ -14,7 +14,7 @@ const EmployerJobDetailsPage = () => {
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState([]);
   const handleApplicationReceived = () => {
     navigate("/review-applications");
   };
@@ -59,7 +59,11 @@ const EmployerJobDetailsPage = () => {
                   <p>Mobile/Tablet Front-End Developer</p>
                 </div>
                 <div className="job-description">
-                  <p>{jobDetails && jobDetails.description && jobDetails.description}</p>
+                  <p>
+                    {jobDetails &&
+                      jobDetails.description &&
+                      jobDetails.description}
+                  </p>
                   {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
@@ -140,13 +144,13 @@ const EmployerJobDetailsPage = () => {
                 <div className="inner-info-section">
                   <h3>Skills and Expertise</h3>
                   <ul className="feeds-ul">
-                  {skills &&
-                skills.length > 0 &&
-                skills.map((skill, index) => (
-                  <li key={index}>
-                    <Link to="#">{skill}</Link>
-                  </li>
-                ))}
+                    {skills &&
+                      skills.length > 0 &&
+                      skills.map((skill, index) => (
+                        <li key={index}>
+                          <Link to="#">{skill}</Link>
+                        </li>
+                      ))}
 
                     {/* <li>
                       <Link to="#">API </Link>

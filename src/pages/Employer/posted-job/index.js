@@ -25,18 +25,15 @@ const PostedJob = () => {
 
   useEffect(async () => {
     setId(authData.id);
-    console.log(authData, "authData");
     getEmployerDetails(authData.id);
     getJobList(authData.id, activePage);
   }, [authData]);
 
   const getEmployerDetails = async (id = authData.id) => {
     const resp = await employerServices.getEmployerDetails(id);
-    console.log(resp, "resp");
 
     if (resp.status == 200) {
       const response = resp.data.data.result;
-      console.log(response, "resp");
       setEmployerData(response);
 
       setCompanyLogo(
@@ -44,6 +41,7 @@ const PostedJob = () => {
       );
     }
   };
+
   const getJobList = async (
     id = authData.id,
     activePage = activePage,
@@ -57,7 +55,6 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
-      console.log(response, "resp");
       setJobList(response.data.data);
     }
   };
@@ -246,7 +243,10 @@ const PostedJob = () => {
                     {jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} />
+                        <PostedJobCard
+                          jobs={jobs}
+                          key={index}
+                        />
                       ))}
                   </div>
                   <Pagination

@@ -22,6 +22,7 @@ const Header = ({ companyLogo }) => {
 
   useEffect(() => {
     const localData = localStorage.getItem("jobPortalUser");
+    console.log(localData);
     const userData = JSON.parse(localData);
     setUserData(userData);
     if (!authData && userData) {

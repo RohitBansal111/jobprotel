@@ -8,19 +8,17 @@ import SendInvitationModal from "./Common/SendInvitationModal";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
-// import ReactTimeAgo from 'react-time-ago'
 
 const PostedJobCard = ({ jobs }) => {
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
-  console.log(logo, "comp");
+
   const GetTags = () => {
     let job = jobs.tags;
 
@@ -51,7 +49,7 @@ const PostedJobCard = ({ jobs }) => {
                   alt="Company Logo"
                   width="70"
                   height="70"
-                  style={{borderRadius:"50%"}}
+                  style={{ borderRadius: "50%" }}
                 />
               </Link>
             </div>
