@@ -11,7 +11,11 @@ const Header = ({ companyLogo }) => {
   const [userData, setUserData] = useState([]);
   const dispatch = useDispatch();
   const [mobileMenu, setmobileMenu] = useState("");
-  var role = "employer";
+  const [role, setRole] = useState("EMPLOYER");
+
+  
+
+  //var role = "employer";
   const menuToggle = () => {
     setmobileMenu("navbar-mobile");
     if (mobileMenu === "navbar-mobile") {
@@ -20,9 +24,10 @@ const Header = ({ companyLogo }) => {
   };
   const authData = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
-    const localData = localStorage.getItem("jobPortalUser");
-    console.log(localData);
+  
+
+  useEffect(() => { console.log("authData",authData)
+    const localData = localStorage.getItem("jobPortalUser")
     const userData = JSON.parse(localData);
     setUserData(userData);
     if (!authData && userData) {
@@ -32,7 +37,9 @@ const Header = ({ companyLogo }) => {
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-  }, [authData]);
+    setRole(authData.userRoles[0])
+  }, [authData])
+  
 
   const handleLogout = () => {
     localStorage.removeItem("jobPortalUser");
@@ -44,7 +51,7 @@ const Header = ({ companyLogo }) => {
       <div className="container d-flex align-items-center justify-content-between">
         <div className="inner-logo">
           <Link
-            to={role === "employer" ? "/posted-jobs" : "/find-work"}
+            to={role === "EMPLOYER" ? "/posted-jobs" : "/find-work"}
             className="logo d-flex align-items-center"
           >
             <img src={Logo} alt="Real Job" />
@@ -53,7 +60,7 @@ const Header = ({ companyLogo }) => {
         <div className="right-side-nav">
           <nav id="navbar" className={`navbar ${mobileMenu}`}>
             <ul>
-              {role !== "employer" ? (
+              {role !== "EMPLOYER" ? (
                 <>
                   <li>
                     <NavLink
@@ -232,7 +239,7 @@ const Header = ({ companyLogo }) => {
                   <Link
                     className="dropdown-item"
                     to={
-                      role === "employer"
+                      role === "EMPLOYER"
                         ? "/employer/profile"
                         : "/student/profile"
                     }
@@ -244,12 +251,12 @@ const Header = ({ companyLogo }) => {
                 <li>
                   <Link
                     className="dropdown-item"
-                    to={role === "employer" ? "/posted-jobs" : "/find-work"}
+                    to={role === "EMPLOYER" ? "/posted-jobs" : "/find-work"}
                   >
                     <i className="fas fa-tachometer-alt"></i> Dashboard
                   </Link>
                 </li>
-                {role === "employer" ? null : (
+                {role === "EMPLOYER" ? null : (
                   <li>
                     <Link className="dropdown-item" to="/student/edit-profile">
                       <i className="fas fa-user-cog"></i> Edit Profile

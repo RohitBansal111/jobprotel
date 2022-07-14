@@ -16,12 +16,12 @@ const PostedJob = () => {
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("");
-  const [activePage, setActivePage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [totalRecords, setTotalRecords] = useState(20);
-
-  const authData = useSelector((state) => state.auth.user);
+  const [search, setSearch] = useState("")
+  const [activePage, setActivePage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [totalRecords, setTotalRecords] = useState(0)
+  
+  const authData = useSelector((state)=> state.auth.user);
 
   useEffect(async () => {
     setId(authData.id);
@@ -56,6 +56,7 @@ const PostedJob = () => {
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
       setJobList(response.data.data);
+      setTotalRecords(response.data.totalCount);
     }
   };
 
@@ -237,7 +238,7 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing 1-4 of 4 results</p>
+                    <p>Showing {activePage}-{pageSize} of {totalRecords} results</p>
                   </div>
                   <div className="default-feeds-search">
                     {jobList &&
