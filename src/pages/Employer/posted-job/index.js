@@ -19,7 +19,7 @@ const PostedJob = () => {
   const [search, setSearch] = useState("")
   const [activePage, setActivePage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const [totalRecords, setTotalRecords] = useState(20)
+  const [totalRecords, setTotalRecords] = useState(0)
   
   const authData = useSelector((state)=> state.auth.user);
 
@@ -54,6 +54,7 @@ const PostedJob = () => {
     if (response.status == 200) {
       console.log(response);
       setJobList(response.data.data);
+      setTotalRecords(response.data.totalCount);
     }
   }
 
@@ -244,7 +245,7 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing 1-4 of 4 results</p>
+                    <p>Showing {activePage}-{pageSize} of {totalRecords} results</p>
                   </div>
                   <div className="default-feeds-search">
                     {jobList &&
