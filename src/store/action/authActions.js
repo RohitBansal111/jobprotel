@@ -17,10 +17,10 @@ export const login = (user, navigate) => {
           toast.success("Login Successfully");
           navigate("/posted-jobs");
         } 
-        if(resp.data.userToken) {
-          localStorage.setItem("jobPortalUserToken", resp.data.userToken)
-          localStorage.setItem("jobPortalUser", JSON.stringify(response))
-        }
+        // if(resp.data.userToken) {
+        //   localStorage.setItem("jobPortalUserToken", resp.data.userToken)
+        //   localStorage.setItem("jobPortalUser", JSON.stringify(response))
+        // }
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
           payload: resp.data.data,
