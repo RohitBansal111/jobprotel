@@ -56,17 +56,8 @@ const Step3 = ({
 
   const handleExtraCertificates = (event) => {
     let image = [...event.target.files];
-    
-    let imageArray =[]
-    let titles =[]
-    image.map((data)=>{
-      let obj={title:data.name.split('.').slice(0, -1).join('.'), certificates:data}
-      imageArray.push(obj)
-      titles.push(data.name.split('.').slice(0, -1).join('.'))
-    })
-    uploadExtraCertificateFile(imageArray);
-    setPreviewImg(imageArray);
-    setInputFields(titles);
+    uploadExtraCertificateFile(image);
+    setPreviewImg(image);
   };
 
   const handleResume = (event) => {
@@ -80,7 +71,6 @@ const Step3 = ({
     previewImg
       .filter((image) => image.name !== img)
       .map((image) => arr.push(image));
-    uploadExtraCertificateFile(arr);   
     setPreviewImg(arr);
   };
 
@@ -90,16 +80,7 @@ const Step3 = ({
     setDesignationlist(designationList.data);
   }, []);
 
-  const handleFormChange = (index, event) => {
-    console.log(index,event,"aman")
-    let data = [...previewImg];
-    data[index][event.target.name] = event.target.value;
-    setPreviewImg(data);
-   }
-
   let file = "";
-  console.log(previewImg,"previewImg")
-  console.log(inputFields,"previewImg")
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -364,22 +345,14 @@ const Step3 = ({
                       previewImg.length > 0 &&
                       previewImg.map((img, index) => (
                         <>
-                          <li>{index + 1}. {img.certificates.name} 
-                          <label>File Title</label>  
-                          <input 
-                          name="title"
-                          onChange={(e)=>handleFormChange(index,e)}
-                          value={img.title}
-                          />  
-                          <button className="btn btn-remove">
+                          <li>{index + 1}. {img.name} <button className="btn btn-remove">
                             <i
                             className="fa fa-times-circle"
                             aria-hidden="true"
                             style={{ cursor: "pointer" }}
-                            onClick={() => manageCertificates(img.certificates.name)}
+                            onClick={() => manageCertificates(img.name)}
                           />
-                            </button>
-                          </li>
+                            </button></li>
                           
                         </>
                     ))}

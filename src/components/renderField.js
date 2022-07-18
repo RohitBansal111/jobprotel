@@ -100,6 +100,7 @@ export const renderField = ({
   type,
   meta: { touched, error },
   pattern,
+  disabled=false,
 }) => {
   const inputProps = {
     ...input,
@@ -117,7 +118,7 @@ export const renderField = ({
           placeholder={placeholder}
           id={`label${label}`}
           className="form-control"
-          // value={data.value}
+          disabled={disabled}
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

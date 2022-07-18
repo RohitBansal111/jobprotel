@@ -38,8 +38,10 @@ const Header = () => {
   };
   const authData = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
-    const localData = localStorage.getItem("jobPortalUser");
+  
+
+  useEffect(() => { 
+    const localData = localStorage.getItem("jobPortalUser")
     const userData = JSON.parse(localData);
     setUserData(userData);
     if (!authData && userData) {
@@ -49,8 +51,13 @@ const Header = () => {
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-    setRole(authData && authData.userRoles[0]);
-  }, [authData]);
+    if(authData)
+    {  console.log("authData",authData)
+      setRole(authData.userRoles[0])
+    }
+    
+  }, [authData])
+  
 
   const handleLogout = () => {
     localStorage.removeItem("jobPortalUser");

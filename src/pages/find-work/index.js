@@ -10,6 +10,7 @@ import * as studentServices from "../../services/studentServices";
 import * as jobServices from "../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
+import { Loader } from "../../components/Loader/Loader";
 
 const FindWork = () => {
   const [role, setRole] = useState("student");
@@ -18,19 +19,22 @@ const FindWork = () => {
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("");
-  const [activePage, setActivePage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [totalRecords, setTotalRecords] = useState(20);
-
-  const authData = useSelector((state) => state.auth.user);
+  const [search, setSearch] = useState("")
+  const [activePage, setActivePage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [totalRecords, setTotalRecords] = useState(20)
+  const [loading, setLoading] = useState(true);
+  
+  const authData = useSelector((state)=> state.auth.user);
 
   useEffect(async () => {
-    if (authData) {
-      setId(authData.id);
-      getStudentDetails(authData.id);
+    if(authData)
+    {
+    setId(authData.id);
+    console.log(authData,"authData")
+    getStudentDetails(authData.id)
+    getJobList(activePage)
     }
-    getJobList(activePage);
   }, [authData]);
 
   const getStudentDetails = async (id = authData.id) => {
@@ -52,19 +56,26 @@ const FindWork = () => {
     };
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
+      console.log(response);
+      setLoading(false);
       setJobList(response.data.data);
+    }else if(response.status == 400)
+    {
+      setLoading(false);
     }
   };
 
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
-    setActivePage(pageNumber);
-    getJobList(pageNumber);
-  };
-  const handleSearch = (e) => {
-    e.preventDefault();
-    getJobList(activePage, search);
-  };
+    setLoading(true);
+    setActivePage(pageNumber)
+    getJobList(pageNumber)
+  }
+  const handleSearch=(e)=>{
+    e.preventDefault()
+    setLoading(true);
+    getJobList(activePage,search)
+  }
 
   const handleFilter = () => setshowFilter(!showFilter);
   return (
@@ -326,14 +337,21 @@ const FindWork = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing 1-4 of 4 results</p>
+                    <p>Showing {activePage ==1?activePage:(1+(activePage-1)*pageSize)}-
+                      {jobList && jobList.length?(activePage-1)*pageSize+jobList.length:0} of {totalRecords} results</p>
                   </div>
                   <div className="default-feeds-search">
-                    {jobList &&
+                  {loading ? (
+                      <Loader />
+                    ) : jobList && jobList.length === 0 ? (
+                      <h4>No jobs found</h4>
+                    ) : (
+                      jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
                         <PostedJobCard jobs={jobs} key={index} />
-                      ))}
+                      ))
+                    )}
                   </div>
                   <Pagination
                     activePage={activePage}
