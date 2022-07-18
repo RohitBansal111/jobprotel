@@ -208,15 +208,20 @@ const Register = () => {
       ) {
         for (var i = 0; i < userData.extraCertificateFile.length; i++) {
           formData.append(
-            `extraCertificateFile[${i}]`,
-            userData.extraCertificateFile[i]
+            `extraCertificate[${i}].title`,
+            userData.extraCertificateFile[i].title
+          );
+          formData.append(
+            `extraCertificate[${i}].certificates`,
+            userData.extraCertificateFile[i].certificates
           );
         }
       }
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
       }
-
+      
+      
       const resp = await authServices.registerUser(formData);
 
       if (resp && resp.status == 200) {

@@ -59,16 +59,18 @@ const CompanyInfoModal = (props) => {
                     ...img, personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData.logoPath}`
                });
           getCountryList()     
-          getStateList(employerData && employerData.countryResponse && employerData.countryResponse.id && employerData.countryResponse.id)
+          getStateList(employerData ?.countryResponse ?.id )
           const data ={
-               companyName:employerData && employerData.companyName && employerData.companyName,
-               companyPhone:employerData && employerData.companyPhone && employerData.companyPhone,
-               countryId: employerData && employerData.countryResponse && employerData.countryResponse.id && employerData.countryResponse.id,
-               stateId: employerData && employerData.stateResponse && employerData.stateResponse.id && employerData.stateResponse.id,
-               cityId: employerData && employerData.cityName && employerData.cityName,
-               recruitingManagerName: employerData && employerData.recruitingManagerName && employerData.recruitingManagerName,
-               address: employerData && employerData.address && employerData.address,
-               companyEmailAddress: employerData && employerData.companyEmail && employerData.companyEmail
+               firstName:employerData ?.firstName,
+               lastName:employerData ?.lastName,
+               companyName:employerData ?.companyName,
+               companyPhone:employerData ?.companyPhone,
+               countryId: employerData ?.countryResponse?.id ,
+               stateId: employerData ?.stateResponse ?.id ,
+               cityName: employerData ?.cityName ,
+               recruitingManagerName: employerData ?.recruitingManagerName,
+               address: employerData ?.address ,
+               companyEmailAddress: employerData ?.companyEmail 
 
           }
           setInitialData(data)
@@ -110,7 +112,7 @@ const CompanyInfoModal = (props) => {
         const closeModal = () => {
           setModal(false);
         };
-
+     console.log("employerData",employerData)
      return (
           <div className="modal fade" id="companyInfo" tabIndex="-1" aria-labelledby="companyInfo" aria-hidden="true">
                <div className="modal-dialog modal-large">
@@ -164,6 +166,26 @@ const CompanyInfoModal = (props) => {
                                                                  </div>
                                                             </div>
                                                        </div>
+                                                       <div className="form-field flex50">
+                                                            <Field
+                                                                 name="firstName"
+                                                                 label="First Name"
+                                                                 component={renderField}
+                                                                 placeholder="Enter first name"
+                                                                 type="text"
+                                                                 
+                                                            />
+                                                       </div>
+                                                       <div className="form-field flex50">
+                                                            <Field
+                                                                 name="lastName"
+                                                                 label="Last Name"
+                                                                 component={renderField}
+                                                                 placeholder="Enter last name"
+                                                                 type="text"
+                                                                 
+                                                            />
+                                                       </div>
                                                        <div className="form-field flex100">
                                                             <Field
                                                                  name="companyName"
@@ -174,6 +196,7 @@ const CompanyInfoModal = (props) => {
                                                                  
                                                             />
                                                        </div>
+                                                       
                                                        <div className="form-field flex50">
                                                             <Field name="companyEmailAddress" label="Company Email Address" component={renderField}
                                                                  
@@ -228,7 +251,7 @@ const CompanyInfoModal = (props) => {
                                                        </div>
                                                        <div className="form-field flex50">
                                                             <Field
-                                                                 name="cityId"
+                                                                 name="cityName"
                                                                  label="City"
                                                                  component={renderField}
                                                                  placeholder="Enter City"
