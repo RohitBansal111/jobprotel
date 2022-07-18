@@ -3,19 +3,20 @@ import CompanyLogo from "./../../assets/images/feed-logo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 
-const SuggestionCard = () => {
+const SuggestionCard = (props) => {
+  const { userData } =props
   return (
     <div className="feeds-search-coll">
       <div className="feeds-search-head">
         <div className="feeds-head-left">
           <div className="feeds-s-logo">
             <Link to="/public">
-              <img src={CompanyLogo} alt="Company Logo" />{" "}
+              <img src={process.env.REACT_APP_IMAGE_API_URL+userData.pictureUrl} alt="Company Logo" width="100px" height="100px"/>
             </Link>
           </div>
           <div className="feeds-s-name">
             <h2>
-              <Link to="/public"> Rahul Singh</Link>{" "}
+              <Link to="/public"> {userData?.user?.firstName} {userData?.user?.lastName}</Link>{" "}
               <span className="desgination">(FrontEnd Developer)</span>{" "}
             </h2>
             <ul className="feeds-s-ul">
@@ -39,11 +40,7 @@ const SuggestionCard = () => {
       </div>
       <div className="feeds-search-detail">
         <p>
-          We have a new project we might consider outsourcing. We need to hear
-          some full stacks experts regarding the difficulty of such project,
-          cost esitmations, and required skills. This job will be fast - a
-          conversation. ------------------ About the project in a nutshell.{" "}
-          <Link to="#">See more </Link>
+          {userData?.skills}
         </p>
       </div>
     </div>
