@@ -1,10 +1,10 @@
 import Footer from "../Footer";
 import Header from "../Header";
 
-const Layout = ({ children, companyLogo }) => {
+const Layout = ({ children }) => {
   return (
     <div className="page-wrapper">
-      <Header companyLogo={companyLogo} />
+      <Header />
       <main className="main-content">{children}</main>
       <Footer />
     </div>

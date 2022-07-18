@@ -7,7 +7,24 @@ import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../types/auth";
 import CompanyProfile from "./../../assets/images/company-logo.png";
 
-const Header = ({ companyLogo }) => {
+const Header = () => {
+  const selector = useSelector((state) => state.auth.user);
+
+  const [profilePic, setProfilePic] = useState("");
+  const [companyLogo, setCompanyLogo] = useState("");
+
+  useEffect(() => {
+    if (selector && selector.studentDetails) {
+      setProfilePic(
+        `${process.env.REACT_APP_IMAGE_API_URL}${selector.studentDetails.pictureUrl}`
+      );
+    } else if (selector && selector.comapanyDetail) {
+      setCompanyLogo(
+        `${process.env.REACT_APP_IMAGE_API_URL}${selector.comapanyDetail.logoPath}`
+      );
+    }
+  }, [selector]);
+
   const [userData, setUserData] = useState([]);
   const dispatch = useDispatch();
   const [mobileMenu, setmobileMenu] = useState("");
@@ -21,10 +38,8 @@ const Header = ({ companyLogo }) => {
   };
   const authData = useSelector((state) => state.auth.user);
 
-  
-
-  useEffect(() => { 
-    const localData = localStorage.getItem("jobPortalUser")
+  useEffect(() => {
+    const localData = localStorage.getItem("jobPortalUser");
     const userData = JSON.parse(localData);
     setUserData(userData);
     if (!authData && userData) {
@@ -34,9 +49,8 @@ const Header = ({ companyLogo }) => {
         token: localStorage.getItem("jobPortalUserToken"),
       });
     }
-    setRole(authData && authData.userRoles[0])
-  }, [authData])
-  
+    setRole(authData && authData.userRoles[0]);
+  }, [authData]);
 
   const handleLogout = () => {
     localStorage.removeItem("jobPortalUser");
@@ -226,7 +240,10 @@ const Header = ({ companyLogo }) => {
                 aria-expanded="false"
               >
                 {userData && userData.fullName && userData.fullName}
-                <img src={companyLogo} alt="User Profile" />
+                <img
+                  src={profilePic ? profilePic : companyLogo}
+                  alt="User Profile"
+                />
               </button>
               <ul
                 className="dropdown-menu"

@@ -35,8 +35,7 @@ const EmployerStep2 = ({
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
-console.log(img)
-console.log(profileImage)
+
   const handleChangeCountry = async (e) => {
     const resp = await dropdownServices.stateList(e.target.value);
     setStateList(resp.data);

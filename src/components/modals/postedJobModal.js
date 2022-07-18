@@ -132,7 +132,7 @@ const PostedJobModal = ({ id }) => {
     console.log(resp);
     // redirect on success
     if (resp.status == 200) {
-      navigate("/sugguestion");
+      navigate("/suggestion");
       toast.success(resp.data.message);
     } else if (resp.status == 400) {
       toast.error("Something went wrong");

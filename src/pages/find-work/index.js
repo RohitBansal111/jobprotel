@@ -26,7 +26,7 @@ const FindWork = () => {
   const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
-    if(authData) {
+    if (authData) {
       setId(authData.id);
       getStudentDetails(authData.id);
     }
@@ -43,6 +43,7 @@ const FindWork = () => {
       );
     }
   };
+
   const getJobList = async (activePage = activePage, search = "") => {
     let data = {
       serachItem: search,

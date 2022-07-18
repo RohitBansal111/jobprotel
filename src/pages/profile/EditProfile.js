@@ -31,33 +31,51 @@ const EditProfile = () => {
   const [skills, setSkills] = useState([]);
   const [countrylist, setCountrylist] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const [stateValue, setStateValue] = useState();
+  const [designationlist, setDesignationlist] = useState([]);
+  const [resumeName, setResumeName] = useState("");
+  const [resumeFile, setResumeFile] = useState([]);
+
   const [collegeList, setCollegelist] = useState([]);
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
   const [modal, setModal] = useState(false);
   const [profileImage, setProfileImage] = useState("");
-
+  const [id, setId] = useState("");
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
+  const [qualificationList, setQualificationList] = useState(null);
+  const [qualificationId, setQualificationId] = useState("");
+  const [inputField, setInputField] = useState(false);
 
   const authData = useSelector((state) => state.auth.user);
 
+  const resumeHandler = (e) => {
+    const files = e.target.files[0];
+    setResumeFile(files);
+    setResumeName(files.name);
+  };
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
+      console.log(response);
       setStudentData(response);
+      setStudentProfilePic(
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
+      );
       setImg({
         ...img,
         personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`,
       });
-
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
       );
-
+      if (response && response.resumeFilePath) {
+        setResumeName(response.resumeFilePath);
+      }
       if (response && response.interests) {
         let interest = response.interests && response.interests.split(",");
         let finalInterest = [];
@@ -85,15 +103,24 @@ const EditProfile = () => {
             setSkills(finalSkill);
           });
       }
-console.log(response)
-     //  if(response.stateResponse.stateName) {
-     //      setStateList(response.stateResponse.stateName)
-     //  }
+      console.log(response);
+
+      if (response && response.countryResponse) {
+        CountryValue(response.countryResponse.id);
+      }
     }
   };
 
   const handleTimeZone = (data) => {
     setTimezone(data.value);
+  };
+
+  const CountryValue = async (data) => {
+    const resp = await dropdownServices.stateList(data);
+    setStateList(resp.data);
+    if (resp.data.length > 0) {
+      setStateValue(resp, data[0]);
+    }
   };
 
   const handleChangeCountry = async (e) => {
@@ -104,13 +131,67 @@ console.log(response)
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
+      setId(authData.id);
     }
   }, [authData]);
 
-  const saveProfile = (values) => {
+  const saveProfile = async (values) => {
     console.log(values);
-  };
+    console.log(resumeName);
+    let formData = new FormData();
 
+    formData.append("userId", id);
+    formData.append("firstName", values.firstname);
+    formData.append("lastName", values.lastname);
+    formData.append("email", values.email);
+    formData.append("profileImage", img.personalInfoImg);
+    formData.append("addressLine1", values.addressLine1);
+    formData.append("addressLine2", values.addressLine2);
+    formData.append("stateId", values.state.data[0].id);
+    formData.append("designationId", values.designation);
+    formData.append("city", values.city);
+    formData.append("postalCode", values.pin);
+    formData.append("genderId", values.genderName);
+    formData.append("address", values.houseno);
+    formData.append("age", values.age);
+    //     formData.append("qualificationId", values.qualificationId);
+    //     formData.append("qualification", values.qualification);
+
+    if (values.qualificationId == "Other") {
+      formData.append("qualification", values.qualification);
+    } else {
+      formData.append("qualificationId", values.qualificationId);
+    }
+
+    let interestsArr = [];
+    interests && interests.map((interest) => interestsArr.push(interest.text));
+
+    let skillsArr = [];
+    skills && skills.map((skill) => skillsArr.push(skill.text));
+
+    for (var i = 0; i < interestsArr.length; i++) {
+      formData.append(`interests[${i}]`, interestsArr[i]);
+    }
+    //     formData.append("interests", interests);
+    for (var i = 0; i < skillsArr.length; i++) {
+      formData.append(`skills[${i}]`, skillsArr[i]);
+    }
+    //     formData.append("skills", skills);
+    formData.append("collegeId", values.collegeId);
+    formData.append("experienceInYears", values.experienceInYears);
+    formData.append("experienceInMonths", values.experienceInMonths);
+    formData.append("expectedSalary", values.salary);
+    formData.append("workHoursPerDay", values.hours);
+    formData.append("workDaysPerWeek", values.days);
+    formData.append("timezone", timezone);
+    formData.append("workingType", values.working);
+    if (resumeFile) {
+      formData.append("resumeFile", resumeFile);
+    }
+
+    const resp = await studentServices.updateStudentDetails(formData);
+    console.log(resp);
+  };
   const closeModal = () => {
     setModal(false);
   };
@@ -130,12 +211,23 @@ console.log(response)
     }
   };
 
+  const handleQualification = (e) => {
+    let value = e.target.value;
+    setQualificationId(value);
+    if (value == "Other") {
+      setInputField(true);
+    } else {
+      setInputField(false);
+    }
+  };
+
   useEffect(async () => {
     const countryList = await dropdownServices.countryList();
     const collegeList = await dropdownServices.collegeList();
     const genderList = await dropdownServices.genderList();
     const skillsList = await dropdownServices.skillsList();
-
+    const designationList = await dropdownServices.designationList();
+    const qualificationList = await dropdownServices.qualificationList();
     let skillListData = [];
     skillsList.data.map((data) => {
       let obj = { id: data.id, text: data.name };
@@ -145,6 +237,8 @@ console.log(response)
     setCountrylist(countryList.data);
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
+    setDesignationlist(designationList.data);
+    setQualificationList(qualificationList.data);
   }, []);
 
   return (
@@ -378,6 +472,12 @@ console.log(response)
                                   placeholder="Enter email Address"
                                   label="Email Address"
                                   component={renderField}
+                                  defaultValue={
+                                    studentData &&
+                                    studentData.email &&
+                                    studentData.email
+                                  }
+                                  disabled
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -400,7 +500,7 @@ console.log(response)
                               <div className="form-field flex100">
                                 <Field
                                   name="intrestedArea"
-                                  label="Interested area"
+                                  label="Interested Area"
                                   placeholder="Enter interested area"
                                   suggestions={skillslist}
                                   component={RenderTagField}
@@ -481,11 +581,7 @@ console.log(response)
                                   name="state"
                                   label="State"
                                   component={renderSelect}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.stateResponse &&
-                                    studentData.stateResponse.stateName
-                                  }
+                                  defaultValue={stateValue && stateValue}
                                 >
                                   <option value="" disabled>
                                     Select State
@@ -516,6 +612,95 @@ console.log(response)
                                   defaultValue={studentData.postalCode}
                                 />
                               </div>
+                              <div className="form-field flex50">
+                                <Field
+                                  name="collegeId"
+                                  label="College"
+                                  component={renderSelect}
+                                  placeholder="Enter college / university name"
+                                  type="text"
+                                  defaultValue={
+                                    studentData &&
+                                    studentData.collegeResponse &&
+                                    studentData.collegeResponse.collegeName
+                                  }
+                                >
+                                  <option value="" disabled>
+                                    Select College
+                                  </option>
+                                  {collegeList &&
+                                    collegeList.length > 0 &&
+                                    collegeList.map((college) => (
+                                      <option
+                                        value={college.collegeId}
+                                        key={college.collegeId}
+                                      >
+                                        {college.name}
+                                      </option>
+                                    ))}
+                                </Field>
+                              </div>
+                              <div className="form-field flex50">
+                                <Field
+                                  name="designation"
+                                  label="Category"
+                                  component={renderSelect}
+                                  placeholder="Enter category"
+                                  defaultValue={
+                                    studentData &&
+                                    studentData.designationResponse &&
+                                    studentData.designationResponse
+                                      .qualificationName
+                                  }
+                                >
+                                  {designationlist &&
+                                    designationlist.map((designation) => (
+                                      <option
+                                        value={designation.id}
+                                        key={designation.id}
+                                      >
+                                        {designation.title}
+                                      </option>
+                                    ))}
+                                </Field>
+                              </div>
+                              <div className="form-field flex100">
+                                <Field
+                                  name="qualificationId"
+                                  label="Qualification"
+                                  component={renderSelect}
+                                  onChange={handleQualification}
+                                  defaultValue={
+                                    studentData &&
+                                    studentData.qualificationResponse &&
+                                    studentData.qualificationResponse
+                                      .qualificationName
+                                  }
+                                >
+                                  <option value="" disabled>
+                                    Select
+                                  </option>
+                                  {qualificationList &&
+                                    qualificationList.map((qualification) => (
+                                      <option
+                                        value={qualification.id}
+                                        key={qualification.id}
+                                      >
+                                        {qualification.name}
+                                      </option>
+                                    ))}
+                                  <option value="Other">Other</option>
+                                </Field>
+                              </div>
+                              {inputField && (
+                                <div className="form-field flex100">
+                                  <Field
+                                    name="qualification"
+                                    label="Qualification"
+                                    component={renderField}
+                                  />
+                                </div>
+                              )}
                               <div className="form-field flex100">
                                 <input
                                   name="profileImage"
@@ -566,6 +751,26 @@ console.log(response)
                                   <option value="7">7</option>
                                   <option value="8">8</option>
                                   <option value="9">9</option>
+                                </Field>
+                              </div>
+                              <div className="form-field flex50">
+                                <Field
+                                  name="days"
+                                  label="Days / Week"
+                                  component={renderSelect}
+                                  type="text"
+                                  defaultValue={
+                                    studentData &&
+                                    studentData.workDaysPerWeek &&
+                                    studentData.workDaysPerWeek
+                                  }
+                                >
+                                  <option selected="">Select days</option>
+                                  <option value="1 day">1 day</option>
+                                  <option value="2 days">2 days</option>
+                                  <option value="3 days">3 days</option>
+                                  <option value="4 days">4 days</option>
+                                  <option value="5 days">5 days</option>
                                 </Field>
                               </div>
                               <div className="form-field flex50">
@@ -636,6 +841,7 @@ console.log(response)
                                   component={renderField}
                                 /> */}
 
+                                <label>Working</label>
                                 <div className="radio-button-groupss">
                                   <Field
                                     name="working"
@@ -649,7 +855,7 @@ console.log(response)
                                     }
                                     currentIndex="0"
                                   >
-                                    OnSite
+                                    Onsite
                                   </Field>
                                   <Field
                                     name="working"
@@ -668,30 +874,31 @@ console.log(response)
                                 </div>
                               </div>
                               <div className="form-field flex100">
-                                <Field
+                                <label>Resume</label>
+                                <input
                                   name="resume"
-                                  label="Resume"
                                   uploadLabel="Browse resume file"
-                                  component={RenderFileUploadField}
-                                  type="text"
+                                  //     component={RenderFileUploadField}
+                                  type="file"
+                                  onChange={resumeHandler}
                                 />
                                 <ul>
                                   <li>
-                                    {studentData && studentData.resumeFilePath && (
+                                    {resumeName}
+                                    {/* {studentData && studentData.resumeFilePath && (
                                       <a href={studentResume} target="_blank">
-                                        {studentData.resumeFilePath}
                                       </a>
-                                    )}
+                                    )} */}
                                   </li>
                                 </ul>
                               </div>
+                              <label>Extra Certificates</label>
                               <div className="form-field flex100">
-                                <Field
+                                <input
                                   name="documents"
-                                  label="Extra Certificates"
                                   uploadLabel="Browse documents"
-                                  component={RenderFileUploadField}
-                                  type="text"
+                                  //     component={RenderFileUploadField}
+                                  type="file"
                                 />
                               </div>
                             </div>

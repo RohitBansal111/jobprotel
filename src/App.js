@@ -78,7 +78,7 @@ function App() {
 
         <Route path="/public" element={<PublicProfile/>} />
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage/>} />
-        <Route path="/sugguestion" element={<EmployerJobSuggestion/>} />
+        <Route path="/suggestion" element={<EmployerJobSuggestion/>} />
         <Route path="/job-details" element={<EmployerJobDetailsPage/>} />
         <Route path="/posted-jobs" element={<PostedJob />} />
         <Route path="/jobs-applied" element={<StudentApplication />} />

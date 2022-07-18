@@ -7,7 +7,6 @@ export const login = (user, navigate) => {
   return async (dispatch) => {
     try {
       let resp = await loginUser(user);
-      console.log(resp,"--resp");
 
       if (resp.status === 200) {
         const response = resp.data.data

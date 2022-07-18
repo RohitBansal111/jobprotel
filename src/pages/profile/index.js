@@ -11,6 +11,7 @@ import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal
 import * as studentServices from "../../services/studentServices";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import CompleteKycModal from "../../components/Common/CompleteKycModal";
 
 const Profile = () => {
   const [studentData, setStudentData] = useState([]);
@@ -19,6 +20,7 @@ const Profile = () => {
 
   const [interests, setInterests] = useState([]);
 
+  const [empDetails, setEmpDetails] = useState([]);
   const authData = useSelector((state) => state.auth.user);
 
   const getStudentData = async (id = authData.id) => {
@@ -40,6 +42,19 @@ const Profile = () => {
       setInterests(interests);
     }
   };
+
+  const getEmploymentdetails = () => {
+    // const resp = await something.something()
+    // console.log(resp);
+    // if(resp.status == 200) {
+    //   setEmpDetails(resp.data)
+    // }
+  };
+
+  useEffect(() => {
+    getEmploymentdetails();
+  }, []);
+
   useEffect(async () => {
     if (authData) {
       // setId(authData.id);
@@ -66,6 +81,7 @@ const Profile = () => {
               >
                 Complete KYC
               </button>
+              <CompleteKycModal />
             </div>
           </div>
         </section>
@@ -358,10 +374,13 @@ const Profile = () => {
                           <span className="result">
                             <ul className="tags">
                               <li style={{ cursor: "pointer" }}>
-                                <a  target="_blank" href={studentResume && studentResume}>
-                                {studentData &&
-                              studentData.resumeFilePath &&
-                              studentData.resumeFilePath}
+                                <a
+                                  target="_blank"
+                                  href={studentResume && studentResume}
+                                >
+                                  {studentData &&
+                                    studentData.resumeFilePath &&
+                                    studentData.resumeFilePath}
                                 </a>
                               </li>
                             </ul>
