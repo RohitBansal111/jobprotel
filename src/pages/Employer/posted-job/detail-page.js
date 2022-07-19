@@ -5,6 +5,7 @@ import LocationIcon from "./../../../assets/icons/loc-ico.png";
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router";
 import * as jobServices from "../../../services/jobServices";
+import { useSelector } from "react-redux";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -15,6 +16,7 @@ TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
 const EmployerJobDetailsPage = () => {
+  const selector = useSelector((state)=> state.auth.user)
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const EmployerJobDetailsPage = () => {
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [connects, setConnects] = useState("")
   const handleApplicationReceived = () => {
     navigate("/review-applications");
   };
@@ -31,6 +34,12 @@ const EmployerJobDetailsPage = () => {
     getJobDetails(id);
   }, [id]);
 
+  useEffect(()=>{
+    console.log(selector)
+    if(selector){
+      setConnects(selector.studentDetails.availableConnects)
+    }
+  }, [selector])
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
     console.log(resp);
@@ -189,7 +198,7 @@ const EmployerJobDetailsPage = () => {
                     Required Connects to submit a proposal: <b>2</b>{" "}
                   </p>
                   <p>
-                    Available Connects: <b>14</b>
+                    Available Connects: <b>{connects}</b>
                   </p>
                 </div>
               </div>

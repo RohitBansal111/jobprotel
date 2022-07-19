@@ -31,8 +31,17 @@ const Login = () => {
       ...login,
       [name]: value,
     });
+    if (e.key === 'Enter') {
+      console.log('do validate');
+    }
   };
 
+  // useEffect(() => {
+  //   if (e.key === 'Enter') {
+  //     console.log('do validate');
+  //   }
+  // }, [login])
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!termsPrivacy) {
@@ -40,31 +49,7 @@ const Login = () => {
     }
     if (userName !== "" && password !== "" && termsPrivacy) {
       dispatch(authActions.login(login, navigate));
-      // const resp = await authServices.loginUser(login);
-      // const response = resp.data.data;
-      // if (resp.status == 200 && response.roles == "STUDENT") {
-      //   toast.success("Login Successfully");
-      //   navigate("/find-work");
-      // } else if (resp.status == 200 && response.roles == "EMPLOYER") {
-      //   toast.success("Login Successfully");
-      //   navigate("/posted-jobs");
-      // } else if (resp.status == 400) {
-      //   toast.error(resp.error ? resp.error : "Something went wrong");
-      // }
     }
-
-    // if (userName && userName == "raj12@gmail.com" && password == "Admin@12" && termsPrivacy) {
-    //   toast.success("Login Successfully");
-    //   navigate("/find-work");
-    // } else if (
-    //   userName &&
-    //   userName == "sam1@gmail.com" &&
-    //   password == "Admin@12" &&
-    //   termsPrivacy
-    // ) {
-    //   toast.success("Login Successfully");
-    //   navigate("/posted-jobs");
-    // }
   };
   const handleInputChange = (event) => {
     const target = event.target;
@@ -76,14 +61,16 @@ const Login = () => {
       [name]: value,
     });
   };
-  
+
   return (
     <div className="page-wrapper">
       <div className="register-page-main">
         <div className="register-sidebar">
           <div className="register-info-steps justify-content-start">
             <div className="brand-media">
-              <Link to="/"><img src={Logo} alt="Real Job" /></Link>
+              <Link to="/">
+                <img src={Logo} alt="Real Job" />
+              </Link>
             </div>
             <div className="register-content">
               <h1 className="text-white mb-4">Welcome to Jobs Portal</h1>

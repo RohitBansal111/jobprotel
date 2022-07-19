@@ -14,14 +14,18 @@ import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
 
 const Profile = () => {
+  const authData = useSelector((state) => state.auth.user);
+
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
 
+  const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
 
   const [empDetails, setEmpDetails] = useState([]);
-  const authData = useSelector((state) => state.auth.user);
+
+  const [data, setData] = useState({});
 
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
@@ -43,26 +47,36 @@ const Profile = () => {
     }
   };
 
-  const getEmploymentdetails = () => {
-    // const resp = await something.something()
-    // console.log(resp);
-    // if(resp.status == 200) {
-    //   setEmpDetails(resp.data)
-    // }
-  };
-
-  useEffect(() => {
-    getEmploymentdetails();
-  }, []);
-
   useEffect(async () => {
     if (authData) {
-      // setId(authData.id);
       getStudentData(authData.id);
+      getEmploymentDetails(authData.id);
     }
-    // getJobList(activePage);
   }, [authData]);
-  // console.log(studentData);
+
+  const getEmploymentDetails = async (id = authData.id) => {
+    const resp = await studentServices.getStudentEmploymentData(id);
+    if (resp.status === 200) {
+      let response = resp.data.data.result;
+      // console.log(response)
+      setEmploymentDetails(response);
+    }
+  };
+
+  const handleEditingData = (data) => {
+    setData(data);
+  };
+
+  const handleDeleteData = async (d) => {
+    const resp = await studentServices.deleteStudentEmploymentData(d);
+    console.log(resp);
+    if (resp.status === 200) {
+      employmentDetails
+        .filter((data) => data.id !== d)
+        .map((data) => setEmpDetails(data));
+      getEmploymentDetails();
+    }
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -417,50 +431,43 @@ const Profile = () => {
                     </div>
                     <div className="profile-info-list">
                       <ul className="info-list-li additional-box">
-                        <li>
-                          <div className="designation-list-item">
-                            <div className="company-logo">
-                              <img src={CompanyLogo} alt="Logo" />
+                        {employmentDetails?.map((data) => (
+                          <li>
+                            <div className="designation-list-item">
+                              <div className="employer-sort-info">
+                                <h4>Front End - Team Lead </h4>
+                                <p>{data.employerName}</p>
+                                <p className="dateP">
+                                  {data.startDate}
+                                  {data.startDate && data.endDate
+                                    ? " - "
+                                    : null}
+                                  {data.endDate}
+                                </p>
+                              </div>
                             </div>
-                            <div className="employer-sort-info">
-                              <h4>Front End - Team Lead </h4>
-                              <p>Eminence Technology</p>
-                              <p className="dateP">
-                                August 2021 - Current working
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            className="icon_button_text"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modifyEmploymentModal"
-                          >
-                            <i className="fas fa-pen"></i> Edit
-                          </button>
-                        </li>
-                        <li>
-                          <div className="designation-list-item">
-                            <div className="company-logo">
-                              <img src={CompanyLogo} alt="Logo" />
-                            </div>
-                            <div className="employer-sort-info">
-                              <h4>React JS UI developer</h4>
-                              <p>Eminence Technology</p>
-                              <p className="dateP">August 2020 - July 2021</p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            className="icon_button_text"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modifyEmploymentModal"
-                          >
-                            <i className="fas fa-pen"></i> Edit
-                          </button>
-                        </li>
+                            <button
+                              type="button"
+                              className="icon_button_text"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modifyEmploymentModal"
+                              onClick={() => handleEditingData(data)}
+                            >
+                              <i className="fas fa-pen"></i> Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="icon_button_text"
+                              data-bs-toggle="modal"
+                              // data-bs-target="#modifyEmploymentModal"
+                              onClick={() => handleDeleteData(data.id)}
+                            >
+                              <i className="fas fa-trash"></i> Delete
+                            </button>
+                          </li>
+                        ))}
                       </ul>
-                      <ModifyEmploymentModal />
+                      <ModifyEmploymentModal empData={data} />
                     </div>
                   </div>
                 </section>

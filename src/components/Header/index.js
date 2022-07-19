@@ -50,7 +50,6 @@ const Header = () => {
       });
     }
     if (authData) {
-      console.log("authData", authData);
       setRole(authData.userRoles[0]);
     }
   }, [authData]);

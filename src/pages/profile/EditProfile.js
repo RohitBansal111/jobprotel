@@ -19,6 +19,7 @@ import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import * as dropdownServices from "../../services/dropDownServices";
 import ImageCropperModal from "../../components/Image-cropper";
+import toast from "toastr";
 
 const EditProfile = () => {
   const [studentData, setStudentData] = useState([]);
@@ -43,12 +44,15 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState("");
   const [id, setId] = useState("");
   const [img, setImg] = useState({
-    personalInfoImg:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    personalInfoImg: "",
   });
+  const [imageValid, setImageValid] = useState(false);
   const [qualificationList, setQualificationList] = useState(null);
   const [qualificationId, setQualificationId] = useState("");
+  const [collegeId, setCollegeId] = useState("");
+  const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
+  const [previewImg, setPreviewImg] = useState([]);
 
   const authData = useSelector((state) => state.auth.user);
 
@@ -56,6 +60,36 @@ const EditProfile = () => {
     const files = e.target.files[0];
     setResumeFile(files);
     setResumeName(files.name);
+  };
+
+  const extraCertificateHandler = (event) => {
+    let image = [...event.target.files];
+
+    let imageArray = [];
+    let titles = [];
+    image.map((data) => {
+      let obj = {
+        title: data.name.split(".").slice(0, -1).join("."),
+        certificates: data,
+      };
+      imageArray.push(obj);
+      // titles.push(data.name.split(".").slice(0, -1).join("."));
+    });
+    setPreviewImg(imageArray);
+    // setInputFields(titles);
+  };
+  const handleFormChange = (index, event) => {
+    let data = [...previewImg];
+    data[index][event.target.name] = event.target.value;
+    setPreviewImg(data);
+  };
+
+  const manageCertificates = (img) => {
+    let arr = [];
+    previewImg
+      .filter((image) => image.name !== img)
+      .map((image) => arr.push(image));
+    setPreviewImg(arr);
   };
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
@@ -103,7 +137,6 @@ const EditProfile = () => {
             setSkills(finalSkill);
           });
       }
-      console.log(response);
 
       if (response && response.countryResponse) {
         CountryValue(response.countryResponse.id);
@@ -128,6 +161,9 @@ const EditProfile = () => {
     setStateList(resp.data);
   };
 
+  const handlechangeGender = (e) => {
+    console.log(e.target.value);
+  };
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
@@ -136,31 +172,37 @@ const EditProfile = () => {
   }, [authData]);
 
   const saveProfile = async (values) => {
-    console.log(values);
-    console.log(resumeName);
     let formData = new FormData();
 
     formData.append("userId", id);
     formData.append("firstName", values.firstname);
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
-    formData.append("profileImage", img.personalInfoImg);
+    if (imageValid) {
+      formData.append("profileImage", img.personalInfoImg);
+    } else {
+      formData.append("profileImage", null);
+    }
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
     formData.append("stateId", values.state.data[0].id);
-    formData.append("designationId", values.designation);
+    formData.append(
+      "designationId",
+      designationId ? designationId : studentData.designationResponse.id
+    );
     formData.append("city", values.city);
     formData.append("postalCode", values.pin);
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
-    //     formData.append("qualificationId", values.qualificationId);
-    //     formData.append("qualification", values.qualification);
 
     if (values.qualificationId == "Other") {
       formData.append("qualification", values.qualification);
     } else {
-      formData.append("qualificationId", values.qualificationId);
+      formData.append(
+        "qualificationId",
+        qualificationId ? qualificationId : studentData.qualificationResponse.id
+      );
     }
 
     let interestsArr = [];
@@ -172,12 +214,13 @@ const EditProfile = () => {
     for (var i = 0; i < interestsArr.length; i++) {
       formData.append(`interests[${i}]`, interestsArr[i]);
     }
-    //     formData.append("interests", interests);
     for (var i = 0; i < skillsArr.length; i++) {
       formData.append(`skills[${i}]`, skillsArr[i]);
     }
-    //     formData.append("skills", skills);
-    formData.append("collegeId", values.collegeId);
+    formData.append(
+      "collegeId",
+      collegeId ? collegeId : studentData.collegeResponse.id
+    );
     formData.append("experienceInYears", values.experienceInYears);
     formData.append("experienceInMonths", values.experienceInMonths);
     formData.append("expectedSalary", values.salary);
@@ -187,10 +230,27 @@ const EditProfile = () => {
     formData.append("workingType", values.working);
     if (resumeFile) {
       formData.append("resumeFile", resumeFile);
+    } else {
+      formData.append("resumeFile", null);
+    }
+
+    if (previewImg?.length > 0) {
+      for (var i = 0; i < previewImg.length; i++) {
+        formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
+        formData.append(
+          `ExtraCertificates[${i}].Certificates`,
+          previewImg[i].certificates
+        );
+      }
     }
 
     const resp = await studentServices.updateStudentDetails(formData);
     console.log(resp);
+    if(resp.status === 200){
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    }
   };
   const closeModal = () => {
     setModal(false);
@@ -207,6 +267,7 @@ const EditProfile = () => {
   const handleImageChange = (event) => {
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
+      setImageValid(true);
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
@@ -219,6 +280,18 @@ const EditProfile = () => {
     } else {
       setInputField(false);
     }
+  };
+
+  const handleCollege = (e) => {
+    let value = e.target.value;
+    console.log(value);
+    setCollegeId(value);
+  };
+
+  const handleDesignation = (e) => {
+    let value = e.target.value;
+    console.log(value);
+    setDesignationId(value);
   };
 
   useEffect(async () => {
@@ -436,34 +509,24 @@ const EditProfile = () => {
                               <div className="form-field flex50">
                                 <label htmlFor="gender"> Gender </label>
                                 <div className="radio-button-groupss">
-                                  <Field
-                                    label="Male"
-                                    name="genderName"
-                                    value="Male"
-                                    component={RenderRadioButtonField}
-                                    type="radio"
-                                    defaultValue={
-                                      studentData &&
-                                      studentData.genderResponse &&
-                                      studentData.genderResponse.genderName
-                                    }
-                                  >
-                                    Male
-                                  </Field>
-                                  <Field
-                                    label="Female"
-                                    name="genderName"
-                                    value="Female"
-                                    component={RenderRadioButtonField}
-                                    type="radio"
-                                    defaultValue={
-                                      studentData &&
-                                      studentData.genderResponse &&
-                                      studentData.genderResponse.genderName
-                                    }
-                                  >
-                                    Female
-                                  </Field>
+                                  {genderList &&
+                                    genderList.length > 0 &&
+                                    genderList.map((gender, index) => (
+                                      <Field
+                                        name="genderName"
+                                        value={gender.id}
+                                        component={RenderRadioButtonField}
+                                        type="radio"
+                                        currentIndex={index}
+                                        defaultValue={
+                                          studentData &&
+                                          studentData.genderResponse &&
+                                          studentData.genderResponse.id
+                                        }
+                                      >
+                                        {gender.name}
+                                      </Field>
+                                    ))}
                                 </div>
                               </div>
                               <div className="form-field flex50">
@@ -618,7 +681,7 @@ const EditProfile = () => {
                                   label="College"
                                   component={renderSelect}
                                   placeholder="Enter college / university name"
-                                  type="text"
+                                  onChange={handleCollege}
                                   defaultValue={
                                     studentData &&
                                     studentData.collegeResponse &&
@@ -631,10 +694,8 @@ const EditProfile = () => {
                                   {collegeList &&
                                     collegeList.length > 0 &&
                                     collegeList.map((college) => (
-                                      <option
-                                        value={college.collegeId}
-                                        key={college.collegeId}
-                                      >
+                                        
+                                        <option value={college.collegeId} key={college.collegeId}>
                                         {college.name}
                                       </option>
                                     ))}
@@ -646,6 +707,7 @@ const EditProfile = () => {
                                   label="Category"
                                   component={renderSelect}
                                   placeholder="Enter category"
+                                  onChange={handleDesignation}
                                   defaultValue={
                                     studentData &&
                                     studentData.designationResponse &&
@@ -655,10 +717,7 @@ const EditProfile = () => {
                                 >
                                   {designationlist &&
                                     designationlist.map((designation) => (
-                                      <option
-                                        value={designation.id}
-                                        key={designation.id}
-                                      >
+                                      <option value={designation.id} key={designation.id}>
                                         {designation.title}
                                       </option>
                                     ))}
@@ -682,10 +741,7 @@ const EditProfile = () => {
                                   </option>
                                   {qualificationList &&
                                     qualificationList.map((qualification) => (
-                                      <option
-                                        value={qualification.id}
-                                        key={qualification.id}
-                                      >
+                                      <option value={qualification.id} key={qualification.id}>
                                         {qualification.name}
                                       </option>
                                     ))}
@@ -766,11 +822,11 @@ const EditProfile = () => {
                                   }
                                 >
                                   <option selected="">Select days</option>
-                                  <option value="1 day">1 day</option>
-                                  <option value="2 days">2 days</option>
-                                  <option value="3 days">3 days</option>
-                                  <option value="4 days">4 days</option>
-                                  <option value="5 days">5 days</option>
+                                  <option value="1">1 day</option>
+                                  <option value="2">2 days</option>
+                                  <option value="3">3 days</option>
+                                  <option value="4">4 days</option>
+                                  <option value="5">5 days</option>
                                 </Field>
                               </div>
                               <div className="form-field flex50">
@@ -845,7 +901,7 @@ const EditProfile = () => {
                                 <div className="radio-button-groupss">
                                   <Field
                                     name="working"
-                                    value="Onsite"
+                                    value="1"
                                     component={RenderRadioButtonField}
                                     type="radio"
                                     defaultValue={
@@ -859,7 +915,7 @@ const EditProfile = () => {
                                   </Field>
                                   <Field
                                     name="working"
-                                    value="OffSite"
+                                    value="2"
                                     component={RenderRadioButtonField}
                                     type="radio"
                                     defaultValue={
@@ -897,9 +953,42 @@ const EditProfile = () => {
                                 <input
                                   name="documents"
                                   uploadLabel="Browse documents"
-                                  //     component={RenderFileUploadField}
                                   type="file"
+                                  accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                  onChange={extraCertificateHandler}
+                                  multiple
                                 />
+                                <ul className="uploaded-documents">
+                                  {previewImg &&
+                                    previewImg.length > 0 &&
+                                    previewImg.map((img, index) => (
+                                      <>
+                                        <li>
+                                          {index + 1}. {img.certificates.name}
+                                          <label>File Title</label>
+                                          <input
+                                            name="title"
+                                            onChange={(e) =>
+                                              handleFormChange(index, e)
+                                            }
+                                            value={img.title}
+                                          />
+                                          <button className="btn btn-remove">
+                                            <i
+                                              className="fa fa-times-circle"
+                                              aria-hidden="true"
+                                              style={{ cursor: "pointer" }}
+                                              onClick={() =>
+                                                manageCertificates(
+                                                  img.certificates.name
+                                                )
+                                              }
+                                            />
+                                          </button>
+                                        </li>
+                                      </>
+                                    ))}
+                                </ul>
                               </div>
                             </div>
                           </div>
