@@ -9,6 +9,7 @@ const EmployerJobSuggestion = () => {
   const { jobid } = useParams();
    const [suggestions , setSuggestions]=useState([])
    const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     getSuggestions(jobid);
   }, [jobid]);
@@ -19,9 +20,10 @@ const EmployerJobSuggestion = () => {
     if (resp.status == 200) {
       setSuggestions(resp.data.data)
       setLoading(false)
+      console.log(resp.data.data, "aaaaaa")
     }
   }
-
+// console.log(userId)
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -47,7 +49,7 @@ const EmployerJobSuggestion = () => {
                       suggestions &&
                       suggestions.length > 0 &&
                       suggestions.map((data, index) => (
-                        <SuggestionCard userData={data} key={index} />
+                        <SuggestionCard userData={data} key={index} jobId={jobid} userId={data.user.id} />
                       ))
                     )}
                     

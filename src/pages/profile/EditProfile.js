@@ -61,7 +61,6 @@ const EditProfile = () => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data.result;
-      console.log(response);
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
@@ -103,7 +102,6 @@ const EditProfile = () => {
             setSkills(finalSkill);
           });
       }
-      console.log(response);
 
       if (response && response.countryResponse) {
         CountryValue(response.countryResponse.id);

@@ -5,7 +5,7 @@ import titles from "./register.json";
 import validate from "./validator/EmployerStep2Validate";
 import ImageCropperModal from "../Image-cropper";
 import React, { useState, useEffect } from "react";
-// import RenderPhoneInput from "../renderPhoneInput";
+import {RenderPhoneInput} from "../renderPhoneInput";
 import * as dropdownServices from "../../services/dropDownServices";
 import PhoneInput from "react-phone-number-input";
 
@@ -155,11 +155,12 @@ const EmployerStep2 = ({
                 <div className="form-field flex50 mb-2">
                   <div className="field-render-main">
                     <label>Company Phone Number</label>
-                    <PhoneInput
+                    <Field
                       name="companyPhone"
                       placeholder="Enter Company Phone Number"
                       value={phoneNumberFlag}
                       onChange={setphoneNumberFlag}
+                      component={RenderPhoneInput}
                     />
                   </div>
                 </div>
