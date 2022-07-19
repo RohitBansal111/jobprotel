@@ -15,6 +15,7 @@ const EmployerStep2 = ({
   employer,
   initialEmpStep2,
   countrylist,
+  setLoading
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [modal, setModal] = useState(false);
@@ -55,6 +56,7 @@ const EmployerStep2 = ({
 
   const SaveStep2 = (values) => {
     console.log("called", values);
+    setLoading(true)
     // if(validation ()){
       EmployerCompleteInfo(values, phoneNumberFlag, img);
     // }

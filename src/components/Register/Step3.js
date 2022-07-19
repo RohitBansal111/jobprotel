@@ -23,6 +23,7 @@ const Step3 = ({
   skillslist,
   next,
   initialProfInfo,
+  setLoading
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [resumeFile, setResumeFile] = useState("");
@@ -42,6 +43,7 @@ const Step3 = ({
   };
 
   const SaveStep3 = (values) => {
+      setLoading(true)
       userProfessionalInfo(values);
   };
 

@@ -16,9 +16,9 @@ export const registerUser = async (data) => {
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.error
+        err.response ?.data ?.error
           ? err.response.data.error
-          : err.message,
+          : err.response.data.message?err.response.data.message:err.message,
       errors:
         err.response && err.response.data && err.response.data.errors
           ? err.response.data.errors

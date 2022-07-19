@@ -11,6 +11,7 @@ import * as authServices from "../../services/authServices";
 import * as dropdownData from "../../services/dropDownServices";
 import toast from "toastr";
 import { Link } from "react-router-dom";
+import { Loader } from "../../components/Loader/Loader";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Register = () => {
   const [collegeList, setCollegelist] = useState([]);
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [userData, setUserData] = useState({
     PostalCode: "",
@@ -208,11 +210,11 @@ const Register = () => {
       ) {
         for (var i = 0; i < userData.extraCertificateFile.length; i++) {
           formData.append(
-            `extraCertificate[${i}].title`,
+            `ExtraCertificates[${i}].Title`,
             userData.extraCertificateFile[i].title
           );
           formData.append(
-            `extraCertificate[${i}].certificates`,
+            `ExtraCertificates[${i}].Certificates`,
             userData.extraCertificateFile[i].certificates
           );
         }
@@ -225,12 +227,14 @@ const Register = () => {
       const resp = await authServices.registerUser(formData);
 
       if (resp && resp.status == 200) {
-        
+        setLoading(false)
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         navigate("/");
       } else {
+        console.log(resp,"resp")
+        setLoading(false)
         if (resp.errors && typeof resp.errors === "object") {
           let errors = "";
           let keys = Object.keys(resp.errors);
@@ -287,11 +291,14 @@ const Register = () => {
 
     const resp = await authServices.registerEmployer(formData);
     if (resp && resp.status == 200) {
+      setLoading(false)
       navigate("/");
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
     } else {
+      setLoading(false)
+      console.log(resp)
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -451,7 +458,10 @@ const Register = () => {
             </div>
           </div>
         </div>
+        {loading?
+        <Loader />:null}
         <div className="register-form-area">
+        
           <div className="register-form-boxen">
             {currentPage === 0 && (
               <ChooseRole
@@ -497,6 +507,7 @@ const Register = () => {
                     skillslist={skillslist}
                     next={next}
                     initialProfInfo={initialProfInfo}
+                    setLoading={setLoading}
                   />
                 )}
               </div>
@@ -520,6 +531,7 @@ const Register = () => {
                     employer={employer}
                     initialEmpStep2={initialEmpStep2}
                     countrylist={countrylist}
+                    setLoading={setLoading}
                   />
                 )}
               </div>

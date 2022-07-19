@@ -21,17 +21,28 @@ const CompanyInfoModal = (props) => {
      const authData = useSelector((state)=> state.auth.user);
 
      const handleCompanyInfo = async(values) => {
+          
+
+          let formData = new FormData();
+          let keys= Object.keys(values);
+
+          keys.forEach(key => {
+          formData.append(key, values[key]);
+          })
           if(profileImage !="")
           {
-               values.logoUrl = profileImage
+               formData.append("logoUrl",profileImage)
+               //values.logoUrl = profileImage
           }
-          const resp = await employerServices.updateEmployerDetails(authData.id,values)
+          const resp = await employerServices.updateEmployerDetails(authData.id,formData)
           if (resp.status == 200) {
                toast.success(
                     resp.data.message ? resp.data.message : "Something went wrong"
                   );
-               props.getEmployerDetails()   
+               props.getEmployerDetails()  
+               document.getElementById("modelClose").click(); 
              }else{
+               document.getElementById("modelClose").click(); 
                if (resp.errors && typeof resp.errors === "object") {
                     let errors = "";
                     let keys = Object.keys(resp.errors);
@@ -70,7 +81,7 @@ const CompanyInfoModal = (props) => {
                cityName: employerData ?.cityName ,
                recruitingManagerName: employerData ?.recruitingManagerName,
                address: employerData ?.address ,
-               companyEmailAddress: employerData ?.companyEmail 
+               Email: employerData ?.companyEmail 
 
           }
           setInitialData(data)
@@ -119,7 +130,7 @@ const CompanyInfoModal = (props) => {
                     <div className="modal-content">
                          <div className="modal-header">
                               <h5 className="modal-title" id="companyInfo">Edit Company Info</h5>
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              <button type="button" id="modelClose" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                          </div>
                          <ImageCropperModal
                               closeModal={closeModal}
@@ -198,7 +209,7 @@ const CompanyInfoModal = (props) => {
                                                        </div>
                                                        
                                                        <div className="form-field flex50">
-                                                            <Field name="companyEmailAddress" label="Company Email Address" component={renderField}
+                                                            <Field name="Email" label="Company Email Address" component={renderField}
                                                                  
                                                                  disabled={true}
                                                             />

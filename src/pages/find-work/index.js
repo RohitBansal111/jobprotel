@@ -13,7 +13,7 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 
 const FindWork = () => {
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("EMPLOYER");
   const [showFilter, setshowFilter] = useState(false);
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
@@ -34,6 +34,7 @@ const FindWork = () => {
     console.log(authData,"authData")
     getStudentDetails(authData.id)
     getJobList(activePage)
+    setRole(authData.userRoles[0]);
     }
   }, [authData]);
 
@@ -239,7 +240,7 @@ const FindWork = () => {
                       <li>
                         <Link to="#">
                           <span className="update-name">
-                            Job {role === "Employer" ? "Applied" : "Posted"}:
+                            Job Applied
                             &nbsp;
                           </span>
                           2
