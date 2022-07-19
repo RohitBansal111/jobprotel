@@ -350,7 +350,7 @@ const FindWork = () => {
                       jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} />
+                        <PostedJobCard jobs={jobs} key={index} type="find"/>
                       ))
                     )}
                   </div>

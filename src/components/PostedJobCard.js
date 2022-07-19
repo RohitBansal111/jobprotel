@@ -14,7 +14,7 @@ import ru from "javascript-time-ago/locale/ru.json";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs }) => {
+const PostedJobCard = ({ jobs ,type}) => {
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
@@ -55,7 +55,7 @@ const PostedJobCard = ({ jobs }) => {
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to={`/job-details/${jobId}`}>
+                <Link to={type =='find'?`/find-work/details/${jobId}`:`/job-details/${jobId}`}>
                   {/* Mobile/Tablet Front-End Developer{" "} */}
                   {jobs && jobs.title && jobs.title}
                 </Link>

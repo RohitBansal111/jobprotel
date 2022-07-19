@@ -99,7 +99,7 @@ function App() {
         <Route path="/review-applications" element={<ReviewApplications />} />
         <Route path="/roles" element={<EmployerRoles />} />
         <Route path="/employer-inbox" element={<EmployerInbox />} />
-        <Route path="/find-work/details" element={<DetailsPage />} />
+        <Route path="/find-work/details/:id" element={<DetailsPage />} />
       </Routes>
     </Router>
   );

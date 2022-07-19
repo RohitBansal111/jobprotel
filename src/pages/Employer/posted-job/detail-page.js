@@ -5,6 +5,14 @@ import LocationIcon from "./../../../assets/icons/loc-ico.png";
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router";
 import * as jobServices from "../../../services/jobServices";
+import TimeAgo from "javascript-time-ago";
+import ReactTimeAgo from "react-time-ago";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import en from "javascript-time-ago/locale/en.json";
+import ru from "javascript-time-ago/locale/ru.json";
+
+TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(ru);
 
 const EmployerJobDetailsPage = () => {
   const { id } = useParams();
@@ -54,7 +62,14 @@ const EmployerJobDetailsPage = () => {
                   <h2>
                     {/* React Js Developer */}
                     {jobDetails && jobDetails.title && jobDetails.title}
-                    <span>Posted 8 hours ago</span>
+                    <span>
+                    { jobDetails && jobDetails.created ?
+                      <ReactTimeAgo
+                        date={jobDetails ?.created}
+                        locale="en-US"
+                     />
+                     :null}
+                    </span>
                   </h2>
                   <p>Mobile/Tablet Front-End Developer</p>
                 </div>

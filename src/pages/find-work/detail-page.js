@@ -1,36 +1,115 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import toast from "toastr";
+import * as jobServices from "../../services/jobServices";
+import TimeAgo from "javascript-time-ago";
+import ReactTimeAgo from "react-time-ago";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import en from "javascript-time-ago/locale/en.json";
+import ru from "javascript-time-ago/locale/ru.json";
+
+TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(ru);
 
 const DetailsPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  toast.options = { preventDuplicates: true };
+  const [jobDetails, setJobDetails] = useState([]);
+  const [qualifications, setQualifications] = useState([]);
+  const [experience, setExperience] = useState("");
+  const [exp, setExp] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const authData = useSelector((state) => state.auth.user);
+  const handleApplicationReceived = () => {
+    navigate("/review-applications");
+  };
+
+  useEffect(() => {
+    getJobDetails(id);
+  }, [id]);
+
+  const getJobDetails = async (id) => {
+    const resp = await jobServices.getJobDetails(id);
+    console.log(resp,"resp");
+    if (resp.status == 200) {
+      const response = resp.data.data;
+      setJobDetails(response);
+      setQualifications(response.qualifications);
+
+      let exp = response.experience.split(".");
+      exp[0] = `${exp[0]} years`;
+      exp[1] = `${exp[1]} month`;
+      setExp(exp);
+
+      let skills = response.skills;
+      skills = response && response.skills && response.skills.split(",");
+      setSkills(skills);
+    }
+  };
+  
+
+  const applyJob =async()=>{
+    const payload ={
+      jobId:id,
+      userId:authData.id,
+      remarks:"test"
+    }
+    const resp = await jobServices.applyJob(payload);
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    }else{
+      if (resp.errors && typeof resp.errors === "object") {
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
+        });
+
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      }
+    }
+  }
   return (
     <Layout>
       <section className="job-details-wrapper">
         <div className="container">
           <h1>Job Details</h1>
           <div className="row">
-            <div className="col-12 col-md-9">
+          <div className="col-12 col-md-9">
               <div className="details-card">
                 <div className="head43">
                   <h2>
-                    Fullstack project assessment & advice{" "}
-                    <span>Posted 8 hours ago</span>
+                    {/* React Js Developer */}
+                    {jobDetails && jobDetails.title && jobDetails.title}
+                    <span>
+                   { jobDetails && jobDetails.created ?
+                      <ReactTimeAgo
+                        date={jobDetails ?.created}
+                        locale="en-US"
+                     />
+                     :null}
+                    </span>
                   </h2>
-                  <ul className="feeds-s-ul">
-                    <li>
-                      <img src={LocationIcon} alt="Location" />
-                      United States
-                    </li>
-                    <li>
-                      <img src={VerifiedIcon} alt="Company Verified" />
-                      Verified post
-                    </li>
-                  </ul>
+                  <p>Mobile/Tablet Front-End Developer</p>
                 </div>
                 <div className="job-description">
                   <p>
+                    {jobDetails &&
+                      jobDetails.description &&
+                      jobDetails.description}
+                  </p>
+                  {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
                   <p>
@@ -50,20 +129,73 @@ const DetailsPage = () => {
                   <p>
                     Beautiful woven collection of classic motifs: buffalo plaid,
                     paisley, ticking stripes & more.
+                  </p> */}
+                </div>
+                <div className="education-info">
+                  <p>
+                    <b>Experience: </b>{" "}
+                    {exp &&
+                      exp.length > 0 &&
+                      exp.map((exp, index) => <span key={index}>{exp} </span>)}
+                  </p>
+                  <p>
+                    <b>Education:</b>{" "}
+                    {qualifications && qualifications.map((qual) => qual.name)}
+                  </p>
+                  <p>
+                    <b>SKills: </b>{" "}
+                    {jobDetails && jobDetails.skills && jobDetails.skills}
+                  </p>
+                  <p>
+                    <b>Job Location: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.hoursPerDay &&
+                      jobDetails.hoursPerDay}
+                  </p>
+                  <p>
+                    <b>Hour/day: </b>{" "}
+                    {jobDetails && jobDetails.location && jobDetails.location}
+                  </p>
+                  <p>
+                    <b>Days / Week: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.daysPerWeek &&
+                      jobDetails.daysPerWeek}
+                  </p>
+                  <p>
+                    <b>Job Timings/days: </b>
+                    {jobDetails && jobDetails.timing && jobDetails.timing}
+                  </p>
+                  <p>
+                    <b>Time Zone: </b>{" "}
+                    {jobDetails && jobDetails.timeZone && jobDetails.timeZone}
+                  </p>
+                  <p>
+                    <b>Category: </b>{" "}
+                    {jobDetails &&
+                      jobDetails.category &&
+                      jobDetails.category.name &&
+                      jobDetails.category.name}
+                  </p>
+                  <p>
+                    <b>Salary: </b> ${" "}
+                    {jobDetails && jobDetails.salary && jobDetails.salary}
+                  </p>
+                  <p>
+                    <b>Tags:</b>{" "}
+                    {jobDetails && jobDetails.tags && jobDetails.tags}
                   </p>
                 </div>
                 <div className="inner-info-section">
                   <h3>Skills and Expertise</h3>
                   <ul className="feeds-ul">
-                    <li>
-                      <Link to="#">API </Link>
-                    </li>
-                    <li>
-                      <Link to="#">Web Application </Link>
-                    </li>
-                    <li>
-                      <Link to="#">Wearable Technology </Link>
-                    </li>
+                    {skills &&
+                      skills.length > 0 &&
+                      skills.map((skill, index) => (
+                        <li key={index}>
+                          <Link to="#">{skill}</Link>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>
@@ -71,7 +203,7 @@ const DetailsPage = () => {
             <div className="col-12 col-md-3">
               <div className="details-right-sidebar">
                 <div className="post-action">
-                  <button type="button" className="btn btn-primary">
+                  <button type="button" className="btn btn-primary" onClick={()=>applyJob()}>
                     Apply Now
                   </button>
                   <button type="button" className="btn btn-primary-outline">
