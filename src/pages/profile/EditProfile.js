@@ -9,6 +9,7 @@ import {
   RenderRadioButtonField,
   RenderFileUploadField,
   renderSelect,
+  renderNumberField,
 } from "./../../components/renderField";
 import { RenderImageField } from "../../components/file-input";
 import { RenderTagField } from "../../components/renderTagField";
@@ -20,6 +21,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import * as dropdownServices from "../../services/dropDownServices";
 import ImageCropperModal from "../../components/Image-cropper";
 import toast from "toastr";
+import * as extraCertificateServices from "../../services/studentExtraCertificates";
 
 const EditProfile = () => {
   const [studentData, setStudentData] = useState([]);
@@ -53,7 +55,10 @@ const EditProfile = () => {
   const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
   const [previewImg, setPreviewImg] = useState([]);
-
+  const [err, setErr] = useState([]);
+  const [working, setWorking] = useState("");
+  const [callCertificate, setCallCertificate] = useState(false);
+  const [editData, setEditData] = useState([]);
   const authData = useSelector((state) => state.auth.user);
 
   const resumeHandler = (e) => {
@@ -61,35 +66,93 @@ const EditProfile = () => {
     setResumeFile(files);
     setResumeName(files.name);
   };
+  // console.log(timezone, "timezone");
+  const extraCertificateHandler = async (event) => {
+    let files = event.target.files[0];
+    // console.log(files);
+    let obj = {
+      title: files.name.split(".").slice(0, -1).join("."),
+      certificates: files,
+    };
+    let formData = new FormData();
+    formData.append("studentId", authData.id);
 
-  const extraCertificateHandler = (event) => {
-    let image = [...event.target.files];
+    formData.append("AddMorecertificates", obj.title);
+    formData.append("AddMorecertificates", obj.certificates);
+    if (authData) {
+      const resp = await extraCertificateServices.postExtraCertificates(
+        formData
+      );
+      setCallCertificate(true);
+    }
 
-    let imageArray = [];
-    let titles = [];
-    image.map((data) => {
-      let obj = {
-        title: data.name.split(".").slice(0, -1).join("."),
-        certificates: data,
-      };
-      imageArray.push(obj);
-      // titles.push(data.name.split(".").slice(0, -1).join("."));
-    });
-    setPreviewImg(imageArray);
-    // setInputFields(titles);
+    // let image = [...event.target.files];
+
+    // let imageArray = [];
+    // image.map((data) => {
+    //   let obj = {
+    //     title: data.name.split(".").slice(0, -1).join("."),
+    //     certificates: data,
+    //   };
+    //   imageArray.push(obj);
+    // });
+    // setPreviewImg(imageArray);
   };
-  const handleFormChange = (index, event) => {
+
+  const getExtraCertificate = async () => {
+    const resp = await extraCertificateServices.getExtraCertificates(id);
+    let response = resp.data?.data?.result;
+    if (resp.status === 200 && response.length > 0) {
+      let arr = [];
+      response.map((resp) => {
+        let obj = {
+          title: resp.title.split(".").slice(0, -1).join("."),
+          certificates: resp.filePath,
+          id: resp.id,
+        };
+        arr.push(obj);
+      });
+      setPreviewImg(arr);
+    }
+  };
+  useEffect(() => {
+    getExtraCertificate();
+  }, [authData, callCertificate]);
+
+  const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
     data[index][event.target.name] = event.target.value;
     setPreviewImg(data);
   };
 
-  const manageCertificates = (img) => {
-    let arr = [];
-    previewImg
-      .filter((image) => image.name !== img)
-      .map((image) => arr.push(image));
-    setPreviewImg(arr);
+  const manageCertificates = async (id) => {
+    const resp = await extraCertificateServices.deleteExtraCertificates(id);
+    if (resp.status === 200) {
+      let arr = [];
+      previewImg
+        .filter((image) => image.id !== id)
+        .map((image) => arr.push(image));
+      setPreviewImg(arr);
+      getExtraCertificate();
+    }
+  };
+
+  const editCertificates = async (id, title) => {
+    // let data ={ title: title}
+    console.log(id, title, "extra");
+
+    let formData = new FormData();
+    formData.append("Title", title);
+    const resp = await extraCertificateServices.updateExtraCertificatesTitle(
+      id,
+      formData
+    );
+    console.log(resp);
+    if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    }
   };
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
@@ -100,19 +163,27 @@ const EditProfile = () => {
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
       );
+
+      // let certificateArray = [];
+      // response.studentExtraCertificate.map((data) => {
+      //   let obj = { title: data.title, certificates: data.filePath };
+      //   certificateArray.push(obj);
+      // });
+      // setPreviewImg(certificateArray);
       setImg({
         ...img,
         personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`,
       });
+
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
       );
       if (response && response.resumeFilePath) {
         setResumeName(response.resumeFilePath);
       }
+      let finalInterest = [];
       if (response && response.interests) {
         let interest = response.interests && response.interests.split(",");
-        let finalInterest = [];
         interest &&
           interest.length > 0 &&
           interest.map((data) => {
@@ -124,9 +195,9 @@ const EditProfile = () => {
           });
       }
 
+      let finalSkill = [];
       if (response && response.skills) {
         let skill = response.skills && response.skills.split(",");
-        let finalSkill = [];
         skill &&
           skill.length > 0 &&
           skill.map((data) => {
@@ -141,10 +212,41 @@ const EditProfile = () => {
       if (response && response.countryResponse) {
         CountryValue(response.countryResponse.id);
       }
+
+      let timeObj = { value: response.timezone };
+      const data = {
+        firstname: response.firstName,
+        lastname: response.lastName,
+        email: response.email,
+        houseno: response.address,
+        addressLine1: response.addressLine1,
+        addressLine2: response.addressLine2,
+        Country: response.countryResponse.id,
+        state: response.stateResponse.id,
+        city: response.cityName,
+        pin: response.postalCode,
+        age: response.age,
+        genderName: response.genderResponse.id,
+        collegeId: response.collegeResponse.id,
+        designation: response.designationResponse.id,
+        qualificationId: response.qualificationResponse.id,
+        qualification: response.qualificationName,
+        hours: response.workHoursPerDay,
+        days: response.workDaysPerWeek,
+        salary: response.expectedSalary,
+        working: response.workingType.toString(),
+        experienceInYears: response.experienceInYears,
+        experienceInMonths: response.experienceInMonths,
+        timezone: timeObj,
+        intrestedArea: finalInterest,
+        skills: finalSkill,
+      };
+      setEditData(data);
     }
   };
 
   const handleTimeZone = (data) => {
+    console.log(data);
     setTimezone(data.value);
   };
 
@@ -161,9 +263,6 @@ const EditProfile = () => {
     setStateList(resp.data);
   };
 
-  const handlechangeGender = (e) => {
-    console.log(e.target.value);
-  };
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
@@ -172,6 +271,8 @@ const EditProfile = () => {
   }, [authData]);
 
   const saveProfile = async (values) => {
+    console.log(values.intrestedArea, "values");
+
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -185,7 +286,7 @@ const EditProfile = () => {
     }
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
-    formData.append("stateId", values.state.data[0].id);
+    formData.append("stateId", values.state);
     formData.append(
       "designationId",
       designationId ? designationId : studentData.designationResponse.id
@@ -206,10 +307,11 @@ const EditProfile = () => {
     }
 
     let interestsArr = [];
-    interests && interests.map((interest) => interestsArr.push(interest.text));
+    values.intrestedArea &&
+      values.intrestedArea.map((interest) => interestsArr.push(interest.text));
 
     let skillsArr = [];
-    skills && skills.map((skill) => skillsArr.push(skill.text));
+    values.skills && values.skills.map((skill) => skillsArr.push(skill.text));
 
     for (var i = 0; i < interestsArr.length; i++) {
       formData.append(`interests[${i}]`, interestsArr[i]);
@@ -234,22 +336,46 @@ const EditProfile = () => {
       formData.append("resumeFile", null);
     }
 
-    if (previewImg?.length > 0) {
-      for (var i = 0; i < previewImg.length; i++) {
-        formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
-        formData.append(
-          `ExtraCertificates[${i}].Certificates`,
-          previewImg[i].certificates
+    // if (previewImg?.length > 0) {
+    //   for (var i = 0; i < previewImg.length; i++) {
+    //     formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
+    //     formData.append(
+    //       `ExtraCertificates[${i}].Certificates`,
+    //       previewImg[i].certificates
+    //     );
+    //   }
+    // }
+
+    if (
+      id &&
+      values.firstname &&
+      values.lastname &&
+      values.email &&
+      values.addressLine1 &&
+      values.state &&
+      values.city &&
+      values.pin &&
+      values.genderName &&
+      values.houseno &&
+      values.age &&
+      // values.interestsArea &&
+      // values.skills &&
+      values.experienceInYears &&
+      values.experienceInMonths &&
+      values.salary &&
+      values.hours &&
+      values.days
+      // timezone
+      // working &&
+      // previewImg.length > 0
+      // validation()
+    ) {
+      const resp = await studentServices.updateStudentDetails(formData);
+      if (resp.status === 200) {
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
         );
       }
-    }
-
-    const resp = await studentServices.updateStudentDetails(formData);
-    console.log(resp);
-    if(resp.status === 200){
-      toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
-      );
     }
   };
   const closeModal = () => {
@@ -263,7 +389,6 @@ const EditProfile = () => {
       reader.readAsDataURL(file);
     });
   }
-
   const handleImageChange = (event) => {
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
@@ -284,16 +409,28 @@ const EditProfile = () => {
 
   const handleCollege = (e) => {
     let value = e.target.value;
-    console.log(value);
+    // console.log(value);
     setCollegeId(value);
   };
 
   const handleDesignation = (e) => {
     let value = e.target.value;
-    console.log(value);
+    // console.log(value);
     setDesignationId(value);
   };
-
+  const handleWorkingChange = (e) => {
+    setWorking(e.target.value);
+  };
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    if (working) {
+      error.working = "Required Working";
+      isValid = false;
+    }
+    setErr(error);
+    return isValid;
+  };
   useEffect(async () => {
     const countryList = await dropdownServices.countryList();
     const collegeList = await dropdownServices.collegeList();
@@ -471,7 +608,11 @@ const EditProfile = () => {
                   setProfileImage={setProfileImage}
                   setImg={setImg}
                 />
-                <Form onSubmit={saveProfile} validate={validate}>
+                <Form
+                  onSubmit={saveProfile}
+                  validate={validate}
+                  initialValues={editData}
+                >
                   {({ handleSubmit, submitting, values }) => (
                     <form onSubmit={handleSubmit}>
                       <section className="profile-information-view">
@@ -485,7 +626,6 @@ const EditProfile = () => {
                                   label="First name"
                                   placeholder="Enter first name"
                                   component={renderField}
-                                  defaultValue={studentData.firstName}
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -494,7 +634,6 @@ const EditProfile = () => {
                                   label="Last name"
                                   placeholder="Enter last name"
                                   component={renderField}
-                                  defaultValue={studentData.lastName}
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -502,8 +641,8 @@ const EditProfile = () => {
                                   name="age"
                                   label="Age"
                                   placeholder="Enter age"
-                                  component={renderField}
-                                  defaultValue={studentData.age}
+                                  component={renderNumberField}
+                                  pattern="[0-9]*"
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -518,11 +657,6 @@ const EditProfile = () => {
                                         component={RenderRadioButtonField}
                                         type="radio"
                                         currentIndex={index}
-                                        defaultValue={
-                                          studentData &&
-                                          studentData.genderResponse &&
-                                          studentData.genderResponse.id
-                                        }
                                       >
                                         {gender.name}
                                       </Field>
@@ -535,11 +669,6 @@ const EditProfile = () => {
                                   placeholder="Enter email Address"
                                   label="Email Address"
                                   component={renderField}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.email &&
-                                    studentData.email
-                                  }
                                   disabled
                                 />
                               </div>
@@ -556,7 +685,6 @@ const EditProfile = () => {
                                       "America/Lima": "Pittsburgh",
                                       "Europe/Berlin": "Frankfurt",
                                     }}
-                                    defaultValue={studentData.timezone}
                                   />
                                 </div>
                               </div>
@@ -578,11 +706,6 @@ const EditProfile = () => {
                                   component={renderField}
                                   placeholder="Enter Address"
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.address &&
-                                    studentData.address
-                                  }
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -592,11 +715,6 @@ const EditProfile = () => {
                                   component={renderField}
                                   placeholder="Enter Address Line 1"
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.addressLine1 &&
-                                    studentData.addressLine1
-                                  }
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -606,11 +724,6 @@ const EditProfile = () => {
                                   component={renderField}
                                   placeholder="Enter Address Line 2"
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.addressLine2 &&
-                                    studentData.addressLine2
-                                  }
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -619,11 +732,6 @@ const EditProfile = () => {
                                   label="Country"
                                   component={renderSelect}
                                   onChange={handleChangeCountry}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.countryResponse &&
-                                    studentData.countryResponse.countryName
-                                  }
                                 >
                                   <option value="" disabled>
                                     Select Country
@@ -644,7 +752,6 @@ const EditProfile = () => {
                                   name="state"
                                   label="State"
                                   component={renderSelect}
-                                  defaultValue={stateValue && stateValue}
                                 >
                                   <option value="" disabled>
                                     Select State
@@ -663,7 +770,6 @@ const EditProfile = () => {
                                   placeholder="city"
                                   label="City"
                                   component={renderField}
-                                  defaultValue={studentData.cityName}
                                 ></Field>
                               </div>
                               <div className="form-field flex50">
@@ -671,8 +777,8 @@ const EditProfile = () => {
                                   name="pin"
                                   placeholder="Enter pin"
                                   label="PIN"
-                                  component={renderField}
-                                  defaultValue={studentData.postalCode}
+                                  component={renderNumberField}
+                                  pattern="[0-9]*"
                                 />
                               </div>
                               <div className="form-field flex50">
@@ -682,11 +788,6 @@ const EditProfile = () => {
                                   component={renderSelect}
                                   placeholder="Enter college / university name"
                                   onChange={handleCollege}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.collegeResponse &&
-                                    studentData.collegeResponse.collegeName
-                                  }
                                 >
                                   <option value="" disabled>
                                     Select College
@@ -694,8 +795,10 @@ const EditProfile = () => {
                                   {collegeList &&
                                     collegeList.length > 0 &&
                                     collegeList.map((college) => (
-                                        
-                                        <option value={college.collegeId} key={college.collegeId}>
+                                      <option
+                                        value={college.collegeId}
+                                        key={college.collegeId}
+                                      >
                                         {college.name}
                                       </option>
                                     ))}
@@ -706,18 +809,14 @@ const EditProfile = () => {
                                   name="designation"
                                   label="Category"
                                   component={renderSelect}
-                                  placeholder="Enter category"
                                   onChange={handleDesignation}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.designationResponse &&
-                                    studentData.designationResponse
-                                      .qualificationName
-                                  }
                                 >
                                   {designationlist &&
                                     designationlist.map((designation) => (
-                                      <option value={designation.id} key={designation.id}>
+                                      <option
+                                        value={designation.id}
+                                        key={designation.id}
+                                      >
                                         {designation.title}
                                       </option>
                                     ))}
@@ -729,19 +828,16 @@ const EditProfile = () => {
                                   label="Qualification"
                                   component={renderSelect}
                                   onChange={handleQualification}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.qualificationResponse &&
-                                    studentData.qualificationResponse
-                                      .qualificationName
-                                  }
                                 >
                                   <option value="" disabled>
                                     Select
                                   </option>
                                   {qualificationList &&
                                     qualificationList.map((qualification) => (
-                                      <option value={qualification.id} key={qualification.id}>
+                                      <option
+                                        value={qualification.id}
+                                        key={qualification.id}
+                                      >
                                         {qualification.name}
                                       </option>
                                     ))}
@@ -791,13 +887,8 @@ const EditProfile = () => {
                                   placeholder="Hours"
                                   label="Hours / day"
                                   component={renderSelect}
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.workHoursPerDay &&
-                                    studentData.workHoursPerDay
-                                  }
                                 >
-                                  <option defaultValue="">Select hours</option>
+                                  <option value="">Select hours</option>
                                   <option value="1">1</option>
                                   <option value="2">2</option>
                                   <option value="3">3</option>
@@ -815,11 +906,6 @@ const EditProfile = () => {
                                   label="Days / Week"
                                   component={renderSelect}
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.workDaysPerWeek &&
-                                    studentData.workDaysPerWeek
-                                  }
                                 >
                                   <option selected="">Select days</option>
                                   <option value="1">1 day</option>
@@ -834,29 +920,17 @@ const EditProfile = () => {
                                   name="salary"
                                   placeholder="Enter expected salary"
                                   label="Expected salary"
-                                  component={renderField}
-                                  defaultValue={studentData.expectedSalary}
+                                  component={renderNumberField}
+                                  pattern="[0-9]*"
                                 />
                               </div>
                               <div className="form-field flex50">
-                                {/* <Field
-                                  name="experience"
-                                  placeholder="Enter experience"
-                                  label="Total Experience"
-                                  component={renderField}
-                                /> */}
-
                                 <Field
                                   name="experienceInYears"
-                                  label="Experience"
+                                  label="Experience in Year's"
                                   component={renderSelect}
                                   placeholder="Year's"
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.experienceInYears &&
-                                    studentData.experienceInYears
-                                  }
                                 >
                                   <option value="0">0 year</option>
                                   {[...Array.from(Array(51).keys())]
@@ -869,15 +943,10 @@ const EditProfile = () => {
                                 </Field>
                                 <Field
                                   name="experienceInMonths"
-                                  label="Experience"
+                                  label="Experience in Month's"
                                   component={renderSelect}
                                   placeholder="Month's"
                                   type="text"
-                                  defaultValue={
-                                    studentData &&
-                                    studentData.experienceInMonths &&
-                                    studentData.experienceInMonths
-                                  }
                                 >
                                   <option value="0">0 month</option>
                                   {[...Array.from(Array(13).keys())]
@@ -890,25 +959,15 @@ const EditProfile = () => {
                                 </Field>
                               </div>
                               <div className="form-field flex50">
-                                {/* <Field
-                                  name="working"
-                                  placeholder="Enter working (onsite/offsite)"
-                                  label="Working"
-                                  component={renderField}
-                                /> */}
-
-                                <label>Working</label>
+                                <label>Working Type</label>
                                 <div className="radio-button-groupss">
                                   <Field
                                     name="working"
                                     value="1"
                                     component={RenderRadioButtonField}
                                     type="radio"
-                                    defaultValue={
-                                      studentData &&
-                                      studentData.workingType &&
-                                      studentData.workingType
-                                    }
+                                    onChange={handleWorkingChange}
+                                    dvalue={working}
                                     currentIndex="0"
                                   >
                                     Onsite
@@ -918,23 +977,20 @@ const EditProfile = () => {
                                     value="2"
                                     component={RenderRadioButtonField}
                                     type="radio"
-                                    defaultValue={
-                                      studentData &&
-                                      studentData.workingType &&
-                                      studentData.workingType
-                                    }
+                                    onChange={handleWorkingChange}
+                                    dvalue={working}
                                     currentIndex="1"
                                   >
                                     OffSite
                                   </Field>
                                 </div>
+                                {/* <p> {err && err.working && err.working}</p> */}
                               </div>
                               <div className="form-field flex100">
                                 <label>Resume</label>
                                 <input
                                   name="resume"
                                   uploadLabel="Browse resume file"
-                                  //     component={RenderFileUploadField}
                                   type="file"
                                   onChange={resumeHandler}
                                 />
@@ -964,12 +1020,12 @@ const EditProfile = () => {
                                     previewImg.map((img, index) => (
                                       <>
                                         <li>
-                                          {index + 1}. {img.certificates.name}
+                                          {index + 1}. {img.certificates}
                                           <label>File Title</label>
                                           <input
                                             name="title"
                                             onChange={(e) =>
-                                              handleFormChange(index, e)
+                                              handleFormTitleChange(index, e)
                                             }
                                             value={img.title}
                                           />
@@ -979,8 +1035,19 @@ const EditProfile = () => {
                                               aria-hidden="true"
                                               style={{ cursor: "pointer" }}
                                               onClick={() =>
-                                                manageCertificates(
-                                                  img.certificates.name
+                                                manageCertificates(img.id)
+                                              }
+                                            />
+                                          </button>
+                                          <button className="btn btn-edit">
+                                            <i
+                                              className="fa fa-edit"
+                                              aria-hidden="true"
+                                              style={{ cursor: "pointer" }}
+                                              onClick={() =>
+                                                editCertificates(
+                                                  img.id,
+                                                  img.title
                                                 )
                                               }
                                             />

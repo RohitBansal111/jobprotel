@@ -12,14 +12,26 @@ const ProfileValidate = (values) => {
      if(!values.email){ 
           error.email = "Required Email Address"
      }
+     if(!values.intrestedArea){ 
+          error.intrestedArea = "Required Interests"
+     }
      if(!values.timeZone){ 
           error.timeZone = "Required TimeZone"
      }
      if(!values.houseno){ 
           error.houseno = "Required House No."
      }
+     if(!values.addressLine1){ 
+          error.addressLine1 = "Required Addres line1"
+     }
      if(!values.city){ 
           error.city = "Required City"
+     }
+     if(!values.Country){ 
+          error.Country = "Required Country"
+     }
+     if(!values.state){ 
+          error.state = "Required state"
      }
      if(!values.pin){ 
           error.pin = "Required PIN"
@@ -27,8 +39,17 @@ const ProfileValidate = (values) => {
      if(!values.hours){ 
           error.hours = "Required Hours/day"
      }
+     if(!values.days){ 
+          error.days = "Required days/week"
+     }
      if(!values.salary){ 
           error.salary = "Required Expected Salary"
+     }
+     if(!values.experienceInMonths){ 
+          error.experienceInMonths = "Required experience in years"
+     }
+     if(!values.salary){ 
+          error.salary = "Required experience in months"
      }
      if(!values.experience){ 
           error.experience = "Required Experience"
@@ -39,8 +60,17 @@ const ProfileValidate = (values) => {
      if(!values.education){ 
           error.education = "Required Education"
      }
-     if(!values.college){ 
-          error.college = "Required college/university"
+     if(!values.collegeId){ 
+          error.collegeId = "Required college/university"
+     }
+     if(!values.designation){ 
+          error.designation = "Required designation"
+     }
+     if(!values.qualificationId){ 
+          error.qualificationId = "Required qualification"
+     }
+     if(values.qualificationId == "Other" && !values.qualification){ 
+          error.qualificationId = "Required qualification"
      }
      if(!values.resume){ 
           error.resume = "Required resume"

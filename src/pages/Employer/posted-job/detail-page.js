@@ -10,6 +10,7 @@ import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
+import { useSelector } from "react-redux";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
@@ -36,7 +37,7 @@ const EmployerJobDetailsPage = () => {
   useEffect(()=>{
     console.log(selector)
     if(selector){
-      setConnects(selector.studentDetails.availableConnects)
+      setConnects(selector?.studentDetails?.availableConnects)
     }
   }, [selector])
   const getJobDetails = async (id) => {

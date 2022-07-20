@@ -12,7 +12,9 @@ import * as studentServices from "../../services/studentServices";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
-
+import * as projectServices from "../../services/projectHistorySevices";
+import Moment from "react-moment";
+import moment from "moment";
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
 
@@ -26,6 +28,7 @@ const Profile = () => {
   const [empDetails, setEmpDetails] = useState([]);
 
   const [data, setData] = useState({});
+  const [projectHistory, setProjectHistory] = useState([]);
 
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
@@ -46,11 +49,21 @@ const Profile = () => {
       setInterests(interests);
     }
   };
+  const getProjectHistory = async (id) => {
+    const resp = await projectServices.getProjectHistoryData(id);
+    console.log(resp);
+    let response = resp.data.data.result;
+    if (resp.status === 200) {
+      setProjectHistory(response);
+    }
+  };
+  console.log(projectHistory);
 
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
       getEmploymentDetails(authData.id);
+      getProjectHistory(authData.id);
     }
   }, [authData]);
 
@@ -484,69 +497,80 @@ const Profile = () => {
                         >
                           <i className="fas fa-plus"></i>
                         </button>
-                        <AddProjectModal />
+                        <AddProjectModal
+                          getProjectHistory={getProjectHistory}
+                        />
                       </div>
                     </div>
                     <div className="Project-info-list">
                       <div className="project-detail-list">
-                        <div className="project-dbox">
-                          <h2 className="prname">
-                            Front-End Sketch to Tailwind
-                          </h2>
-                          <div className="prd-buget-column">
-                            <div className="project-tenure-skills">
-                              <span className="prdate">
-                                JAN 05, 2022 - JAN 15, 2022
-                              </span>
-                              <ul className="tech-links">
-                                <li>react-redux</li>
-                                <li>flutter</li>
-                                <li>native</li>
-                              </ul>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            data-bs-toggle="collapse"
-                            href="#collapseExample"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="collapseExample"
-                            className="btn btn-view-more"
-                          >
-                            View More
-                          </button>
-                          <div
-                            className="full-project-details collapse"
-                            id="collapseExample"
-                          >
-                            <p>
-                              Skills And Qualifications I want the design
-                              completed with Sketch to into tailwind if you
-                              contact to me I show you all details psi: My
-                              request from you is to show your projects that you
-                              have done with tailwind before.
-                            </p>
-                            <p>
-                              <b>Link:</b>{" "}
-                              <Link to="/">https://bit.ly/3HAAMCF</Link>
-                            </p>
-                            <p>
-                              <b>Attachment:</b>
-                            </p>
-                            <p className="attachment">
-                              <i className="fas fa-file"></i>
-                              <Link
-                                to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png"
-                                target="_blank"
-                                download
+                        {projectHistory &&
+                          projectHistory.length > 0 &&
+                          projectHistory.map((project, index) => (
+                            <div className="project-dbox">
+                              <h2 className="prname">
+                                {/* Front-End Sketch to Tailwind */}
+                                {project.title}
+                              </h2>
+                              <div className="prd-buget-column">
+                                <div className="project-tenure-skills">
+                                  <span className="prdate">
+                                    {/* JAN 05, 2022 - JAN 15, 2022 */}
+                                    {moment(project.startDate).format(
+                                      "MMM Do YYYY"
+                                    )}
+                                    {" - "}
+                                    {moment(project.endDate).format(
+                                      "MMM Do YYYY"
+                                    )}
+                                  </span>
+                                  <ul className="tech-links">
+                                    {/* <li>react-redux</li>
+                                    <li>flutter</li>
+                                    <li>native</li> */}
+                                    {project.roleResponsiblity}
+                                  </ul>
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                data-bs-toggle="collapse"
+                                href={`#collapseExample${index}`}
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="collapseExample"
+                                className="btn btn-view-more"
                               >
-                                Home (5).jpg (1 KB)
-                              </Link>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="project-dbox">
+                                View More
+                              </button>
+                              <div
+                                className="full-project-details collapse"
+                                id={`collapseExample${index}`}
+                              >
+                                <p>{project.description}</p>
+                                <p>
+                                  <b>Link:</b>{" "}
+                                  {/* <Link to="/">https://bit.ly/3HAAMCF</Link> */}
+                                  {project.projectUrl}
+                                </p>
+                                {/* <p>
+                                  <b>Attachment:</b>
+                                </p>
+                                <p className="attachment">
+                                  <i className="fas fa-file"></i>
+                                  <Link
+                                    to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png"
+                                    target="_blank"
+                                    download
+                                  >
+                                    Home (5).jpg (1 KB)
+                                  </Link>
+                                </p> */}
+                              </div>
+                            </div>
+                          ))}
+
+                        {/* <div className="project-dbox">
                           <h2 className="prname">
                             Fullstack project assessment &amp; advice
                           </h2>
@@ -659,7 +683,7 @@ const Profile = () => {
                               </Link>
                             </p>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="project-pagination">
                           <ul className="pagination">
                             <li className="page-item">
