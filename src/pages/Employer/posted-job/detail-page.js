@@ -37,7 +37,7 @@ const EmployerJobDetailsPage = () => {
   useEffect(()=>{
     console.log(selector)
     if(selector){
-      setConnects(selector.studentDetails.availableConnects)
+      setConnects(selector?.studentDetails?.availableConnects)
     }
   }, [selector])
   const getJobDetails = async (id) => {

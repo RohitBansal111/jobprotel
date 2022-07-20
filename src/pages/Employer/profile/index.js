@@ -9,22 +9,31 @@ import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
 import * as jobServices from "../../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
+import Pagination from "react-js-pagination";
 
 
 const EmployerProfile = () => {
 
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
+  const [archiveJobs, setArchiveJobs] = useState([]);
+  const [activeJobs, setActiveJobs] = useState([]);
+  const [archivePageNumber, setArchivePageNumber] = useState(1);
+  const [activePageNumber, setActivePageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [archiveTotal, setArchiveTotal] = useState(1);
+  const [activeTotal, setActiveTotal] = useState(1);
   const [id, setId] = useState("");
-  const authData = useSelector((state)=> state.auth.user);
+  const authData = useSelector((state) => state.auth.user);
   useEffect(async () => {
-    console.log(authData,"authData")
-    if(authData)
-    {
+    console.log(authData, "authData")
+    if (authData) {
       setId(authData.id);
       getEmployerDetails(authData.id);
+      getArchiveJobByEmployer('08da5f11-807a-49f6-8674-98f009c76fe3')
+      getActiveJobByEmployer('08da5f11-807a-49f6-8674-98f009c76fe3')
     }
-    
+
   }, [authData]);
 
   const getEmployerDetails = async (id = authData.id) => {
@@ -40,25 +49,67 @@ const EmployerProfile = () => {
     }
   };
 
-  console.log(employerData,"employerData")
+  const getArchiveJobByEmployer = async (id = authData.id, pageNumber = archivePageNumber) => {
+    const payload = {
+      serachItem: "",
+      employerId: id,
+      pageNumber: pageNumber,
+      pageSize: pageSize
+    }
+    const resp = await jobServices.getArchiveJobByEmployer(payload)
+    console.log(resp)
+    if (resp.status == 200) {
+      const response = resp.data.data;
+      setArchiveJobs(response)
+      setArchiveTotal(resp.data.totalCount)
+    }
+  }
+  const getActiveJobByEmployer = async (id = authData.id, pageNumber = activePageNumber) => {
+    const payload = {
+      serachItem: "",
+      employerId: id,
+      pageNumber: pageNumber,
+      pageSize: pageSize
+    }
+    const resp = await jobServices.getActiveJobByEmployer(payload)
+    console.log(resp)
+    if (resp.status == 200) {
+      const response = resp.data.data;
+      setActiveJobs(response)
+      setActiveTotal(resp.data.totalCount)
+    }
+  }
 
-return (
-        <Layout>
-          <div className="inner-page-wrapper">
-               <section className="topbg-banner">
-                <div className="container">
-                  <div className="innerbg-banner">
-                    <div className="banner-edit">
-                   
-                    </div>
-                  </div>
-                </div>
-               </section>
-               <section className="job-feeds-wrapper">
-                  <div className="container">
-                    <div className="profile-feed-inner">
-                        
-                          <div className="user-profile-left">
+  const handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    setArchivePageNumber(pageNumber);
+    getArchiveJobByEmployer(authData.id, pageNumber);
+  };
+  const handleActiveJobPageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    setActivePageNumber(pageNumber);
+    getActiveJobByEmployer(authData.id, pageNumber);
+  };
+
+  console.log(employerData, "employerData")
+
+  return (
+    <Layout>
+      <div className="inner-page-wrapper">
+        <section className="topbg-banner">
+          <div className="container">
+            <div className="innerbg-banner">
+              <div className="banner-edit">
+
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="job-feeds-wrapper">
+          <div className="container">
+            <div className="profile-feed-inner">
+
+              <div className="user-profile-left">
                 <div className="user-profile-coll">
                   <div className="user-profile-detail">
                     <div
@@ -124,61 +175,61 @@ return (
                   </div>
                 </div>
               </div>
-                         <div className="jobs-feeds-sec">
-                          <div className="jobs-com-profile">
-                            <div className="profile-update">
-                              {/* <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p> */}
-                            </div>
-                            <div className="profile-strength">
-                              <div className="profile-strength-inner">
-                                <h3>Profile strength: <span className="profile-completed">60% Completed</span></h3>
-                                <div className="profile-strength-bar">
-                                  <p className="profile-progress" style={{'width': '60%'}}></p>
-                                  <div className="profile-complete-bar">
-                                  <span className="complete-bar completed" style={{'left': '25%'}}></span>
-                                  <span className="complete-bar completed" style={{'left': '50%'}}></span>
-                                  <span className="complete-bar" style={{'left': '75%'}}></span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                         <section className="profile-information-view">
-                            <div className="profile-information-coll">
-                              <div className="profile-card-head">
-                                <h3>Personal Information</h3>
-                              </div>
-                              <div className="profile-info-list">
-                                   <ul className="info-list-li">
-                                    <li><span className="plabel">Name</span> <span className="result">{employerData && employerData.firstName && employerData.firstName} {employerData && employerData.lastName && employerData.lastName}</span></li>
-                                    <li><span className="plabel">Email ID </span><span className="result">{employerData && employerData.companyEmail && employerData.companyEmail}</span></li>
-                                   </ul>
-                              </div>
-                            </div>
-                          </section>
-                          <section className="profile-information-view">
-                            <div className="profile-information-coll">
-                              <div className="profile-card-head">
-                                <h3>Company Information</h3>
-                                <div className="pr-edit-icon">
-                                    <button type="button" className="btn-edit" data-bs-toggle="modal" data-bs-target="#companyInfo"><img src={EditIcon} alt="icon" /></button>
-                                </div>
-                              </div>
-                              <div className="profile-info-list">
-                             
-                              <CompanyInfoModal 
-                              employerData={employerData}
-                              getEmployerDetails={getEmployerDetails}
-                              />
-                              <ul className="info-list-li">
-                                <li><span className="plabel">Recruiting Manager</span><span className="result">{employerData && employerData.recruitingManagerName && employerData.recruitingManagerName}</span></li>
-                                <li><span className="plabel">Contact Number</span> <span className="result">{employerData && employerData.companyPhone && employerData.companyPhone}</span></li>
-                                <li><span className="plabel">Company Address</span> <span className="result">{employerData && employerData.address && employerData.address} , {employerData && employerData.stateResponse && employerData.stateResponse.stateName && employerData.stateResponse.stateName} , {employerData && employerData.countryResponse && employerData.countryResponse.countryName && employerData.countryResponse.countryName}</span></li>
-                            </ul>
-                          </div>
+              <div className="jobs-feeds-sec">
+                <div className="jobs-com-profile">
+                  <div className="profile-update">
+                    {/* <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p> */}
+                  </div>
+                  <div className="profile-strength">
+                    <div className="profile-strength-inner">
+                      <h3>Profile strength: <span className="profile-completed">60% Completed</span></h3>
+                      <div className="profile-strength-bar">
+                        <p className="profile-progress" style={{ 'width': '60%' }}></p>
+                        <div className="profile-complete-bar">
+                          <span className="complete-bar completed" style={{ 'left': '25%' }}></span>
+                          <span className="complete-bar completed" style={{ 'left': '50%' }}></span>
+                          <span className="complete-bar" style={{ 'left': '75%' }}></span>
                         </div>
-                      </section>
-                      <section className="profile-information-view">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <section className="profile-information-view">
+                  <div className="profile-information-coll">
+                    <div className="profile-card-head">
+                      <h3>Personal Information</h3>
+                    </div>
+                    <div className="profile-info-list">
+                      <ul className="info-list-li">
+                        <li><span className="plabel">Name</span> <span className="result">{employerData && employerData.firstName && employerData.firstName} {employerData && employerData.lastName && employerData.lastName}</span></li>
+                        <li><span className="plabel">Email ID </span><span className="result">{employerData && employerData.companyEmail && employerData.companyEmail}</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+                <section className="profile-information-view">
+                  <div className="profile-information-coll">
+                    <div className="profile-card-head">
+                      <h3>Company Information</h3>
+                      <div className="pr-edit-icon">
+                        <button type="button" className="btn-edit" data-bs-toggle="modal" data-bs-target="#companyInfo"><img src={EditIcon} alt="icon" /></button>
+                      </div>
+                    </div>
+                    <div className="profile-info-list">
+
+                      <CompanyInfoModal
+                        employerData={employerData}
+                        getEmployerDetails={getEmployerDetails}
+                      />
+                      <ul className="info-list-li">
+                        <li><span className="plabel">Recruiting Manager</span><span className="result">{employerData && employerData.recruitingManagerName && employerData.recruitingManagerName}</span></li>
+                        <li><span className="plabel">Contact Number</span> <span className="result">{employerData && employerData.companyPhone && employerData.companyPhone}</span></li>
+                        <li><span className="plabel">Company Address</span> <span className="result">{employerData && employerData.address && employerData.address} , {employerData && employerData.stateResponse && employerData.stateResponse.stateName && employerData.stateResponse.stateName} , {employerData && employerData.countryResponse && employerData.countryResponse.countryName && employerData.countryResponse.countryName}</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+                <section className="profile-information-view">
                   <div className="Project-information-coll">
                     <div className="profile-card-head">
                       <h3>Jobs history</h3>
@@ -191,130 +242,71 @@ return (
                       <div className="tab-content" id="nav-tabContent">
                         <div className="tab-pane fade show active" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
                           <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
+                            {activeJobs && activeJobs.length === 0 ?
+                              <div className="project-dbox">
+                                <h2 className="prname">No Jobs</h2>
                               </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                              :
+                              activeJobs.map((data) =>
+                                <div className="project-dbox">
+                                  <h2 className="prname">{data?.title}</h2>
+                                  <div className="prd-buget-column">
+                                    <div className="prdate-budgetprice">
+                                      {data?.description}
+                                      {/* <span className="prdate">July 05, 2022 - Aug 15, 2022</span> */}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
-                              </div>
-                            </div>
+
+                              )}
                             <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
-                              </ul>
+                              {activeJobs && activeJobs.length > 5
+                                && <Pagination
+                                  activePage={activePageNumber}
+                                  itemsCountPerPage={pageSize}
+                                  totalItemsCount={activeTotal}
+                                  pageRangeDisplayed={activeTotal / pageSize}
+                                  onChange={handleActiveJobPageChange}
+                                />
+                              }
                             </div>
                           </div>
                         </div>
                         <div className="tab-pane fade" id="nav-inprogress" role="tabpanel" aria-labelledby="nav-inprogress-tab">
-                        <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
+                          <div className="project-detail-list">
+                            {archiveJobs && archiveJobs.length === 0 ?
+                              <div className="project-dbox">
+                                <h2 className="prname">No Jobs</h2>
                               </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                              :
+                              archiveJobs.map((data) =>
+                                <div className="project-dbox">
+                                  <h2 className="prname">{data?.title}</h2>
+                                  <div className="prd-buget-column">
+                                    <div className="prdate-budgetprice">
+                                      {data?.description}
+                                      {/* <span className="prdate">July 05, 2022 - Aug 15, 2022</span> */}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
-                              </div>
-                            </div>
+
+                              )}
+
+
                             <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
-                              </ul>
+                              {archiveJobs && archiveJobs.length > 5
+                                && <Pagination
+                                  activePage={archivePageNumber}
+                                  itemsCountPerPage={pageSize}
+                                  totalItemsCount={archiveTotal}
+                                  pageRangeDisplayed={archiveTotal / pageSize}
+                                  onChange={handlePageChange}
+                                />
+                              }
                             </div>
                           </div>
                         </div>
-                        <div className="tab-pane fade" id="nav-applied" role="tabpanel" aria-labelledby="nav-applied-tab">
-                        <div className="project-detail-list">
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-dbox">
-                              <h2 className="prname">Fullstack project assessment &amp; advice</h2>
-                              <div className="prd-buget-column">
-                                <div className="prdate-budgetprice">
-                                  <span className="prdate">July 05, 2022 - Aug 15, 2022</span>
-                                  {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="project-pagination">
-                              <ul className="pagination">
-                                <li className="page-item"><Link className="page-link" to="/">Prev</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">1</Link></li>
-                                <li className="page-item active"><Link className="page-link" to="/">2</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">3</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">4</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">5</Link></li>
-                                <li className="page-item"><Link className="page-link" to="/">Next</Link></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -324,8 +316,8 @@ return (
           </div>
         </section>
       </div>
-     </Layout>
-     )
+    </Layout>
+  )
 }
 
 export default EmployerProfile

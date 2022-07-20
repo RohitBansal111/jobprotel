@@ -4,6 +4,7 @@ import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import * as jobSevices from "../../services/jobServices";
 import { useEffect, useState } from "react";
+import toast from "toastr";
 
 const SuggestionCard = ({ userData, jobId, userId }) => {
   const [userid, setUserId] = useState("");
@@ -14,6 +15,7 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userid);
     console.log(resp);
     if (resp.status === 200) {
+      toast.success(resp.data.message)
       setInvitation(!invitation);
     }
   };
@@ -48,25 +50,35 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
             <ul className="feeds-s-ul">
               <li>
                 <img src={LocationIcon} alt="Location" />
-                United States
+                {userData?.state?.country?.countryName}
               </li>
-              <li>
+              {/* <li>
                 <img src={VerifiedIcon} alt="Company Verified" />
                 Verified post
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
         <div className="review-listing-action">
-          <button
-            type="button"
-            className={
-              invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
-            }
-            onClick={jobInvite}
-          >
-            {invitation ? "Invited" : "Invite"}
-          </button>
+          {invitation ?
+
+            <button
+              type="button"
+              className={
+                invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
+              }
+            >Invited</button> :
+
+            <button
+              type="button"
+              className={
+                invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
+              }
+              onClick={jobInvite}
+            >Invite</button>}
+
+
+
         </div>
       </div>
       <div className="feeds-search-detail">

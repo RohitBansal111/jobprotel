@@ -11,6 +11,7 @@ const EmployerJobSuggestion = () => {
    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("jobid",jobid)
     getSuggestions(jobid);
   }, [jobid]);
 

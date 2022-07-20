@@ -20,6 +20,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import * as dropdownServices from "../../services/dropDownServices";
 import ImageCropperModal from "../../components/Image-cropper";
 import toast from "toastr";
+import * as types from "../../types/auth";
 
 const EditProfile = () => {
   const [studentData, setStudentData] = useState([]);
@@ -53,7 +54,7 @@ const EditProfile = () => {
   const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
   const [previewImg, setPreviewImg] = useState([]);
-
+  const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
 
   const resumeHandler = (e) => {
@@ -250,6 +251,27 @@ const EditProfile = () => {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
+      const resp2 = await studentServices.getStudentDetails(id);
+      console.log(resp2,"student data")
+      console.log(resp2.data.data.result,"student data")
+      if (resp2.status == 200) {
+        // dispatch({
+        //   type: types.LOGIN_USER_SUCCESS,
+        //   payload: resp2.data.data.result,
+        //   token: localStorage.getItem("jobPortalUserToken"),
+        // });
+      }
+    }if (resp.errors && typeof resp.errors === "object") {
+      let errors = "";
+      let keys = Object.keys(resp.errors);
+      keys.forEach((key) => {
+        errors = key + "," + errors;
+      });
+
+      errors = errors.replace(/,\s*$/, "");
+      toast.error(errors + "is Required");
+    } else if (resp.error) {
+      toast.error(resp.error ? resp.error : "Something went wrong");
     }
   };
   const closeModal = () => {
