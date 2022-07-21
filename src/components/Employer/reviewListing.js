@@ -5,8 +5,8 @@ import LocationIcon from './../../assets/icons/loc-ico.png'
 import { useState } from "react"
 import { useNavigate } from "react-router";
 
-const EmployerReviewCard = () => {
-
+const EmployerReviewCard = ({user}) => {
+     
      const [showAcceptInvitation, setshowAcceptInvitation] = useState(true)
      const [showRejectedView, setshowRejectedView] = useState(true)
      const navigate = useNavigate()
@@ -26,10 +26,10 @@ const EmployerReviewCard = () => {
                             <Link to="/public"><img src={CompanyLogo} alt="Company Logo" /> </Link>
                          </div>
                          <div className="feeds-s-name">
-                              <h2><Link to="/public"> Rahul Singh</Link> <span className="desgination">(FrontEnd Developer)</span> </h2>
+                              <h2><Link to="/public"> {user?.firstName} {user?.lastName}</Link> <span className="desgination">(FrontEnd Developer)</span> </h2>
                               <ul className="feeds-s-ul">
                                    <li><img src={LocationIcon} alt="Location" />India</li>
-                                   <li><img src={VerifiedIcon} alt="Company Verified" />Verified post</li>
+                                   {/* <li><img src={VerifiedIcon} alt="Company Verified" />Verified post</li> */}
                               </ul>
                          </div>
                     </div>

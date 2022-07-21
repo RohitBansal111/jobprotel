@@ -120,19 +120,19 @@ const PostedJobCard = ({ jobs ,type}) => {
               <button
                 type="button"
                 className="btn submit-btn mr-2"
-                data-bs-toggle="modal"
-                data-bs-target="#invitationPopup"
+                // data-bs-toggle="modal"
+                // data-bs-target="#invitationPopup"
               >
                 Invitation Accepted (13){" "}
               </button>
               <Link
-                to="/review-applications"
+                to={`/review-applications/${jobs?.id}`}
                 type="button"
                 className="btn submit-btn"
               >
                 Review Applications
               </Link>
-              <SendInvitationModal />
+              {/* <SendInvitationModal /> */}
             </div>
           </div>
         </div>
