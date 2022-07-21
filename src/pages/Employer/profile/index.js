@@ -9,14 +9,16 @@ import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
 import * as jobServices from "../../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
+import * as types from "../../../types/auth"
 
 const EmployerProfile = () => {
+  const dispatch = useDispatch();
+
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const authData = useSelector((state) => state.auth.user);
   useEffect(async () => {
-    console.log(authData, "authData");
     if (authData) {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
@@ -38,8 +40,6 @@ const EmployerProfile = () => {
       );
     }
   };
-
-  console.log(employerData, "employerData");
 
   return (
     <Layout>

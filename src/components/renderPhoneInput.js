@@ -20,7 +20,7 @@ export const RenderPhoneInput = ({
       input.onChange(e);
       onChange && onChange(e);
     },
-  };console.log("value",inputProps)
+  };
   return (
     <div className="field-render-main">
       <label htmlFor={`label${label}`}>{label}</label>

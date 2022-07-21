@@ -41,10 +41,11 @@ const FindWork = () => {
   const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
-      const response = resp.data.data.result;
+      const response = resp.data.data;
+      console.log(response)
       setStudentData(response);
       setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
       );
     }
   };
@@ -130,39 +131,25 @@ const FindWork = () => {
                       </span>
                     </div>
                     <h3>
-                      {studentData &&
-                        studentData.firstName &&
-                        studentData.firstName}{" "}
-                      {studentData &&
-                        studentData.lastName &&
-                        studentData.lastName}{" "}
+                      {studentData ?.fullName}{" "}
+                      
                     </h3>
                     <p>
-                      {studentData &&
-                        studentData.address &&
-                        studentData.address}
+                      {studentData?.studentDetails?.address}
                       {", "}
-                      {studentData &&
-                        studentData.addressLine1 &&
-                        studentData.addressLine1}
+                      {studentData?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData &&
-                        studentData.addressLine2 !== "undefined" &&
-                        studentData.addressLine2}
+                      {studentData?.studentDetails?.addressLine2}
                     </p>
                     <p>
-                      {studentData &&
-                        studentData.cityName &&
-                        studentData.cityName}
+                      {studentData?.studentDetails?.cityName}
                     </p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {studentData &&
-                          studentData.availableConnects &&
-                          studentData.availableConnects}
+                        {studentData?.studentDetails?.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -172,9 +159,7 @@ const FindWork = () => {
                       <li>
                         Hour's per/day{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.workHoursPerDay &&
-                            studentData.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
                       <li>
@@ -184,49 +169,34 @@ const FindWork = () => {
                         Skills{" "}
                         {/* <span className="result">React-Redux, Flutter</span> */}
                         <span className="result">
-                          {studentData &&
-                            studentData.skills &&
-                            studentData.skills}
+                          {studentData?.studentDetails?.skills}
                         </span>
                       </li>
                       <li>
                         Experience{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.experienceInYears &&
-                            studentData.experienceInYears}
+                          {studentData?.studentDetails?.experienceInYears}
                           Year{", "}
-                          {studentData &&
-                            studentData.experienceInMonths &&
-                            studentData.experienceInMonths}{" "}
+                          {studentData?.studentDetails?.experienceInMonths}{" "}
                           Month
                         </span>
                       </li>
                       <li>
                         College / University{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.collegeResponse &&
-                            studentData.collegeResponse.collegeName &&
-                            studentData.collegeResponse.collegeName}
+                          {studentData?.studentDetails?.collegeResponse?.collegeName}
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.qualificationResponse &&
-                            studentData.qualificationResponse
-                              .qualificationName &&
-                            studentData.qualificationResponse.qualificationName}
+                          {studentData?.studentDetails?.qualificationResponse?.qualificationName}
                         </span>
                       </li>
                       <li>
                         Hours / day{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.workHoursPerDay &&
-                            studentData.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
                     </ul>

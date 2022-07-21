@@ -8,22 +8,22 @@ import * as types from "../../types/auth";
 import CompanyProfile from "./../../assets/images/company-logo.png";
 
 const Header = () => {
-  const selector = useSelector((state) => state.auth.user);
+  const authData = useSelector((state) => state.auth.user);
 
   const [profilePic, setProfilePic] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
 
   useEffect(() => {
-    if (selector && selector.studentDetails) {
+    if (authData && authData.studentDetails) {
       setProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${selector.studentDetails.pictureUrl}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData.studentDetails.pictureUrl}`
       );
-    } else if (selector && selector.comapanyDetail) {
+    } else if (authData && authData.comapanyDetail) {
       setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${selector.comapanyDetail.logoPath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
       );
     }
-  }, [selector]);
+  }, [authData]);
 
   const [userData, setUserData] = useState([]);
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Header = () => {
       setmobileMenu("");
     }
   };
-  const authData = useSelector((state) => state.auth.user);
+  
 
   useEffect(() => {
     const localData = localStorage.getItem("jobPortalUser");
@@ -50,6 +50,7 @@ const Header = () => {
       });
     }
     if (authData) {
+      console.log(authData, "auth")
       setRole(authData.userRoles[0]);
     }
   }, [authData]);
@@ -58,7 +59,6 @@ const Header = () => {
     localStorage.removeItem("jobPortalUser");
     localStorage.removeItem("jobPortalUserToken");
   };
-
   return (
     <header id="header" className="header header-scrolled">
       <div className="container d-flex align-items-center justify-content-between">
@@ -133,7 +133,7 @@ const Header = () => {
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link inactive"
                       }
-                      to="/employer/applications"
+                      to="/applications"
                     >
                       Applications
                     </NavLink>

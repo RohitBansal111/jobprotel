@@ -40,8 +40,10 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     );
     if (resp.status == 200) {
       const resp2 = await employerServices.getEmployerDetails(authData.id);
-      console.log(resp2, "student data");
-      console.log(resp2.data.data, "student data");
+      console.log(resp2, "employer data");
+      console.log(resp2.data.data, "employer data");
+      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data))
+
       if (resp2.status == 200) {
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
@@ -145,7 +147,6 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const closeModal = () => {
     setModal(false);
   };
-  console.log("employerData", employerData);
   return (
     <div
       className="modal fade"

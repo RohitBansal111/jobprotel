@@ -94,7 +94,7 @@ export const getJobListByStudent = async (data) => {
 export const getStudentListSuggestions = async (data) => {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/StudentListNotSendInvite`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/StudentListNotSendInvite?jobId=${data.jobId}`,
       data
     );
     if (resp.status == 200) {
@@ -141,6 +141,66 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
 export const applyJob  = async (data) => {
   try {
     const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/appliedjobs`, data);
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
+};
+
+
+export const getArchiveJobByEmployer  = async (data) => {
+  try {
+    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetArchiveJobByEmployer`, data);
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
+};
+
+export const getActiveJobByEmployer  = async (data) => {
+  try {
+    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmployer`, data);
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
+};
+export const getReviewJobsByJobId  = async (data) => {
+  try {
+    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetAppliedJobsByJobId`, data);
     if (resp.status == 200) {
       return resp;
     } else {

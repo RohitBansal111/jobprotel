@@ -382,6 +382,7 @@ const EditProfile = () => {
         const resp2 = await studentServices.getStudentDetails(id)
         console.log(resp2,"student data")
         console.log(resp2.data.data,"student data")
+        localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data))
         if(resp2.status == 200)
         {
         dispatch({
@@ -519,31 +520,21 @@ const EditProfile = () => {
                         studentData.lastName}{" "}
                     </h3>
                     <p>
-                      {studentData &&
-                        studentData.studentDetails.address &&
-                        studentData.studentDetails.address}
+                      {studentData?.studentDetails?.address}
                       {", "}
-                      {studentData &&
-                        studentData.studentDetails.addressLine1 &&
-                        studentData.studentDetails.addressLine1}
+                      {studentData ?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData &&
-                        studentData.studentDetails.addressLine2 !== "undefined" &&
-                        studentData.studentDetails.addressLine2}
+                      {studentData ?.studentDetails?.addressLine2 !== "undefined" }
                     </p>
                     <p>
-                      {studentData &&
-                        studentData.studentDetails.cityName &&
-                        studentData.studentDetails.cityName}
+                      {studentData ?.studentDetails?.cityName }
                     </p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {studentData &&
-                          studentData.studentDetails.availableConnects &&
-                          studentData.studentDetails.availableConnects}
+                        {studentData?.studentDetails?.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -553,41 +544,28 @@ const EditProfile = () => {
                       <li>
                         Experience{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.studentDetails.experienceInYears &&
-                            studentData.studentDetails.experienceInYears}
+                          {studentData ?.studentDetails?.experienceInYears}
                           Year{", "}
-                          {studentData &&
-                            studentData.studentDetails.experienceInMonths &&
-                            studentData.studentDetails.experienceInMonths}{" "}
+                          {studentData ?.studentDetails?.experienceInMonths}{" "}
                           Month
                         </span>
                       </li>
                       <li>
                         College / University{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.studentDetails.collegeResponse &&
-                            studentData.studentDetails.collegeResponse.collegeName &&
-                            studentData.studentDetails.collegeResponse.collegeName}
+                          {studentData ?.studentDetails?.collegeResponse?.collegeName}
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.studentDetails.qualificationResponse &&
-                            studentData.studentDetails.qualificationResponse
-                              .qualificationName &&
-                            studentData.studentDetails.qualificationResponse.qualificationName}
+                          {studentData ?.studentDetails?.qualificationResponse?.qualificationName}
                         </span>
                       </li>
                       <li>
                         Hours / day{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.studentDetails.workHoursPerDay &&
-                            studentData.studentDetails.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
                     </ul>
@@ -598,7 +576,7 @@ const EditProfile = () => {
                 <div className="jobs-com-profile">
                   <div className="profile-update">
                     <p className="mailto:michael-taylor028@gmail.com">
-                      {studentData.email}
+                      {studentData?.email}
                     </p>
                   </div>
                   <div className="profile-strength">
