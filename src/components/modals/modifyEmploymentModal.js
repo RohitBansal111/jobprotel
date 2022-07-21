@@ -163,7 +163,7 @@ const ModifyEmploymentModal = ({ empData }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleJobPost(values)}
+                          // onClick={() => handleJobPost(values)}
                         >
                           Update Now
                         </button>

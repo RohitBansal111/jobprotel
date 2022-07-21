@@ -36,7 +36,6 @@ const PostedJobCard = ({ jobs ,type}) => {
       setLogo(logo);
     }
   }, [jobs]);
-
   return (
     <>
       <div className="feeds-search-coll">

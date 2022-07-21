@@ -22,7 +22,7 @@ import * as dropdownServices from "../../services/dropDownServices";
 import ImageCropperModal from "../../components/Image-cropper";
 import toast from "toastr";
 import * as extraCertificateServices from "../../services/studentExtraCertificates";
-import * as types from "../../types/auth"
+import * as types from "../../types/auth";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -166,8 +166,8 @@ const EditProfile = () => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data;
-      
-      console.log(response);
+
+      console.log(response, "response");
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
@@ -246,17 +246,19 @@ const EditProfile = () => {
         working: response.studentDetails.workingType.toString(),
         experienceInYears: response.studentDetails.experienceInYears,
         experienceInMonths: response.studentDetails.experienceInMonths,
-        timezone: timezone,
+        timezone: JSON.parse(response?.studentDetails?.timezone),
         intrestedArea: finalInterest,
         skills: finalSkill,
       };
+      setTimezone(JSON.parse(response?.studentDetails?.timezone));
+      console.log(data, "data");
       setEditData(data);
     }
   };
 
   const handleTimeZone = (data) => {
     console.log(data);
-    setTimezone(data.value);
+    setTimezone(data);
   };
 
   const CountryValue = async (data) => {
@@ -274,7 +276,7 @@ const EditProfile = () => {
 
   const saveProfile = async (values) => {
     console.log(values, "values");
-
+    console.log(img.personalInfoImg);
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -334,7 +336,7 @@ const EditProfile = () => {
     formData.append("expectedSalary", values.salary);
     formData.append("workHoursPerDay", values.hours);
     formData.append("workDaysPerWeek", values.days);
-    formData.append("timezone", timezone);
+    formData.append("timezone", JSON.stringify(timezone));
     formData.append("workingType", values.working);
     if (resumeFile) {
       formData.append("resumeFile", resumeFile);
@@ -352,50 +354,25 @@ const EditProfile = () => {
     //   }
     // }
 
-    if (
-      id &&
-      values.firstname &&
-      values.lastname &&
-      values.email &&
-      values.addressLine1 &&
-      values.state &&
-      values.city &&
-      values.pin &&
-      values.genderName &&
-      values.houseno &&
-      values.age &&
-      // values.interestsArea &&
-      // values.skills &&
-      values.experienceInYears &&
-      values.experienceInMonths &&
-      values.salary &&
-      values.hours &&
-      values.days
-      // timezone
-      // working &&
-      // previewImg.length > 0
-      // validation()
-    ) {
-      const resp = await studentServices.updateStudentDetails(formData);
+    const resp = await studentServices.updateStudentDetails(formData);
 
-      if (resp.status == 200) {
-        const resp2 = await studentServices.getStudentDetails(id)
-        console.log(resp2,"student data")
-        console.log(resp2.data.data,"student data")
-        localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data))
-        if(resp2.status == 200)
-        {
+    if (resp.status == 200) {
+      const resp2 = await studentServices.getStudentDetails(id);
+      console.log(resp2, "student data");
+      console.log(resp2.data.data, "student data");
+      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
+      if (resp2.status == 200) {
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
           payload: resp2.data.data,
           token: localStorage.getItem("jobPortalUserToken"),
         });
       }
- 
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-      }else if (resp.errors && typeof resp.errors === "object") {
+
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    } else if (resp.errors && typeof resp.errors === "object") {
       let errors = "";
       let keys = Object.keys(resp.errors);
       keys.forEach((key) => {
@@ -406,7 +383,6 @@ const EditProfile = () => {
       toast.error(errors + "is Required");
     } else if (resp.error) {
       toast.error(resp.error ? resp.error : "Something went wrong");
-    }
     }
   };
   const closeModal = () => {
@@ -522,13 +498,12 @@ const EditProfile = () => {
                     <p>
                       {studentData?.studentDetails?.address}
                       {", "}
-                      {studentData ?.studentDetails?.addressLine1}
+                      {studentData?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData ?.studentDetails?.addressLine2 !== "undefined" }
+                      {studentData?.studentDetails?.addressLine2 !==
+                        "undefined"}
                     </p>
-                    <p>
-                      {studentData ?.studentDetails?.cityName }
-                    </p>
+                    <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
@@ -544,22 +519,28 @@ const EditProfile = () => {
                       <li>
                         Experience{" "}
                         <span className="result">
-                          {studentData ?.studentDetails?.experienceInYears}
+                          {studentData?.studentDetails?.experienceInYears}
                           Year{", "}
-                          {studentData ?.studentDetails?.experienceInMonths}{" "}
+                          {studentData?.studentDetails?.experienceInMonths}{" "}
                           Month
                         </span>
                       </li>
                       <li>
                         College / University{" "}
                         <span className="result">
-                          {studentData ?.studentDetails?.collegeResponse?.collegeName}
+                          {
+                            studentData?.studentDetails?.collegeResponse
+                              ?.collegeName
+                          }
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
-                          {studentData ?.studentDetails?.qualificationResponse?.qualificationName}
+                          {
+                            studentData?.studentDetails?.qualificationResponse
+                              ?.qualificationName
+                          }
                         </span>
                       </li>
                       <li>
@@ -1089,9 +1070,8 @@ const EditProfile = () => {
                       </section>
                       <div className="form-field flex100 mb-5 d-flex justify-content-end">
                         <button
-                          type="button"
+                          type="submit"
                           className="btn btn-save btn-primary"
-                          onClick={() => saveProfile(values)}
                         >
                           Update
                         </button>

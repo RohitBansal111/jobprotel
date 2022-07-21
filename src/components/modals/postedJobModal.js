@@ -21,9 +21,11 @@ import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import { useNavigate } from "react-router";
 import toast from "toastr";
+import { Loader } from "../../components/Loader/Loader";
 
 const PostedJobModal = ({ id }) => {
   let titleStrings = new LocalizedStrings(titles);
+  const [loading, setLoading] = useState(false);
 
   const [qualificationList, setQualificationList] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
@@ -56,8 +58,9 @@ const PostedJobModal = ({ id }) => {
 
   const navigate = useNavigate();
   const handleTimeZone = (data) => {
-    console.log("data", data);
-    setTimezone(data.value);
+    console.log("data", JSON.stringify(data));
+
+    setTimezone(data);
   };
 
   const [showTimeZone, setShowTimeZone] = useState(false);
@@ -78,7 +81,8 @@ const PostedJobModal = ({ id }) => {
   };
 
   const handleJobPost = (values) => {
-    console.log(values.tags);
+    setLoading(true);
+    console.log(values);
     let tagsArr = [];
     values &&
       values.tags.length > 0 &&
@@ -132,17 +136,17 @@ const PostedJobModal = ({ id }) => {
     console.log(resp);
     // redirect on success
     if (resp.status == 200) {
+      setLoading(false);
       toast.success(resp.data.message);
       navigate(`/suggestion/${resp.data.data.jobId}`);
-      
     } else if (resp.status == 400) {
+      setLoading(false);
       toast.error("Something went wrong");
     }
   };
 
   useEffect(async () => {
     const resp = await dropdownServices.qualificationList();
-
     let qualificationListData = [];
     resp.data.map((data) => {
       let obj = { id: data.id, text: data.name };
@@ -447,9 +451,9 @@ const PostedJobModal = ({ id }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleJobPost(values)}
+                          // onClick={() => handleJobPost(values)}
                         >
-                          Post Now
+                          {loading && <Loader />} Post Now
                         </button>
                       </div>
                     </div>

@@ -162,7 +162,7 @@ const AddProjectModal = ({getProjectHistory}) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => saveProjectHistory(values)}
+                          // onClick={() => saveProjectHistory(values)}
                         >
                           Submit
                         </button>

@@ -12,6 +12,7 @@ import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
+import {Loader} from "../../components/Loader/Loader";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
@@ -20,6 +21,8 @@ const DetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   toast.options = { preventDuplicates: true };
+  const [loading, setLoading] = useState(true);
+
   const [jobDetails, setJobDetails] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
@@ -38,6 +41,7 @@ const DetailsPage = () => {
     const resp = await jobServices.getJobDetails(id);
     console.log(resp,"resp");
     if (resp.status == 200) {
+      setLoading(false)
       const response = resp.data.data;
       setJobDetails(response);
       setQualifications(response.qualifications);
@@ -82,6 +86,7 @@ const DetailsPage = () => {
   }
   return (
     <Layout>
+      {loading ? <Loader /> : 
       <section className="job-details-wrapper">
         <div className="container">
           <h1>Job Details</h1>
@@ -219,6 +224,7 @@ const DetailsPage = () => {
           </div>
         </div>
       </section>
+}
     </Layout>
   );
 };

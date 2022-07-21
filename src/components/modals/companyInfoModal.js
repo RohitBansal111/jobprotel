@@ -8,11 +8,12 @@ import * as employerServices from "../../services/employerServices";
 import ImageCropperModal from "../Image-cropper";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "toastr";
-import * as types from "../../types/auth"
+import * as types from "../../types/auth";
+import { Loader } from "../Loader/Loader";
 
 const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
   // const { employerData } = props;
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
@@ -24,6 +25,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const authData = useSelector((state) => state.auth.user);
 
   const handleCompanyInfo = async (values) => {
+    setLoading(true);
     let formData = new FormData();
     let keys = Object.keys(values);
 
@@ -39,10 +41,12 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       formData
     );
     if (resp.status == 200) {
+      setLoading(false);
+
       const resp2 = await employerServices.getEmployerDetails(authData.id);
       console.log(resp2, "employer data");
       console.log(resp2.data.data, "employer data");
-      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data))
+      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
 
       if (resp2.status == 200) {
         dispatch({
@@ -58,6 +62,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       getEmployerDetails();
       document.getElementById("modelClose").click();
     } else if (resp.errors && typeof resp.errors === "object") {
+      setLoading(false);
       let errors = "";
       let keys = Object.keys(resp.errors);
       keys.forEach((key) => {
@@ -67,8 +72,10 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       errors = errors.replace(/,\s*$/, "");
       toast.error(errors + "is Required");
     } else if (resp.error) {
+      setLoading(false);
       toast.error(resp.error ? resp.error : "Something went wrong");
     } else {
+      setLoading(false);
       document.getElementById("modelClose").click();
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
@@ -80,6 +87,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
         errors = errors.replace(/,\s*$/, "");
         toast.error(errors + "is Required");
       } else if (resp.error) {
+        setLoading(false);
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }
@@ -326,9 +334,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleCompanyInfo(values)}
+                          // onClick={() => handleCompanyInfo(values)}
                         >
-                          Update Info
+                          {loading && <Loader />} Update Info
                         </button>
                       </div>
                     </div>

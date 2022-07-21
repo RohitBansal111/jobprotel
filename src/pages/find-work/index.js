@@ -305,6 +305,7 @@ const FindWork = () => {
                     )}
                   </div>
                 </div>
+
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
@@ -332,6 +333,7 @@ const FindWork = () => {
                     onChange={handlePageChange}
                   />
                 </div>
+                
               </div>
             </div>
           </div>

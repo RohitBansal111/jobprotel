@@ -131,7 +131,7 @@ const CompleteKycModal = () => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleSubmitKycForm(values)}
+                          // onClick={() => handleSubmitKycForm(values)}
                         >
                           Submit
                         </button>

@@ -1,5 +1,6 @@
 const ProfileValidate = (values) => { 
      const error = {}
+     console.log("rahul")
      if(!values.firstname){ 
           error.firstname = "Required First Name"
      }
@@ -15,9 +16,7 @@ const ProfileValidate = (values) => {
      if(!values.intrestedArea){ 
           error.intrestedArea = "Required Interests"
      }
-     if(!values.timeZone){ 
-          error.timeZone = "Required TimeZone"
-     }
+    
      if(!values.houseno){ 
           error.houseno = "Required House No."
      }
@@ -40,26 +39,22 @@ const ProfileValidate = (values) => {
           error.hours = "Required Hours/day"
      }
      if(!values.days){ 
-          error.days = "Required days/week"
+          error.days = "Required days"
      }
      if(!values.salary){ 
           error.salary = "Required Expected Salary"
      }
      if(!values.experienceInMonths){ 
-          error.experienceInMonths = "Required experience in years"
+          error.experienceInMonths = "Required experience in months"
      }
-     if(!values.salary){ 
-          error.salary = "Required experience in months"
-     }
-     if(!values.experience){ 
-          error.experience = "Required Experience"
+   
+     if(!values.experienceInYears){ 
+          error.experienceInYears = "Required Experience in years"
      }
      if(!values.working){ 
           error.working = "Required Working"
      }
-     if(!values.education){ 
-          error.education = "Required Education"
-     }
+     
      if(!values.collegeId){ 
           error.collegeId = "Required college/university"
      }
@@ -72,15 +67,12 @@ const ProfileValidate = (values) => {
      if(values.qualificationId == "Other" && !values.qualification){ 
           error.qualificationId = "Required qualification"
      }
-     if(!values.resume){ 
-          error.resume = "Required resume"
-     }
-     if(!values.documents){ 
-          error.documents = "Required documents"
-     }
+     
      if(!values.skills){ 
           error.skills = "Required Skills"
+     
      }
+     console.log("err",error)
      return error;
    }
    

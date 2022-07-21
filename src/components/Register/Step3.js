@@ -401,7 +401,6 @@ const Step3 = ({
                 </button>
                 <button
                   type="submit"
-                  // onClick={() => SaveStep3(values)}
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}

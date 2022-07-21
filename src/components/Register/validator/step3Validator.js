@@ -6,10 +6,10 @@ const Step3Validator = (values) => {
     error.collegeId = "Required College Name";
   }
   if (!values.experienceInYears) {
-    error.experienceInYears = "Required Years";
+    error.experienceInYears = "Required Experience in Years";
   }
   if (!values.experienceInMonths) {
-    error.experienceInMonths = "Required Month";
+    error.experienceInMonths = "Required Experience in Month";
   }
   if (!values.expectedSalary) {
     error.expectedSalary = "Required Salary";
@@ -23,7 +23,6 @@ const Step3Validator = (values) => {
   if (!values.designation) {
     error.designation = "Required Category";
   }
-
   if (!values.skills || (values.skills && values.skills.length === 0)) {
     error.skills = "Required Skills";
   }
