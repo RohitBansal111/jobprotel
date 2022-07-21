@@ -22,8 +22,11 @@ import * as dropdownServices from "../../services/dropDownServices";
 import ImageCropperModal from "../../components/Image-cropper";
 import toast from "toastr";
 import * as extraCertificateServices from "../../services/studentExtraCertificates";
+import * as types from "../../types/auth"
 
 const EditProfile = () => {
+  const dispatch = useDispatch();
+
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
@@ -99,7 +102,7 @@ const EditProfile = () => {
     // setPreviewImg(imageArray);
   };
 
-  const getExtraCertificate = async () => {
+  const getExtraCertificate = async (id) => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
     if (resp.status === 200 && response.length > 0) {
@@ -115,10 +118,15 @@ const EditProfile = () => {
       setPreviewImg(arr);
     }
   };
-  useEffect(() => {
-    getExtraCertificate();
-  }, [authData, callCertificate]);
 
+  useEffect(async () => {
+    if (authData) {
+      getStudentData(authData.id);
+      getExtraCertificate(authData.id);
+
+      setId(authData.id);
+    }
+  }, [authData, callCertificate]);
   const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
     data[index][event.target.name] = event.target.value;
@@ -157,11 +165,12 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
-      const response = resp.data.data.result;
+      const response = resp.data.data;
+      
       console.log(response);
       setStudentData(response);
       setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
       );
 
       // let certificateArray = [];
@@ -172,18 +181,18 @@ const EditProfile = () => {
       // setPreviewImg(certificateArray);
       setImg({
         ...img,
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`,
+        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
       });
 
       setStudentResume(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
       );
-      if (response && response.resumeFilePath) {
-        setResumeName(response.resumeFilePath);
+      if (response.studentDetails.resumeFilePath) {
+        setResumeName(response.studentDetails.resumeFilePath);
       }
       let finalInterest = [];
-      if (response && response.interests) {
-        let interest = response.interests && response.interests.split(",");
+      if (response.studentDetails.interests) {
+        let interest = response.studentDetails.interests?.split(",");
         interest &&
           interest.length > 0 &&
           interest.map((data) => {
@@ -196,8 +205,8 @@ const EditProfile = () => {
       }
 
       let finalSkill = [];
-      if (response && response.skills) {
-        let skill = response.skills && response.skills.split(",");
+      if (response.studentDetails.skills) {
+        let skill = response.studentDetails.skills?.split(",");
         skill &&
           skill.length > 0 &&
           skill.map((data) => {
@@ -209,8 +218,8 @@ const EditProfile = () => {
           });
       }
 
-      if (response && response.countryResponse) {
-        CountryValue(response.countryResponse.id);
+      if (response.studentDetails.countryResponse) {
+        CountryValue(response.studentDetails.countryResponse.id);
       }
 
       let timeObj = { value: response.timezone };
@@ -218,26 +227,26 @@ const EditProfile = () => {
         firstname: response.firstName,
         lastname: response.lastName,
         email: response.email,
-        houseno: response.address,
-        addressLine1: response.addressLine1,
-        addressLine2: response.addressLine2,
-        Country: response.countryResponse.id,
-        state: response.stateResponse.id,
-        city: response.cityName,
-        pin: response.postalCode,
-        age: response.age,
-        genderName: response.genderResponse.id,
-        collegeId: response.collegeResponse.id,
-        designation: response.designationResponse.id,
-        qualificationId: response.qualificationResponse.id,
-        qualification: response.qualificationName,
-        hours: response.workHoursPerDay,
-        days: response.workDaysPerWeek,
-        salary: response.expectedSalary,
-        working: response.workingType.toString(),
-        experienceInYears: response.experienceInYears,
-        experienceInMonths: response.experienceInMonths,
-        timezone: timeObj,
+        houseno: response.studentDetails.address,
+        addressLine1: response.studentDetails.addressLine1,
+        addressLine2: response.studentDetails.addressLine2,
+        Country: response.studentDetails.countryResponse.id,
+        state: response.studentDetails.stateResponse.id,
+        city: response.studentDetails.cityName,
+        pin: response.studentDetails.postalCode,
+        age: response.studentDetails.age,
+        genderName: response.studentDetails.genderResponse.id,
+        collegeId: response.studentDetails.collegeResponse.id,
+        designation: response.studentDetails.designationResponse.id,
+        qualificationId: response.studentDetails.qualificationResponse.id,
+        qualification: response.studentDetails.qualificationName,
+        hours: response.studentDetails.workHoursPerDay,
+        days: response.studentDetails.workDaysPerWeek,
+        salary: response.studentDetails.expectedSalary,
+        working: response.studentDetails.workingType.toString(),
+        experienceInYears: response.studentDetails.experienceInYears,
+        experienceInMonths: response.studentDetails.experienceInMonths,
+        timezone: timezone,
         intrestedArea: finalInterest,
         skills: finalSkill,
       };
@@ -263,15 +272,8 @@ const EditProfile = () => {
     setStateList(resp.data);
   };
 
-  useEffect(async () => {
-    if (authData) {
-      getStudentData(authData.id);
-      setId(authData.id);
-    }
-  }, [authData]);
-
   const saveProfile = async (values) => {
-    console.log(values.intrestedArea, "values");
+    console.log(values, "values");
 
     let formData = new FormData();
 
@@ -289,7 +291,9 @@ const EditProfile = () => {
     formData.append("stateId", values.state);
     formData.append(
       "designationId",
-      designationId ? designationId : studentData.designationResponse.id
+      designationId
+        ? designationId
+        : studentData.studentDetails.designationResponse.id
     );
     formData.append("city", values.city);
     formData.append("postalCode", values.pin);
@@ -302,7 +306,9 @@ const EditProfile = () => {
     } else {
       formData.append(
         "qualificationId",
-        qualificationId ? qualificationId : studentData.qualificationResponse.id
+        qualificationId
+          ? qualificationId
+          : studentData.studentDetails.qualificationResponse.id
       );
     }
 
@@ -321,7 +327,7 @@ const EditProfile = () => {
     }
     formData.append(
       "collegeId",
-      collegeId ? collegeId : studentData.collegeResponse.id
+      collegeId ? collegeId : studentData.studentDetails.collegeResponse.id
     );
     formData.append("experienceInYears", values.experienceInYears);
     formData.append("experienceInMonths", values.experienceInMonths);
@@ -371,11 +377,35 @@ const EditProfile = () => {
       // validation()
     ) {
       const resp = await studentServices.updateStudentDetails(formData);
-      if (resp.status === 200) {
+
+      if (resp.status == 200) {
+        const resp2 = await studentServices.getStudentDetails(id)
+        console.log(resp2,"student data")
+        console.log(resp2.data.data,"student data")
+        if(resp2.status == 200)
+        {
+        dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: resp2.data.data,
+          token: localStorage.getItem("jobPortalUserToken"),
+        });
+      }
+ 
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-      }
+      }else if (resp.errors && typeof resp.errors === "object") {
+      let errors = "";
+      let keys = Object.keys(resp.errors);
+      keys.forEach((key) => {
+        errors = key + "," + errors;
+      });
+
+      errors = errors.replace(/,\s*$/, "");
+      toast.error(errors + "is Required");
+    } else if (resp.error) {
+      toast.error(resp.error ? resp.error : "Something went wrong");
+    }
     }
   };
   const closeModal = () => {
@@ -490,21 +520,21 @@ const EditProfile = () => {
                     </h3>
                     <p>
                       {studentData &&
-                        studentData.address &&
-                        studentData.address}
+                        studentData.studentDetails.address &&
+                        studentData.studentDetails.address}
                       {", "}
                       {studentData &&
-                        studentData.addressLine1 &&
-                        studentData.addressLine1}
+                        studentData.studentDetails.addressLine1 &&
+                        studentData.studentDetails.addressLine1}
                       {", "}
                       {studentData &&
-                        studentData.addressLine2 !== "undefined" &&
-                        studentData.addressLine2}
+                        studentData.studentDetails.addressLine2 !== "undefined" &&
+                        studentData.studentDetails.addressLine2}
                     </p>
                     <p>
                       {studentData &&
-                        studentData.cityName &&
-                        studentData.cityName}
+                        studentData.studentDetails.cityName &&
+                        studentData.studentDetails.cityName}
                     </p>
                   </div>
                   <div className="profile-connect">
@@ -512,8 +542,8 @@ const EditProfile = () => {
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
                         {studentData &&
-                          studentData.availableConnects &&
-                          studentData.availableConnects}
+                          studentData.studentDetails.availableConnects &&
+                          studentData.studentDetails.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -524,12 +554,12 @@ const EditProfile = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData &&
-                            studentData.experienceInYears &&
-                            studentData.experienceInYears}
+                            studentData.studentDetails.experienceInYears &&
+                            studentData.studentDetails.experienceInYears}
                           Year{", "}
                           {studentData &&
-                            studentData.experienceInMonths &&
-                            studentData.experienceInMonths}{" "}
+                            studentData.studentDetails.experienceInMonths &&
+                            studentData.studentDetails.experienceInMonths}{" "}
                           Month
                         </span>
                       </li>
@@ -537,27 +567,27 @@ const EditProfile = () => {
                         College / University{" "}
                         <span className="result">
                           {studentData &&
-                            studentData.collegeResponse &&
-                            studentData.collegeResponse.collegeName &&
-                            studentData.collegeResponse.collegeName}
+                            studentData.studentDetails.collegeResponse &&
+                            studentData.studentDetails.collegeResponse.collegeName &&
+                            studentData.studentDetails.collegeResponse.collegeName}
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
                           {studentData &&
-                            studentData.qualificationResponse &&
-                            studentData.qualificationResponse
+                            studentData.studentDetails.qualificationResponse &&
+                            studentData.studentDetails.qualificationResponse
                               .qualificationName &&
-                            studentData.qualificationResponse.qualificationName}
+                            studentData.studentDetails.qualificationResponse.qualificationName}
                         </span>
                       </li>
                       <li>
                         Hours / day{" "}
                         <span className="result">
                           {studentData &&
-                            studentData.workHoursPerDay &&
-                            studentData.workHoursPerDay}
+                            studentData.studentDetails.workHoursPerDay &&
+                            studentData.studentDetails.workHoursPerDay}
                         </span>
                       </li>
                     </ul>
@@ -568,7 +598,7 @@ const EditProfile = () => {
                 <div className="jobs-com-profile">
                   <div className="profile-update">
                     <p className="mailto:michael-taylor028@gmail.com">
-                      michael-taylor028@gmail.com
+                      {studentData.email}
                     </p>
                   </div>
                   <div className="profile-strength">

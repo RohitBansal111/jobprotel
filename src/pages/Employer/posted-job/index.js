@@ -13,41 +13,43 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../../components/Loader/Loader";
 
 const PostedJob = () => {
-  const [employerData, setEmployerData] = useState([]);
+  // const [authData, setauthData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("")
-  const [activePage, setActivePage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [totalRecords, setTotalRecords] = useState(0)
+  const [search, setSearch] = useState("");
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
-  
-  const authData = useSelector((state)=> state.auth.user);
+
+  const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
-    console.log(authData,"authData")
-    if(authData)
-    {
+    console.log(authData, "authData");
+    if (authData) {
       setId(authData.id);
-      getEmployerDetails(authData.id);
+      // getEmployerDetails(authData.id);
+      setCompanyLogo(
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
+      );
       getJobList(authData.id, activePage);
     }
-    
   }, [authData]);
 
-  const getEmployerDetails = async (id = authData.id) => {
-    const resp = await employerServices.getEmployerDetails(id);
+  // const getEmployerDetails = async (id = authData.id) => {
+  //   const resp = await employerServices.getEmployerDetails(id);
 
-    if (resp.status == 200) {
-      const response = resp.data.data.result;
-      setEmployerData(response);
+  //   if (resp.status == 200) {
+  //     const response = resp.data.data;
+  //     console.log(response);
+  //     setauthData(response);
 
-      setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.logoPath}`
-      );
-    }
-  };
+  //     setCompanyLogo(
+  //       `${process.env.REACT_APP_IMAGE_API_URL}${response.comapanyDetail.logoPath}`
+  //     );
+  //   }
+  // };
 
   const getJobList = async (
     id = authData.id,
@@ -65,8 +67,7 @@ const PostedJob = () => {
       setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
-    }else if(response.status == 400)
-    {
+    } else if (response.status == 400) {
       setLoading(false);
     }
   };
@@ -123,21 +124,18 @@ const PostedJob = () => {
                       </span>
                     </div>
                     <h3>
-                      {employerData &&
-                        employerData.companyName &&
-                        employerData.companyName}
+                      {authData?.comapanyDetail?.companyName &&
+                        authData.comapanyDetail.companyName}
                     </h3>
                     <div>
-                      {employerData &&
-                        employerData.address &&
-                        employerData.address}
+                      {authData?.comapanyDetail?.address &&
+                        authData.comapanyDetail.address}
                       {", "}
-                      {employerData && employerData.cityName}{" "}
+                      {authData?.comapanyDetail?.cityName &&
+                        authData.comapanyDetail.cityName}{" "}
                       <p>
-                        {employerData &&
-                          employerData.stateResponse &&
-                          employerData.stateResponse.stateName &&
-                          employerData.stateResponse.stateName}
+                        {authData?.comapanyDetail?.stateResponse?.stateName &&
+                          authData.comapanyDetail.stateResponse.stateName}
                       </p>
                     </div>
                   </div>
@@ -145,9 +143,8 @@ const PostedJob = () => {
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {employerData &&
-                          employerData.availableConnects &&
-                          employerData.availableConnects}
+                        {authData?.comapanyDetail?.availableConnects &&
+                          authData.comapanyDetail.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -157,17 +154,15 @@ const PostedJob = () => {
                       <li>
                         Recruiting Manager{" "}
                         <span className="result">
-                          {employerData &&
-                            employerData.recruitingManagerName &&
-                            employerData.recruitingManagerName}
+                          {authData?.comapanyDetail?.recruitingManagerName &&
+                            authData.comapanyDetail.recruitingManagerName}
                         </span>
                       </li>
                       <li>
                         Contact Details{" "}
                         <span className="result">
-                          {employerData &&
-                            employerData.companyEmail &&
-                            employerData.companyEmail}
+                          {authData?.comapanyDetail?.companyEmail &&
+                            authData.comapanyDetail.companyEmail}
                         </span>
                       </li>
                     </ul>
@@ -251,11 +246,20 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing {activePage ==1?activePage:(1+(activePage-1)*pageSize)}-
-                      {jobList && jobList.length?(activePage-1)*pageSize+jobList.length:0} of {totalRecords} results</p>
+                    <p>
+                      Showing{" "}
+                      {activePage == 1
+                        ? activePage
+                        : 1 + (activePage - 1) * pageSize}
+                      -
+                      {jobList && jobList.length
+                        ? (activePage - 1) * pageSize + jobList.length
+                        : 0}{" "}
+                      of {totalRecords} results
+                    </p>
                   </div>
                   <div className="default-feeds-search">
-                  {loading ? (
+                    {loading ? (
                       <Loader />
                     ) : jobList && jobList.length === 0 ? (
                       <h4>No jobs found</h4>
@@ -263,10 +267,9 @@ const PostedJob = () => {
                       jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} type="post"/>
+                        <PostedJobCard jobs={jobs} key={index} type="post" />
                       ))
                     )}
-                      
                   </div>
                   <Pagination
                     activePage={activePage}

@@ -8,9 +8,12 @@ import * as employerServices from "../../services/employerServices";
 import ImageCropperModal from "../Image-cropper";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "toastr";
+import * as types from "../../types/auth"
 
-const CompanyInfoModal = (props) => {
-  const { employerData } = props;
+const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
+  const dispatch = useDispatch();
+
+  // const { employerData } = props;
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [initialData, setInitialData] = useState([]);
@@ -36,11 +39,33 @@ const CompanyInfoModal = (props) => {
       formData
     );
     if (resp.status == 200) {
+      const resp2 = await employerServices.getEmployerDetails(authData.id);
+      console.log(resp2, "student data");
+      console.log(resp2.data.data, "student data");
+      if (resp2.status == 200) {
+        dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: resp2.data.data,
+          token: localStorage.getItem("jobPortalUserToken"),
+        });
+      }
+
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      props.getEmployerDetails();
+      getEmployerDetails();
       document.getElementById("modelClose").click();
+    } else if (resp.errors && typeof resp.errors === "object") {
+      let errors = "";
+      let keys = Object.keys(resp.errors);
+      keys.forEach((key) => {
+        errors = key + "," + errors;
+      });
+
+      errors = errors.replace(/,\s*$/, "");
+      toast.error(errors + "is Required");
+    } else if (resp.error) {
+      toast.error(resp.error ? resp.error : "Something went wrong");
     } else {
       document.getElementById("modelClose").click();
       if (resp.errors && typeof resp.errors === "object") {
@@ -64,23 +89,25 @@ const CompanyInfoModal = (props) => {
 
   useEffect(() => {
     if (employerData) {
+      console.log(employerData);
       setImg({
         ...img,
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData.logoPath}`,
+        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
       });
       getCountryList();
-      getStateList(employerData?.countryResponse?.id);
+      getStateList(employerData?.comapanyDetail?.countryResponse?.id);
       const data = {
         firstName: employerData?.firstName,
         lastName: employerData?.lastName,
-        companyName: employerData?.companyName,
-        companyPhone: employerData?.companyPhone,
-        countryId: employerData?.countryResponse?.id,
-        stateId: employerData?.stateResponse?.id,
-        cityName: employerData?.cityName,
-        recruitingManagerName: employerData?.recruitingManagerName,
-        address: employerData?.address,
-        Email: employerData?.companyEmail,
+        companyName: employerData?.comapanyDetail?.companyName,
+        companyPhone: employerData?.comapanyDetail?.companyPhone,
+        countryId: employerData?.comapanyDetail?.countryResponse?.id,
+        stateId: employerData?.comapanyDetail?.stateResponse?.id,
+        cityName: employerData?.comapanyDetail?.cityName,
+        recruitingManagerName:
+          employerData?.comapanyDetail?.recruitingManagerName,
+        address: employerData?.comapanyDetail?.address,
+        Email: employerData?.comapanyDetail?.companyEmail,
       };
       setInitialData(data);
     }
