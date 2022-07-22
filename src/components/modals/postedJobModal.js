@@ -447,7 +447,7 @@ const PostedJobModal = ({ id }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleJobPost(values)}
+                          // onClick={() => handleJobPost(values)}
                         >
                           Post Now
                         </button>

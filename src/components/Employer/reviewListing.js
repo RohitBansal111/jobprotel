@@ -36,10 +36,10 @@ const EmployerReviewCard = ({user}) => {
                 <img src={LocationIcon} alt="Location" />
                 India
               </li>
-              <li>
+              {/* <li>
                 <img src={VerifiedIcon} alt="Company Verified" />
                 Verified post
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

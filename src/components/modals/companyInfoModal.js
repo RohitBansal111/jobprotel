@@ -33,6 +33,8 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     if (profileImage != "") {
       formData.append("logoUrl", profileImage);
       //values.logoUrl = profileImage
+    }else{
+     formData.append("logoUrl", null);
     }
     const resp = await employerServices.updateEmployerDetails(
       authData.id,
