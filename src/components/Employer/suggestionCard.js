@@ -15,7 +15,7 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userid);
     console.log(resp);
     if (resp.status === 200) {
-      toast.success(resp.data.message)
+      toast.success(resp.data.message  ? resp.data.message : "Something went wrong")
       setInvitation(!invitation);
     }
   };

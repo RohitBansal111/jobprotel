@@ -13,7 +13,6 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../../components/Loader/Loader";
 
 const PostedJob = () => {
-  // const [authData, setauthData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
@@ -26,7 +25,6 @@ const PostedJob = () => {
   const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
-    console.log(authData, "authData");
     if (authData) {
       setId(authData.id);
       // getEmployerDetails(authData.id);
@@ -43,7 +41,6 @@ const PostedJob = () => {
   //   if (resp.status == 200) {
   //     const response = resp.data.data;
   //     console.log(response);
-  //     setauthData(response);
 
   //     setCompanyLogo(
   //       `${process.env.REACT_APP_IMAGE_API_URL}${response.comapanyDetail.logoPath}`

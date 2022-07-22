@@ -11,21 +11,23 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import { useSelector } from "react-redux";
+import { Loader } from "../../../components/Loader/Loader";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
 const EmployerJobDetailsPage = () => {
-  const selector = useSelector((state)=> state.auth.user)
+  const selector = useSelector((state) => state.auth.user);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const [jobDetails, setJobDetails] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [connects, setConnects] = useState("")
+  const [connects, setConnects] = useState("");
   const handleApplicationReceived = () => {
     navigate("/review-applications");
   };
@@ -34,16 +36,18 @@ const EmployerJobDetailsPage = () => {
     getJobDetails(id);
   }, [id]);
 
-  useEffect(()=>{
-    console.log(selector)
-    if(selector){
-      setConnects(selector?.studentDetails?.availableConnects)
+  useEffect(() => {
+    console.log(selector);
+    if (selector) {
+      setLoading(false);
+      setConnects(selector?.comapanyDetail?.availableConnects);
     }
-  }, [selector])
+  }, [selector]);
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
     console.log(resp);
     if (resp.status == 200) {
+      setLoading(false);
       const response = resp.data.data;
       setJobDetails(response);
       setQualifications(response.qualifications);
@@ -65,30 +69,34 @@ const EmployerJobDetailsPage = () => {
         <div className="container">
           <h1>Job Details</h1>
           <div className="row">
-            <div className="col-12 col-md-9">
-              <div className="details-card">
-                <div className="head43">
-                  <h2>
-                    {/* React Js Developer */}
-                    {jobDetails && jobDetails.title && jobDetails.title}
-                    <span>
-                    { jobDetails && jobDetails.created ?
-                      <ReactTimeAgo
-                        date={jobDetails ?.created}
-                        locale="en-US"
-                     />
-                     :null}
-                    </span>
-                  </h2>
-                  <p>Mobile/Tablet Front-End Developer</p>
-                </div>
-                <div className="job-description">
-                  <p>
-                    {jobDetails &&
-                      jobDetails.description &&
-                      jobDetails.description}
-                  </p>
-                  {/* <p>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <div className="col-12 col-md-9">
+                  <div className="details-card">
+                    <div className="head43">
+                      <h2>
+                        {/* React Js Developer */}
+                        {jobDetails && jobDetails.title && jobDetails.title}
+                        <span>
+                          {jobDetails && jobDetails.created ? (
+                            <ReactTimeAgo
+                              date={jobDetails?.created}
+                              locale="en-US"
+                            />
+                          ) : null}
+                        </span>
+                      </h2>
+                      <p>Mobile/Tablet Front-End Developer</p>
+                    </div>
+                    <div className="job-description">
+                      <p>
+                        {jobDetails &&
+                          jobDetails.description &&
+                          jobDetails.description}
+                      </p>
+                      {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
                   <p>
@@ -109,100 +117,110 @@ const EmployerJobDetailsPage = () => {
                     Beautiful woven collection of classic motifs: buffalo plaid,
                     paisley, ticking stripes & more.
                   </p> */}
+                    </div>
+                    <div className="education-info">
+                      <p>
+                        <b>Experience: </b>{" "}
+                        {exp &&
+                          exp.length > 0 &&
+                          exp.map((exp, index) => (
+                            <span key={index}>{exp} </span>
+                          ))}
+                      </p>
+                      <p>
+                        <b>Education:</b>{" "}
+                        {qualifications &&
+                          qualifications.map((qual) => qual.name)}
+                      </p>
+                      <p>
+                        <b>SKills: </b>{" "}
+                        {jobDetails && jobDetails.skills && jobDetails.skills}
+                      </p>
+                      <p>
+                        <b>Job Location: </b>{" "}
+                        {jobDetails &&
+                          jobDetails.hoursPerDay &&
+                          jobDetails.hoursPerDay}
+                      </p>
+                      <p>
+                        <b>Hour/day: </b>{" "}
+                        {jobDetails &&
+                          jobDetails.location &&
+                          jobDetails.location}
+                      </p>
+                      <p>
+                        <b>Days / Week: </b>{" "}
+                        {jobDetails &&
+                          jobDetails.daysPerWeek &&
+                          jobDetails.daysPerWeek}
+                      </p>
+                      <p>
+                        <b>Job Timings/days: </b>
+                        {jobDetails && jobDetails.timing && jobDetails.timing}
+                      </p>
+                      <p>
+                        <b>Time Zone: </b>{" "}
+                        {jobDetails &&
+                          jobDetails.timeZone &&
+                          jobDetails.timeZone}
+                      </p>
+                      <p>
+                        <b>Category: </b>{" "}
+                        {jobDetails &&
+                          jobDetails.category &&
+                          jobDetails.category.name &&
+                          jobDetails.category.name}
+                      </p>
+                      <p>
+                        <b>Salary: </b> ${" "}
+                        {jobDetails && jobDetails.salary && jobDetails.salary}
+                      </p>
+                      <p>
+                        <b>Tags:</b>{" "}
+                        {jobDetails && jobDetails.tags && jobDetails.tags}
+                      </p>
+                    </div>
+                    <div className="inner-info-section">
+                      <h3>Skills and Expertise</h3>
+                      <ul className="feeds-ul">
+                        {skills &&
+                          skills.length > 0 &&
+                          skills.map((skill, index) => (
+                            <li key={index}>
+                              <Link to="#">{skill}</Link>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div className="education-info">
-                  <p>
-                    <b>Experience: </b>{" "}
-                    {exp &&
-                      exp.length > 0 &&
-                      exp.map((exp, index) => <span key={index}>{exp} </span>)}
-                  </p>
-                  <p>
-                    <b>Education:</b>{" "}
-                    {qualifications && qualifications.map((qual) => qual.name)}
-                  </p>
-                  <p>
-                    <b>SKills: </b>{" "}
-                    {jobDetails && jobDetails.skills && jobDetails.skills}
-                  </p>
-                  <p>
-                    <b>Job Location: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.hoursPerDay &&
-                      jobDetails.hoursPerDay}
-                  </p>
-                  <p>
-                    <b>Hour/day: </b>{" "}
-                    {jobDetails && jobDetails.location && jobDetails.location}
-                  </p>
-                  <p>
-                    <b>Days / Week: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.daysPerWeek &&
-                      jobDetails.daysPerWeek}
-                  </p>
-                  <p>
-                    <b>Job Timings/days: </b>
-                    {jobDetails && jobDetails.timing && jobDetails.timing}
-                  </p>
-                  <p>
-                    <b>Time Zone: </b>{" "}
-                    {jobDetails && jobDetails.timeZone && jobDetails.timeZone}
-                  </p>
-                  <p>
-                    <b>Category: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.category &&
-                      jobDetails.category.name &&
-                      jobDetails.category.name}
-                  </p>
-                  <p>
-                    <b>Salary: </b> ${" "}
-                    {jobDetails && jobDetails.salary && jobDetails.salary}
-                  </p>
-                  <p>
-                    <b>Tags:</b>{" "}
-                    {jobDetails && jobDetails.tags && jobDetails.tags}
-                  </p>
+
+                <div className="col-12 col-md-3">
+                  <div className="details-right-sidebar">
+                    <div className="post-action">
+                      <button
+                        type="button"
+                        onClick={handleApplicationReceived}
+                        className="btn btn-primary"
+                      >
+                        Applications received (17)
+                      </button>
+                      <button type="button" className="btn btn-primary-outline">
+                        Invitation accepted (12)
+                      </button>
+                    </div>
+                    <div className="connects-info">
+                      <p>
+                        Required Connects to submit a proposal: <b>2</b>{" "}
+                      </p>
+                      <p>
+                        Available Connects: <b>{connects}</b>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="inner-info-section">
-                  <h3>Skills and Expertise</h3>
-                  <ul className="feeds-ul">
-                    {skills &&
-                      skills.length > 0 &&
-                      skills.map((skill, index) => (
-                        <li key={index}>
-                          <Link to="#">{skill}</Link>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-3">
-              <div className="details-right-sidebar">
-                <div className="post-action">
-                  <button
-                    type="button"
-                    onClick={handleApplicationReceived}
-                    className="btn btn-primary"
-                  >
-                    Applications received (17)
-                  </button>
-                  <button type="button" className="btn btn-primary-outline">
-                    Invitation accepted (12)
-                  </button>
-                </div>
-                <div className="connects-info">
-                  <p>
-                    Required Connects to submit a proposal: <b>2</b>{" "}
-                  </p>
-                  <p>
-                    Available Connects: <b>{connects}</b>
-                  </p>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       </section>

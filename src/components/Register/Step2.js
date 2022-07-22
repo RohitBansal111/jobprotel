@@ -94,7 +94,8 @@ const Step2 = ({
   };
 
   const handleTimeZone = (data) => {
-    setTimezone(data.value);
+    console.log(JSON.stringify(data))
+    setTimezone(JSON.stringify(data));
   };
 
   useMemo(() => {

@@ -4,17 +4,19 @@ import { renderField, RenderFileUploadField } from "./../renderField";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as studentServices from "../../services/studentServices";
+import toast from "toastr";
 
 const CompleteKycModal = () => {
   const authData = useSelector((state) => state.auth.user);
 
   const [studentId, setStudentId] = useState("");
-  const [mainfile, setMainfile] = useState("");
-  const [backfile, setBackfile] = useState("");
+  const [mainfile, setMainfile] = useState({});
+  const [backfile, setBackfile] = useState({});
   const [err, setErr] = useState([]);
 
   const handleFrontSide = (e) => {
     let files = e.target.files[0];
+    console.log(files);
     setMainfile(files);
   };
 
@@ -37,25 +39,32 @@ const CompleteKycModal = () => {
     setErr(error);
     return isValid;
   };
+  console.log(mainfile);
 
   const handleSubmitKycForm = async (values) => {
     let formData = new FormData();
-
+    console.log(mainfile);
     formData.append("StudentId", studentId);
     formData.append("documentTitle", values.documentTitle);
     formData.append("mainFile", mainfile);
     formData.append("backSideFile", backfile);
     formData.append("remarks", values.remarks);
 
-    if (
-      studentId &&
-      mainfile &&
-      backfile &&
-      values.remarks &&
-      values.documentTitle
-    ) {
-      const resp = await studentServices.sendStudentKycData(formData);
-      console.log(resp);
+    if (studentId) {
+      if (validations()) {
+        const resp = await studentServices.sendStudentKycData(formData);
+        console.log(resp);
+        if (resp.status === 200) {
+          toast.success(
+            resp.data.message ? resp.data.message : "Something went wrong"
+          );
+          document.getElementById("kycpopup").click();
+          // setMainfile({name: ""});
+          // setBackfile("");
+          values.remarks = "";
+          values.documentTitle = "";
+        }
+      }
     }
   };
 
@@ -109,29 +118,26 @@ const CompleteKycModal = () => {
                       <div className="form-field flex100">
                         <input
                           name="mainFile"
-                          // uploadLabel="Browse Photo"
-                          // component={RenderFileUploadField}
                           onChange={handleFrontSide}
                           type="file"
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />
+                        <p>{err && err.mainfile}</p>
                       </div>
                       <label>Back Id Proof</label>
                       <div className="form-field flex100">
                         <input
                           name="backSideFile"
-                          // uploadLabel="Browse Photo"
-                          // component={RenderFileUploadField}
                           onChange={handleBackSide}
                           type="file"
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />
+                        <p>{err && err.backSideFile}</p>
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          onClick={() => handleSubmitKycForm(values)}
                         >
                           Submit
                         </button>

@@ -48,7 +48,7 @@ export const getExtraCertificates = async (id) => {
 export const deleteExtraCertificates = async (id) => {
   try {
     const resp = await axios.delete(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/studentID?certId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/DeleteExtraCertificate/certId?certId=${id}`
     );
     if (resp.status == 200) {
       return resp;
@@ -67,10 +67,10 @@ export const deleteExtraCertificates = async (id) => {
   }
 };
 
-export const updateExtraCertificatesTitle = async (id, data) => {
+export const updateExtraCertificatesTitle = async (data) => {
   try {
     const resp = await axios.put(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/EditExtracertificate?certId=${id}`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/EditExtracertificate/certId`,
       data
     );
     if (resp.status == 200) {

@@ -15,6 +15,8 @@ import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import * as projectServices from "../../services/projectHistorySevices";
 import Moment from "react-moment";
 import moment from "moment";
+import Pagination from "react-js-pagination";
+
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
 
@@ -30,13 +32,26 @@ const Profile = () => {
   const [data, setData] = useState({});
   const [projectHistory, setProjectHistory] = useState([]);
 
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    setActivePage(pageNumber);
+    setLoading(true);
+    // getJobList(authData.id, pageNumber);
+  };
+
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
-      const response = resp.data.data.result;
+      const response = resp.data.data;
+      console.log(response);
       setStudentData(response);
       setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.pictureUrl}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
       );
 
       setStudentResume(
@@ -44,15 +59,20 @@ const Profile = () => {
       );
 
       let interests = response.interests;
-      interests =
-        response && response.interests && response.interests.split(",");
+      interests = response && response?.studentDetails?.interests.split(",");
       setInterests(interests);
     }
   };
   const getProjectHistory = async (id) => {
-    const resp = await projectServices.getProjectHistoryData(id);
-    console.log(resp);
-    let response = resp.data.data.result;
+    let data = {
+      userId: id,
+      pageNumber: activePage,
+      pageSize: pageSize,
+    };
+
+    const resp = await projectServices.getProjectHistoryData(data);
+    // console.log(resp);
+    let response = resp.data.data;
     if (resp.status === 200) {
       setProjectHistory(response);
     }
@@ -69,9 +89,9 @@ const Profile = () => {
 
   const getEmploymentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentEmploymentData(id);
+    // console.log(resp)
     if (resp.status === 200) {
       let response = resp.data.data.result;
-      // console.log(response)
       setEmploymentDetails(response);
     }
   };
@@ -141,39 +161,22 @@ const Profile = () => {
                       </span>
                     </div>
                     <h3>
-                      {studentData &&
-                        studentData.firstName &&
-                        studentData.firstName}{" "}
-                      {studentData &&
-                        studentData.lastName &&
-                        studentData.lastName}{" "}
+                      {studentData?.firstName} {studentData?.lastName}{" "}
                     </h3>
                     <p>
-                      {studentData &&
-                        studentData.address &&
-                        studentData.address}
+                      {studentData?.studentDetails?.address}
                       {", "}
-                      {studentData &&
-                        studentData.addressLine1 &&
-                        studentData.addressLine1}
+                      {studentData?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData &&
-                        studentData.addressLine2 !== "undefined" &&
-                        studentData.addressLine2}
+                      {studentData?.studentDetails?.addressLine2}
                     </p>
-                    <p>
-                      {studentData &&
-                        studentData.cityName &&
-                        studentData.cityName}
-                    </p>
+                    <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {studentData &&
-                          studentData.availableConnects &&
-                          studentData.availableConnects}
+                        {studentData?.studentDetails?.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -183,41 +186,34 @@ const Profile = () => {
                       <li>
                         Experience{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.experienceInYears &&
-                            studentData.experienceInYears}
+                          {studentData?.studentDetails?.experienceInYears}
                           Year{", "}
-                          {studentData &&
-                            studentData.experienceInMonths &&
-                            studentData.experienceInMonths}{" "}
+                          {studentData?.studentDetails?.experienceInMonths}{" "}
                           Month
                         </span>
                       </li>
                       <li>
                         College / University{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.collegeResponse &&
-                            studentData.collegeResponse.collegeName &&
-                            studentData.collegeResponse.collegeName}
+                          {
+                            studentData?.studentDetails?.collegeResponse
+                              ?.collegeName
+                          }
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.qualificationResponse &&
-                            studentData.qualificationResponse
-                              .qualificationName &&
-                            studentData.qualificationResponse.qualificationName}
+                          {
+                            studentData?.studentDetails?.qualificationResponse
+                              ?.qualificationName
+                          }
                         </span>
                       </li>
                       <li>
                         Hours / day{" "}
                         <span className="result">
-                          {studentData &&
-                            studentData.workHoursPerDay &&
-                            studentData.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
                     </ul>
@@ -230,7 +226,7 @@ const Profile = () => {
                 <div className="jobs-com-profile">
                   <div className="profile-update">
                     <p className="mailto:michael-taylor028@gmail.com">
-                      michael-taylor028@gmail.com
+                      {studentData?.email}
                     </p>
                   </div>
                   <div className="profile-strength">
@@ -277,28 +273,26 @@ const Profile = () => {
                         <li>
                           <span className="plabel">Age</span>{" "}
                           <span className="result">
-                            {studentData && studentData.age && studentData.age}{" "}
-                            {studentData && studentData.age && "Years old"}
+                            {studentData?.studentDetails?.age}{" "}
+                            {studentData?.studentDetails?.age && "Years old"}
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Gender </span>
                           <span className="result">
-                            {studentData &&
-                              studentData.genderResponse &&
-                              studentData.genderResponse.genderName &&
-                              studentData.genderResponse.genderName}
+                            {
+                              studentData?.studentDetails?.genderResponse
+                                ?.genderName
+                            }
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Qualification</span>{" "}
                           <span className="result">
-                            {studentData &&
-                              studentData.qualificationResponse &&
-                              studentData.qualificationResponse
-                                .qualificationName &&
-                              studentData.qualificationResponse
-                                .qualificationName}
+                            {
+                              studentData?.studentDetails?.qualificationResponse
+                                ?.qualificationName
+                            }
                           </span>
                         </li>
                         <li>
@@ -318,28 +312,18 @@ const Profile = () => {
                         <li>
                           <span className="plabel">Time zone </span>
                           <span className="result">
-                            {studentData &&
-                              studentData.timezone &&
-                              studentData.timezone}
+                            {studentData?.studentDetails?.timezone}
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Address </span>
                           <span className="result">
-                            {studentData &&
-                              studentData.address &&
-                              studentData.address}
+                            {studentData?.studentDetails?.address}
                             {", "}
-                            {studentData &&
-                              studentData.addressLine1 &&
-                              studentData.addressLine1}
+                            {studentData?.studentDetails?.addressLine1}
                             {", "}
-                            {studentData &&
-                              studentData.addressLine2 !== "undefined" &&
-                              studentData.addressLine2}
-                            {studentData &&
-                              studentData.cityName &&
-                              studentData.cityName}
+                            {studentData?.studentDetails?.addressLine2}
+                            {studentData?.studentDetails?.cityName}
                           </span>
                         </li>
                       </ul>
@@ -361,39 +345,28 @@ const Profile = () => {
                         <li>
                           <span className="plabel">Hours / day</span>{" "}
                           <span className="result">
-                            {studentData &&
-                              studentData.workHoursPerDay &&
-                              studentData.workHoursPerDay}
+                            {studentData?.studentDetails?.workHoursPerDay}
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Expected salary </span>
                           <span className="result">
-                            ${" "}
-                            {studentData &&
-                              studentData.expectedSalary &&
-                              studentData.expectedSalary}
+                            $ {studentData?.studentDetails?.expectedSalary}
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Total Experience</span>{" "}
                           <span className="result">
-                            {studentData &&
-                              studentData.experienceInYears &&
-                              studentData.experienceInYears}{" "}
+                            {studentData?.studentDetails?.experienceInYears}{" "}
                             Years{" "}
-                            {studentData &&
-                              studentData.experienceInMonths &&
-                              studentData.experienceInMonths}{" "}
+                            {studentData?.studentDetails?.experienceInMonths}{" "}
                             months
                           </span>
                         </li>
                         <li>
                           <span className="plabel">Working</span>{" "}
                           <span className="result">
-                            {studentData &&
-                              studentData.workingType &&
-                              studentData.workingType}
+                            {studentData?.studentDetails?.workingType}
                           </span>
                         </li>
                         <li>
@@ -405,9 +378,7 @@ const Profile = () => {
                                   target="_blank"
                                   href={studentResume && studentResume}
                                 >
-                                  {studentData &&
-                                    studentData.resumeFilePath &&
-                                    studentData.resumeFilePath}
+                                  {studentData?.studentDetails?.resumeFilePath}
                                 </a>
                               </li>
                             </ul>
@@ -417,8 +388,20 @@ const Profile = () => {
                           <span className="plabel">Extra certificates </span>
                           <span className="result">
                             <ul className="tags">
-                              <li>Master-of-science.pdf</li>
-                              <li>Certificate of .net technology</li>
+                              {studentData?.studentDetails?.studentExtraCertificate.map(
+                                (certificate, i) => (
+                                  <>
+                                    <li key={i}>
+                                      <a
+                                        href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                        target="_blank"
+                                      >
+                                        {certificate.title}
+                                      </a>
+                                    </li>
+                                  </>
+                                )
+                              )}
                             </ul>
                           </span>
                         </li>
@@ -444,8 +427,8 @@ const Profile = () => {
                     </div>
                     <div className="profile-info-list">
                       <ul className="info-list-li additional-box">
-                        {employmentDetails?.map((data) => (
-                          <li>
+                        {employmentDetails?.map((data, i) => (
+                          <li key={i}>
                             <div className="designation-list-item">
                               <div className="employer-sort-info">
                                 <h4>Front End - Team Lead </h4>
@@ -507,7 +490,7 @@ const Profile = () => {
                         {projectHistory &&
                           projectHistory.length > 0 &&
                           projectHistory.map((project, index) => (
-                            <div className="project-dbox">
+                            <div className="project-dbox" key={index}>
                               <h2 className="prname">
                                 {/* Front-End Sketch to Tailwind */}
                                 {project.title}
@@ -515,7 +498,6 @@ const Profile = () => {
                               <div className="prd-buget-column">
                                 <div className="project-tenure-skills">
                                   <span className="prdate">
-                                    {/* JAN 05, 2022 - JAN 15, 2022 */}
                                     {moment(project.startDate).format(
                                       "MMM Do YYYY"
                                     )}
@@ -525,9 +507,6 @@ const Profile = () => {
                                     )}
                                   </span>
                                   <ul className="tech-links">
-                                    {/* <li>react-redux</li>
-                                    <li>flutter</li>
-                                    <li>native</li> */}
                                     {project.roleResponsiblity}
                                   </ul>
                                 </div>
@@ -723,6 +702,13 @@ const Profile = () => {
                             </li>
                           </ul>
                         </div>
+                        <Pagination
+                          activePage={activePage}
+                          itemsCountPerPage={pageSize}
+                          totalItemsCount={totalRecords}
+                          pageRangeDisplayed={totalRecords / pageSize}
+                          onChange={handlePageChange}
+                        />
                       </div>
                     </div>
                   </div>
