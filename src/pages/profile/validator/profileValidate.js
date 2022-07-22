@@ -1,6 +1,5 @@
 const ProfileValidate = (values) => { 
      const error = {}
-     console.log("rahul")
      if(!values.firstname){ 
           error.firstname = "Required First Name"
      }
@@ -72,7 +71,6 @@ const ProfileValidate = (values) => {
           error.skills = "Required Skills"
      
      }
-     console.log("err",error)
      return error;
    }
    

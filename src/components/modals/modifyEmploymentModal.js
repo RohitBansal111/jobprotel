@@ -18,27 +18,29 @@ const ModifyEmploymentModal = ({ empData }) => {
   const [data, setData] = useState([]);
 
   const handleJobPost = async (values) => {
-    const resp = await studentServices.updateStudentEmploymentData(id, {
-      ...values,
-      userId,
-    });
-    if (resp.status === 200) {
-     document.getElementById("modifyEmploymentModal").click(); 
-      toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
-      );
+    if (id && userId) {
+      const resp = await studentServices.updateStudentEmploymentData(id, {
+        ...values,
+        userId,
+      });
+      if (resp.status === 200) {
+        document.getElementById("modifyEmploymentModal").click();
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+      }
     }
   };
 
   const getEmpData = (empData) => {
-    const data={
-     designationId: empData.designationId,
-     employerName: empData.employerName,
-     isCurrentEmployer: empData.isCurrentEmployer,
-     startDate: empData.startDate,
-     endDate: empData.endDate,
-     salary: empData.salary
-    }
+    const data = {
+      designationId: empData.designationId,
+      employerName: empData.employerName,
+      isCurrentEmployer: empData.isCurrentEmployer,
+      startDate: empData.startDate,
+      endDate: empData.endDate,
+      salary: empData.salary,
+    };
     setData(data);
     setId(empData.id);
     setUserId(empData.userId);
@@ -52,7 +54,7 @@ const ModifyEmploymentModal = ({ empData }) => {
     const designationList = await dropdownServices.designationList();
     setDesignationlist(designationList.data);
   };
-  
+
   useEffect(() => {
     designationListData();
   }, []);
@@ -79,8 +81,12 @@ const ModifyEmploymentModal = ({ empData }) => {
             ></button>
           </div>
           <div className="modal-body p-4">
-          <div className="kyc-detail-form">
-              <Form initialValues={data} onSubmit={handleJobPost} validate={validate}>
+            <div className="kyc-detail-form">
+              <Form
+                initialValues={data}
+                onSubmit={handleJobPost}
+                validate={validate}
+              >
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
@@ -163,7 +169,6 @@ const ModifyEmploymentModal = ({ empData }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          // onClick={() => handleJobPost(values)}
                         >
                           Update Now
                         </button>

@@ -13,22 +13,21 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import toast from "toastr";
 
-const AddProjectModal = ({getProjectHistory}) => {
+const AddProjectModal = ({ getProjectHistory }) => {
   const authData = useSelector((state) => state.auth.user);
   const [id, setId] = useState("");
-  
+
   const saveProjectHistory = async (values) => {
     let data = { userId: id, ...values };
-    const {title, description, roleResponsiblity, projectUrl, startdate, enddate, totalTeamSize, companyEmail} = values
-    if(title&& description&& roleResponsiblity&& projectUrl&& startdate&& enddate&& totalTeamSize&& companyEmail){
+    if (data.userId) {
       const resp = await projectServices.postProjectHistoryData(data);
       console.log(resp);
-      if(resp.status === 200) {
-       document.getElementById("addProjectModal").click(); 
+      if (resp.status === 200) {
+        document.getElementById("addProjectModal").click();
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-        getProjectHistory(id)
+        getProjectHistory(id);
       }
     }
   };

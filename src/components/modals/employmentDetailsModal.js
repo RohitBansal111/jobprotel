@@ -20,7 +20,6 @@ const EmploymentDetailsModal = () => {
 
   const [id, setId] = useState("");
   const handleJobPost = async (values) => {
-
     const {
       employerName,
       designationId,
@@ -39,22 +38,20 @@ const EmploymentDetailsModal = () => {
       endDate,
       salary,
     };
-    if (
-      data.userId &&
-      data.designationId &&
-      data.employerName &&
-      data.isCurrentEmployer &&
-      data.startDate &&
-      data.endDate &&
-      data.salary
-    ) {
+    if (data.userId) {
       const resp = await studentServices.sendStudentEmploymentData(data);
       console.log(resp);
       if (resp.status === 200) {
-     document.getElementById("employmentModal").click(); 
+        document.getElementById("employmentModal").click();
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
+        employerName = "";
+        designationId = "";
+        // isCurrentEmployer = ""
+        salary = "";
+        endDate = "";
+        startDate = "";
       }
     }
   };
@@ -179,7 +176,6 @@ const EmploymentDetailsModal = () => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          // onClick={() => handleJobPost(values)}
                         >
                           Post Now
                         </button>

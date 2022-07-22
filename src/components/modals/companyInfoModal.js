@@ -34,50 +34,35 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     });
     if (profileImage != "") {
       formData.append("logoUrl", profileImage);
-      //values.logoUrl = profileImage
     }
-    const resp = await employerServices.updateEmployerDetails(
-      authData.id,
-      formData
-    );
-    if (resp.status == 200) {
-      setLoading(false);
-
-      const resp2 = await employerServices.getEmployerDetails(authData.id);
-      console.log(resp2, "employer data");
-      console.log(resp2.data.data, "employer data");
-      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
-
-      if (resp2.status == 200) {
-        dispatch({
-          type: types.LOGIN_USER_SUCCESS,
-          payload: resp2.data.data,
-          token: localStorage.getItem("jobPortalUserToken"),
-        });
-      }
-
-      toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
+    if (authData.id) {
+      const resp = await employerServices.updateEmployerDetails(
+        authData.id,
+        formData
       );
-      getEmployerDetails();
-      document.getElementById("modelClose").click();
-    } else if (resp.errors && typeof resp.errors === "object") {
-      setLoading(false);
-      let errors = "";
-      let keys = Object.keys(resp.errors);
-      keys.forEach((key) => {
-        errors = key + "," + errors;
-      });
+      if (resp.status == 200) {
+        setLoading(false);
 
-      errors = errors.replace(/,\s*$/, "");
-      toast.error(errors + "is Required");
-    } else if (resp.error) {
-      setLoading(false);
-      toast.error(resp.error ? resp.error : "Something went wrong");
-    } else {
-      setLoading(false);
-      document.getElementById("modelClose").click();
-      if (resp.errors && typeof resp.errors === "object") {
+        const resp2 = await employerServices.getEmployerDetails(authData.id);
+        console.log(resp2, "employer data");
+        console.log(resp2.data.data, "employer data");
+        localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
+
+        if (resp2.status == 200) {
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+        }
+
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+        getEmployerDetails();
+        document.getElementById("modelClose").click();
+      } else if (resp.errors && typeof resp.errors === "object") {
+        setLoading(false);
         let errors = "";
         let keys = Object.keys(resp.errors);
         keys.forEach((key) => {
@@ -89,6 +74,22 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       } else if (resp.error) {
         setLoading(false);
         toast.error(resp.error ? resp.error : "Something went wrong");
+      } else {
+        setLoading(false);
+        document.getElementById("modelClose").click();
+        if (resp.errors && typeof resp.errors === "object") {
+          let errors = "";
+          let keys = Object.keys(resp.errors);
+          keys.forEach((key) => {
+            errors = key + "," + errors;
+          });
+
+          errors = errors.replace(/,\s*$/, "");
+          toast.error(errors + "is Required");
+        } else if (resp.error) {
+          setLoading(false);
+          toast.error(resp.error ? resp.error : "Something went wrong");
+        }
       }
     }
   };
@@ -334,7 +335,6 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          // onClick={() => handleCompanyInfo(values)}
                         >
                           {loading && <Loader />} Update Info
                         </button>

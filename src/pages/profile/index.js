@@ -71,7 +71,7 @@ const Profile = () => {
     };
 
     const resp = await projectServices.getProjectHistoryData(data);
-    console.log(resp);
+    // console.log(resp);
     let response = resp.data.data;
     if (resp.status === 200) {
       setProjectHistory(response);
@@ -389,9 +389,9 @@ const Profile = () => {
                           <span className="result">
                             <ul className="tags">
                               {studentData?.studentDetails?.studentExtraCertificate.map(
-                                (certificate) => (
+                                (certificate, i) => (
                                   <>
-                                    <li>
+                                    <li key={i}>
                                       <a
                                         href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
                                         target="_blank"
@@ -427,8 +427,8 @@ const Profile = () => {
                     </div>
                     <div className="profile-info-list">
                       <ul className="info-list-li additional-box">
-                        {employmentDetails?.map((data) => (
-                          <li>
+                        {employmentDetails?.map((data, i) => (
+                          <li key={i}>
                             <div className="designation-list-item">
                               <div className="employer-sort-info">
                                 <h4>Front End - Team Lead </h4>
@@ -490,7 +490,7 @@ const Profile = () => {
                         {projectHistory &&
                           projectHistory.length > 0 &&
                           projectHistory.map((project, index) => (
-                            <div className="project-dbox">
+                            <div className="project-dbox" key={index}>
                               <h2 className="prname">
                                 {/* Front-End Sketch to Tailwind */}
                                 {project.title}
@@ -498,7 +498,6 @@ const Profile = () => {
                               <div className="prd-buget-column">
                                 <div className="project-tenure-skills">
                                   <span className="prdate">
-                                    {/* JAN 05, 2022 - JAN 15, 2022 */}
                                     {moment(project.startDate).format(
                                       "MMM Do YYYY"
                                     )}
@@ -508,9 +507,6 @@ const Profile = () => {
                                     )}
                                   </span>
                                   <ul className="tech-links">
-                                    {/* <li>react-redux</li>
-                                    <li>flutter</li>
-                                    <li>native</li> */}
                                     {project.roleResponsiblity}
                                   </ul>
                                 </div>

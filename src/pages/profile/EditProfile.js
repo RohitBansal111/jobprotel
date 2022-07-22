@@ -105,11 +105,12 @@ const EditProfile = () => {
   const getExtraCertificate = async (id) => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
+    console.log(response);
     if (resp.status === 200 && response.length > 0) {
       let arr = [];
       response.map((resp) => {
         let obj = {
-          title: resp.title.split(".").slice(0, -1).join("."),
+          title: resp.title.split(".").slice(0, 1).join("."),
           certificates: resp.filePath,
           id: resp.id,
         };
@@ -134,51 +135,48 @@ const EditProfile = () => {
   };
 
   const manageCertificates = async (id) => {
+    console.log(id);
     const resp = await extraCertificateServices.deleteExtraCertificates(id);
+    console.log(resp);
     if (resp.status === 200) {
       let arr = [];
       previewImg
         .filter((image) => image.id !== id)
         .map((image) => arr.push(image));
       setPreviewImg(arr);
-      getExtraCertificate();
+      getExtraCertificate(authData.id);
     }
   };
 
   const editCertificates = async (id, title) => {
-    // let data ={ title: title}
     console.log(id, title, "extra");
 
-    let formData = new FormData();
-    formData.append("Title", title);
-    const resp = await extraCertificateServices.updateExtraCertificatesTitle(
-      id,
-      formData
-    );
-    console.log(resp);
-    if (resp.status === 200) {
-      toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
+    if ((id, title)) {
+      let formData = new FormData();
+      formData.append("Title", title);
+      formData.append("CertId", id);
+
+      const resp = await extraCertificateServices.updateExtraCertificatesTitle(
+        formData
       );
+      console.log(resp);
+      if (resp.status === 200) {
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+        getExtraCertificate(authData.id);
+      }
     }
   };
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data;
-
-      console.log(response, "response");
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
       );
 
-      // let certificateArray = [];
-      // response.studentExtraCertificate.map((data) => {
-      //   let obj = { title: data.title, certificates: data.filePath };
-      //   certificateArray.push(obj);
-      // });
-      // setPreviewImg(certificateArray);
       setImg({
         ...img,
         personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
@@ -222,7 +220,6 @@ const EditProfile = () => {
         CountryValue(response.studentDetails.countryResponse.id);
       }
 
-      let timeObj = { value: response.timezone };
       const data = {
         firstname: response.firstName,
         lastname: response.lastName,
@@ -1028,7 +1025,7 @@ const EditProfile = () => {
                                               }
                                             />
                                           </button>
-                                          <button className="btn btn-edit">
+                                          <span className="btn btn-edit">
                                             <i
                                               className="fa fa-edit"
                                               aria-hidden="true"
@@ -1040,7 +1037,7 @@ const EditProfile = () => {
                                                 )
                                               }
                                             />
-                                          </button>
+                                          </span>
                                         </li>
                                       </>
                                     ))}
