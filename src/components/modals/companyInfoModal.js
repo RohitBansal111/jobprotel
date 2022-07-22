@@ -34,12 +34,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     });
     if (profileImage != "") {
       formData.append("logoUrl", profileImage);
-<<<<<<< HEAD
       //values.logoUrl = profileImage
     }else{
      formData.append("logoUrl", null);
-=======
->>>>>>> 81a7fc3f35f39a66d1f4f2d576390cab8070a050
     }
     if (authData.id) {
       const resp = await employerServices.updateEmployerDetails(
