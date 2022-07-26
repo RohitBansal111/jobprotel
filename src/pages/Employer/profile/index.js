@@ -182,7 +182,7 @@ const EmployerProfile = () => {
                   <div className="profile-update">
                     {/* <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p> */}
                   </div>
-                  <div className="profile-strength">
+                  {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
@@ -209,7 +209,7 @@ const EmployerProfile = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 {loading ? (
                   <Loader />
