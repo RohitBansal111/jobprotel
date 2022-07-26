@@ -198,7 +198,7 @@ const Step3 = ({
                     type="text"
                     defaultValue={next && data ? data.days : ""}
                   >
-                    <option selected="">Select days</option>
+                    <option value="">Select days</option>
                     <option value="1 day">1 day</option>
                     <option value="2 days">2 days</option>
                     <option value="3 days">3 days</option>
@@ -214,7 +214,7 @@ const Step3 = ({
                     type="text"
                     defaultValue={next && data ? data.workHoursPerDay : ""}
                   >
-                    <option selected="" disabled>
+                    <option value="" disabled>
                       Select hours
                     </option>
                     <option value="1">1</option>
@@ -366,7 +366,7 @@ const Step3 = ({
                       previewImg.length > 0 &&
                       previewImg.map((img, index) => (
                         <>
-                          <li>
+                          <li key={index}>
                             {index + 1}. {img.certificates.name}
                             <label>File Title</label>
                             <input

@@ -11,6 +11,7 @@ import * as jobServices from "../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
+import toast from "toastr";
 
 const FindWork = () => {
   const [role, setRole] = useState("EMPLOYER");
@@ -19,22 +20,21 @@ const FindWork = () => {
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [id, setId] = useState("");
   const [jobList, setJobList] = useState([]);
-  const [search, setSearch] = useState("")
-  const [activePage, setActivePage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [totalRecords, setTotalRecords] = useState(20)
+  const [search, setSearch] = useState("");
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
-  
-  const authData = useSelector((state)=> state.auth.user);
+
+  const authData = useSelector((state) => state.auth.user);
 
   useEffect(async () => {
-    if(authData)
-    {
-    setId(authData.id);
-    console.log(authData,"authData")
-    getStudentDetails(authData.id)
-    getJobList(activePage)
-    setRole(authData.userRoles[0]);
+    if (authData) {
+      console.log(authData);
+      setId(authData.id);
+      getStudentDetails(authData.id);
+      getJobList(activePage);
+      setRole(authData.userRoles[0]);
     }
   }, [authData]);
 
@@ -42,7 +42,6 @@ const FindWork = () => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data;
-      console.log(response)
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
@@ -58,26 +57,27 @@ const FindWork = () => {
     };
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
-      console.log(response);
+      // console.log(response);
       setLoading(false);
       setJobList(response.data.data);
-    }else if(response.status == 400)
-    {
+      setTotalRecords(response.data.totalCount);
+    } else {
       setLoading(false);
+      toast.error("Something went wrong");
     }
   };
 
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
     setLoading(true);
-    setActivePage(pageNumber)
-    getJobList(pageNumber)
-  }
-  const handleSearch=(e)=>{
-    e.preventDefault()
+    setActivePage(pageNumber);
+    getJobList(pageNumber);
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
     setLoading(true);
-    getJobList(activePage,search)
-  }
+    getJobList(activePage, search);
+  };
 
   const handleFilter = () => setshowFilter(!showFilter);
   return (
@@ -86,7 +86,9 @@ const FindWork = () => {
         <section className="complete-kyc">
           <div className="container">
             <div className="kyc-update">
-              <p>
+              {authData?.studentDetails?.kycStatus === "false" ?
+                <>
+                <p>
                 <i className="fa fa-info-circle" aria-hidden="true"></i> KYC is
                 pending, please click on button and complete your KYC{" "}
               </p>
@@ -98,7 +100,10 @@ const FindWork = () => {
               >
                 Complete KYC
               </button>
-              <CompleteKycModal />
+              <CompleteKycModal jobList={jobList} />
+              </>
+              : <h2>KYC Completed</h2>
+              }
             </div>
           </div>
         </section>
@@ -130,10 +135,7 @@ const FindWork = () => {
                         <img src={studentProfilePic} alt="user profile" />
                       </span>
                     </div>
-                    <h3>
-                      {studentData ?.fullName}{" "}
-                      
-                    </h3>
+                    <h3>{studentData?.fullName} </h3>
                     <p>
                       {studentData?.studentDetails?.address}
                       {", "}
@@ -141,9 +143,7 @@ const FindWork = () => {
                       {", "}
                       {studentData?.studentDetails?.addressLine2}
                     </p>
-                    <p>
-                      {studentData?.studentDetails?.cityName}
-                    </p>
+                    <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
                     <div className="profile-con">
@@ -184,13 +184,19 @@ const FindWork = () => {
                       <li>
                         College / University{" "}
                         <span className="result">
-                          {studentData?.studentDetails?.collegeResponse?.collegeName}
+                          {
+                            studentData?.studentDetails?.collegeResponse
+                              ?.collegeName
+                          }
                         </span>
                       </li>
                       <li>
                         Education{" "}
                         <span className="result">
-                          {studentData?.studentDetails?.qualificationResponse?.qualificationName}
+                          {
+                            studentData?.studentDetails?.qualificationResponse
+                              ?.qualificationName
+                          }
                         </span>
                       </li>
                       <li>
@@ -210,10 +216,9 @@ const FindWork = () => {
                       <li>
                         <Link to="#">
                           <span className="update-name">
-                            Job Applied
-                            &nbsp;
+                            Job Applied &nbsp;
                           </span>
-                          2
+                          {totalRecords && totalRecords}
                         </Link>
                       </li>
                       {/* <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
@@ -309,11 +314,20 @@ const FindWork = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>Showing {activePage ==1?activePage:(1+(activePage-1)*pageSize)}-
-                      {jobList && jobList.length?(activePage-1)*pageSize+jobList.length:0} of {totalRecords} results</p>
+                    <p>
+                      Showing{" "}
+                      {activePage == 1
+                        ? activePage
+                        : 1 + (activePage - 1) * pageSize}
+                      -
+                      {jobList && jobList.length
+                        ? (activePage - 1) * pageSize + jobList.length
+                        : 0}{" "}
+                      of {totalRecords} results
+                    </p>
                   </div>
                   <div className="default-feeds-search">
-                  {loading ? (
+                    {loading ? (
                       <Loader />
                     ) : jobList && jobList.length === 0 ? (
                       <h4>No jobs found</h4>
@@ -321,7 +335,7 @@ const FindWork = () => {
                       jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} type="find"/>
+                        <PostedJobCard jobs={jobs} key={index} type="find" />
                       ))
                     )}
                   </div>
@@ -329,11 +343,10 @@ const FindWork = () => {
                     activePage={activePage}
                     itemsCountPerPage={pageSize}
                     totalItemsCount={totalRecords}
-                    pageRangeDisplayed={totalRecords / pageSize}
+                    pageRangeDisplayed={totalRecords / pageSize + 1}
                     onChange={handlePageChange}
                   />
                 </div>
-                
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ const axiosInstance = getInstance();
 export const RenderImageField = ({
   input: { name, value, onChange },
   label,
-  uploadLabel,
+  uploadlabel,
   type,
   meta: { touched, error, warning },
   token,
@@ -100,7 +100,7 @@ export const RenderImageField = ({
               type="button"
               className="btn themesecondarybackground fileUpload"
             >
-              {uploadLabel || "Upload File"}
+              {uploadlabel || "Upload File"}
             </button>
             <input
               name={name}
@@ -142,7 +142,7 @@ RenderImageField.propTypes = {
 // export const RenderImageField = ({
 //   input: { name, value, onChange },
 //   label,
-//   uploadLabel,
+//   uploadlabel,
 //   type,
 //   meta: { touched, error, warning },
 //   token,
@@ -171,7 +171,7 @@ RenderImageField.propTypes = {
 //               type="button"
 //               className="btn themesecondarybackground fileUpload"
 //             >
-//               {uploadLabel || 'Upload File'}
+//               {uploadlabel || 'Upload File'}
 //             </button>
 //             <input
 //               name={name}

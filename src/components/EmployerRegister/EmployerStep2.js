@@ -177,8 +177,8 @@ const EmployerStep2 = ({
                       Select Country
                     </option>
                     {countrylist &&
-                      countrylist.map((country) => (
-                        <option value={country.id} key={country.id}>
+                      countrylist.map((country, i) => (
+                        <option value={country.id} key={i}>
                           {country.countryName}
                         </option>
                       ))}
@@ -194,8 +194,8 @@ const EmployerStep2 = ({
                       Select State
                     </option>
                     {stateList &&
-                      stateList.map((state) => (
-                        <option value={state.id} key={state.id}>
+                      stateList.map((state, i) => (
+                        <option value={state.id} key={i}>
                           {state.stateName}
                         </option>
                       ))}

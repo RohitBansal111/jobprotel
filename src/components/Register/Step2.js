@@ -153,7 +153,7 @@ const Step2 = ({
                           component={RenderRadioButtonField}
                           type="radio"
                           currentIndex={index}
-                          // defaultValue={next && data ? data.genderId : ""}
+                          key={index}
                         >
                           {gender.name}
                         </Field>

@@ -5,21 +5,21 @@ import validate from "./forgotPasswordValidator";
 import { renderField } from "../../components/renderField";
 import titles from "./forgot-password.json";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import * as authServices from "../../services/authServices";
+import toast from "toastr";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
   let titleStrings = new LocalizedStrings(titles);
 
   const handleForgotPassword = async (value) => {
-    // console.log(value);
-    setEmail(value);
     if (value) {
-      const forgotResponse = await authServices.forgotPassword(value);
-      console.log(forgotResponse);
-      if (forgotResponse.status == 200) {
-        setEmail("");
+      const resp = await authServices.forgotPassword(value);
+      console.log(resp);
+      if (resp.status == 200) {
+        value.email = ""
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
       }
     }
   };
@@ -56,12 +56,11 @@ const ForgotPassword = () => {
                       <div className="form-field-group">
                         <div className="form-field flex100">
                           <Field
-                            name="userName"
+                            name="email"
                             label={titleStrings.emailTitle}
                             component={renderField}
                             placeholder="Enter email address"
                             type="text"
-                            value={email}
                           />
                         </div>
                         <div className="form-action w-100">

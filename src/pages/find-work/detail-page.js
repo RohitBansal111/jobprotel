@@ -100,7 +100,7 @@ const DetailsPage = () => {
                     <span>
                    { jobDetails && jobDetails.created ?
                       <ReactTimeAgo
-                        date={jobDetails ?.created}
+                        date={jobDetails?.created}
                         locale="en-US"
                      />
                      :null}
@@ -110,9 +110,7 @@ const DetailsPage = () => {
                 </div>
                 <div className="job-description">
                   <p>
-                    {jobDetails &&
-                      jobDetails.description &&
-                      jobDetails.description}
+                    {jobDetails?.description}
                   </p>
                   {/* <p>
                     I need help with the html and css for the attached image.

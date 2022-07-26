@@ -14,11 +14,11 @@ import ru from "javascript-time-ago/locale/ru.json";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs ,type}) => {
+const PostedJobCard = ({ jobs, type }) => {
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
-
+  
   const GetTags = () => {
     let job = jobs.tags;
 
@@ -54,7 +54,13 @@ const PostedJobCard = ({ jobs ,type}) => {
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to={type =='find'?`/find-work/details/${jobId}`:`/job-details/${jobId}`}>
+                <Link
+                  to={
+                    type == "find"
+                      ? `/find-work/details/${jobId}`
+                      : `/job-details/${jobId}`
+                  }
+                >
                   {/* Mobile/Tablet Front-End Developer{" "} */}
                   {jobs && jobs.title && jobs.title}
                 </Link>
@@ -109,11 +115,9 @@ const PostedJobCard = ({ jobs ,type}) => {
           <div className="posted-submit">
             <p className="post-ago">
               <img src={ClockIcon} alt="clock" />
-              <ReactTimeAgo
-                date={jobs && jobs.createdOn && jobs.createdOn}
-                locale="en-US"
-              />
-              {/* <ReactTimeAgo  locale="en-US" timeStyle="twitter"/> */}
+              {jobs?.createdOn ? 
+              <ReactTimeAgo date={jobs?.createdOn} locale="en-US" />
+              : null}
             </p>
             <div className="d-flex">
               <button

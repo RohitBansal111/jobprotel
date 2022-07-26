@@ -23,10 +23,11 @@ export const postProjectHistoryData = async (data) => {
   }
 };
 
-export const getProjectHistoryData = async (id) => {
+export const getProjectHistoryData = async (data) => {
   try {
-    const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/ProjectHistory/GetProjectHistory/userID?userID=${id}`
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ProjectHistory/GetProjectHistory/userID`,
+      data
     );
     if (resp.status == 200) {
       return resp;

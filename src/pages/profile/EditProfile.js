@@ -23,9 +23,11 @@ import ImageCropperModal from "../../components/Image-cropper";
 import toast from "toastr";
 import * as extraCertificateServices from "../../services/studentExtraCertificates";
 import * as types from "../../types/auth";
+import { Loader } from "../../components/Loader/Loader";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
@@ -58,7 +60,6 @@ const EditProfile = () => {
   const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
   const [previewImg, setPreviewImg] = useState([]);
-  const [err, setErr] = useState([]);
   const [working, setWorking] = useState("");
   const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
@@ -69,10 +70,9 @@ const EditProfile = () => {
     setResumeFile(files);
     setResumeName(files.name);
   };
-  // console.log(timezone, "timezone");
+
   const extraCertificateHandler = async (event) => {
     let files = event.target.files[0];
-    // console.log(files);
     let obj = {
       title: files.name.split(".").slice(0, -1).join("."),
       certificates: files,
@@ -86,7 +86,10 @@ const EditProfile = () => {
       const resp = await extraCertificateServices.postExtraCertificates(
         formData
       );
-      setCallCertificate(true);
+      if (resp.status === 200) {
+        setLoading(false);
+        setCallCertificate(true);
+      }
     }
 
     // let image = [...event.target.files];
@@ -105,8 +108,8 @@ const EditProfile = () => {
   const getExtraCertificate = async (id) => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
-    console.log(response);
     if (resp.status === 200 && response.length > 0) {
+      setLoading(false);
       let arr = [];
       response.map((resp) => {
         let obj = {
@@ -128,6 +131,7 @@ const EditProfile = () => {
       setId(authData.id);
     }
   }, [authData, callCertificate]);
+
   const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
     data[index][event.target.name] = event.target.value;
@@ -135,9 +139,7 @@ const EditProfile = () => {
   };
 
   const manageCertificates = async (id) => {
-    console.log(id);
     const resp = await extraCertificateServices.deleteExtraCertificates(id);
-    console.log(resp);
     if (resp.status === 200) {
       let arr = [];
       previewImg
@@ -149,8 +151,6 @@ const EditProfile = () => {
   };
 
   const editCertificates = async (id, title) => {
-    console.log(id, title, "extra");
-
     if ((id, title)) {
       let formData = new FormData();
       formData.append("Title", title);
@@ -159,7 +159,6 @@ const EditProfile = () => {
       const resp = await extraCertificateServices.updateExtraCertificatesTitle(
         formData
       );
-      console.log(resp);
       if (resp.status === 200) {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
@@ -168,19 +167,24 @@ const EditProfile = () => {
       }
     }
   };
+
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
+      setLoading(false);
       const response = resp.data.data;
+      console.log(response);
       setStudentData(response);
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
-      );
 
-      setImg({
-        ...img,
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
-      });
+      if (response?.studentDetails?.pictureUrl) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
+        );
+        setImg({
+          // ...img,
+          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
+        });
+      }
 
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
@@ -248,13 +252,11 @@ const EditProfile = () => {
         skills: finalSkill,
       };
       setTimezone(JSON.parse(response?.studentDetails?.timezone));
-      console.log(data, "data");
       setEditData(data);
     }
   };
 
   const handleTimeZone = (data) => {
-    console.log(data);
     setTimezone(data);
   };
 
@@ -263,28 +265,36 @@ const EditProfile = () => {
     setStateList(resp.data);
     if (resp.data.length > 0) {
       setStateValue(resp, data[0]);
+      setLoading(false);
     }
   };
 
   const handleChangeCountry = async (e) => {
     const resp = await dropdownServices.stateList(e.target.value);
-    setStateList(resp.data);
+    if (resp.status === 200) {
+      setStateList(resp.data);
+      setLoading(false);
+    }
   };
 
   const saveProfile = async (values) => {
-    console.log(values, "values");
-    console.log(img.personalInfoImg);
+    // console.log(img.personalInfoImg.length, "values");
+    // const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
     let formData = new FormData();
 
     formData.append("userId", id);
     formData.append("firstName", values.firstname);
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
-    if (imageValid) {
-      formData.append("profileImage", img.personalInfoImg);
-    } else {
-      formData.append("profileImage", null);
-    }
+    // if (imageValid) {
+      // if(img.personalInfoImg && base64regex.test(img.personalInfoImg)){
+      if(img.personalInfoImg && img.personalInfoImg.length > 1000){
+        formData.append("profileImage", img.personalInfoImg);
+      }
+    // } 
+    // else {
+    //   formData.append("profileImage", null);
+    // }
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
     formData.append("stateId", values.state);
@@ -353,10 +363,9 @@ const EditProfile = () => {
 
     const resp = await studentServices.updateStudentDetails(formData);
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
+      setLoading(false);
       const resp2 = await studentServices.getStudentDetails(id);
-      console.log(resp2, "student data");
-      console.log(resp2.data.data, "student data");
       localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
       if (resp2.status == 200) {
         dispatch({
@@ -369,6 +378,9 @@ const EditProfile = () => {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
+      if (authData) {
+        getStudentData(authData.id);
+      }
     } else if (resp.errors && typeof resp.errors === "object") {
       let errors = "";
       let keys = Object.keys(resp.errors);
@@ -394,6 +406,7 @@ const EditProfile = () => {
     });
   }
   const handleImageChange = (event) => {
+    // console.log(event.target.files[0]);
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
       setImageValid(true);
@@ -413,28 +426,17 @@ const EditProfile = () => {
 
   const handleCollege = (e) => {
     let value = e.target.value;
-    // console.log(value);
     setCollegeId(value);
   };
 
   const handleDesignation = (e) => {
     let value = e.target.value;
-    // console.log(value);
     setDesignationId(value);
   };
   const handleWorkingChange = (e) => {
     setWorking(e.target.value);
   };
-  const validation = () => {
-    let isValid = true;
-    let error = {};
-    if (working) {
-      error.working = "Required Working";
-      isValid = false;
-    }
-    setErr(error);
-    return isValid;
-  };
+
   useEffect(async () => {
     const countryList = await dropdownServices.countryList();
     const collegeList = await dropdownServices.collegeList();
@@ -457,630 +459,637 @@ const EditProfile = () => {
 
   return (
     <Layout>
-      <div className="inner-page-wrapper">
-        <section className="topbg-banner">
-          <div className="container">
-            <div className="innerbg-banner">
-              <div className="banner-edit">
-                {/* <Link to="#" className="btn edit-btn">Edit Profile</Link> */}
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="inner-page-wrapper">
+          <section className="topbg-banner">
+            <div className="container">
+              <div className="innerbg-banner">
+                <div className="banner-edit"></div>
               </div>
             </div>
-          </div>
-        </section>
-        <section className="job-feeds-wrapper">
-          <div className="container">
-            <div className="profile-feed-inner">
-              <div className="user-profile-left">
-                <div className="user-profile-coll">
-                  <div className="user-profile-detail">
-                    <div
-                      className="profile-pic-progress"
-                      role="progressbar"
-                      aria-valuenow="60"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    >
-                      <span className="profile-img">
-                        <img src={studentProfilePic} alt="user profile" />
-                      </span>
+          </section>
+          <section className="job-feeds-wrapper">
+            <div className="container">
+              <div className="profile-feed-inner">
+                <div className="user-profile-left">
+                  <div className="user-profile-coll">
+                    <div className="user-profile-detail">
+                      <div
+                        className="profile-pic-progress"
+                        role="progressbar"
+                        aria-valuenow="60"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <span className="profile-img">
+                          <img src={studentProfilePic} alt="user profile" />
+                        </span>
+                      </div>
+                      <h3>
+                        {studentData &&
+                          studentData.firstName &&
+                          studentData.firstName}{" "}
+                        {studentData &&
+                          studentData.lastName &&
+                          studentData.lastName}{" "}
+                      </h3>
+                      <p>
+                        {studentData?.studentDetails?.address}
+                        {", "}
+                        {studentData?.studentDetails?.addressLine1}
+                        {", "}
+                        {studentData?.studentDetails?.addressLine2 !==
+                          "undefined"}
+                      </p>
+                      <p>{studentData?.studentDetails?.cityName}</p>
                     </div>
-                    <h3>
-                      {studentData &&
-                        studentData.firstName &&
-                        studentData.firstName}{" "}
-                      {studentData &&
-                        studentData.lastName &&
-                        studentData.lastName}{" "}
-                    </h3>
-                    <p>
-                      {studentData?.studentDetails?.address}
-                      {", "}
-                      {studentData?.studentDetails?.addressLine1}
-                      {", "}
-                      {studentData?.studentDetails?.addressLine2 !==
-                        "undefined"}
-                    </p>
-                    <p>{studentData?.studentDetails?.cityName}</p>
-                  </div>
-                  <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
-                      </span>
+                    <div className="profile-connect">
+                      <div className="profile-con">
+                        <img src={ConnectIcon} alt="Connect" />
+                        <span className="conn-count">
+                          {studentData?.studentDetails?.availableConnects}
+                        </span>
+                      </div>
+                      <h4>Available Connects</h4>
                     </div>
-                    <h4>Available Connects</h4>
-                  </div>
-                  <div className="user-prof-info">
-                    <ul className="prof-info-ul">
-                      <li>
-                        Experience{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.experienceInYears}
-                          Year{", "}
-                          {studentData?.studentDetails?.experienceInMonths}{" "}
-                          Month
-                        </span>
-                      </li>
-                      <li>
-                        College / University{" "}
-                        <span className="result">
-                          {
-                            studentData?.studentDetails?.collegeResponse
-                              ?.collegeName
-                          }
-                        </span>
-                      </li>
-                      <li>
-                        Education{" "}
-                        <span className="result">
-                          {
-                            studentData?.studentDetails?.qualificationResponse
-                              ?.qualificationName
-                          }
-                        </span>
-                      </li>
-                      <li>
-                        Hours / day{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
-                        </span>
-                      </li>
-                    </ul>
+                    <div className="user-prof-info">
+                      <ul className="prof-info-ul">
+                        <li>
+                          Experience{" "}
+                          <span className="result">
+                            {studentData?.studentDetails?.experienceInYears}
+                            Year{", "}
+                            {
+                              studentData?.studentDetails?.experienceInMonths
+                            }{" "}
+                            Month
+                          </span>
+                        </li>
+                        <li>
+                          College / University{" "}
+                          <span className="result">
+                            {
+                              studentData?.studentDetails?.collegeResponse
+                                ?.collegeName
+                            }
+                          </span>
+                        </li>
+                        <li>
+                          Education{" "}
+                          <span className="result">
+                            {
+                              studentData?.studentDetails?.qualificationResponse
+                                ?.qualificationName
+                            }
+                          </span>
+                        </li>
+                        <li>
+                          Hours / day{" "}
+                          <span className="result">
+                            {studentData?.studentDetails?.workHoursPerDay}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="jobs-feeds-sec">
-                <div className="jobs-com-profile">
-                  <div className="profile-update">
-                    <p className="mailto:michael-taylor028@gmail.com">
-                      {studentData?.email}
-                    </p>
-                  </div>
-                  <div className="profile-strength">
-                    <div className="profile-strength-inner">
-                      <h3>
-                        Profile strength:{" "}
-                        <span className="profile-completed">60% Completed</span>
-                      </h3>
-                      <div className="profile-strength-bar">
-                        <p
-                          className="profile-progress"
-                          style={{ width: "60%" }}
-                        ></p>
-                        <div className="profile-complete-bar">
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "25%" }}
-                          ></span>
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "50%" }}
-                          ></span>
-                          <span
-                            className="complete-bar"
-                            style={{ left: "75%" }}
-                          ></span>
+                <div className="jobs-feeds-sec">
+                  <div className="jobs-com-profile">
+                    <div className="profile-update">
+                      <p className="mailto:michael-taylor028@gmail.com">
+                        {studentData?.email}
+                      </p>
+                    </div>
+                    <div className="profile-strength">
+                      <div className="profile-strength-inner">
+                        <h3>
+                          Profile strength:{" "}
+                          <span className="profile-completed">
+                            60% Completed
+                          </span>
+                        </h3>
+                        <div className="profile-strength-bar">
+                          <p
+                            className="profile-progress"
+                            style={{ width: "60%" }}
+                          ></p>
+                          <div className="profile-complete-bar">
+                            <span
+                              className="complete-bar completed"
+                              style={{ left: "25%" }}
+                            ></span>
+                            <span
+                              className="complete-bar completed"
+                              style={{ left: "50%" }}
+                            ></span>
+                            <span
+                              className="complete-bar"
+                              style={{ left: "75%" }}
+                            ></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <ImageCropperModal
-                  closeModal={closeModal}
-                  showImageCropModal={modal}
-                  readFile={readFile}
-                  imageSrc={img.personalInfoImg}
-                  setProfileImage={setProfileImage}
-                  setImg={setImg}
-                />
-                <Form
-                  onSubmit={saveProfile}
-                  validate={validate}
-                  initialValues={editData}
-                >
-                  {({ handleSubmit, submitting, values }) => (
-                    <form onSubmit={handleSubmit}>
-                      <section className="profile-information-view">
-                        <div className="profile-information-coll">
-                          <h3>Personal information</h3>
-                          <div className="profile-edit-info-list">
-                            <div className="form-field-group">
-                              <div className="form-field flex50">
-                                <Field
-                                  name="firstname"
-                                  label="First name"
-                                  placeholder="Enter first name"
-                                  component={renderField}
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="lastname"
-                                  label="Last name"
-                                  placeholder="Enter last name"
-                                  component={renderField}
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="age"
-                                  label="Age"
-                                  placeholder="Enter age"
-                                  component={renderNumberField}
-                                  pattern="[0-9]*"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <label htmlFor="gender"> Gender </label>
-                                <div className="radio-button-groupss">
-                                  {genderList &&
-                                    genderList.length > 0 &&
-                                    genderList.map((gender, index) => (
-                                      <Field
-                                        name="genderName"
-                                        value={gender.id}
-                                        component={RenderRadioButtonField}
-                                        type="radio"
-                                        currentIndex={index}
-                                      >
-                                        {gender.name}
-                                      </Field>
-                                    ))}
-                                </div>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="email"
-                                  placeholder="Enter email Address"
-                                  label="Email Address"
-                                  component={renderField}
-                                  disabled
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <div className="timezone--wrapper">
-                                  <label>Time Zone</label>
-                                  <TimezoneSelect
-                                    name="timezone"
-                                    value={timezone}
-                                    onChange={handleTimeZone}
-                                    labelStyle="Time Zone"
-                                    timezones={{
-                                      ...allTimezones,
-                                      "America/Lima": "Pittsburgh",
-                                      "Europe/Berlin": "Frankfurt",
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                              <div className="form-field flex100">
-                                <Field
-                                  name="intrestedArea"
-                                  label="Interested Area"
-                                  placeholder="Enter interested area"
-                                  suggestions={skillslist}
-                                  component={RenderTagField}
-                                  value={interests}
-                                  dvalue={interests}
-                                />
-                              </div>
-                              <div className="form-field flex100 mb-2">
-                                <Field
-                                  name="houseno"
-                                  label="Address"
-                                  component={renderField}
-                                  placeholder="Enter Address"
-                                  type="text"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="addressLine1"
-                                  label="Address line 1"
-                                  component={renderField}
-                                  placeholder="Enter Address Line 1"
-                                  type="text"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="addressLine2"
-                                  label="Address line 2"
-                                  component={renderField}
-                                  placeholder="Enter Address Line 2"
-                                  type="text"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="Country"
-                                  label="Country"
-                                  component={renderSelect}
-                                  onChange={handleChangeCountry}
-                                >
-                                  <option value="" disabled>
-                                    Select Country
-                                  </option>
-                                  {countrylist &&
-                                    countrylist.map((country) => (
-                                      <option
-                                        value={country.id}
-                                        key={country.id}
-                                      >
-                                        {country.countryName}
-                                      </option>
-                                    ))}
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="state"
-                                  label="State"
-                                  component={renderSelect}
-                                >
-                                  <option value="" disabled>
-                                    Select State
-                                  </option>
-                                  {stateList &&
-                                    stateList.map((state) => (
-                                      <option value={state.id} key={state.id}>
-                                        {state.stateName}
-                                      </option>
-                                    ))}
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="city"
-                                  placeholder="city"
-                                  label="City"
-                                  component={renderField}
-                                ></Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="pin"
-                                  placeholder="Enter pin"
-                                  label="PIN"
-                                  component={renderNumberField}
-                                  pattern="[0-9]*"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="collegeId"
-                                  label="College"
-                                  component={renderSelect}
-                                  placeholder="Enter college / university name"
-                                  onChange={handleCollege}
-                                >
-                                  <option value="" disabled>
-                                    Select College
-                                  </option>
-                                  {collegeList &&
-                                    collegeList.length > 0 &&
-                                    collegeList.map((college) => (
-                                      <option
-                                        value={college.collegeId}
-                                        key={college.collegeId}
-                                      >
-                                        {college.name}
-                                      </option>
-                                    ))}
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="designation"
-                                  label="Category"
-                                  component={renderSelect}
-                                  onChange={handleDesignation}
-                                >
-                                  {designationlist &&
-                                    designationlist.map((designation) => (
-                                      <option
-                                        value={designation.id}
-                                        key={designation.id}
-                                      >
-                                        {designation.title}
-                                      </option>
-                                    ))}
-                                </Field>
-                              </div>
-                              <div className="form-field flex100">
-                                <Field
-                                  name="qualificationId"
-                                  label="Qualification"
-                                  component={renderSelect}
-                                  onChange={handleQualification}
-                                >
-                                  <option value="" disabled>
-                                    Select
-                                  </option>
-                                  {qualificationList &&
-                                    qualificationList.map((qualification) => (
-                                      <option
-                                        value={qualification.id}
-                                        key={qualification.id}
-                                      >
-                                        {qualification.name}
-                                      </option>
-                                    ))}
-                                  <option value="Other">Other</option>
-                                </Field>
-                              </div>
-                              {inputField && (
-                                <div className="form-field flex100">
+                  <ImageCropperModal
+                    closeModal={closeModal}
+                    showImageCropModal={modal}
+                    readFile={readFile}
+                    imageSrc={img.personalInfoImg}
+                    setProfileImage={setProfileImage}
+                    setImg={setImg}
+                  />
+                  <Form
+                    onSubmit={saveProfile}
+                    validate={validate}
+                    initialValues={editData}
+                  >
+                    {({ handleSubmit, submitting, values }) => (
+                      <form onSubmit={handleSubmit}>
+                        <section className="profile-information-view">
+                          <div className="profile-information-coll">
+                            <h3>Personal information</h3>
+                            <div className="profile-edit-info-list">
+                              <div className="form-field-group">
+                                <div className="form-field flex50">
                                   <Field
-                                    name="qualification"
-                                    label="Qualification"
+                                    name="firstname"
+                                    label="First name"
+                                    placeholder="Enter first name"
                                     component={renderField}
                                   />
                                 </div>
-                              )}
-                              <div className="form-field flex100">
-                                <input
-                                  name="profileImage"
-                                  id="profileImage"
-                                  accept=".jpg, .jpeg, .png"
-                                  type="file"
-                                  onChange={handleImageChange}
-                                />
-                              </div>
-                              <div className="aws-placeholder image4">
-                                <img
-                                  src={img.personalInfoImg}
-                                  className="img-aws"
-                                  alt="avtar"
-                                  width={100}
-                                  height={100}
-                                  layout="fill"
-                                />
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="lastname"
+                                    label="Last name"
+                                    placeholder="Enter last name"
+                                    component={renderField}
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="age"
+                                    label="Age"
+                                    placeholder="Enter age"
+                                    component={renderNumberField}
+                                    pattern="[0-9]*"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <label htmlFor="gender"> Gender </label>
+                                  <div className="radio-button-groupss">
+                                    {genderList &&
+                                      genderList.length > 0 &&
+                                      genderList.map((gender, index) => (
+                                        <Field
+                                          name="genderName"
+                                          value={gender.id}
+                                          component={RenderRadioButtonField}
+                                          type="radio"
+                                          currentIndex={index}
+                                          key={index}
+                                        >
+                                          {gender.name}
+                                        </Field>
+                                      ))}
+                                  </div>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="email"
+                                    placeholder="Enter email Address"
+                                    label="Email Address"
+                                    component={renderField}
+                                    disabled
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <div className="timezone--wrapper">
+                                    <label>Time Zone</label>
+                                    <TimezoneSelect
+                                      name="timezone"
+                                      value={timezone}
+                                      onChange={handleTimeZone}
+                                      labelStyle="Time Zone"
+                                      timezones={{
+                                        ...allTimezones,
+                                        "America/Lima": "Pittsburgh",
+                                        "Europe/Berlin": "Frankfurt",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="form-field flex100">
+                                  <Field
+                                    name="intrestedArea"
+                                    label="Interested Area"
+                                    placeholder="Enter interested area"
+                                    suggestions={skillslist}
+                                    component={RenderTagField}
+                                    value={interests}
+                                    dvalue={interests}
+                                  />
+                                </div>
+                                <div className="form-field flex100 mb-2">
+                                  <Field
+                                    name="houseno"
+                                    label="Address"
+                                    component={renderField}
+                                    placeholder="Enter Address"
+                                    type="text"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="addressLine1"
+                                    label="Address line 1"
+                                    component={renderField}
+                                    placeholder="Enter Address Line 1"
+                                    type="text"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="addressLine2"
+                                    label="Address line 2"
+                                    component={renderField}
+                                    placeholder="Enter Address Line 2"
+                                    type="text"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="Country"
+                                    label="Country"
+                                    component={renderSelect}
+                                    onChange={handleChangeCountry}
+                                  >
+                                    <option value="" disabled>
+                                      Select Country
+                                    </option>
+                                    {countrylist &&
+                                      countrylist.map((country, i) => (
+                                        <option
+                                          value={country.id}
+                                          key={i}
+                                        >
+                                          {country.countryName}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="state"
+                                    label="State"
+                                    component={renderSelect}
+                                  >
+                                    <option value="" disabled>
+                                      Select State
+                                    </option>
+                                    {stateList &&
+                                      stateList.map((state, i) => (
+                                        <option value={state.id} key={i}>
+                                          {state.stateName}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="city"
+                                    placeholder="city"
+                                    label="City"
+                                    component={renderField}
+                                  ></Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="pin"
+                                    placeholder="Enter pin"
+                                    label="PIN"
+                                    component={renderNumberField}
+                                    pattern="[0-9]*"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="collegeId"
+                                    label="College"
+                                    component={renderSelect}
+                                    placeholder="Enter college / university name"
+                                    onChange={handleCollege}
+                                  >
+                                    <option value="" disabled>
+                                      Select College
+                                    </option>
+                                    {collegeList &&
+                                      collegeList.length > 0 &&
+                                      collegeList.map((college, i) => (
+                                        <option
+                                          value={college.collegeId}
+                                          key={i}
+                                        >
+                                          {college.name}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="designation"
+                                    label="Category"
+                                    component={renderSelect}
+                                    onChange={handleDesignation}
+                                  >
+                                    {designationlist &&
+                                      designationlist.map((designation, i) => (
+                                        <option
+                                          value={designation.id}
+                                          key={i}
+                                        >
+                                          {designation.title}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                </div>
+                                <div className="form-field flex100">
+                                  <Field
+                                    name="qualificationId"
+                                    label="Qualification"
+                                    component={renderSelect}
+                                    onChange={handleQualification}
+                                  >
+                                    <option value="" disabled>
+                                      Select
+                                    </option>
+                                    {qualificationList &&
+                                      qualificationList.map((qualification, i) => (
+                                        <option
+                                          value={qualification.id}
+                                          key={i}
+                                        >
+                                          {qualification.name}
+                                        </option>
+                                      ))}
+                                    <option value="Other">Other</option>
+                                  </Field>
+                                </div>
+                                {inputField && (
+                                  <div className="form-field flex100">
+                                    <Field
+                                      name="qualification"
+                                      label="Qualification"
+                                      component={renderField}
+                                    />
+                                  </div>
+                                )}
+                                <div className="form-field flex100">
+                                  <input
+                                    name="profileImage"
+                                    id="profileImage"
+                                    accept=".jpg, .jpeg, .png"
+                                    type="file"
+                                    onChange={handleImageChange}
+                                  />
+                                </div>
+                                <div className="aws-placeholder image4">
+                                  <img
+                                    src={img.personalInfoImg}
+                                    className="img-aws"
+                                    alt="avtar"
+                                    width={100}
+                                    height={100}
+                                    layout="fill"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </section>
-                      <section className="profile-information-view">
-                        <div className="profile-information-coll">
-                          <h3>Professional information</h3>
-                          <div className="profile-edit-info-list">
-                            <div className="form-field-group">
-                              <div className="form-field flex50">
-                                <Field
-                                  name="hours"
-                                  placeholder="Hours"
-                                  label="Hours / day"
-                                  component={renderSelect}
-                                >
-                                  <option value="">Select hours</option>
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                  <option value="6">6</option>
-                                  <option value="7">7</option>
-                                  <option value="8">8</option>
-                                  <option value="9">9</option>
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="days"
-                                  label="Days / Week"
-                                  component={renderSelect}
-                                  type="text"
-                                >
-                                  <option selected="">Select days</option>
-                                  <option value="1">1 day</option>
-                                  <option value="2">2 days</option>
-                                  <option value="3">3 days</option>
-                                  <option value="4">4 days</option>
-                                  <option value="5">5 days</option>
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="salary"
-                                  placeholder="Enter expected salary"
-                                  label="Expected salary"
-                                  component={renderNumberField}
-                                  pattern="[0-9]*"
-                                />
-                              </div>
-                              <div className="form-field flex50">
-                                <Field
-                                  name="experienceInYears"
-                                  label="Experience in Year's"
-                                  component={renderSelect}
-                                  placeholder="Year's"
-                                  type="text"
-                                >
-                                  <option value="0">0 year</option>
-                                  {[...Array.from(Array(51).keys())]
-                                    .slice(1)
-                                    .map((num, i) => (
-                                      <option key={i} value={num}>
-                                        {num ? num + " year's" : ""}
-                                      </option>
-                                    ))}
-                                </Field>
-                                <Field
-                                  name="experienceInMonths"
-                                  label="Experience in Month's"
-                                  component={renderSelect}
-                                  placeholder="Month's"
-                                  type="text"
-                                >
-                                  <option value="0">0 month</option>
-                                  {[...Array.from(Array(13).keys())]
-                                    .slice(1)
-                                    .map((num, i) => (
-                                      <option key={i} value={num}>
-                                        {num ? num + " month's" : ""}
-                                      </option>
-                                    ))}
-                                </Field>
-                              </div>
-                              <div className="form-field flex50">
-                                <label>Working Type</label>
-                                <div className="radio-button-groupss">
+                        </section>
+                        <section className="profile-information-view">
+                          <div className="profile-information-coll">
+                            <h3>Professional information</h3>
+                            <div className="profile-edit-info-list">
+                              <div className="form-field-group">
+                                <div className="form-field flex50">
                                   <Field
-                                    name="working"
-                                    value="1"
-                                    component={RenderRadioButtonField}
-                                    type="radio"
-                                    onChange={handleWorkingChange}
-                                    dvalue={working}
-                                    currentIndex="0"
+                                    name="hours"
+                                    placeholder="Hours"
+                                    label="Hours / day"
+                                    component={renderSelect}
                                   >
-                                    Onsite
-                                  </Field>
-                                  <Field
-                                    name="working"
-                                    value="2"
-                                    component={RenderRadioButtonField}
-                                    type="radio"
-                                    onChange={handleWorkingChange}
-                                    dvalue={working}
-                                    currentIndex="1"
-                                  >
-                                    OffSite
+                                    <option value="">Select hours</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
                                   </Field>
                                 </div>
-                                {/* <p> {err && err.working && err.working}</p> */}
-                              </div>
-                              <div className="form-field flex100">
-                                <label>Resume</label>
-                                <input
-                                  name="resume"
-                                  uploadLabel="Browse resume file"
-                                  type="file"
-                                  onChange={resumeHandler}
-                                />
-                                <ul>
-                                  <li>
-                                    {resumeName}
-                                    {/* {studentData && studentData.resumeFilePath && (
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="days"
+                                    label="Days / Week"
+                                    component={renderSelect}
+                                    type="text"
+                                  >
+                                    <option value="">Select days</option>
+                                    <option value="1">1 day</option>
+                                    <option value="2">2 days</option>
+                                    <option value="3">3 days</option>
+                                    <option value="4">4 days</option>
+                                    <option value="5">5 days</option>
+                                  </Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="salary"
+                                    placeholder="Enter expected salary"
+                                    label="Expected salary"
+                                    component={renderNumberField}
+                                    pattern="[0-9]*"
+                                  />
+                                </div>
+                                <div className="form-field flex50">
+                                  <Field
+                                    name="experienceInYears"
+                                    label="Experience in Year's"
+                                    component={renderSelect}
+                                    placeholder="Year's"
+                                    type="text"
+                                  >
+                                    <option value="0">0 year</option>
+                                    {[...Array.from(Array(51).keys())]
+                                      .slice(1)
+                                      .map((num, i) => (
+                                        <option key={i} value={num}>
+                                          {num ? num + " year's" : ""}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                  <Field
+                                    name="experienceInMonths"
+                                    label="Experience in Month's"
+                                    component={renderSelect}
+                                    placeholder="Month's"
+                                    type="text"
+                                  >
+                                    <option value="0">0 month</option>
+                                    {[...Array.from(Array(13).keys())]
+                                      .slice(1)
+                                      .map((num, i) => (
+                                        <option key={i} value={num}>
+                                          {num ? num + " month's" : ""}
+                                        </option>
+                                      ))}
+                                  </Field>
+                                </div>
+                                <div className="form-field flex50">
+                                  <label>Working Type</label>
+                                  <div className="radio-button-groupss">
+                                    <Field
+                                      name="working"
+                                      value="1"
+                                      component={RenderRadioButtonField}
+                                      type="radio"
+                                      onChange={handleWorkingChange}
+                                      dvalue={working}
+                                      currentIndex="0"
+                                    >
+                                      Onsite
+                                    </Field>
+                                    <Field
+                                      name="working"
+                                      value="2"
+                                      component={RenderRadioButtonField}
+                                      type="radio"
+                                      onChange={handleWorkingChange}
+                                      dvalue={working}
+                                      currentIndex="1"
+                                    >
+                                      OffSite
+                                    </Field>
+                                  </div>
+                                  {/* <p> {err && err.working && err.working}</p> */}
+                                </div>
+                                <div className="form-field flex100">
+                                  <label>Resume</label>
+                                  <input
+                                    name="resume"
+                                    uploadlabel="Browse resume file"
+                                    type="file"
+                                    onChange={resumeHandler}
+                                  />
+                                  <ul>
+                                    <li>
+                                      {resumeName}
+                                      {/* {studentData && studentData.resumeFilePath && (
                                       <a href={studentResume} target="_blank">
                                       </a>
                                     )} */}
-                                  </li>
-                                </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <label>Extra Certificates</label>
+                                <div className="form-field flex100">
+                                  <input
+                                    name="documents"
+                                    uploadlabel="Browse documents"
+                                    type="file"
+                                    accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                    onChange={extraCertificateHandler}
+                                    multiple
+                                  />
+                                  <ul className="uploaded-documents">
+                                    {previewImg &&
+                                      previewImg.length > 0 &&
+                                      previewImg.map((img, index) => (
+                                        <>
+                                          <li key={index}>
+                                            {index + 1}. {img.certificates}
+                                            <label>File Title</label>
+                                            <input
+                                              name="title"
+                                              onChange={(e) =>
+                                                handleFormTitleChange(index, e)
+                                              }
+                                              value={img.title}
+                                            />
+                                            <button className="btn btn-remove">
+                                              <i
+                                                className="fa fa-times-circle"
+                                                aria-hidden="true"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                  manageCertificates(img.id)
+                                                }
+                                              />
+                                            </button>
+                                            <span className="btn btn-edit">
+                                              <i
+                                                className="fa fa-edit"
+                                                aria-hidden="true"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                  editCertificates(
+                                                    img.id,
+                                                    img.title
+                                                  )
+                                                }
+                                              />
+                                            </span>
+                                          </li>
+                                        </>
+                                      ))}
+                                  </ul>
+                                </div>
                               </div>
-                              <label>Extra Certificates</label>
+                            </div>
+                          </div>
+                        </section>
+                        <section className="profile-information-view">
+                          <div className="profile-information-coll">
+                            <h3>Skill</h3>
+                            <div className="form-field-group">
                               <div className="form-field flex100">
-                                <input
-                                  name="documents"
-                                  uploadLabel="Browse documents"
-                                  type="file"
-                                  accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                                  onChange={extraCertificateHandler}
-                                  multiple
+                                <Field
+                                  name="skills"
+                                  label="Skills"
+                                  suggestions={skillslist}
+                                  placeholder="Enter skills"
+                                  component={RenderTagField}
+                                  value={skills}
+                                  dvalue={skills}
                                 />
-                                <ul className="uploaded-documents">
-                                  {previewImg &&
-                                    previewImg.length > 0 &&
-                                    previewImg.map((img, index) => (
-                                      <>
-                                        <li>
-                                          {index + 1}. {img.certificates}
-                                          <label>File Title</label>
-                                          <input
-                                            name="title"
-                                            onChange={(e) =>
-                                              handleFormTitleChange(index, e)
-                                            }
-                                            value={img.title}
-                                          />
-                                          <button className="btn btn-remove">
-                                            <i
-                                              className="fa fa-times-circle"
-                                              aria-hidden="true"
-                                              style={{ cursor: "pointer" }}
-                                              onClick={() =>
-                                                manageCertificates(img.id)
-                                              }
-                                            />
-                                          </button>
-                                          <span className="btn btn-edit">
-                                            <i
-                                              className="fa fa-edit"
-                                              aria-hidden="true"
-                                              style={{ cursor: "pointer" }}
-                                              onClick={() =>
-                                                editCertificates(
-                                                  img.id,
-                                                  img.title
-                                                )
-                                              }
-                                            />
-                                          </span>
-                                        </li>
-                                      </>
-                                    ))}
-                                </ul>
                               </div>
                             </div>
                           </div>
+                        </section>
+                        <div className="form-field flex100 mb-5 d-flex justify-content-end">
+                          <button
+                            type="submit"
+                            className="btn btn-save btn-primary"
+                          >
+                            Update
+                          </button>
                         </div>
-                      </section>
-                      <section className="profile-information-view">
-                        <div className="profile-information-coll">
-                          <h3>Skill</h3>
-                          <div className="form-field-group">
-                            <div className="form-field flex100">
-                              <Field
-                                name="skills"
-                                label="Skills"
-                                suggestions={skillslist}
-                                placeholder="Enter skills"
-                                component={RenderTagField}
-                                value={skills}
-                                dvalue={skills}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </section>
-                      <div className="form-field flex100 mb-5 d-flex justify-content-end">
-                        <button
-                          type="submit"
-                          className="btn btn-save btn-primary"
-                        >
-                          Update
-                        </button>
-                      </div>
-                    </form>
-                  )}
-                </Form>
+                      </form>
+                    )}
+                  </Form>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
     </Layout>
   );
 };

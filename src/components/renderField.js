@@ -285,7 +285,7 @@ export const renderTextareaField = ({
 export const RenderFileUploadField = ({
   input: { name, value, onChange },
   label,
-  uploadLabel,
+  uploadlabel,
   type,
   meta: { touched, error, warning },
   token,
@@ -346,7 +346,7 @@ export const RenderFileUploadField = ({
             type="button"
             className="btn themesecondarybackground fileUpload"
           >
-            <i className="fa fa-upload me-3"></i> {uploadLabel || "Upload File"}
+            <i className="fa fa-upload me-3"></i> {uploadlabel || "Upload File"}
           </button>
           <input
             name={name}

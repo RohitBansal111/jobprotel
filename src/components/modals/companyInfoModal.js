@@ -32,11 +32,10 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     keys.forEach((key) => {
       formData.append(key, values[key]);
     });
-    if (profileImage != "") {
+    if (img.personalInfoImg != "") {
       formData.append("logoUrl", profileImage);
-      //values.logoUrl = profileImage
-    }else{
-     formData.append("logoUrl", null);
+    } else {
+      formData.append("logoUrl", null);
     }
     if (authData.id) {
       const resp = await employerServices.updateEmployerDetails(
@@ -96,20 +95,18 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       }
     }
   };
+
   const [img, setImg] = useState({
-    personalInfoImg:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    personalInfoImg: "",
   });
 
   useEffect(() => {
     if (employerData) {
-      console.log(employerData);
       setImg({
         ...img,
         personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
       });
       getCountryList();
-      getStateList(employerData?.comapanyDetail?.countryResponse?.id);
       const data = {
         firstName: employerData?.firstName,
         lastName: employerData?.lastName,
@@ -123,6 +120,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
         address: employerData?.comapanyDetail?.address,
         Email: employerData?.comapanyDetail?.companyEmail,
       };
+      if (data.countryId) {
+        getStateList(employerData?.comapanyDetail?.countryResponse?.id);
+      }
       setInitialData(data);
     }
   }, [employerData]);

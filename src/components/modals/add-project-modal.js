@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import toast from "toastr";
 
-const AddProjectModal = ({ getProjectHistory }) => {
+const AddProjectModal = ({ getProjectHistory, activePage}) => {
   const authData = useSelector((state) => state.auth.user);
   const [id, setId] = useState("");
 
@@ -27,7 +27,7 @@ const AddProjectModal = ({ getProjectHistory }) => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-        getProjectHistory(id);
+        getProjectHistory(id, activePage);
       }
     }
   };
@@ -161,7 +161,6 @@ const AddProjectModal = ({ getProjectHistory }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          // onClick={() => saveProjectHistory(values)}
                         >
                           Submit
                         </button>

@@ -14,13 +14,13 @@ import * as dropdownServices from "../../services/dropDownServices";
 import toast from "toastr";
 import { useNavigate } from "react-router";
 
-const EmploymentDetailsModal = () => {
+const EmploymentDetailsModal = ({getEmploymentDetails}) => {
   const authData = useSelector((state) => state.auth.user);
   const [designationlist, setDesignationlist] = useState([]);
 
   const [id, setId] = useState("");
   const handleJobPost = async (values) => {
-    const {
+    let {
       employerName,
       designationId,
       isCurrentEmployer,
@@ -40,27 +40,32 @@ const EmploymentDetailsModal = () => {
     };
     if (data.userId) {
       const resp = await studentServices.sendStudentEmploymentData(data);
-      console.log(resp);
       if (resp.status === 200) {
+        if(authData) {
+          getEmploymentDetails(authData)
+        }
+
         document.getElementById("employmentModal").click();
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         employerName = "";
         designationId = "";
-        // isCurrentEmployer = ""
+        isCurrentEmployer = ""
         salary = "";
         endDate = "";
         startDate = "";
+        
       }
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (authData) {
       setId(authData.id);
     }
   }, [authData]);
+
   useEffect(async () => {
     const designationList = await dropdownServices.designationList();
     setDesignationlist(designationList.data);

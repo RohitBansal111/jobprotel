@@ -15,10 +15,11 @@ export const registerUser = async (data) => {
   } catch (err) {
     return {
       data: "",
-      error:
-        err.response ?.data ?.error
-          ? err.response.data.error
-          : err.response.data.message?err.response.data.message:err.message,
+      error: err.response?.data?.error
+        ? err.response.data.error
+        : err.response.data.message
+        ? err.response.data.message
+        : err.message,
       errors:
         err.response && err.response.data && err.response.data.errors
           ? err.response.data.errors
@@ -75,9 +76,16 @@ export const loginUser = async (data) => {
   }
 };
 
-export const forgotPassword = async (user) => {
+export const forgotPassword = async (data) => {
   return await axios.post(
     `${process.env.REACT_APP_PUBLIC_API_URL}/Account/forgot-password`,
-    { ...user }
+    data
+  );
+};
+
+export const resetPassword = async (data) => {
+  return await axios.post(
+    `${process.env.REACT_APP_PUBLIC_API_URL}/Account/reset-password`,
+    data
   );
 };

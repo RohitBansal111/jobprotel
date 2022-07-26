@@ -27,6 +27,7 @@ import PrivateRoutes from "./HOC/PrivateRoutes";
 import EmployerJobDetailsPage from './pages/Employer/posted-job/detail-page';
 import PublicProfile from './pages/Employer/public';
 import EmployerJobSuggestion from './pages/Employer/suggestions';
+import ResetPassword from "./pages/resetPassword";
 
 function App() {
   var role = "employer";
@@ -51,6 +52,8 @@ function App() {
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
         {role === "student" && (
           <Route
             path="/find-work"

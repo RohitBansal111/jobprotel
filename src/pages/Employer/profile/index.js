@@ -11,6 +11,7 @@ import * as jobServices from "../../../services/jobServices";
 import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../../types/auth";
 import { Loader } from "../../../components/Loader/Loader";
+import toast from "toastr";
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const EmployerProfile = () => {
   const getEmployerDetails = async (id = authData.id) => {
     const resp = await employerServices.getEmployerDetails(id);
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       setLoading(false);
       const response = resp.data.data;
       setEmployerData(response);
@@ -41,7 +42,10 @@ const EmployerProfile = () => {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.comapanyDetail.logoPath}`
       );
-    }
+    }else {
+      setLoading(false);
+      toast.error("Something went wrong");
+     }
   };
 
   return (

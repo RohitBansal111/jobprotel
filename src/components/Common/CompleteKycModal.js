@@ -1,13 +1,15 @@
 import { Field, Form } from "react-final-form";
 import validate from "./kycValidation";
 import { renderField, RenderFileUploadField } from "./../renderField";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as studentServices from "../../services/studentServices";
 import toast from "toastr";
+import { useDispatch, useSelector } from "react-redux";
+import * as types from "../../types/auth";
 
-const CompleteKycModal = () => {
+const CompleteKycModal = ({jobList, studentData}) => {
   const authData = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const [studentId, setStudentId] = useState("");
   const [mainfile, setMainfile] = useState({});
@@ -39,7 +41,6 @@ const CompleteKycModal = () => {
     setErr(error);
     return isValid;
   };
-  console.log(mainfile);
 
   const handleSubmitKycForm = async (values) => {
     let formData = new FormData();
@@ -59,6 +60,13 @@ const CompleteKycModal = () => {
             resp.data.message ? resp.data.message : "Something went wrong"
           );
           document.getElementById("kycpopup").click();
+
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: jobList ? jobList : studentData,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+
           // setMainfile({name: ""});
           // setBackfile("");
           values.remarks = "";

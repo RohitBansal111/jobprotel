@@ -15,8 +15,8 @@ const AddProjectValidator = (values) => {
   if (!values.startdate) {
     error.startdate = "Required startDate";
   }
-  if (!values.enddate) {
-    error.enddate = "Required endDate";
+  if (!values.endDate) {
+    error.endDate = "Required endDate";
   }
   if (!values.totalTeamSize) {
     error.totalTeamSize = "Required Team Size";
@@ -24,6 +24,7 @@ const AddProjectValidator = (values) => {
   if (!values.companyEmail) {
     error.companyEmail = "Required company email address";
   }
+  console.log(error)
   return error;
 };
 

@@ -16,6 +16,7 @@ import * as projectServices from "../../services/projectHistorySevices";
 import Moment from "react-moment";
 import moment from "moment";
 import Pagination from "react-js-pagination";
+import { Loader } from "../../components/Loader/Loader";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -33,20 +34,22 @@ const Profile = () => {
   const [projectHistory, setProjectHistory] = useState([]);
 
   const [activePage, setActivePage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [id, setId] = useState("");
 
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
     setActivePage(pageNumber);
     setLoading(true);
-    // getJobList(authData.id, pageNumber);
+    getProjectHistory(id, pageNumber);
   };
 
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
+      setLoading(false);
       const response = resp.data.data;
       console.log(response);
       setStudentData(response);
@@ -63,35 +66,41 @@ const Profile = () => {
       setInterests(interests);
     }
   };
-  const getProjectHistory = async (id) => {
+
+  const getProjectHistory = async (id, activePage = activePage) => {
     let data = {
       userId: id,
       pageNumber: activePage,
       pageSize: pageSize,
     };
-
-    const resp = await projectServices.getProjectHistoryData(data);
-    // console.log(resp);
-    let response = resp.data.data;
-    if (resp.status === 200) {
-      setProjectHistory(response);
+    if (data) {
+      const resp = await projectServices.getProjectHistoryData(data);
+      console.log(resp);
+      let response = resp.data.data;
+      if (resp.status === 200) {
+        setLoading(false);
+        setProjectHistory(response);
+        setTotalRecords(resp.data.totalCount);
+      }
     }
   };
-  console.log(projectHistory);
 
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
-      getEmploymentDetails(authData.id);
-      getProjectHistory(authData.id);
+      getEmploymentDetails(authData);
+      getProjectHistory(authData.id, activePage);
+      setId(authData.id);
     }
   }, [authData]);
 
-  const getEmploymentDetails = async (id = authData.id) => {
+  const getEmploymentDetails = async (authData) => {
+    let id = authData.id;
     const resp = await studentServices.getStudentEmploymentData(id);
-    // console.log(resp)
     if (resp.status === 200) {
+      setLoading(false);
       let response = resp.data.data.result;
+      console.log(response);
       setEmploymentDetails(response);
     }
   };
@@ -107,7 +116,9 @@ const Profile = () => {
       employmentDetails
         .filter((data) => data.id !== d)
         .map((data) => setEmpDetails(data));
-      getEmploymentDetails();
+      if (authData) {
+        getEmploymentDetails(authData);
+      }
     }
   };
   return (
@@ -116,19 +127,25 @@ const Profile = () => {
         <section className="complete-kyc">
           <div className="container">
             <div className="kyc-update">
-              <p>
-                <i className="fa fa-info-circle" aria-hidden="true"></i> KYC is
-                pending, please click on button and complete your KYC{" "}
-              </p>
-              <button
-                type="button"
-                className="btn submit-kyc"
-                data-bs-toggle="modal"
-                data-bs-target="#kycpopup"
-              >
-                Complete KYC
-              </button>
-              <CompleteKycModal />
+              {authData?.studentDetails?.kycStatus === "false" ? (
+                <>
+                  <p>
+                    <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
+                    is pending, please click on button and complete your KYC{" "}
+                  </p>
+                  <button
+                    type="button"
+                    className="btn submit-kyc"
+                    data-bs-toggle="modal"
+                    data-bs-target="#kycpopup"
+                  >
+                    Complete KYC
+                  </button>
+                  <CompleteKycModal studentData={studentData} />
+                </>
+              ) : (
+                <h2>KYC Completed</h2>
+              )}
             </div>
           </div>
         </section>
@@ -258,281 +275,294 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                <section className="profile-information-view">
-                  <div className="profile-information-coll">
-                    <div className="profile-card-head">
-                      <h3>Personal information</h3>
-                      {/* <div className="pr-edit-icon">
-                                  <button type="button" className="icon_button">
-                                    <img src={EditIcon} alt="icon" />
-                                  </button>
-                                </div> */}
-                    </div>
-                    <div className="profile-info-list">
-                      <ul className="info-list-li">
-                        <li>
-                          <span className="plabel">Age</span>{" "}
-                          <span className="result">
-                            {studentData?.studentDetails?.age}{" "}
-                            {studentData?.studentDetails?.age && "Years old"}
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Gender </span>
-                          <span className="result">
-                            {
-                              studentData?.studentDetails?.genderResponse
-                                ?.genderName
-                            }
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Qualification</span>{" "}
-                          <span className="result">
-                            {
-                              studentData?.studentDetails?.qualificationResponse
-                                ?.qualificationName
-                            }
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Interested area </span>
-                          <div className="result">
-                            <ul className="tags">
-                              {interests &&
-                                interests.length > 0 &&
-                                interests.map((interst, index) => (
-                                  <li key={index}>
-                                    <Link to="#">{interst}</Link>
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    <section className="profile-information-view">
+                      <div className="profile-information-coll">
+                        <div className="profile-card-head">
+                          <h3>Personal information</h3>
+                        </div>
+                        <div className="profile-info-list">
+                          <ul className="info-list-li">
+                            <li>
+                              <span className="plabel">Age</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.age}{" "}
+                                {studentData?.studentDetails?.age &&
+                                  "Years old"}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Gender </span>
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails?.genderResponse
+                                    ?.genderName
+                                }
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Qualification</span>{" "}
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails
+                                    ?.qualificationResponse?.qualificationName
+                                }
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Interested area </span>
+                              <div className="result">
+                                <ul className="tags">
+                                  {interests &&
+                                    interests.length > 0 &&
+                                    interests.map((interst, index) => (
+                                      <li key={index}>
+                                        <Link to="#">{interst}</Link>
+                                      </li>
+                                    ))}
+                                </ul>
+                              </div>
+                            </li>
+                            <li>
+                              <span className="plabel">Time zone </span>
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails?.timezone
+                                    ?.split(":")[1]
+                                    ?.split(",")[0]
+                                }
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Address </span>
+                              <span className="result">
+                                {studentData?.studentDetails?.address}
+                                {", "}
+                                {studentData?.studentDetails?.addressLine1}
+                                {", "}
+                                {studentData?.studentDetails?.addressLine2}
+                                {studentData?.studentDetails?.cityName}
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="profile-information-view">
+                      <div className="profile-information-coll">
+                        <div className="profile-card-head">
+                          <h3>Professional information</h3>
+                        </div>
+                        <div className="profile-info-list">
+                          <ul className="info-list-li">
+                            <li>
+                              <span className="plabel">Hours / day</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.workHoursPerDay}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Expected salary </span>
+                              <span className="result">
+                                $ {studentData?.studentDetails?.expectedSalary}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Total Experience</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.experienceInYears}{" "}
+                                Years{" "}
+                                {
+                                  studentData?.studentDetails
+                                    ?.experienceInMonths
+                                }{" "}
+                                months
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Working</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.workingType}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Resume </span>
+                              <span className="result">
+                                <ul className="tags">
+                                  <li style={{ cursor: "pointer" }}>
+                                    <a
+                                      target="_blank"
+                                      href={studentResume && studentResume}
+                                    >
+                                      {
+                                        studentData?.studentDetails
+                                          ?.resumeFilePath
+                                      }
+                                    </a>
                                   </li>
-                                ))}
-                            </ul>
+                                </ul>
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">
+                                Extra certificates{" "}
+                              </span>
+                              <span className="result">
+                                <ul className="tags">
+                                  {studentData?.studentDetails?.studentExtraCertificate.map(
+                                    (certificate, i) => (
+                                      <>
+                                        <li key={i}>
+                                          <a
+                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                            target="_blank"
+                                          >
+                                            {certificate.title}
+                                          </a>
+                                        </li>
+                                      </>
+                                    )
+                                  )}
+                                </ul>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="profile-information-view">
+                      <div className="profile-information-coll">
+                        <div className="profile-card-head">
+                          <h3>Employment Details</h3>
+                          <div className="pr-edit-icon">
+                            <button
+                              type="button"
+                              className="icon_button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#employmentModal"
+                            >
+                              <i className="fas fa-plus"></i>
+                            </button>
+                            <EmploymentDetailsModal
+                              getEmploymentDetails={getEmploymentDetails}
+                            />
                           </div>
-                        </li>
-                        <li>
-                          <span className="plabel">Time zone </span>
-                          <span className="result">
-                            {studentData?.studentDetails?.timezone}
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Address </span>
-                          <span className="result">
-                            {studentData?.studentDetails?.address}
-                            {", "}
-                            {studentData?.studentDetails?.addressLine1}
-                            {", "}
-                            {studentData?.studentDetails?.addressLine2}
-                            {studentData?.studentDetails?.cityName}
-                          </span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </section>
-                <section className="profile-information-view">
-                  <div className="profile-information-coll">
-                    <div className="profile-card-head">
-                      <h3>Professional information</h3>
-                      {/* <div className="pr-edit-icon">
-                                  <button type="button" className="icon_button">
-                                    <img src={EditIcon} alt="icon" />
-                                  </button>
-                                </div>  */}
-                    </div>
-                    <div className="profile-info-list">
-                      <ul className="info-list-li">
-                        <li>
-                          <span className="plabel">Hours / day</span>{" "}
-                          <span className="result">
-                            {studentData?.studentDetails?.workHoursPerDay}
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Expected salary </span>
-                          <span className="result">
-                            $ {studentData?.studentDetails?.expectedSalary}
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Total Experience</span>{" "}
-                          <span className="result">
-                            {studentData?.studentDetails?.experienceInYears}{" "}
-                            Years{" "}
-                            {studentData?.studentDetails?.experienceInMonths}{" "}
-                            months
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Working</span>{" "}
-                          <span className="result">
-                            {studentData?.studentDetails?.workingType}
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Resume </span>
-                          <span className="result">
-                            <ul className="tags">
-                              <li style={{ cursor: "pointer" }}>
-                                <a
-                                  target="_blank"
-                                  href={studentResume && studentResume}
-                                >
-                                  {studentData?.studentDetails?.resumeFilePath}
-                                </a>
-                              </li>
-                            </ul>
-                          </span>
-                        </li>
-                        <li>
-                          <span className="plabel">Extra certificates </span>
-                          <span className="result">
-                            <ul className="tags">
-                              {studentData?.studentDetails?.studentExtraCertificate.map(
-                                (certificate, i) => (
-                                  <>
-                                    <li key={i}>
-                                      <a
-                                        href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                        target="_blank"
-                                      >
-                                        {certificate.title}
-                                      </a>
-                                    </li>
-                                  </>
-                                )
-                              )}
-                            </ul>
-                          </span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </section>
-                <section className="profile-information-view">
-                  <div className="profile-information-coll">
-                    <div className="profile-card-head">
-                      <h3>Employment Details</h3>
-                      <div className="pr-edit-icon">
-                        <button
-                          type="button"
-                          className="icon_button"
-                          data-bs-toggle="modal"
-                          data-bs-target="#employmentModal"
-                        >
-                          <i className="fas fa-plus"></i>
-                        </button>
-                        <EmploymentDetailsModal />
-                      </div>
-                    </div>
-                    <div className="profile-info-list">
-                      <ul className="info-list-li additional-box">
-                        {employmentDetails?.map((data, i) => (
-                          <li key={i}>
-                            <div className="designation-list-item">
-                              <div className="employer-sort-info">
-                                <h4>Front End - Team Lead </h4>
-                                <p>{data.employerName}</p>
-                                <p className="dateP">
-                                  {data.startDate}
-                                  {data.startDate && data.endDate
-                                    ? " - "
-                                    : null}
-                                  {data.endDate}
-                                </p>
-                              </div>
-                            </div>
-                            <button
-                              type="button"
-                              className="icon_button_text"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modifyEmploymentModal"
-                              onClick={() => handleEditingData(data)}
-                            >
-                              <i className="fas fa-pen"></i> Edit
-                            </button>
-                            <button
-                              type="button"
-                              className="icon_button_text"
-                              data-bs-toggle="modal"
-                              // data-bs-target="#modifyEmploymentModal"
-                              onClick={() => handleDeleteData(data.id)}
-                            >
-                              <i className="fas fa-trash"></i> Delete
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                      <ModifyEmploymentModal empData={data} />
-                    </div>
-                  </div>
-                </section>
-                <section className="profile-information-view">
-                  <div className="Project-information-coll">
-                    <div className="profile-card-head">
-                      <h3>Project history</h3>
-                      <div className="pr-edit-icon">
-                        <button
-                          type="button"
-                          className="icon_button"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addProjectModal"
-                        >
-                          <i className="fas fa-plus"></i>
-                        </button>
-                        <AddProjectModal
-                          getProjectHistory={getProjectHistory}
-                        />
-                      </div>
-                    </div>
-                    <div className="Project-info-list">
-                      <div className="project-detail-list">
-                        {projectHistory &&
-                          projectHistory.length > 0 &&
-                          projectHistory.map((project, index) => (
-                            <div className="project-dbox" key={index}>
-                              <h2 className="prname">
-                                {/* Front-End Sketch to Tailwind */}
-                                {project.title}
-                              </h2>
-                              <div className="prd-buget-column">
-                                <div className="project-tenure-skills">
-                                  <span className="prdate">
-                                    {moment(project.startDate).format(
-                                      "MMM Do YYYY"
-                                    )}
-                                    {" - "}
-                                    {moment(project.endDate).format(
-                                      "MMM Do YYYY"
-                                    )}
-                                  </span>
-                                  <ul className="tech-links">
-                                    {project.roleResponsiblity}
-                                  </ul>
+                        </div>
+                        <div className="profile-info-list">
+                          <ul className="info-list-li additional-box">
+                            {employmentDetails?.map((data, i) => (
+                              <li key={i}>
+                                <div className="designation-list-item">
+                                  <div className="employer-sort-info">
+                                    <h4>Front End - Team Lead </h4>
+                                    <p>{data.employerName}</p>
+                                    <p className="dateP">
+                                      {data.startDate}
+                                      {data.startDate && data.endDate
+                                        ? " - "
+                                        : null}
+                                      {data.endDate}
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                              <button
-                                type="button"
-                                data-bs-toggle="collapse"
-                                href={`#collapseExample${index}`}
-                                role="button"
-                                aria-expanded="false"
-                                aria-controls="collapseExample"
-                                className="btn btn-view-more"
-                              >
-                                View More
-                              </button>
-                              <div
-                                className="full-project-details collapse"
-                                id={`collapseExample${index}`}
-                              >
-                                <p>{project.description}</p>
-                                <p>
-                                  <b>Link:</b>{" "}
-                                  {/* <Link to="/">https://bit.ly/3HAAMCF</Link> */}
-                                  {project.projectUrl}
-                                </p>
-                                {/* <p>
+                                <button
+                                  type="button"
+                                  className="icon_button_text"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modifyEmploymentModal"
+                                  onClick={() => handleEditingData(data)}
+                                >
+                                  <i className="fas fa-pen"></i> Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  className="icon_button_text"
+                                  data-bs-toggle="modal"
+                                  // data-bs-target="#modifyEmploymentModal"
+                                  onClick={() => handleDeleteData(data.id)}
+                                >
+                                  <i className="fas fa-trash"></i> Delete
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                          <ModifyEmploymentModal empData={data} />
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="profile-information-view">
+                      <div className="Project-information-coll">
+                        <div className="profile-card-head">
+                          <h3>Project history</h3>
+                          <div className="pr-edit-icon">
+                            <button
+                              type="button"
+                              className="icon_button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addProjectModal"
+                            >
+                              <i className="fas fa-plus"></i>
+                            </button>
+                            <AddProjectModal
+                              getProjectHistory={getProjectHistory}
+                              activePage={activePage}
+                            />
+                          </div>
+                        </div>
+                        <div className="Project-info-list">
+                          <div className="project-detail-list">
+                            {projectHistory &&
+                              projectHistory.length > 0 &&
+                              projectHistory.map((project, index) => (
+                                <div className="project-dbox" key={index}>
+                                  <h2 className="prname">
+                                    {/* Front-End Sketch to Tailwind */}
+                                    {project.title}
+                                  </h2>
+                                  <div className="prd-buget-column">
+                                    <div className="project-tenure-skills">
+                                      <span className="prdate">
+                                        {moment(project.startDate).format(
+                                          "MMM Do YYYY"
+                                        )}
+                                        {" - "}
+                                        {moment(project.endDate).format(
+                                          "MMM Do YYYY"
+                                        )}
+                                      </span>
+                                      <ul className="tech-links">
+                                        {project.roleResponsiblity}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    href={`#collapseExample${index}`}
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    className="btn btn-view-more"
+                                  >
+                                    View More
+                                  </button>
+                                  <div
+                                    className="full-project-details collapse"
+                                    id={`collapseExample${index}`}
+                                  >
+                                    <p>{project.description}</p>
+                                    <p>
+                                      <b>Link:</b>{" "}
+                                      {/* <Link to="/">https://bit.ly/3HAAMCF</Link> */}
+                                      {project.projectUrl}
+                                    </p>
+                                    {/* <p>
                                   <b>Attachment:</b>
                                 </p>
                                 <p className="attachment">
@@ -545,126 +575,18 @@ const Profile = () => {
                                     Home (5).jpg (1 KB)
                                   </Link>
                                 </p> */}
-                              </div>
-                            </div>
-                          ))}
-
-                        {/* <div className="project-dbox">
-                          <h2 className="prname">
-                            Fullstack project assessment &amp; advice
-                          </h2>
-                          <div className="prd-buget-column">
-                            <div className="project-tenure-skills">
-                              <span className="prdate">
-                                JAN 05, 2022 - JAN 15, 2022
-                              </span>
-                              <ul className="tech-links">
-                                <li>react-redux</li>
-                                <li>flutter</li>
-                                <li>native</li>
-                              </ul>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            data-bs-toggle="collapse"
-                            href="#collapseExample1"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="collapseExample1"
-                            className="btn btn-view-more"
-                          >
-                            View More
-                          </button>
-                          <div
-                            className="full-project-details collapse"
-                            id="collapseExample1"
-                          >
-                            <p>
-                              Skills And Qualifications I want the design
-                              completed with Sketch to into tailwind if you
-                              contact to me I show you all details psi: My
-                              request from you is to show your projects that you
-                              have done with tailwind before.
-                            </p>
-                            <p>
-                              <b>Link:</b>{" "}
-                              <Link to="/">https://bit.ly/3HAAMCF</Link>
-                            </p>
-                            <p>
-                              <b>Attachment:</b>
-                            </p>
-                            <p className="attachment">
-                              <i className="fas fa-file"></i>
-                              <Link
-                                to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png"
-                                target="_blank"
-                                download
-                              >
-                                Home (5).jpg (1 KB)
-                              </Link>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="project-dbox">
-                          <h2 className="prname">
-                            Fullstack project assessment &amp; advice
-                          </h2>
-                          <div className="prd-buget-column">
-                            <div className="project-tenure-skills">
-                              <span className="prdate">
-                                JAN 05, 2022 - JAN 15, 2022
-                              </span>
-                              <ul className="tech-links">
-                                <li>react-redux</li>
-                                <li>flutter</li>
-                                <li>native</li>
-                              </ul>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            data-bs-toggle="collapse"
-                            href="#collapseExample2"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="collapseExample2"
-                            className="btn btn-view-more"
-                          >
-                            View More
-                          </button>
-                          <div
-                            className="full-project-details collapse"
-                            id="collapseExample2"
-                          >
-                            <p>
-                              Skills And Qualifications I want the design
-                              completed with Sketch to into tailwind if you
-                              contact to me I show you all details psi: My
-                              request from you is to show your projects that you
-                              have done with tailwind before.
-                            </p>
-                            <p>
-                              <b>Link:</b>{" "}
-                              <Link to="/">https://bit.ly/3HAAMCF</Link>
-                            </p>
-                            <p>
-                              <b>Attachment:</b>
-                            </p>
-                            <p className="attachment">
-                              <i className="fas fa-file"></i>
-                              <Link
-                                to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png"
-                                target="_blank"
-                                download
-                              >
-                                Home (5).jpg (1 KB)
-                              </Link>
-                            </p>
-                          </div>
-                        </div> */}
-                        <div className="project-pagination">
-                          <ul className="pagination">
+                                  </div>
+                                </div>
+                              ))}
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={pageSize}
+                              totalItemsCount={totalRecords}
+                              pageRangeDisplayed={totalRecords / pageSize + 1}
+                              onChange={handlePageChange}
+                            />
+                            <div className="project-pagination">
+                              {/* <ul className="pagination">
                             <li className="page-item">
                               <Link className="page-link" to="/">
                                 Prev
@@ -700,19 +622,14 @@ const Profile = () => {
                                 Next
                               </Link>
                             </li>
-                          </ul>
+                          </ul> */}
+                            </div>
+                          </div>
                         </div>
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={pageSize}
-                          totalItemsCount={totalRecords}
-                          pageRangeDisplayed={totalRecords / pageSize}
-                          onChange={handlePageChange}
-                        />
                       </div>
-                    </div>
-                  </div>
-                </section>
+                    </section>
+                  </>
+                )}
               </div>
             </div>
           </div>
