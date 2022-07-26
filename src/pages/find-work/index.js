@@ -260,7 +260,7 @@ const FindWork = () => {
                       <input
                         className="form-control"
                         type="search"
-                        placeholder="Find posted Jobs"
+                        placeholder="Find Jobs"
                         aria-label="Search"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
