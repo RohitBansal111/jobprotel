@@ -25,9 +25,13 @@ export const jobPost = async (data) => {
 
 export const getJobList = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmployer`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -138,9 +142,12 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
   }
 };
 
-export const applyJob  = async (data) => {
+export const applyJob = async (data) => {
   try {
-    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/appliedjobs`, data);
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/appliedjobs`,
+      data
+    );
     if (resp.status == 200) {
       return resp;
     } else {
@@ -158,10 +165,16 @@ export const applyJob  = async (data) => {
   }
 };
 
-
-export const getArchiveJobByEmployer  = async (data) => {
+export const getArchiveJobByEmployer = async (data) => {
   try {
-    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetArchiveJobByEmployer`, data);
+    let token = localStorage.getItem("jobPortalUserToken");
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetArchiveJobByEmployer`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     if (resp.status == 200) {
       return resp;
     } else {
@@ -179,9 +192,17 @@ export const getArchiveJobByEmployer  = async (data) => {
   }
 };
 
-export const getActiveJobByEmployer  = async (data) => {
+export const getActiveJobByEmployer = async (data) => {
   try {
-    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmployer`, data);
+    let token = localStorage.getItem("jobPortalUserToken");
+
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmployer`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     if (resp.status == 200) {
       return resp;
     } else {
@@ -198,9 +219,12 @@ export const getActiveJobByEmployer  = async (data) => {
     };
   }
 };
-export const getReviewJobsByJobId  = async (data) => {
+export const getReviewJobsByJobId = async (data) => {
   try {
-    const resp = await axios.post(`${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetAppliedJobsByJobId`, data);
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetAppliedJobsByJobId`,
+      data
+    );
     if (resp.status == 200) {
       return resp;
     } else {

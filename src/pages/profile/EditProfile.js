@@ -170,6 +170,7 @@ const EditProfile = () => {
 
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
+    console.log(resp)
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
@@ -190,7 +191,7 @@ const EditProfile = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
       );
       if (response.studentDetails.resumeFilePath) {
-        setResumeName(response.studentDetails.resumeFilePath);
+        setResumeName(response?.studentDetails?.resumeFilePath);
       }
       let finalInterest = [];
       if (response.studentDetails.interests) {
@@ -456,7 +457,6 @@ const EditProfile = () => {
     setDesignationlist(designationList.data);
     setQualificationList(qualificationList.data);
   }, []);
-
   return (
     <Layout>
       {loading ? (

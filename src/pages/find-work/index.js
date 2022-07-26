@@ -30,11 +30,10 @@ const FindWork = () => {
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData);
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
-      setRole(authData.userRoles[0]);
+      setRole(authData?.userRoles[0]);
     }
   }, [authData]);
 
@@ -86,24 +85,26 @@ const FindWork = () => {
         <section className="complete-kyc">
           <div className="container">
             <div className="kyc-update">
-              {authData?.studentDetails?.kycStatus === "false" ?
+              {authData?.studentDetails?.kycStatus === "false" && (
                 <>
-                <p>
-                <i className="fa fa-info-circle" aria-hidden="true"></i> KYC is
-                pending, please click on button and complete your KYC{" "}
-              </p>
-              <button
-                type="button"
-                className="btn submit-kyc"
-                data-bs-toggle="modal"
-                data-bs-target="#kycpopup"
-              >
-                Complete KYC
-              </button>
-              <CompleteKycModal jobList={jobList} />
-              </>
-              : <h2>KYC Completed</h2>
-              }
+                  <p>
+                    <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
+                    is pending, please click on button and complete your KYC{" "}
+                  </p>
+                  <button
+                    type="button"
+                    className="btn submit-kyc"
+                    data-bs-toggle="modal"
+                    data-bs-target="#kycpopup"
+                  >
+                    Complete KYC
+                  </button>
+                  <CompleteKycModal jobList={jobList} />
+                </>
+              )}
+              {authData?.studentDetails?.kycStatus === "true" && (
+                <h2>KYC Completed</h2>
+              )}
             </div>
           </div>
         </section>
