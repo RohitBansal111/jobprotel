@@ -126,11 +126,11 @@ console.log(jobInvitations)
                       </button>
                     </form>
                   </div>
-                  <div className="feed-filter">
+                  {/* <div className="feed-filter">
                     <button type="button" className="btn filter-btn">
                       <img src={Filtericon} alt="Filter icon" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="search-feeds-section">
                   <div className="feed-title">
@@ -162,7 +162,7 @@ console.log(jobInvitations)
                       />
                     </div>
                   ) : (
-                    <h1>No Data found</h1>
+                    <h1>No Invites found</h1>
                   )}
                 </div>
               </div>

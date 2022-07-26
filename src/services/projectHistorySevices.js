@@ -2,9 +2,14 @@ import axios from "axios";
 
 export const postProjectHistoryData = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
+
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/ProjectHistory/AddProjectHistory`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -25,9 +30,14 @@ export const postProjectHistoryData = async (data) => {
 
 export const getProjectHistoryData = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
+    
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/ProjectHistory/GetProjectHistory/userID`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;

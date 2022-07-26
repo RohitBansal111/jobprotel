@@ -20,6 +20,8 @@ TimeAgo.addLocale(ru);
 const DetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const authData = useSelector((state) => state.auth.user);
+  console.log(authData)
   toast.options = { preventDuplicates: true };
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +30,6 @@ const DetailsPage = () => {
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
-  const authData = useSelector((state) => state.auth.user);
   const handleApplicationReceived = () => {
     navigate("/review-applications");
   };
@@ -215,7 +216,7 @@ const DetailsPage = () => {
                 </div>
                 <div className="connects-info">
                   <p>Required Connects to submit a proposal: 2 </p>
-                  <p>Available Connects: 14</p>
+                  <p>Available Connects: {authData?.studentDetails?.availableConnects}</p>
                 </div>
               </div>
             </div>

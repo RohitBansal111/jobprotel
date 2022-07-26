@@ -36,6 +36,7 @@ const Profile = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState("");
+  const [kycStatus, setKycStatus] = useState(true);
 
   const handlePageChange = (pageNumber) => {
     console.log(`active page is ${pageNumber}`);
@@ -81,7 +82,7 @@ const Profile = () => {
       }
     }
   };
-  
+
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
@@ -118,33 +119,42 @@ const Profile = () => {
       }
     }
   };
+
+  useEffect(() => {
+    // debugger
+    // if(authData?.studentDetails?.kycStatus === "true"){
+    setTimeout(() => {
+      setKycStatus(false);
+    }, 1000);
+    // }
+  }, []);
   return (
     <Layout>
       <div className="inner-page-wrapper">
         <section className="complete-kyc">
           <div className="container">
-            <div className="kyc-update">
-              {authData?.studentDetails?.kycStatus === "false" && (
-                <>
-                  <p>
-                    <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
-                    is pending, please click on button and complete your KYC{" "}
-                  </p>
-                  <button
-                    type="button"
-                    className="btn submit-kyc"
-                    data-bs-toggle="modal"
-                    data-bs-target="#kycpopup"
-                  >
-                    Complete KYC
-                  </button>
-                  <CompleteKycModal studentData={studentData} />
-                </>
-              )}
-              {authData?.studentDetails?.kycStatus === "true" && (
+            {authData?.studentDetails?.kycStatus === "false" && (
+              <div className="kyc-update">
+                <p>
+                  <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
+                  is pending, please click on button and complete your KYC{" "}
+                </p>
+                <button
+                  type="button"
+                  className="btn submit-kyc"
+                  data-bs-toggle="modal"
+                  data-bs-target="#kycpopup"
+                >
+                  Complete KYC
+                </button>
+                <CompleteKycModal studentData={studentData} />
+              </div>
+            )}
+            {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
+              <div className="kyc-update">
                 <h2>KYC Completed</h2>
-              )}
-            </div>
+              </div>
+            ) : null}
           </div>
         </section>
         <section className="topbg-banner">
@@ -343,6 +353,15 @@ const Profile = () => {
                                 {", "}
                                 {studentData?.studentDetails?.addressLine2}
                                 {studentData?.studentDetails?.cityName}
+                              </span>
+                            </li>
+
+                            <li>
+                              <span className="plabel">KYC Status</span>{" "}
+                              <span className="result">
+                                {
+                                  authData?.studentDetails?.kycStatus === "true" && "KYC Completed"
+                                }
                               </span>
                             </li>
                           </ul>

@@ -79,7 +79,7 @@ const EmployerProfile = () => {
       let response = resp.data.data;
       if (resp.status === 200) {
         setLoading(false);
-        // setTotalRecords(resp.data.totalCount);
+        setTotalRecords(resp.data.totalCount);
         setActiveJobs(response);
       }
     }

@@ -28,6 +28,7 @@ const FindWork = () => {
 
   const authData = useSelector((state) => state.auth.user);
 
+  const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
       setId(authData.id);
@@ -37,6 +38,13 @@ const FindWork = () => {
     }
   }, [authData]);
 
+  useEffect(() => {
+    // if(authData?.studentDetails?.kycStatus === "true"){
+    setTimeout(() => {
+      setKycStatus(false);
+    }, 1000);
+    // }
+  }, []);
   const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
@@ -56,7 +64,7 @@ const FindWork = () => {
     };
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
-      // console.log(response);
+      console.log(response);
       setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
@@ -72,6 +80,7 @@ const FindWork = () => {
     setActivePage(pageNumber);
     getJobList(pageNumber);
   };
+  
   const handleSearch = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -84,28 +93,28 @@ const FindWork = () => {
       <div className="inner-page-wrapper">
         <section className="complete-kyc">
           <div className="container">
-            <div className="kyc-update">
-              {authData?.studentDetails?.kycStatus === "false" && (
-                <>
-                  <p>
-                    <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
-                    is pending, please click on button and complete your KYC{" "}
-                  </p>
-                  <button
-                    type="button"
-                    className="btn submit-kyc"
-                    data-bs-toggle="modal"
-                    data-bs-target="#kycpopup"
-                  >
-                    Complete KYC
-                  </button>
-                  <CompleteKycModal jobList={jobList} />
-                </>
-              )}
-              {authData?.studentDetails?.kycStatus === "true" && (
+            {authData?.studentDetails?.kycStatus === "false" && (
+              <div className="kyc-update">
+                <p>
+                  <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
+                  is pending, please click on button and complete your KYC{" "}
+                </p>
+                <button
+                  type="button"
+                  className="btn submit-kyc"
+                  data-bs-toggle="modal"
+                  data-bs-target="#kycpopup"
+                >
+                  Complete KYC
+                </button>
+                <CompleteKycModal jobList={jobList} />
+              </div>
+            )}
+            {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
+              <div className="kyc-update">
                 <h2>KYC Completed</h2>
-              )}
-            </div>
+              </div>
+            ) : null}
           </div>
         </section>
         <section className="topbg-banner">
