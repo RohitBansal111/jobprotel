@@ -13,14 +13,12 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import * as projectServices from "../../services/projectHistorySevices";
-import Moment from "react-moment";
 import moment from "moment";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
-
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
@@ -45,7 +43,6 @@ const Profile = () => {
     setLoading(true);
     getProjectHistory(id, pageNumber);
   };
-
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
@@ -84,7 +81,7 @@ const Profile = () => {
       }
     }
   };
-
+  
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
@@ -127,7 +124,7 @@ const Profile = () => {
         <section className="complete-kyc">
           <div className="container">
             <div className="kyc-update">
-              {authData?.studentDetails?.kycStatus === "false" ? (
+              {authData?.studentDetails?.kycStatus === "false" && (
                 <>
                   <p>
                     <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
@@ -143,7 +140,8 @@ const Profile = () => {
                   </button>
                   <CompleteKycModal studentData={studentData} />
                 </>
-              ) : (
+              )}
+              {authData?.studentDetails?.kycStatus === "true" && (
                 <h2>KYC Completed</h2>
               )}
             </div>

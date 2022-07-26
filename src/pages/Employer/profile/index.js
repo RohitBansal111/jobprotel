@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../../types/auth";
 import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
+import Pagination from "react-js-pagination";
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,22 @@ const EmployerProfile = () => {
   const [employerData, setEmployerData] = useState([]);
   const [companyLogo, setCompanyLogo] = useState("");
   const [id, setId] = useState("");
+
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [activeJobs, setActiveJobs] = useState([]);
+  const [archiveJobs, setArchiveJobs] = useState([]);
+
   const authData = useSelector((state) => state.auth.user);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+    setLoading(true);
+    getArchiveJobs(id, pageNumber);
+    getActiveJobs(id, pageNumber);
+  };
+
   useEffect(async () => {
     if (authData) {
       setCompanyLogo(
@@ -28,6 +44,8 @@ const EmployerProfile = () => {
       );
       setId(authData.id);
       getEmployerDetails(authData.id);
+      getArchiveJobs(authData.id, activePage);
+      getActiveJobs(authData.id, activePage);
     }
   }, [authData]);
 
@@ -42,12 +60,50 @@ const EmployerProfile = () => {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.comapanyDetail.logoPath}`
       );
-    }else {
+    } else {
       setLoading(false);
       toast.error("Something went wrong");
-     }
+    }
   };
 
+  const getActiveJobs = async (id, activePage = activePage) => {
+    let data = {
+      serachItem: "",
+      // userId: id,
+      pageNumber: activePage,
+      pageSize: pageSize,
+    };
+    if (data) {
+      const resp = await jobServices.getActiveJobByEmployer(data);
+      console.log(resp)
+      let response = resp.data.data;
+      if (resp.status === 200) {
+        setLoading(false);
+        // setTotalRecords(resp.data.totalCount);
+        setActiveJobs(response);
+      }
+    }
+  };
+
+  const getArchiveJobs = async (id, activePage = activePage) => {
+    let data = {
+      serachItem: "",
+      // userId: id,
+      pageNumber: activePage,
+      pageSize: pageSize,
+    };
+    console.log(data);
+    if (data) {
+      const resp = await jobServices.getArchiveJobByEmployer(data);
+      let response = resp.data.data;
+      console.log(response);
+      if (resp.status === 200) {
+        setLoading(false);
+        // setTotalRecords(resp.data.totalCount);
+        setArchiveJobs(response);
+      }
+    }
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -283,86 +339,41 @@ const EmployerProfile = () => {
                               aria-labelledby="nav-completed-tab"
                             >
                               <div className="project-detail-list">
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                                {activeJobs?.length > 0 &&
+                                  activeJobs.map((active, i) => (
+                                    <div className="project-dbox" key={i}>
+                                      <h2 className="prname">
+                                        {/* Fullstack project assessment &amp; advice */}
+                                        {active.title}
+                                      </h2>
+                                      <div className="prd-buget-column">
+                                        <div className="prdate-budgetprice">
+                                          <span className="prdate">
+                                            {/* July 05, 2022 - Aug 15, 2022 */}
+                                            {active?.skills
+                                              ?.split(",")
+                                              .map((sk, i) => (
+                                                <Link to="#" key={i}>
+                                                  {sk}
+                                                  {" ,"}
+                                                </Link>
+                                              ))}
+                                          </span>
+                                          {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-pagination">
-                                  <ul className="pagination">
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Prev
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        1
-                                      </Link>
-                                    </li>
-                                    <li className="page-item active">
-                                      <Link className="page-link" to="/">
-                                        2
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        3
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        4
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        5
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Next
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </div>
+                                  ))}
                               </div>
+                              <Pagination
+                                activePage={activePage}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalRecords}
+                                pageRangeDisplayed={totalRecords / pageSize + 1}
+                                onChange={handlePageChange}
+                              />
                             </div>
+
                             <div
                               className="tab-pane fade"
                               id="nav-inprogress"

@@ -10,15 +10,19 @@ import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
+import * as jobServices from "../services/jobServices";
+import { useSelector } from "react-redux";
+import toast from "toastr";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
 const PostedJobCard = ({ jobs, type }) => {
+  const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
-  
+
   const GetTags = () => {
     let job = jobs.tags;
 
@@ -36,6 +40,34 @@ const PostedJobCard = ({ jobs, type }) => {
       setLogo(logo);
     }
   }, [jobs]);
+
+  const applyJob = async () => {
+    const payload = {
+      jobId: jobs.id,
+      userId: authData.id,
+      remarks: "test",
+    };
+    const resp = await jobServices.applyJob(payload);
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    } else {
+      if (resp.errors && typeof resp.errors === "object") {
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
+        });
+
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      }
+    }
+  };
+
   return (
     <>
       <div className="feeds-search-coll">
@@ -115,26 +147,39 @@ const PostedJobCard = ({ jobs, type }) => {
           <div className="posted-submit">
             <p className="post-ago">
               <img src={ClockIcon} alt="clock" />
-              {jobs?.createdOn ? 
-              <ReactTimeAgo date={jobs?.createdOn} locale="en-US" />
-              : null}
+              {jobs?.createdOn ? (
+                <ReactTimeAgo date={jobs?.createdOn} locale="en-US" />
+              ) : null}
             </p>
             <div className="d-flex">
-              <button
-                type="button"
-                className="btn submit-btn mr-2"
-                // data-bs-toggle="modal"
-                // data-bs-target="#invitationPopup"
-              >
-                Invitation Accepted (13){" "}
-              </button>
-              <Link
-                to={`/review-applications/${jobs?.id}`}
-                type="button"
-                className="btn submit-btn"
-              >
-                Review Applications
-              </Link>
+              {authData?.userRoles[0] === "EMPLOYER" ? (
+                <>
+                  <button
+                    type="button"
+                    className="btn submit-btn mr-2"
+                    // data-bs-toggle="modal"
+                    // data-bs-target="#invitationPopup"
+                  >
+                    Invitation Accepted (13){" "}
+                  </button>
+                  <Link
+                    to={`/review-applications/${jobs?.id}`}
+                    type="button"
+                    className="btn submit-btn"
+                  >
+                    Review Applications
+                  </Link>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => applyJob()}
+                >
+                  Apply Now
+                </button>
+              )}
+
               {/* <SendInvitationModal /> */}
             </div>
           </div>

@@ -40,7 +40,7 @@ const PostedJob = () => {
   ) => {
     let data = {
       serachItem: search,
-      employerId: id,
+      //employerId: id,
       pageNumber: activePage,
       pageSize: pageSize,
     };

@@ -7,7 +7,7 @@ import toast from "toastr";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "../../types/auth";
 
-const CompleteKycModal = ({jobList, studentData}) => {
+const CompleteKycModal = ({ jobList, studentData }) => {
   const authData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -54,18 +54,18 @@ const CompleteKycModal = ({jobList, studentData}) => {
     if (studentId) {
       if (validations()) {
         const resp = await studentServices.sendStudentKycData(formData);
-        console.log(resp);
         if (resp.status === 200) {
+          document.getElementById("kycpopup").click();
           toast.success(
             resp.data.message ? resp.data.message : "Something went wrong"
           );
-          document.getElementById("kycpopup").click();
-
-          dispatch({
-            type: types.LOGIN_USER_SUCCESS,
-            payload: jobList ? jobList : studentData,
-            token: localStorage.getItem("jobPortalUserToken"),
-          });
+          const resp2 = await studentServices.getStudentDetails(studentId);
+          console.log(resp2);
+          // dispatch({
+          //   type: types.LOGIN_USER_SUCCESS,
+          //   payload: resp2.data.data,
+          //   token: localStorage.getItem("jobPortalUserToken"),
+          // });
 
           // setMainfile({name: ""});
           // setBackfile("");
