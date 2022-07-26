@@ -85,6 +85,16 @@ const DetailsPage = () => {
       }
     }
   }
+  const getTimeZone=(timezone)=>{
+    if(timezone)
+    {
+      const zone = JSON.parse(timezone);
+      return zone.value
+    }else{
+      return "N/A"
+    }
+     
+  }
   return (
     <Layout>
       {loading ? <Loader /> : 
@@ -172,7 +182,7 @@ const DetailsPage = () => {
                   </p>
                   <p>
                     <b>Time Zone: </b>{" "}
-                    {jobDetails && jobDetails.timeZone && jobDetails.timeZone}
+                    {getTimeZone(jobDetails && jobDetails.timeZone && jobDetails.timeZone)}
                   </p>
                   <p>
                     <b>Category: </b>{" "}

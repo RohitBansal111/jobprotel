@@ -82,7 +82,7 @@ console.log(jobInvitations)
                       </li>
                     </ul>
                   </div>
-                  <div className="profile-strength">
+                  {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
@@ -109,7 +109,7 @@ console.log(jobInvitations)
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">

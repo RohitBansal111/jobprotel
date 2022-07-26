@@ -128,6 +128,16 @@ const Profile = () => {
     }, 1000);
     // }
   }, []);
+  const getTimeZone=(timezone)=>{
+    if(timezone)
+    {
+      const zone = JSON.parse(timezone);
+      return zone.value
+    }else{
+      return "N/A"
+    }
+     
+  }
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -254,7 +264,7 @@ const Profile = () => {
                       {studentData?.email}
                     </p>
                   </div>
-                  <div className="profile-strength">
+                  {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
@@ -281,7 +291,7 @@ const Profile = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 {loading ? (
                   <Loader />
@@ -338,9 +348,8 @@ const Profile = () => {
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {
-                                  studentData?.studentDetails?.timezone
-                                    ?.split(":")[1]
-                                    ?.split(",")[0]
+                                 getTimeZone(studentData?.studentDetails?.timezone)
+                                    
                                 }
                               </span>
                             </li>

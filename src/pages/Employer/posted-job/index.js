@@ -157,7 +157,7 @@ const PostedJob = () => {
                       </li>
                     </ul>
                   </div>
-                  <div className="profile-strength">
+                  {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
@@ -184,7 +184,7 @@ const PostedJob = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">

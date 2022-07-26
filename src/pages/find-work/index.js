@@ -235,7 +235,7 @@ const FindWork = () => {
                       <li><Link to="#"><span className="update-name">Completed Jobs</span>170</Link></li> */}
                     </ul>
                   </div>
-                  <div className="profile-strength">
+                  {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
@@ -262,7 +262,7 @@ const FindWork = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">
