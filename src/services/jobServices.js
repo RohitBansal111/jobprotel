@@ -226,9 +226,14 @@ export const getActiveJobByEmployer = async (data) => {
 };
 export const getReviewJobsByJobId = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
+
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetAppliedJobsByJobId`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;

@@ -22,7 +22,7 @@ const PostedJobCard = ({ jobs, type }) => {
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
-console.log(jobs.createdOn)
+// console.log(jobs?.createdOn)
   const GetTags = () => {
     let job = jobs.tags;
 
@@ -35,7 +35,7 @@ console.log(jobs.createdOn)
     GetTags();
     setJobId(id);
 
-    if (jobs && jobs.company && jobs.company.logoUrl) {
+    if (jobs?.company?.logoUrl) {
       let logo = jobs.company.logoUrl;
       setLogo(logo);
     }
@@ -148,7 +148,7 @@ console.log(jobs.createdOn)
             <p className="post-ago">
               <img src={ClockIcon} alt="clock" />
               {jobs?.createdOn ? (
-                <ReactTimeAgo date={jobs?.createdOn} locale="en-US" />
+                <ReactTimeAgo date={jobs.createdOn} locale="en-US" />
               ) : null}
             </p>
             <div className="d-flex">

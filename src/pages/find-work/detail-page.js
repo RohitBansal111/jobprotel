@@ -21,7 +21,6 @@ const DetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const authData = useSelector((state) => state.auth.user);
-  console.log(authData)
   toast.options = { preventDuplicates: true };
   const [loading, setLoading] = useState(true);
 
@@ -86,7 +85,12 @@ const DetailsPage = () => {
     }
   }
   const getTimeZone=(timezone)=>{
-    if(timezone)
+    console.log(timezone)
+    if(timezone && timezone == "Doesn't Matter")
+    {
+      return timezone
+    }
+    else if(timezone)
     {
       const zone = JSON.parse(timezone);
       return zone.value
@@ -159,31 +163,27 @@ const DetailsPage = () => {
                   </p>
                   <p>
                     <b>SKills: </b>{" "}
-                    {jobDetails && jobDetails.skills && jobDetails.skills}
+                    {jobDetails?.skills}
                   </p>
                   <p>
                     <b>Job Location: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.hoursPerDay &&
-                      jobDetails.hoursPerDay}
+                    {jobDetails?.hoursPerDay}
                   </p>
                   <p>
                     <b>Hour/day: </b>{" "}
-                    {jobDetails && jobDetails.location && jobDetails.location}
+                    {jobDetails?.location}
                   </p>
                   <p>
                     <b>Days / Week: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.daysPerWeek &&
-                      jobDetails.daysPerWeek}
+                    {jobDetails?.daysPerWeek}
                   </p>
                   <p>
                     <b>Job Timings/days: </b>
-                    {jobDetails && jobDetails.timing && jobDetails.timing}
+                    {jobDetails?.timing}
                   </p>
                   <p>
                     <b>Time Zone: </b>{" "}
-                    {getTimeZone(jobDetails && jobDetails.timeZone && jobDetails.timeZone)}
+                    {getTimeZone(jobDetails?.timeZone)}
                   </p>
                   {/* <p>
                     <b>Category: </b>{" "}

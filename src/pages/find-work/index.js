@@ -323,17 +323,19 @@ const FindWork = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>
-                      Showing{" "}
-                      {activePage == 1
-                        ? activePage
-                        : 1 + (activePage - 1) * pageSize}
-                      -
-                      {jobList && jobList.length
-                        ? (activePage - 1) * pageSize + jobList.length
-                        : 0}{" "}
-                      of {totalRecords} results
-                    </p>
+                    {jobList?.length > 0 && (
+                      <p>
+                        Showing{" "}
+                        {activePage == 1
+                          ? activePage
+                          : 1 + (activePage - 1) * pageSize}
+                        -
+                        {jobList && jobList.length
+                          ? (activePage - 1) * pageSize + jobList.length
+                          : 0}{" "}
+                        of {totalRecords} results
+                      </p>
+                    )}
                   </div>
                   <div className="default-feeds-search">
                     {loading ? (
@@ -348,13 +350,15 @@ const FindWork = () => {
                       ))
                     )}
                   </div>
-                  <Pagination
-                    activePage={activePage}
-                    itemsCountPerPage={pageSize}
-                    totalItemsCount={totalRecords}
-                    pageRangeDisplayed={totalRecords / pageSize + 1}
-                    onChange={handlePageChange}
-                  />
+                  {jobList?.length > 4 && (
+                    <Pagination
+                      activePage={activePage}
+                      itemsCountPerPage={pageSize}
+                      totalItemsCount={totalRecords}
+                      pageRangeDisplayed={totalRecords / pageSize + 1}
+                      onChange={handlePageChange}
+                    />
+                  )}
                 </div>
               </div>
             </div>
