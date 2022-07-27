@@ -17,6 +17,7 @@ import "./scss/Main.scss";
 import "react-phone-number-input/style.css";
 import EmployerRoles from "./pages/Employer/roles";
 import ReviewApplications from "./pages/Employer/posted-job/review-applications";
+import Applications from "./pages/Employer/posted-job/applications";
 import EmployerProfile from "./pages/Employer/profile";
 import EmployerEditProfile from "./pages/Employer/profile/EditProfile";
 import DetailsPage from "./pages/find-work/detail-page";
@@ -100,6 +101,7 @@ function App() {
           element={<EmployerApplication />}
         />
         <Route path="/review-applications/:jobid" element={<ReviewApplications />} />
+        <Route path="/applications" element={<Applications/>} />
         <Route path="/roles" element={<EmployerRoles />} />
         <Route path="/employer-inbox" element={<EmployerInbox />} />
         <Route path="/find-work/details/:id" element={<DetailsPage />} />

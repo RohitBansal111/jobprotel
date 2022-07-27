@@ -44,7 +44,7 @@ const EmployerJobSuggestion = () => {
                   {loading ? (
                       <Loader />
                     ) : suggestions && suggestions.length === 0 ? (
-                      <h4>No jobs found</h4>
+                      <h4>No suggestions found</h4>
                     ) : (
                       suggestions &&
                       suggestions.length > 0 &&

@@ -2,9 +2,13 @@ import axios from "axios";
 
 export const jobPost = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
