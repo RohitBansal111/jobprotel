@@ -31,6 +31,7 @@ const FindWork = () => {
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
+      console.log(authData)
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
@@ -158,7 +159,7 @@ const FindWork = () => {
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
+                        {authData?.studentDetails?.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>

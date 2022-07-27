@@ -193,10 +193,10 @@ const EmployerJobDetailsPage = () => {
                         onClick={handleApplicationReceived}
                         className="btn btn-primary"
                       >
-                        Applications received (17)
+                        Applications received ({jobDetails?.applicationRecivedCount})
                       </button>
                       <button type="button" className="btn btn-primary-outline">
-                        Invitation accepted (12)
+                        Invitation accepted ({jobDetails?.invitationAcceptedCount})
                       </button>
                     </div>
                     <div className="connects-info">

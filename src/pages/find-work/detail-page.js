@@ -12,7 +12,7 @@ import ReactTimeAgo from "react-time-ago";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
-import {Loader} from "../../components/Loader/Loader";
+import { Loader } from "../../components/Loader/Loader";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
@@ -39,9 +39,9 @@ const DetailsPage = () => {
 
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
-    console.log(resp,"resp");
+    console.log(resp, "resp");
     if (resp.status == 200) {
-      setLoading(false)
+      setLoading(false);
       const response = resp.data.data;
       setJobDetails(response);
       setQualifications(response.qualifications);
@@ -56,20 +56,19 @@ const DetailsPage = () => {
       setSkills(skills);
     }
   };
-  
 
-  const applyJob =async()=>{
-    const payload ={
-      jobId:id,
-      userId:authData.id,
-      remarks:"test"
-    }
+  const applyJob = async () => {
+    const payload = {
+      jobId: id,
+      userId: authData.id,
+      remarks: "test",
+    };
     const resp = await jobServices.applyJob(payload);
     if (resp.status == 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-    }else{
+    } else {
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -83,52 +82,74 @@ const DetailsPage = () => {
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }
-  }
-  const getTimeZone=(timezone)=>{
-    console.log(timezone)
-    if(timezone && timezone == "Doesn't Matter")
-    {
-      return timezone
+  };
+  
+  const saveJob = async () => {
+    const payload = {
+      jobId: id,
+      userId: authData.id,
+    };
+    const resp = await jobServices.saveJob(payload);
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    } else {
+      if (resp.errors && typeof resp.errors === "object") {
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
+        });
+
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      }
     }
-    else if(timezone)
-    {
+  };
+  
+  const getTimeZone = (timezone) => {
+    if (timezone && timezone == "Doesn't Matter") {
+      return timezone;
+    } else if (timezone) {
       const zone = JSON.parse(timezone);
-      return zone.value
-    }else{
-      return "N/A"
+      return zone.value;
+    } else {
+      return "N/A";
     }
-     
-  }
+  };
   return (
     <Layout>
-      {loading ? <Loader /> : 
-      <section className="job-details-wrapper">
-        <div className="container">
-          <h1>Job Details</h1>
-          <div className="row">
-          <div className="col-12 col-md-9">
-              <div className="details-card">
-                <div className="head43">
-                  <h2>
-                    {/* React Js Developer */}
-                    {jobDetails && jobDetails.title && jobDetails.title}
-                    <span>
-                   { jobDetails && jobDetails.created ?
-                      <ReactTimeAgo
-                        date={jobDetails?.created}
-                        locale="en-US"
-                     />
-                     :null}
-                    </span>
-                  </h2>
-                  {jobDetails?.category?.name}
-                  {/* <p>Mobile/Tablet Front-End Developer</p> */}
-                </div>
-                <div className="job-description">
-                  <p>
-                    {jobDetails?.description}
-                  </p>
-                  {/* <p>
+      {loading ? (
+        <Loader />
+      ) : (
+        <section className="job-details-wrapper">
+          <div className="container">
+            <h1>Job Details</h1>
+            <div className="row">
+              <div className="col-12 col-md-9">
+                <div className="details-card">
+                  <div className="head43">
+                    <h2>
+                      {/* React Js Developer */}
+                      {jobDetails && jobDetails.title && jobDetails.title}
+                      <span>
+                        {jobDetails && jobDetails.created ? (
+                          <ReactTimeAgo
+                            date={jobDetails?.created}
+                            locale="en-US"
+                          />
+                        ) : null}
+                      </span>
+                    </h2>
+                    {jobDetails?.category?.name}
+                    {/* <p>Mobile/Tablet Front-End Developer</p> */}
+                  </div>
+                  <div className="job-description">
+                    <p>{jobDetails?.description}</p>
+                    {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
                   <p>
@@ -149,92 +170,114 @@ const DetailsPage = () => {
                     Beautiful woven collection of classic motifs: buffalo plaid,
                     paisley, ticking stripes & more.
                   </p> */}
-                </div>
-                <div className="education-info">
-                  <p>
-                    <b>Experience: </b>{" "}
-                    {exp &&
-                      exp.length > 0 &&
-                      exp.map((exp, index) => <span key={index}>{exp} </span>)}
-                  </p>
-                  <p>
-                    <b>Education:</b>{" "}
-                    {qualifications && qualifications.map((qual) => qual.name)}
-                  </p>
-                  <p>
-                    <b>SKills: </b>{" "}
-                    {jobDetails?.skills}
-                  </p>
-                  <p>
-                    <b>Job Location: </b>{" "}
-                    {jobDetails?.hoursPerDay}
-                  </p>
-                  <p>
-                    <b>Hour/day: </b>{" "}
-                    {jobDetails?.location}
-                  </p>
-                  <p>
-                    <b>Days / Week: </b>{" "}
-                    {jobDetails?.daysPerWeek}
-                  </p>
-                  <p>
-                    <b>Job Timings/days: </b>
-                    {jobDetails?.timing}
-                  </p>
-                  <p>
-                    <b>Time Zone: </b>{" "}
-                    {getTimeZone(jobDetails?.timeZone)}
-                  </p>
-                  {/* <p>
+                  </div>
+                  <div className="education-info">
+                    <p>
+                      <b>Experience: </b>{" "}
+                      {exp &&
+                        exp.length > 0 &&
+                        exp.map((exp, index) => (
+                          <span key={index}>{exp} </span>
+                        ))}
+                    </p>
+                    <p>
+                      <b>Education:</b>{" "}
+                      {qualifications &&
+                        qualifications.map((qual) => qual.name)}
+                    </p>
+                    <p>
+                      <b>SKills: </b> {jobDetails?.skills}
+                    </p>
+                    <p>
+                      <b>Job Location: </b> {jobDetails?.hoursPerDay}
+                    </p>
+                    <p>
+                      <b>Hour/day: </b> {jobDetails?.location}
+                    </p>
+                    <p>
+                      <b>Days / Week: </b> {jobDetails?.daysPerWeek}
+                    </p>
+                    <p>
+                      <b>Job Timings/days: </b>
+                      {jobDetails?.timing}
+                    </p>
+                    <p>
+                      <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
+                    </p>
+                    {/* <p>
                     <b>Category: </b>{" "}
                     {jobDetails &&
                       jobDetails.category &&
                       jobDetails.category.name &&
                       jobDetails.category.name}
                   </p> */}
-                  <p>
-                    <b>Salary: </b> ${" "}
-                    {jobDetails && jobDetails.salary && jobDetails.salary}
-                  </p>
-                  <p>
-                    <b>Tags:</b>{" "}
-                    {jobDetails && jobDetails.tags && jobDetails.tags}
-                  </p>
-                </div>
-                <div className="inner-info-section">
-                  <h3>Skills and Expertise</h3>
-                  <ul className="feeds-ul">
-                    {skills &&
-                      skills.length > 0 &&
-                      skills.map((skill, index) => (
-                        <li key={index}>
-                          <Link to="#">{skill}</Link>
-                        </li>
-                      ))}
-                  </ul>
+                    <p>
+                      <b>Salary: </b> ${" "}
+                      {jobDetails && jobDetails.salary && jobDetails.salary}
+                    </p>
+                    <p>
+                      <b>Tags:</b>{" "}
+                      {jobDetails && jobDetails.tags && jobDetails.tags}
+                    </p>
+                  </div>
+                  <div className="inner-info-section">
+                    <h3>Skills and Expertise</h3>
+                    <ul className="feeds-ul">
+                      {skills &&
+                        skills.length > 0 &&
+                        skills.map((skill, index) => (
+                          <li key={index}>
+                            <Link to="#">{skill}</Link>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-md-3">
-              <div className="details-right-sidebar">
-                <div className="post-action">
-                  <button type="button" className="btn btn-primary" onClick={()=>applyJob()}>
-                    Apply Now
-                  </button>
-                  <button type="button" className="btn btn-primary-outline">
-                    Saved Job
-                  </button>
-                </div>
-                <div className="connects-info">
-                  <p>Required Connects to submit a proposal: 2 </p>
-                  <p>Available Connects: {authData?.studentDetails?.availableConnects}</p>
+              <div className="col-12 col-md-3">
+                <div className="details-right-sidebar">
+                  <div className="post-action">
+                    {jobDetails?.isJobApplied ? (
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled
+                      >
+                        Applied
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => applyJob()}
+                      >
+                        Apply Now
+                      </button>
+                    )}
+
+                    {jobDetails?.isJobFavorite ? (
+                      <button type="button" className="btn btn-primary-outline" disabled>
+                        Saved
+                      </button>
+                    ) : (
+                      <button type="button" className="btn btn-primary-outline"  onClick={() => saveJob()}>
+                        Save Job
+                      </button>
+                    )}
+                  </div>
+                  <div className="connects-info">
+                    <p>Required Connects to submit a proposal: 2 </p>
+                    <p>
+                      Available Connects:{" "}
+                      {authData?.studentDetails?.availableConnects}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-}
+        </section>
+      )}
     </Layout>
   );
 };

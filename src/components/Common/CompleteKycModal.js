@@ -61,11 +61,11 @@ const CompleteKycModal = ({ jobList, studentData }) => {
           );
           const resp2 = await studentServices.getStudentDetails(studentId);
           console.log(resp2);
-          // dispatch({
-          //   type: types.LOGIN_USER_SUCCESS,
-          //   payload: resp2.data.data,
-          //   token: localStorage.getItem("jobPortalUserToken"),
-          // });
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
 
           // setMainfile({name: ""});
           // setBackfile("");

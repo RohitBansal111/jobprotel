@@ -52,8 +52,14 @@ export const getJobList = async (data) => {
 
 export const getJobDetails = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
+
     const resp = await axios.post(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJob/jobId?jobId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJob/jobId?jobId=${id}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -167,8 +173,36 @@ export const applyJob = async (data) => {
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.error
-          ? err.response.data.error
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+      status: 400,
+    };
+  }
+};
+
+export const saveJob = async (data) => {
+  try {
+    let token = localStorage.getItem("jobPortalUserToken")
+
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/AddFavroateJob`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
           : err.message,
       status: 400,
     };
