@@ -22,7 +22,7 @@ const PostedJobCard = ({ jobs, type }) => {
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
   const [logo, setLogo] = useState("");
-
+console.log(jobs.createdOn)
   const GetTags = () => {
     let job = jobs.tags;
 

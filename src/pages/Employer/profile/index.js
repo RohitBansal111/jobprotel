@@ -23,8 +23,12 @@ const EmployerProfile = () => {
   const [id, setId] = useState("");
 
   const [activePage, setActivePage] = useState(1);
+  const [activePageArchive, setActivePageArchive] = useState(1);
+
   const [pageSize, setPageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [totalRecordsArchive, setTotalRecordsArchive] = useState(0);
+
   const [activeJobs, setActiveJobs] = useState([]);
   const [archiveJobs, setArchiveJobs] = useState([]);
 
@@ -33,8 +37,13 @@ const EmployerProfile = () => {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
-    getArchiveJobs(id, pageNumber);
     getActiveJobs(id, pageNumber);
+  };
+
+  const handlePageChangeArchive = (pageNumber) => {
+    setActivePageArchive(pageNumber);
+    setLoading(true);
+    getArchiveJobs(id, pageNumber);
   };
 
   useEffect(async () => {
@@ -75,7 +84,7 @@ const EmployerProfile = () => {
     };
     if (data) {
       const resp = await jobServices.getActiveJobByEmployer(data);
-      console.log(resp)
+      console.log(resp);
       let response = resp.data.data;
       if (resp.status === 200) {
         setLoading(false);
@@ -99,7 +108,7 @@ const EmployerProfile = () => {
       console.log(response);
       if (resp.status === 200) {
         setLoading(false);
-        // setTotalRecords(resp.data.totalCount);
+        // setTotalRecordsArchive(resp.data.totalCount);
         setArchiveJobs(response);
       }
     }
@@ -339,39 +348,46 @@ const EmployerProfile = () => {
                               aria-labelledby="nav-completed-tab"
                             >
                               <div className="project-detail-list">
-                                {activeJobs?.length > 0 &&
-                                  activeJobs.map((active, i) => (
-                                    <div className="project-dbox" key={i}>
-                                      <h2 className="prname">
-                                        {/* Fullstack project assessment &amp; advice */}
-                                        {active.title}
-                                      </h2>
-                                      <div className="prd-buget-column">
-                                        <div className="prdate-budgetprice">
-                                          <span className="prdate">
-                                            {/* July 05, 2022 - Aug 15, 2022 */}
-                                            {active?.skills
-                                              ?.split(",")
-                                              .map((sk, i) => (
-                                                <Link to="#" key={i}>
-                                                  {sk}
-                                                  {" ,"}
-                                                </Link>
-                                              ))}
-                                          </span>
-                                          {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                                <div className="project-dbox">
+                                  {activeJobs?.length > 0
+                                    ? activeJobs.map((active, i) => (
+                                        <div className="project-dbox" key={i}>
+                                          <h2 className="prname">
+                                            {active.title}
+                                          </h2>
+                                          <div className="prd-buget-column">
+                                            <div className="prdate-budgetprice">
+                                              <span className="prdate">
+                                                {active?.skills
+                                                  ?.split(",")
+                                                  .map((sk, i) => (
+                                                    <Link to="#" key={i}>
+                                                      {sk}
+                                                      {" ,"}
+                                                    </Link>
+                                                  ))}
+                                              </span>
+                                              {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                                            </div>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </div>
-                                  ))}
+                                      ))
+                                    : "No Active Jobs"}
+                                </div>
+                                <div className="project-pagination">
+                                  {/* {activeJobs?.length > 4 && */}
+                                  <Pagination
+                                    activePage={activePage}
+                                    itemsCountPerPage={pageSize}
+                                    totalItemsCount={totalRecords}
+                                    pageRangeDisplayed={
+                                      totalRecords / pageSize + 1
+                                    }
+                                    onChange={handlePageChange}
+                                  />
+                                  {/* } */}
+                                </div>
                               </div>
-                              <Pagination
-                                activePage={activePage}
-                                itemsCountPerPage={pageSize}
-                                totalItemsCount={totalRecords}
-                                pageRangeDisplayed={totalRecords / pageSize + 1}
-                                onChange={handlePageChange}
-                              />
                             </div>
 
                             <div
@@ -382,46 +398,42 @@ const EmployerProfile = () => {
                             >
                               <div className="project-detail-list">
                                 <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
+                                  {archiveJobs?.length > 0
+                                    ? archiveJobs.map((archive, i) => (
+                                        <div className="project-dbox" key={i}>
+                                          <h2 className="prname">
+                                            {archive.title}
+                                          </h2>
+                                          <div className="prd-buget-column">
+                                            <div className="prdate-budgetprice">
+                                              <span className="prdate">
+                                                {archive?.skills
+                                                  ?.split(",")
+                                                  .map((arc, i) => (
+                                                    <Link to="#" key={i}>
+                                                      {arc}
+                                                      {" ,"}
+                                                    </Link>
+                                                  ))}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))
+                                    : "No Archive Jobs"}
                                 </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-pagination">
-                                  <ul className="pagination">
+                                {archiveJobs?.length > 0 && (
+                                  <div className="project-pagination">
+                                    <Pagination
+                                      activePage={activePageArchive}
+                                      itemsCountPerPage={pageSize}
+                                      totalItemsCount={totalRecordsArchive}
+                                      pageRangeDisplayed={
+                                        totalRecordsArchive / pageSize + 1
+                                      }
+                                      onChange={handlePageChangeArchive}
+                                    />
+                                    {/* <ul className="pagination">
                                     <li className="page-item">
                                       <Link className="page-link" to="/">
                                         Prev
@@ -457,95 +469,9 @@ const EmployerProfile = () => {
                                         Next
                                       </Link>
                                     </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              className="tab-pane fade"
-                              id="nav-applied"
-                              role="tabpanel"
-                              aria-labelledby="nav-applied-tab"
-                            >
-                              <div className="project-detail-list">
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
+                                  </ul> */}
                                   </div>
-                                </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-dbox">
-                                  <h2 className="prname">
-                                    Fullstack project assessment &amp; advice
-                                  </h2>
-                                  <div className="prd-buget-column">
-                                    <div className="prdate-budgetprice">
-                                      <span className="prdate">
-                                        July 05, 2022 - Aug 15, 2022
-                                      </span>
-                                      {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="project-pagination">
-                                  <ul className="pagination">
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Prev
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        1
-                                      </Link>
-                                    </li>
-                                    <li className="page-item active">
-                                      <Link className="page-link" to="/">
-                                        2
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        3
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        4
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        5
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Next
-                                      </Link>
-                                    </li>
-                                  </ul>
-                                </div>
+                                )}
                               </div>
                             </div>
                           </div>

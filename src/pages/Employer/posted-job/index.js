@@ -46,6 +46,7 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
+      console.log(response.data.data)
       setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
@@ -95,9 +96,7 @@ const PostedJob = () => {
                         <img src={companyLogo} alt="Company profile" />
                       </span>
                     </div>
-                    <h3>
-                      {authData?.comapanyDetail?.companyName}
-                    </h3>
+                    <h3>{authData?.comapanyDetail?.companyName}</h3>
                     <div>
                       {authData?.comapanyDetail?.address}
                       {", "}
@@ -206,38 +205,41 @@ const PostedJob = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>
-                      Showing{" "}
-                      {activePage == 1
-                        ? activePage
-                        : 1 + (activePage - 1) * pageSize}
-                      -
-                      {jobList && jobList.length
-                        ? (activePage - 1) * pageSize + jobList.length
-                        : 0}{" "}
-                      of {totalRecords} results
-                    </p>
+                    {jobList?.length > 0 && (
+                      <p>
+                        Showing{" "}
+                        {activePage == 1
+                          ? activePage
+                          : 1 + (activePage - 1) * pageSize}
+                        -
+                        {jobList && jobList.length
+                          ? (activePage - 1) * pageSize + jobList.length
+                          : 0}{" "}
+                        of {totalRecords} results
+                      </p>
+                    )}
                   </div>
                   <div className="default-feeds-search">
                     {loading ? (
                       <Loader />
-                    ) : jobList && jobList.length === 0 ? (
+                    ) : jobList?.length === 0 ? (
                       <h4>No jobs found</h4>
                     ) : (
-                      jobList &&
-                      jobList.length > 0 &&
+                      jobList?.length > 0 &&
                       jobList.map((jobs, index) => (
                         <PostedJobCard jobs={jobs} key={index} type="post" />
                       ))
                     )}
                   </div>
-                  <Pagination
-                    activePage={activePage}
-                    itemsCountPerPage={pageSize}
-                    totalItemsCount={totalRecords}
-                    pageRangeDisplayed={totalRecords / pageSize + 1}
-                    onChange={handlePageChange}
-                  />
+                  {jobList.length > 4 && (
+                    <Pagination
+                      activePage={activePage}
+                      itemsCountPerPage={pageSize}
+                      totalItemsCount={totalRecords}
+                      pageRangeDisplayed={totalRecords / pageSize + 1}
+                      onChange={handlePageChange}
+                    />
+                  )}
                 </div>
               </div>
             </div>
