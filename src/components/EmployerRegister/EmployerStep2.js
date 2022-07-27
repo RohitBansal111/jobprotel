@@ -5,7 +5,7 @@ import titles from "./register.json";
 import validate from "./validator/EmployerStep2Validate";
 import ImageCropperModal from "../Image-cropper";
 import React, { useState, useEffect } from "react";
-import {RenderPhoneInput} from "../renderPhoneInput";
+import { RenderPhoneInput } from "../renderPhoneInput";
 import * as dropdownServices from "../../services/dropDownServices";
 import PhoneInput from "react-phone-number-input";
 
@@ -15,7 +15,7 @@ const EmployerStep2 = ({
   employer,
   initialEmpStep2,
   countrylist,
-  setLoading
+  setLoading,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [modal, setModal] = useState(false);
@@ -54,14 +54,6 @@ const EmployerStep2 = ({
     }
   }, []);
 
-  const SaveStep2 = (values) => {
-    console.log("called", values);
-    setLoading(true)
-    // if(validation ()){
-      EmployerCompleteInfo(values, phoneNumberFlag, img);
-    // }
-  };
-
   const instanceSaveStep2 = (values) => {
     console.log(values);
     initialEmpStep2({
@@ -76,12 +68,19 @@ const EmployerStep2 = ({
   const validation = () => {
     let isValid = true;
     let error = {};
-    if (!img) {
+    if (img.personalInfoImg.length < 1000) {
       error.logo = "Profile Image is Required";
       isValid = false;
     }
     setErr(error);
     return isValid;
+  };
+  
+  const SaveStep2 = (values) => {
+    setLoading(true);
+    if (validation()) {
+      EmployerCompleteInfo(values, phoneNumberFlag, img);
+    }
   };
 
   function readFile(file) {
@@ -142,8 +141,8 @@ const EmployerStep2 = ({
                         layout="fill"
                       />
                     </div>
+                    <p style={{ color: "red" }}>{err && err.logo}</p>
                   </div>
-                  <div style={{ color: "red" }}>{err && err.logo}</div>
                 </div>
                 <div className="form-field flex100">
                   <Field
@@ -241,7 +240,6 @@ const EmployerStep2 = ({
                 <button
                   type="submit"
                   className="btn btn-primary next-btn text-white text-center"
-                  onClick={() => SaveStep2(values)}
                 >
                   {" "}
                   {titleStrings.nextTitle}{" "}

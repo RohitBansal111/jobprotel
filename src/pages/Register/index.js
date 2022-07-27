@@ -222,19 +222,18 @@ const Register = () => {
       for (var i = 0; i < skillsArr.length; i++) {
         formData.append(`skills[${i}]`, skillsArr[i]);
       }
-      
-      
+
       const resp = await authServices.registerUser(formData);
 
       if (resp && resp.status == 200) {
-        setLoading(false)
+        setLoading(false);
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         navigate("/");
       } else {
-        console.log(resp,"resp")
-        setLoading(false)
+        console.log(resp, "resp");
+        setLoading(false);
         if (resp.errors && typeof resp.errors === "object") {
           let errors = "";
           let keys = Object.keys(resp.errors);
@@ -264,14 +263,20 @@ const Register = () => {
       companyPhone: phoneNumberFlag,
       logoUrl: img.personalInfoImg,
     });
-    setCompleteEmpInfo(true);
+    // setCompleteEmpInfo(true);
+    finalSubmitEmployer({
+      ...employer,
+      ...data,
+      companyPhone: phoneNumberFlag,
+      logoUrl: img.personalInfoImg,
+    });
   };
 
   const initialPersonalInfo = (data) => {
     setEmployer({ ...employer, ...data });
   };
 
-  const finalSubmitEmployer = async () => {
+  const finalSubmitEmployer = async (employer) => {
     let formData = new FormData();
     formData.append("address", employer.address);
     formData.append("recruitingManagerName", employer.recruitingManagerName);
@@ -291,14 +296,14 @@ const Register = () => {
 
     const resp = await authServices.registerEmployer(formData);
     if (resp && resp.status == 200) {
-      setLoading(false)
+      setLoading(false);
       navigate("/");
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
     } else {
-      setLoading(false)
-      console.log(resp)
+      setLoading(false);
+      console.log(resp);
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -314,11 +319,11 @@ const Register = () => {
     }
   };
 
-  useEffect(() => {
-    if (completeEmpInfo) {
-      finalSubmitEmployer();
-    }
-  }, [completeEmpInfo]);
+  // useEffect(() => {
+  //   if (completeEmpInfo) {
+  //     finalSubmitEmployer(employer);
+  //   }
+  // }, []);
 
   useEffect(async () => {
     const countryList = await dropdownData.countryList();
@@ -343,7 +348,7 @@ const Register = () => {
         <div className="register-sidebar">
           <div className="register-info-steps">
             <div className="brand-media">
-              <Link to="/register">
+              <Link to="/">
                 <img src={Logo} alt="Real Job" />
               </Link>
             </div>
@@ -458,10 +463,8 @@ const Register = () => {
             </div>
           </div>
         </div>
-        {loading?
-        <Loader />:null}
+        {loading ? <Loader /> : null}
         <div className="register-form-area">
-        
           <div className="register-form-boxen">
             {currentPage === 0 && (
               <ChooseRole

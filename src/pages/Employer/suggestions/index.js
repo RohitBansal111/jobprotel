@@ -7,23 +7,23 @@ import { Loader } from "../../../components/Loader/Loader";
 
 const EmployerJobSuggestion = () => {
   const { jobid } = useParams();
-   const [suggestions , setSuggestions]=useState([])
-   const [loading, setLoading] = useState(true);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getSuggestions(jobid);
   }, [jobid]);
 
-  const getSuggestions=async (jobid)=>{
-    const resp = await jobServices.getStudentListSuggestions({jobId: jobid})
-    console.log(resp,"data")
+  const getSuggestions = async (jobid) => {
+    const resp = await jobServices.getStudentListSuggestions({ jobId: jobid });
+    console.log(resp, "data");
     if (resp.status == 200) {
-      setSuggestions(resp.data.data)
-      setLoading(false)
-      console.log(resp.data.data, "aaaaaa")
+      setSuggestions(resp.data.data);
+      setLoading(false);
+      console.log(resp.data.data, "aaaaaa");
     }
-  }
-// console.log(userId)
+  };
+  // console.log(userId)
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -39,9 +39,7 @@ const EmployerJobSuggestion = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-                   
-
-                  {loading ? (
+                    {loading ? (
                       <Loader />
                     ) : suggestions && suggestions.length === 0 ? (
                       <h4>No jobs found</h4>
@@ -49,10 +47,14 @@ const EmployerJobSuggestion = () => {
                       suggestions &&
                       suggestions.length > 0 &&
                       suggestions.map((data, index) => (
-                        <SuggestionCard userData={data} key={index} jobId={jobid} userId={data.user.id} />
+                        <SuggestionCard
+                          userData={data}
+                          key={index}
+                          jobId={jobid}
+                          userId={data.user.id}
+                        />
                       ))
                     )}
-                    
                   </div>
                 </li>
               </ul>
