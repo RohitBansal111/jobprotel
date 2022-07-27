@@ -221,7 +221,7 @@ const EmployerProfile = () => {
                   </div> */}
                 </div>
                 {loading ? (
-                  <Loader />
+                 <div className="fullpage-loader"> <Loader /> </div>
                 ) : (
                   <>
                     <section className="profile-information-view">

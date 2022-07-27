@@ -227,7 +227,7 @@ export const RenderRadioButtonField = ({
         </label>
       </div>
       {touched && error && currentIndex == 0 ? (
-        <p className="error1">{error}</p>
+        <span class="error">{error}</span>
       ) : null}
     </>
   );

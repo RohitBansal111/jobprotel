@@ -77,9 +77,6 @@ const PostedJobCard = ({ jobs, type }) => {
                 <img
                   src={`${process.env.REACT_APP_IMAGE_API_URL}${logo}`}
                   alt="Company Logo"
-                  width="70"
-                  height="70"
-                  style={{ borderRadius: "50%" }}
                 />
               </Link>
             </div>
@@ -155,7 +152,7 @@ const PostedJobCard = ({ jobs, type }) => {
                 <>
                   <button
                     type="button"
-                    className="btn submit-btn mr-2"
+                    className="btn submit-btn me-2"
                     // data-bs-toggle="modal"
                     // data-bs-target="#invitationPopup"
                   >

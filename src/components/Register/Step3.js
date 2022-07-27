@@ -367,23 +367,27 @@ const Step3 = ({
                       previewImg.map((img, index) => (
                         <>
                           <li key={index}>
-                            {index + 1}. {img.certificates.name}
-                            <label>File Title</label>
-                            <input
-                              name="title"
-                              onChange={(e) => handleFormChange(index, e)}
-                              value={img.title}
-                            />
-                            <button className="btn btn-remove">
-                              <i
-                                className="fa fa-times-circle"
-                                aria-hidden="true"
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  manageCertificates(img.certificates.name)
-                                }
+                            <div className="change-title">
+                              <label>{index + 1}. File Title</label>
+                              <input
+                                name="title"
+                                onChange={(e) => handleFormChange(index, e)}
+                                value={img.title}
                               />
-                            </button>
+                            </div>
+                            <div className="uploaded-file-name">
+                              <span>{img.certificates.name}</span>
+                              <button className="btn btn-remove">
+                                <i
+                                  className="fa fa-times-circle"
+                                  aria-hidden="true"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    manageCertificates(img.certificates.name)
+                                  }
+                                />
+                              </button>
+                            </div>
                           </li>
                         </>
                       ))}

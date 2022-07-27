@@ -264,6 +264,8 @@ const PostedJobModal = ({ id }) => {
                                   </option>
                                 ))}
                             </Field>
+                          </div>
+                          <div className="form-field flex50">
                             <Field
                               name="experienceInMonth"
                               label="Experience"
@@ -353,7 +355,7 @@ const PostedJobModal = ({ id }) => {
                       </div>
                       <div className="form-field flex50">
                         <label htmlFor="working">Select Time Zone</label>
-                        <div className="radio-button-groupss">
+                        <div className="radio-button-groupss absolute-error">
                           <Field
                             name="timeZonePick"
                             value="Yes"

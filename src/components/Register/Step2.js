@@ -140,7 +140,7 @@ const Step2 = ({
           {({ handleSubmit, values, touched, error }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
-                <div className="form-field flex50">
+                <div className="form-field flex100">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
                   <div className="radio-button-groupss">
                     {genderList &&

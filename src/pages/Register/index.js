@@ -459,9 +459,8 @@ const Register = () => {
           </div>
         </div>
         {loading?
-        <Loader />:null}
+        <div className="data-loader"><Loader /></div>:null}
         <div className="register-form-area">
-        
           <div className="register-form-boxen">
             {currentPage === 0 && (
               <ChooseRole

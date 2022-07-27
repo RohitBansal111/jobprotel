@@ -229,10 +229,8 @@
       margin-top: 30px;
       .project-dbox {
         background: #f6f9f9;
-        padding: 25px;
-        margin-bottom: 15px;
+        padding: 12px;
         position: relative;
-        padding-bottom: 35px;
         h2.prname {
           font-size: 16px;
           color: #05574e;
@@ -282,7 +280,6 @@
       }
       .project-pagination {
         .pagination {
-          justify-content: flex-end;
           .page-item {
             margin: 5px;
             .page-link {
