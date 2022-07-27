@@ -73,7 +73,6 @@ const Profile = () => {
     };
     if (data) {
       const resp = await projectServices.getProjectHistoryData(data);
-      console.log(resp);
       let response = resp.data.data;
       if (resp.status === 200) {
         setLoading(false);
@@ -98,7 +97,6 @@ const Profile = () => {
     if (resp.status === 200) {
       setLoading(false);
       let response = resp.data.data.result;
-      console.log(response);
       setEmploymentDetails(response);
     }
   };
@@ -128,16 +126,14 @@ const Profile = () => {
     }, 1000);
     // }
   }, []);
-  const getTimeZone=(timezone)=>{
-    if(timezone)
-    {
+  const getTimeZone = (timezone) => {
+    if (timezone) {
       const zone = JSON.parse(timezone);
-      return zone.value
-    }else{
-      return "N/A"
+      return zone.value;
+    } else {
+      return "N/A";
     }
-     
-  }
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -347,10 +343,9 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Time zone </span>
                               <span className="result">
-                                {
-                                 getTimeZone(studentData?.studentDetails?.timezone)
-                                    
-                                }
+                                {getTimeZone(
+                                  studentData?.studentDetails?.timezone
+                                )}
                               </span>
                             </li>
                             <li>
@@ -368,9 +363,9 @@ const Profile = () => {
                             <li>
                               <span className="plabel">KYC Status</span>{" "}
                               <span className="result">
-                                {
-                                  authData?.studentDetails?.kycStatus === "true" ? "KYC Completed" : "Not Completed"
-                                }
+                                {authData?.studentDetails?.kycStatus === "true"
+                                  ? "KYC Completed"
+                                  : "Not Completed"}
                               </span>
                             </li>
                           </ul>
@@ -485,7 +480,8 @@ const Profile = () => {
                               <li key={i}>
                                 <div className="designation-list-item">
                                   <div className="employer-sort-info">
-                                    <h4>Front End - Team Lead </h4>
+                                    {/* <h4>Front End - Team Lead </h4> */}
+                                    <h4>{data?.designation?.title}</h4>
                                     <p>{data.employerName}</p>
                                     <p className="dateP">
                                       {data.startDate}
@@ -604,13 +600,15 @@ const Profile = () => {
                                   </div>
                                 </div>
                               ))}
-                            <Pagination
-                              activePage={activePage}
-                              itemsCountPerPage={pageSize}
-                              totalItemsCount={totalRecords}
-                              pageRangeDisplayed={totalRecords / pageSize + 1}
-                              onChange={handlePageChange}
-                            />
+                            {projectHistory?.length > 4 && (
+                              <Pagination
+                                activePage={activePage}
+                                itemsCountPerPage={pageSize}
+                                totalItemsCount={totalRecords}
+                                pageRangeDisplayed={totalRecords / pageSize + 1}
+                                onChange={handlePageChange}
+                              />
+                            )}
                             <div className="project-pagination">
                               {/* <ul className="pagination">
                             <li className="page-item">

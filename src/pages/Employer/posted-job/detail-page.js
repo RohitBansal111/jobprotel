@@ -58,7 +58,7 @@ const EmployerJobDetailsPage = () => {
       setExp(exp);
 
       let skills = response.skills;
-      skills = response && response.skills && response.skills.split(",");
+      skills = response?.skills.split(",");
       setSkills(skills);
     }
   };
@@ -78,9 +78,9 @@ const EmployerJobDetailsPage = () => {
                     <div className="head43">
                       <h2>
                         {/* React Js Developer */}
-                        {jobDetails && jobDetails.title && jobDetails.title}
+                        {jobDetails?.title}
                         <span>
-                          {jobDetails && jobDetails.created ? (
+                          {jobDetails?.created ? (
                             <ReactTimeAgo
                               date={jobDetails?.created}
                               locale="en-US"
@@ -88,13 +88,12 @@ const EmployerJobDetailsPage = () => {
                           ) : null}
                         </span>
                       </h2>
-                      <p>Mobile/Tablet Front-End Developer</p>
+                      {/* <p>Mobile/Tablet Front-End Developer</p> */}
+                      <p>{jobDetails?.category?.name}</p>
                     </div>
                     <div className="job-description">
                       <p>
-                        {jobDetails &&
-                          jobDetails.description &&
-                          jobDetails.description}
+                        {jobDetails?.description}
                       </p>
                       {/* <p>
                     I need help with the html and css for the attached image.
@@ -134,57 +133,48 @@ const EmployerJobDetailsPage = () => {
                       </p>
                       <p>
                         <b>SKills: </b>{" "}
-                        {jobDetails && jobDetails.skills && jobDetails.skills}
+                        {jobDetails?.skills}
                       </p>
                       <p>
                         <b>Job Location: </b>{" "}
-                        {jobDetails &&
-                          jobDetails.hoursPerDay &&
-                          jobDetails.hoursPerDay}
+                        {jobDetails?.hoursPerDay}
                       </p>
                       <p>
                         <b>Hour/day: </b>{" "}
-                        {jobDetails &&
-                          jobDetails.location &&
-                          jobDetails.location}
+                        {jobDetails?.location}
                       </p>
                       <p>
                         <b>Days / Week: </b>{" "}
-                        {jobDetails &&
-                          jobDetails.daysPerWeek &&
-                          jobDetails.daysPerWeek}
+                        {jobDetails?.daysPerWeek}
                       </p>
                       <p>
                         <b>Job Timings/days: </b>
-                        {jobDetails && jobDetails.timing && jobDetails.timing}
+                        {jobDetails?.timing}
                       </p>
                       <p>
                         <b>Time Zone: </b>{" "}
-                        {jobDetails &&
-                          jobDetails.timeZone &&
-                          jobDetails.timeZone}
+                        {jobDetails?.timeZone}
                       </p>
-                      <p>
+                      {/* <p>
                         <b>Category: </b>{" "}
                         {jobDetails &&
                           jobDetails.category &&
                           jobDetails.category.name &&
                           jobDetails.category.name}
-                      </p>
+                      </p> */}
                       <p>
                         <b>Salary: </b> ${" "}
-                        {jobDetails && jobDetails.salary && jobDetails.salary}
+                        {jobDetails?.salary}
                       </p>
                       <p>
                         <b>Tags:</b>{" "}
-                        {jobDetails && jobDetails.tags && jobDetails.tags}
+                        {jobDetails?.tags}
                       </p>
                     </div>
                     <div className="inner-info-section">
                       <h3>Skills and Expertise</h3>
                       <ul className="feeds-ul">
-                        {skills &&
-                          skills.length > 0 &&
+                        {skills?.length > 0 &&
                           skills.map((skill, index) => (
                             <li key={index}>
                               <Link to="#">{skill}</Link>
@@ -203,10 +193,10 @@ const EmployerJobDetailsPage = () => {
                         onClick={handleApplicationReceived}
                         className="btn btn-primary"
                       >
-                        Applications received (17)
+                        Applications received ({jobDetails?.applicationRecivedCount})
                       </button>
                       <button type="button" className="btn btn-primary-outline">
-                        Invitation accepted (12)
+                        Invitation accepted ({jobDetails?.invitationAcceptedCount})
                       </button>
                     </div>
                     <div className="connects-info">

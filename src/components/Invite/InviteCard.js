@@ -39,7 +39,7 @@ const InviteCard = ({
       }
     }
   };
-
+  console.log(jobInvitations);
   const handleChatNow = () => navigate("/employer-inbox");
 
   return (
@@ -142,15 +142,17 @@ const InviteCard = ({
           </div>
         </div>
       ))}
-      <div>
-        <Pagination
-          activePage={activePage}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalRecords}
-          pageRangeDisplayed={totalRecords / pageSize + 1}
-          onChange={handlePageChange}
-        />
-      </div>
+      {jobInvitations.length > 4 && (
+        <div>
+          <Pagination
+            activePage={activePage}
+            itemsCountPerPage={pageSize}
+            totalItemsCount={totalRecords}
+            pageRangeDisplayed={totalRecords / pageSize + 1}
+            onChange={handlePageChange}
+          />
+        </div>
+      )}
     </>
   );
 };

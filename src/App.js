@@ -25,9 +25,9 @@ import PrivacyPolicy from "./policy/privacyPolicy";
 import TermsConditions from "./T&C/TermsConditions";
 import ProtectedRoutes from "./HOC/ProtectedRoutes";
 import PrivateRoutes from "./HOC/PrivateRoutes";
-import EmployerJobDetailsPage from './pages/Employer/posted-job/detail-page';
-import PublicProfile from './pages/Employer/public';
-import EmployerJobSuggestion from './pages/Employer/suggestions';
+import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
+import PublicProfile from "./pages/Employer/public";
+import EmployerJobSuggestion from "./pages/Employer/suggestions";
 import ResetPassword from "./pages/resetPassword";
 
 function App() {
@@ -80,10 +80,10 @@ function App() {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
 
-        <Route path="/public" element={<PublicProfile/>} />
-        <Route path="/job-details/:id" element={<EmployerJobDetailsPage/>} />
-        <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion/>} />
-        <Route path="/job-details" element={<EmployerJobDetailsPage/>} />
+        <Route path="/public" element={<PublicProfile />} />
+        <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
+        <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
+        <Route path="/job-details" element={<EmployerJobDetailsPage />} />
         <Route path="/posted-jobs" element={<PostedJob />} />
         <Route path="/jobs-applied" element={<StudentApplication />} />
         <Route path="/inbox" element={<Inbox />} />

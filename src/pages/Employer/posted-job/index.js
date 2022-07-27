@@ -46,7 +46,7 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
-      console.log(response.data.data)
+      console.log(response.data.data);
       setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
@@ -227,7 +227,13 @@ const PostedJob = () => {
                     ) : (
                       jobList?.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} type="post" />
+                        <PostedJobCard
+                          jobs={jobs}
+                          key={index}
+                          type="post"
+                          activePage={activePage}
+                          pageSize={pageSize}
+                        />
                       ))
                     )}
                   </div>
