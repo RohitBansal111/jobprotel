@@ -140,8 +140,8 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                         </div> */}
                       </div>
                       <div className="form-field flex100">
-                        <label htmlFor="teamSize"> Team Size </label>
                         <Field
+                          label="Team Size"
                           name="totalTeamSize"
                           component={renderNumberField}
                           placeholder="Enter total team size"
@@ -149,8 +149,8 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                         />
                       </div>
                       <div className="form-field flex100">
-                        <label htmlFor="teamSize"> Company Email </label>
                         <Field
+                          label="Company Email"
                           name="companyEmail"
                           component={renderField}
                           placeholder="Enter company email address"

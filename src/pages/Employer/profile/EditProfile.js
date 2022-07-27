@@ -146,7 +146,7 @@ const EmployerEditProfile = () => {
                               </div>
                               <div className="form-field flex50">
                                 <label htmlFor="gender"> Gender </label>
-                                <div className="radio-button-groupss">
+                                <div className="radio-button-groupss absolute-error">
                                   <Field
                                     label="Male"
                                     name="gender"

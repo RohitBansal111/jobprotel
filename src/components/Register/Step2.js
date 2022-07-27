@@ -142,7 +142,7 @@ const Step2 = ({
               <div className="form-field-group">
                 <div className="form-field flex100">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
-                  <div className="radio-button-groupss">
+                  <div className="radio-button-groupss absolute-error">
                     {genderList &&
                       genderList.length > 0 &&
                       genderList.map((gender, index) => (

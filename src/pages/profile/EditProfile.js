@@ -459,8 +459,10 @@ const EditProfile = () => {
   }, []);
   return (
     <Layout>
-      {loading ? (
-        <Loader />
+      {!loading ? ( 
+        <div className="inner-page-wrapper page-wrapper-loader">
+          <div className="fullpage-loader py-5"> <Loader /> </div>
+        </div>
       ) : (
         <div className="inner-page-wrapper">
           <section className="topbg-banner">
@@ -846,25 +848,32 @@ const EditProfile = () => {
                                       component={renderField}
                                     />
                                   </div>
-                                )}
+                                )} 
                                 <div className="form-field flex100">
-                                  <input
-                                    name="profileImage"
-                                    id="profileImage"
-                                    accept=".jpg, .jpeg, .png"
-                                    type="file"
-                                    onChange={handleImageChange}
-                                  />
-                                </div>
-                                <div className="aws-placeholder image4">
-                                  <img
-                                    src={img.personalInfoImg}
-                                    className="img-aws"
-                                    alt="avtar"
-                                    width={100}
-                                    height={100}
-                                    layout="fill"
-                                  />
+                                  <div className="uploadImageSection mb-2">
+                                    <div className="file-label-image">
+                                      <label>Upload Profile</label>
+                                      <div className="file-upload">
+                                        <input
+                                          name="profileImage"
+                                          id="profileImage"
+                                          accept=".jpg, .jpeg, .png"
+                                          type="file"
+                                          onChange={handleImageChange}
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="aws-placeholder image4">
+                                      <img
+                                        src={img.personalInfoImg}
+                                        className="img-aws"
+                                        alt="avtar"
+                                        width={100}
+                                        height={100}
+                                        layout="fill"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -910,51 +919,56 @@ const EditProfile = () => {
                                   </Field>
                                 </div>
                                 <div className="form-field flex50">
-                                  <Field
-                                    name="salary"
-                                    placeholder="Enter expected salary"
-                                    label="Expected salary"
-                                    component={renderNumberField}
-                                    pattern="[0-9]*"
-                                  />
-                                </div>
-                                <div className="form-field flex50">
-                                  <Field
-                                    name="experienceInYears"
-                                    label="Experience in Year's"
-                                    component={renderSelect}
-                                    placeholder="Year's"
-                                    type="text"
-                                  >
-                                    <option value="0">0 year</option>
-                                    {[...Array.from(Array(51).keys())]
-                                      .slice(1)
-                                      .map((num, i) => (
-                                        <option key={i} value={num}>
-                                          {num ? num + " year's" : ""}
-                                        </option>
-                                      ))}
-                                  </Field>
-                                  <Field
-                                    name="experienceInMonths"
-                                    label="Experience in Month's"
-                                    component={renderSelect}
-                                    placeholder="Month's"
-                                    type="text"
-                                  >
-                                    <option value="0">0 month</option>
-                                    {[...Array.from(Array(13).keys())]
-                                      .slice(1)
-                                      .map((num, i) => (
-                                        <option key={i} value={num}>
-                                          {num ? num + " month's" : ""}
-                                        </option>
-                                      ))}
-                                  </Field>
-                                </div>
+                                  <label>Experience</label>
+                                  <div className="inner-multi-field">
+                                    <div className="form-field flex50">
+                                      <Field
+                                        name="salary"
+                                        placeholder="Enter expected salary"
+                                        label="Expected salary"
+                                        component={renderNumberField}
+                                        pattern="[0-9]*"
+                                      />
+                                    </div>
+                                    <div className="form-field flex50">
+                                      <Field
+                                        name="experienceInYears"
+                                        label="Experience in Year's"
+                                        component={renderSelect}
+                                        placeholder="Year's"
+                                        type="text"
+                                      >
+                                        <option value="0">0 year</option>
+                                        {[...Array.from(Array(51).keys())]
+                                          .slice(1)
+                                          .map((num, i) => (
+                                            <option key={i} value={num}>
+                                              {num ? num + " year's" : ""}
+                                            </option>
+                                          ))}
+                                      </Field>
+                                      <Field
+                                        name="experienceInMonths"
+                                        label="Experience in Month's"
+                                        component={renderSelect}
+                                        placeholder="Month's"
+                                        type="text"
+                                      >
+                                        <option value="0">0 month</option>
+                                        {[...Array.from(Array(13).keys())]
+                                          .slice(1)
+                                          .map((num, i) => (
+                                            <option key={i} value={num}>
+                                              {num ? num + " month's" : ""}
+                                            </option>
+                                          ))}
+                                      </Field>
+                                    </div>
+                                  </div>
+                                </div> 
                                 <div className="form-field flex50">
                                   <label>Working Type</label>
-                                  <div className="radio-button-groupss">
+                                  <div className="radio-button-groupss absolute-error">
                                     <Field
                                       name="working"
                                       value="1"
@@ -981,14 +995,14 @@ const EditProfile = () => {
                                   {/* <p> {err && err.working && err.working}</p> */}
                                 </div>
                                 <div className="form-field flex100">
-                                  <label>Resume</label>
+                                  <label className="d-block">Resume</label>
                                   <input
                                     name="resume"
                                     uploadlabel="Browse resume file"
                                     type="file"
                                     onChange={resumeHandler}
                                   />
-                                  <ul>
+                                  <ul className="uploaded-documents">
                                     <li>
                                       {resumeName}
                                       {/* {studentData && studentData.resumeFilePath && (
@@ -998,8 +1012,8 @@ const EditProfile = () => {
                                     </li>
                                   </ul>
                                 </div>
-                                <label>Extra Certificates</label>
                                 <div className="form-field flex100">
+                                  <label className="d-block">Extra Certificates</label>
                                   <input
                                     name="documents"
                                     uploadlabel="Browse documents"

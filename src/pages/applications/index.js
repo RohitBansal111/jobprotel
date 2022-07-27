@@ -135,8 +135,9 @@ const MyApplications = () => {
                 </div>
                 <div className="search-feeds-section">
                   <div className="feed-title">
-                    <h2>Top results you might like</h2>
                     {jobsApplied?.jobs?.length > 0 ?
+                    <>
+                    <h2>Top results you might like</h2>
                     <p>
                       Showing{" "}
                       {activePage == 1
@@ -148,11 +149,12 @@ const MyApplications = () => {
                         : 0}{" "}
                       of {totalRecords} results
                     </p>
+                    </>
                     : null
                   }
                   </div>
                   {loading ? (
-                    <Loader />
+                    <div className="fullpage-loader py-5"> <Loader /> </div>
                   ) : (
                     jobsApplied?.jobs?.length > 0 ?
                     <div className="default-feeds-search">

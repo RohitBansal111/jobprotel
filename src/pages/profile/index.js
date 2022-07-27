@@ -294,7 +294,7 @@ const Profile = () => {
                   </div> */}
                 </div>
                 {loading ? (
-                  <Loader />
+                  <div className="fullpage-loader"> <Loader /> </div>
                 ) : (
                   <>
                     <section className="profile-information-view">
@@ -496,24 +496,26 @@ const Profile = () => {
                                     </p>
                                   </div>
                                 </div>
-                                <button
-                                  type="button"
-                                  className="icon_button_text"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#modifyEmploymentModal"
-                                  onClick={() => handleEditingData(data)}
-                                >
-                                  <i className="fas fa-pen"></i> Edit
-                                </button>
-                                <button
-                                  type="button"
-                                  className="icon_button_text"
-                                  data-bs-toggle="modal"
-                                  // data-bs-target="#modifyEmploymentModal"
-                                  onClick={() => handleDeleteData(data.id)}
-                                >
-                                  <i className="fas fa-trash"></i> Delete
-                                </button>
+                                <div className="employment-action">
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modifyEmploymentModal"
+                                    onClick={() => handleEditingData(data)}
+                                  >
+                                    <i className="fas fa-pen"></i>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    // data-bs-target="#modifyEmploymentModal"
+                                    onClick={() => handleDeleteData(data.id)}
+                                  >
+                                    <i className="fas fa-trash"></i>
+                                  </button>
+                                </div>
                               </li>
                             ))}
                           </ul>

@@ -309,7 +309,7 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex50">
                   <label htmlFor="certificate"> Extra certificates </label>
-                  <div className="radio-button-groupss">
+                  <div className="radio-button-groupss absolute-error">
                     <Field
                       label={titleStrings.noTitle}
                       name="certificate"
