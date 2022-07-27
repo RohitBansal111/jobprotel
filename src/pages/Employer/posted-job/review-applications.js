@@ -11,11 +11,12 @@ const ReviewApplications = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(10);
+  const [activePage, setActivePage] = useState(1);
 
+  console.log(users, "data1");
   useEffect(() => {
-    console.log("jobid", jobid);
     getUsers(jobid, pageNumber);
   }, [jobid]);
 
@@ -26,15 +27,20 @@ const ReviewApplications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp, "data");
+    // console.log(resp.data, "data");
     if (resp.status == 200) {
-      setUsers(resp?.data?.data[0]?.users);
+      setUsers(resp.data?.data[0]);
       setLoading(false);
     }
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`active page is ${pageNumber}`);
     setPageNumber(pageNumber);
+    setLoading(true);
+    getUsers(jobid, pageNumber);
+  };
+
+  const handlePageChangeReview = (pageNumber) => {
+    setActivePage(pageNumber);
     setLoading(true);
     getUsers(jobid, pageNumber);
   };
@@ -53,11 +59,20 @@ const ReviewApplications = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-                    {users &&
-                      users.length > 0 &&
-                      users.map((data, i) => (
-                        <EmployerReviewCard user={data} key={i} />
-                      ))}
+                    {
+                      users && users.userData?.length > 0 && (
+                        // users.map((data, i) => (
+                        <EmployerReviewCard
+                          user={users}
+                          activePage={activePage}
+                          handlePageChangeReview={handlePageChangeReview}
+                          pageSize={pageSize}
+                          totalRecords={totalRecords}
+                          loading={loading}
+                        />
+                      )
+                      // ))
+                    }
                   </div>
                   {users && users.length > 10 && (
                     <Pagination
