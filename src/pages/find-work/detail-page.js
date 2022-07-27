@@ -117,7 +117,8 @@ const DetailsPage = () => {
                      :null}
                     </span>
                   </h2>
-                  <p>Mobile/Tablet Front-End Developer</p>
+                  {jobDetails?.category?.name}
+                  {/* <p>Mobile/Tablet Front-End Developer</p> */}
                 </div>
                 <div className="job-description">
                   <p>
@@ -184,13 +185,13 @@ const DetailsPage = () => {
                     <b>Time Zone: </b>{" "}
                     {getTimeZone(jobDetails && jobDetails.timeZone && jobDetails.timeZone)}
                   </p>
-                  <p>
+                  {/* <p>
                     <b>Category: </b>{" "}
                     {jobDetails &&
                       jobDetails.category &&
                       jobDetails.category.name &&
                       jobDetails.category.name}
-                  </p>
+                  </p> */}
                   <p>
                     <b>Salary: </b> ${" "}
                     {jobDetails && jobDetails.salary && jobDetails.salary}

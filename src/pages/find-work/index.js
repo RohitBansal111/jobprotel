@@ -64,7 +64,6 @@ const FindWork = () => {
     };
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
-      console.log(response);
       setLoading(false);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
@@ -80,7 +79,7 @@ const FindWork = () => {
     setActivePage(pageNumber);
     getJobList(pageNumber);
   };
-  
+
   const handleSearch = (e) => {
     e.preventDefault();
     setLoading(true);

@@ -369,7 +369,7 @@ const Profile = () => {
                               <span className="plabel">KYC Status</span>{" "}
                               <span className="result">
                                 {
-                                  authData?.studentDetails?.kycStatus === "true" && "KYC Completed"
+                                  authData?.studentDetails?.kycStatus === "true" ? "KYC Completed" : "Not Completed"
                                 }
                               </span>
                             </li>

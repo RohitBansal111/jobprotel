@@ -136,17 +136,20 @@ const MyApplications = () => {
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
+                    {jobsApplied?.jobs?.length > 0 ?
                     <p>
                       Showing{" "}
                       {activePage == 1
                         ? activePage
                         : 1 + (activePage - 1) * pageSize}
                       -
-                      {jobsApplied && jobsApplied?.jobs?.length
+                      {jobsApplied?.jobs?.length
                         ? (activePage - 1) * pageSize + jobsApplied?.jobs?.length
                         : 0}{" "}
                       of {totalRecords} results
                     </p>
+                    : null
+                  }
                   </div>
                   {loading ? (
                     <Loader />
@@ -161,7 +164,7 @@ const MyApplications = () => {
                         jobsApplied={jobsApplied}
                       />
                     </div>
-                    : <h1>No Data Found</h1>
+                    : <h1>No applied jobs found</h1>
                   )}
                 </div>
               </div>

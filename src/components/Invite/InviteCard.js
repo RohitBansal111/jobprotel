@@ -8,6 +8,7 @@ import ReactTimeAgo from "react-time-ago";
 import * as updateInvitationService from "../../services/updateInvitationService";
 import toast from "toastr";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const InviteCard = ({
   handlePageChange,
@@ -17,6 +18,8 @@ const InviteCard = ({
   jobInvitations,
   getInvitations,
 }) => {
+  const navigate = useNavigate();
+
   const authData = useSelector((state) => state.auth.user);
 
   const handleInvitation = async (st, id) => {
@@ -36,6 +39,9 @@ const InviteCard = ({
       }
     }
   };
+
+  const handleChatNow = () => navigate("/employer-inbox");
+
   return (
     <>
       {jobInvitations?.map((invites, i) => (
@@ -119,7 +125,16 @@ const InviteCard = ({
                   </button>
                 </>
               ) : invites?.jobInvitationStatus === 1 ? (
-                <h3 style={{ color: "green" }}>Accepted</h3>
+                <>
+                  {/* <h3 style={{ color: "green", marginRight:"-800px" }}>Accepted</h3> */}
+                  <button
+                    type="button"
+                    onClick={handleChatNow}
+                    className="btn btn-primary mr-2"
+                  >
+                    <i className="fa fa-comments mr-2"></i> Chat Now
+                  </button>
+                </>
               ) : (
                 <h3 style={{ color: "red" }}>Rejected</h3>
               )}

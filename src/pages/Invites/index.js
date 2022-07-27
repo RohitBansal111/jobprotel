@@ -44,7 +44,7 @@ const Invites = () => {
     setLoading(true);
     getInvitations(authData.id, pageNumber);
   };
-console.log(jobInvitations)
+  console.log(jobInvitations);
   useEffect(() => {
     if (authData) {
       getInvitations(authData.id, activePage);
@@ -117,7 +117,7 @@ console.log(jobInvitations)
                       <input
                         className="form-control"
                         type="search"
-                        placeholder="Find related Jobs"
+                        placeholder="Find invited Jobs"
                         aria-label="Search"
                         onChange={(e) => setSearch(e.target.value)}
                       />
@@ -135,22 +135,23 @@ console.log(jobInvitations)
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
-                    <p>
-                      Showing{" "}
-                      {activePage == 1
-                        ? activePage
-                        : 1 + (activePage - 1) * pageSize}
-                      -
-                      {jobInvitations && jobInvitations?.length
-                        ? (activePage - 1) * pageSize +
-                        jobInvitations?.length
-                        : 0}{" "}
-                      of {totalRecords} results
-                    </p>
+                    {jobInvitations?.length > 0 ? (
+                      <p>
+                        Showing{" "}
+                        {activePage == 1
+                          ? activePage
+                          : 1 + (activePage - 1) * pageSize}
+                        -
+                        {jobInvitations?.length
+                          ? (activePage - 1) * pageSize + jobInvitations?.length
+                          : 0}{" "}
+                        of {totalRecords} results
+                      </p>
+                    ) : null}
                   </div>
                   {loading ? (
                     <Loader />
-                  ) : jobInvitations.length > 0 ? (
+                  ) : jobInvitations?.length > 0 ? (
                     <div className="default-feeds-search">
                       <InviteCard
                         handlePageChange={handlePageChange}
