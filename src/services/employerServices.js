@@ -5,7 +5,6 @@ export const getEmployerDetails = async (id) => {
     let token = localStorage.getItem("jobPortalUserToken")
     const resp = await axios.get(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/EmployeeProfileDetails?userId=${id}`,
-      {},
       {
         headers: { Authorization: `Bearer ${token}` },
       }

@@ -169,6 +169,12 @@ const EditProfile = () => {
   };
 
   const getStudentData = async (id = authData.id) => {
+    
+    setStudentProfilePic(UserAvtar);
+    setImg({
+      // ...img,
+      personalInfoImg: UserAvtar,
+    });
     const resp = await studentServices.getStudentDetails(id);
     console.log(resp);
     if (resp.status == 200) {
@@ -279,6 +285,7 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
+    setLoading(true);
     // console.log(img.personalInfoImg.length, "values");
     // const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
     let formData = new FormData();
@@ -383,6 +390,7 @@ const EditProfile = () => {
         getStudentData(authData.id);
       }
     } else if (resp.errors && typeof resp.errors === "object") {
+      setLoading(false);
       let errors = "";
       let keys = Object.keys(resp.errors);
       keys.forEach((key) => {
@@ -392,6 +400,7 @@ const EditProfile = () => {
       errors = errors.replace(/,\s*$/, "");
       toast.error(errors + "is Required");
     } else if (resp.error) {
+      setLoading(false);
       toast.error(resp.error ? resp.error : "Something went wrong");
     }
   };
@@ -408,6 +417,11 @@ const EditProfile = () => {
   }
   const handleImageChange = (event) => {
     // console.log(event.target.files[0]);
+    setStudentProfilePic(UserAvtar);
+    setImg({
+      // ...img,
+      personalInfoImg: UserAvtar,
+    });
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
       setImageValid(true);
