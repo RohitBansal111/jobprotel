@@ -208,3 +208,13 @@ ul {
     }
   }
 }
+
+.inner-multi-field-2 {
+  display: flex;
+  justify-content: space-between;
+  .form-field{
+    label{
+      display: block !important; 
+    }
+  }
+}

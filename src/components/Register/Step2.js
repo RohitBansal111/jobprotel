@@ -187,7 +187,7 @@ const Step2 = ({
                           type="file"
                           onChange={handleImageChange}
                         />
-                        <p style={{ color: "red" }}>{err && err.logo}</p>
+                        <p style={{ color: "red" }} className="mt-2">{err && err.logo}</p>
                       </div>
                     </div>
                     <div className="aws-placeholder image4">

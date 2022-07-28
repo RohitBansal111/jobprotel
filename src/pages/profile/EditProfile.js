@@ -87,7 +87,7 @@ const EditProfile = () => {
         formData
       );
       if (resp.status === 200) {
-       // setLoading(false);
+        // setLoading(false);
         setCallCertificate(true);
       }
     }
@@ -109,7 +109,7 @@ const EditProfile = () => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
     if (resp.status === 200 && response.length > 0) {
-     // setLoading(false);
+      // setLoading(false);
       let arr = [];
       response.map((resp) => {
         let obj = {
@@ -170,7 +170,7 @@ const EditProfile = () => {
 
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
-    console.log(resp)
+    console.log(resp);
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
@@ -274,7 +274,7 @@ const EditProfile = () => {
     const resp = await dropdownServices.stateList(e.target.value);
     if (resp.status === 200) {
       setStateList(resp.data);
-     // setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -288,11 +288,11 @@ const EditProfile = () => {
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
     // if (imageValid) {
-      // if(img.personalInfoImg && base64regex.test(img.personalInfoImg)){
-      if(img.personalInfoImg && img.personalInfoImg.length > 1000){
-        formData.append("profileImage", img.personalInfoImg);
-      }
-    // } 
+    // if(img.personalInfoImg && base64regex.test(img.personalInfoImg)){
+    if (img.personalInfoImg && img.personalInfoImg.length > 1000) {
+      formData.append("profileImage", img.personalInfoImg);
+    }
+    // }
     // else {
     //   formData.append("profileImage", null);
     // }
@@ -459,9 +459,12 @@ const EditProfile = () => {
   }, []);
   return (
     <Layout>
-      {loading ? ( 
+      {loading ? (
         <div className="inner-page-wrapper page-wrapper-loader">
-          <div className="fullpage-loader py-5"> <Loader /> </div>
+          <div className="fullpage-loader py-5">
+            {" "}
+            <Loader />{" "}
+          </div>
         </div>
       ) : (
         <div className="inner-page-wrapper">
@@ -734,10 +737,7 @@ const EditProfile = () => {
                                     </option>
                                     {countrylist &&
                                       countrylist.map((country, i) => (
-                                        <option
-                                          value={country.id}
-                                          key={i}
-                                        >
+                                        <option value={country.id} key={i}>
                                           {country.countryName}
                                         </option>
                                       ))}
@@ -809,10 +809,7 @@ const EditProfile = () => {
                                   >
                                     {designationlist &&
                                       designationlist.map((designation, i) => (
-                                        <option
-                                          value={designation.id}
-                                          key={i}
-                                        >
+                                        <option value={designation.id} key={i}>
                                           {designation.title}
                                         </option>
                                       ))}
@@ -829,14 +826,16 @@ const EditProfile = () => {
                                       Select
                                     </option>
                                     {qualificationList &&
-                                      qualificationList.map((qualification, i) => (
-                                        <option
-                                          value={qualification.id}
-                                          key={i}
-                                        >
-                                          {qualification.name}
-                                        </option>
-                                      ))}
+                                      qualificationList.map(
+                                        (qualification, i) => (
+                                          <option
+                                            value={qualification.id}
+                                            key={i}
+                                          >
+                                            {qualification.name}
+                                          </option>
+                                        )
+                                      )}
                                     <option value="Other">Other</option>
                                   </Field>
                                 </div>
@@ -848,7 +847,7 @@ const EditProfile = () => {
                                       component={renderField}
                                     />
                                   </div>
-                                )} 
+                                )}
                                 <div className="form-field flex100">
                                   <div className="uploadImageSection mb-2">
                                     <div className="file-label-image">
@@ -919,25 +918,24 @@ const EditProfile = () => {
                                   </Field>
                                 </div>
                                 <div className="form-field flex100">
-                                  <label>Experience</label>
-                                  <div className="inner-multi-field">
+                                  {/* <label>Expected Salary</label> */}
+                                  <div className="d-flex justify-content-between">
                                     <div className="form-field flex50">
                                       <Field
                                         name="salary"
                                         placeholder="Enter expected salary"
-                                        label="Expected salary"
+                                        label="Expected Salary"
                                         component={renderNumberField}
                                         pattern="[0-9]*"
                                       />
                                     </div>
-                                    <div className="form-field flex50 inner-multi-field">
+                                    <div className="form-field flex50 inner-multi-field-2">
+                                        {/* <label>Experience</label> */}
                                       <div className="form-field flex50">
                                         <Field
                                           name="experienceInYears"
-                                          label="Experience in Year's"
                                           component={renderSelect}
-                                          placeholder="Year's"
-                                          type="text"
+                                          label="Experience in Year's"
                                         >
                                           <option value="0">0 year</option>
                                           {[...Array.from(Array(51).keys())]
@@ -952,10 +950,8 @@ const EditProfile = () => {
                                       <div className="form-field flex50">
                                         <Field
                                           name="experienceInMonths"
-                                          label="Experience in Month's"
                                           component={renderSelect}
-                                          placeholder="Month's"
-                                          type="text"
+                                          label="Experience in Month's"
                                         >
                                           <option value="0">0 month</option>
                                           {[...Array.from(Array(13).keys())]
@@ -968,9 +964,8 @@ const EditProfile = () => {
                                         </Field>
                                       </div>
                                     </div>
-                                    
                                   </div>
-                                </div> 
+                                </div>
                                 <div className="form-field flex50">
                                   <label>Working Type</label>
                                   <div className="radio-button-groupss absolute-error">
@@ -1018,7 +1013,9 @@ const EditProfile = () => {
                                   </ul>
                                 </div>
                                 <div className="form-field flex100">
-                                  <label className="d-block">Extra Certificates</label>
+                                  <label className="d-block">
+                                    Extra Certificates
+                                  </label>
                                   <input
                                     name="documents"
                                     uploadlabel="Browse documents"
@@ -1034,43 +1031,52 @@ const EditProfile = () => {
                                         <>
                                           <li key={index}>
                                             <div className="change-title">
-                                              <label>{index + 1}. File Title</label>
+                                              <label>
+                                                {index + 1}. File Title
+                                              </label>
                                               <div className="d-flex">
                                                 <input
                                                   name="title"
                                                   className="edit-profile-file"
                                                   onChange={(e) =>
-                                                    handleFormTitleChange(index, e)
+                                                    handleFormTitleChange(
+                                                      index,
+                                                      e
+                                                    )
                                                   }
                                                   value={img.title}
                                                 />
                                                 <button className="btn p-0 ms-3">
-                                                <i
-                                                  className="fa fa-times-circle"
-                                                  aria-hidden="true"
-                                                  style={{ cursor: "pointer" }}
-                                                  onClick={() =>
-                                                    manageCertificates(img.id)
-                                                  }
-                                                />
-                                                <span className="btn btn-edit p-0 ps-3">
                                                   <i
-                                                    className="fa fa-edit"
+                                                    className="fa fa-times-circle"
                                                     aria-hidden="true"
-                                                    style={{ cursor: "pointer" }}
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
                                                     onClick={() =>
-                                                      editCertificates(
-                                                        img.id,
-                                                        img.title
-                                                      )
+                                                      manageCertificates(img.id)
                                                     }
                                                   />
-                                                </span>
-                                              </button>
+                                                  <span className="btn btn-edit p-0 ps-3">
+                                                    <i
+                                                      className="fa fa-edit"
+                                                      aria-hidden="true"
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        editCertificates(
+                                                          img.id,
+                                                          img.title
+                                                        )
+                                                      }
+                                                    />
+                                                  </span>
+                                                </button>
                                               </div>
                                             </div>
                                             <div className="uploaded-file-name py-1">
-                                                <span>{img.certificates}</span>
+                                              <span>{img.certificates}</span>
                                             </div>
                                           </li>
                                         </>
