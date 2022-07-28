@@ -65,6 +65,7 @@ const FindWork = () => {
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
       setLoading(false);
+      console.log(response.data.data)
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -345,11 +346,11 @@ const FindWork = () => {
                       jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} type="find" />
+                        <PostedJobCard jobs={jobs} key={index} getJobList={getJobList} activePage={activePage} type="find" />
                       ))
                     )}
                   </div>
-                  {jobList?.length > 4 && (
+                  {totalRecords > 0 && (
                     <Pagination
                       activePage={activePage}
                       itemsCountPerPage={pageSize}

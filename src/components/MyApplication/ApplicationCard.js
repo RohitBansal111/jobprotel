@@ -77,13 +77,15 @@ const ApplicationCards = ({
         </div>
       ))}
       <div>
-        <Pagination
-          activePage={activePage}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalRecords}
-          pageRangeDisplayed={4}
-          onChange={handlePageChange}
-        />
+        {totalRecords > 0 && (
+          <Pagination
+            activePage={activePage}
+            itemsCountPerPage={pageSize}
+            totalItemsCount={totalRecords}
+            pageRangeDisplayed={4}
+            onChange={handlePageChange}
+          />
+        )}
       </div>
     </>
   );

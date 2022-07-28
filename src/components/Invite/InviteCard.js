@@ -142,7 +142,7 @@ const InviteCard = ({
           </div>
         </div>
       ))}
-      {jobInvitations.length > 4 && (
+      {totalRecords > 0 && (
         <div>
           <Pagination
             activePage={activePage}

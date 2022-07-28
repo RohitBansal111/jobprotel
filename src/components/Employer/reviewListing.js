@@ -34,100 +34,103 @@ const EmployerReviewCard = ({
     }
   }, [user]);
 
-  return (
-  userData?.length > 0 ?
-  userData?.map((user, i) => (
-    <div className="feeds-search-coll">
-      <div className="feeds-search-head">
-        <div className="feeds-head-left">
-          <div className="feeds-s-logo">
-            <Link to="/public">
-              <img
-                src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
-                style={{ height: "60px", width: "60px", borderRadius: "50%" }}
-                alt="profile image"
-              />{" "}
-            </Link>
-          </div>
-          <div className="feeds-s-name">
-            <h2>
-              <Link to="/public"> {user?.fullName}</Link>{" "}
-              {/* <span className="desgination">(FrontEnd Developer)</span>{" "} */}
-            </h2>
-            <ul className="feeds-s-ul">
-              <li>
-                <img src={LocationIcon} alt="Location" />
-                {/* India */}
-                {user?.studentDetails?.cityName}
-              </li>
-              {/* <li>
+  return userData?.length > 0 ? (
+    userData?.map((user, i) => (
+      <div className="feeds-search-coll">
+        <div className="feeds-search-head">
+          <div className="feeds-head-left">
+            <div className="feeds-s-logo">
+              <Link to="/public">
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
+                  style={{ height: "60px", width: "60px", borderRadius: "50%" }}
+                  alt="profile image"
+                />{" "}
+              </Link>
+            </div>
+            <div className="feeds-s-name">
+              <h2>
+                <Link to="/public"> {user?.fullName}</Link>{" "}
+                {/* <span className="desgination">(FrontEnd Developer)</span>{" "} */}
+              </h2>
+              <ul className="feeds-s-ul">
+                <li>
+                  <img src={LocationIcon} alt="Location" />
+                  {/* India */}
+                  {user?.studentDetails?.cityName}
+                </li>
+                {/* <li>
                 <img src={VerifiedIcon} alt="Company Verified" />
                 Verified post
               </li> */}
-            </ul>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="review-listing-action">
-          {showRejectedView ? (
-            <>
-              {showAcceptInvitation ? (
+          <div className="review-listing-action">
+            {showRejectedView ? (
+              <>
+                {showAcceptInvitation ? (
+                  <button
+                    type="button"
+                    onClick={handleAcceptInvitation}
+                    className="btn btn-primary mr-2"
+                  >
+                    Accept
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleChatNow}
+                    className="btn btn-primary mr-2"
+                  >
+                    <i className="fa fa-comments mr-2"></i> Chat Now
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={handleAcceptInvitation}
-                  className="btn btn-primary mr-2"
+                  onClick={handleRejected}
+                  className="btn btn-reject"
                 >
-                  Accept
+                  Reject
                 </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleChatNow}
-                  className="btn btn-primary mr-2"
-                >
-                  <i className="fa fa-comments mr-2"></i> Chat Now
-                </button>
-              )}
+              </>
+            ) : (
               <button
                 type="button"
                 onClick={handleRejected}
                 className="btn btn-reject"
               >
-                Reject
+                Rejected
               </button>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={handleRejected}
-              className="btn btn-reject"
-            >
-              Rejected
-            </button>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      <div className="feeds-search-detail">
-        <p>
-          {/* {user?.postedJob?.description} */}
-          {/* We have a new project we might consider outsourcing. We need to hear
+        <div className="feeds-search-detail">
+          <p>
+            {/* {user?.postedJob?.description} */}
+            {/* We have a new project we might consider outsourcing. We need to hear
           some full stacks experts regarding the difficulty of such project,
           cost esitmations, and required skills. This job will be fast - a
           conversation. ------------------ About the project in a nutshell.{" "}
           <Link to="#">See more </Link> */}
-        </p>
+          </p>
+        </div>
+        <div>
+          {totalRecords > 0 && (
+            <Pagination
+              activePage={activePage}
+              itemsCountPerPage={pageSize}
+              totalItemsCount={totalRecords}
+              pageRangeDisplayed={4}
+              onChange={handlePageChangeReview}
+            />
+          )}
+        </div>
       </div>
-      <div>
-        <Pagination
-          activePage={activePage}
-          itemsCountPerPage={pageSize}
-          totalItemsCount={totalRecords}
-          pageRangeDisplayed={4}
-          onChange={handlePageChangeReview}
-        />
-      </div>
-    </div>
-  )) : <h3>No record</h3>
-  )
+    ))
+  ) : (
+    <h3>No record</h3>
+  );
 };
 
 export default EmployerReviewCard;

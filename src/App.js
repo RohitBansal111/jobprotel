@@ -100,8 +100,11 @@ function App() {
           path="/employer/applications"
           element={<EmployerApplication />}
         />
-        <Route path="/review-applications/:jobid" element={<ReviewApplications />} />
-        <Route path="/applications" element={<Applications/>} />
+        <Route
+          path="/review-applications/:jobid"
+          element={<ReviewApplications />}
+        />
+        <Route path="/applications" element={<Applications />} />
         <Route path="/roles" element={<EmployerRoles />} />
         <Route path="/employer-inbox" element={<EmployerInbox />} />
         <Route path="/find-work/details/:id" element={<DetailsPage />} />

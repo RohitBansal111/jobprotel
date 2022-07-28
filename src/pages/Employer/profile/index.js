@@ -377,7 +377,7 @@ const EmployerProfile = () => {
                                     : "No Active Jobs"}
                                 </div>
                                 <div className="project-pagination">
-                                  {/* {activeJobs?.length > 4 && */}
+                                  {totalRecords > 0 && 
                                   <Pagination
                                     activePage={activePage}
                                     itemsCountPerPage={pageSize}
@@ -385,7 +385,7 @@ const EmployerProfile = () => {
                                     pageRangeDisplayed={4}
                                     onChange={handlePageChange}
                                   />
-                                  {/* } */}
+                                  }
                                 </div>
                               </div>
                             </div>
@@ -422,7 +422,7 @@ const EmployerProfile = () => {
                                       ))
                                     : "No Archive Jobs"}
                                 </div>
-                                {archiveJobs?.length > 0 && (
+                                {totalRecordsArchive > 0 &&  (
                                   <div className="project-pagination">
                                     <Pagination
                                       activePage={activePageArchive}

@@ -203,13 +203,6 @@ const DetailsPage = () => {
                     <p>
                       <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
                     </p>
-                    {/* <p>
-                    <b>Category: </b>{" "}
-                    {jobDetails &&
-                      jobDetails.category &&
-                      jobDetails.category.name &&
-                      jobDetails.category.name}
-                  </p> */}
                     <p>
                       <b>Salary: </b> ${" "}
                       {jobDetails && jobDetails.salary && jobDetails.salary}
@@ -242,7 +235,7 @@ const DetailsPage = () => {
                         className="btn btn-primary"
                         disabled
                       >
-                        Applied
+                        Job Applied
                       </button>
                     ) : (
                       <button
@@ -260,7 +253,7 @@ const DetailsPage = () => {
                         className="btn btn-primary-outline"
                         disabled
                       >
-                        Saved
+                        Saved Job
                       </button>
                     ) : (
                       <button

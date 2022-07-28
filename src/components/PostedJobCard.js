@@ -19,7 +19,7 @@ import * as studentServices from "../services/studentServices";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
+const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
   const dispatch = useDispatch();
 
   const authData = useSelector((state) => state.auth.user);
@@ -52,6 +52,7 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
     };
     const resp = await jobServices.applyJob(payload);
     if (resp.status == 200) {
+      getJobList(activePage);
       const resp2 = await studentServices.getStudentDetails(authData.id);
       if (resp.status === 200) {
         dispatch({
@@ -100,14 +101,12 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
                       : `/job-details/${jobId}`
                   }
                 >
-                  {/* Mobile/Tablet Front-End Developer{" "} */}
                   {jobs && jobs.title && jobs.title}
                 </Link>
               </h2>
               <ul className="feeds-s-ul">
                 <li>
                   <img src={LocationIcon} alt="Location" />
-                  {/* United States */}
                   {jobs && jobs.location && jobs.location}
                 </li>
                 {/* <li>
@@ -142,13 +141,6 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
                     <Link to="#">{tag}</Link>
                   </li>
                 ))}
-
-              {/* <li>
-                <Link to="#">Web Application </Link>
-              </li>
-              <li>
-                <Link to="#">Wearable Technology </Link>
-              </li> */}
             </ul>
           </div>
           <div className="posted-submit">
@@ -161,12 +153,7 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
             <div className="d-flex">
               {authData?.userRoles[0] === "EMPLOYER" ? (
                 <>
-                  <button
-                    type="button"
-                    className="btn submit-btn me-2"
-                    // data-bs-toggle="modal"
-                    // data-bs-target="#invitationPopup"
-                  >
+                  <button type="button" className="btn submit-btn me-2">
                     Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                   </button>
                   <Link
@@ -177,6 +164,10 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
                     Review Applications
                   </Link>
                 </>
+              ) : jobs?.isJobApplied ? (
+                <button type="button" className="btn btn-primary" disabled>
+                  Job Applied
+                </button>
               ) : (
                 <button
                   type="button"
@@ -186,8 +177,6 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
                   Apply Now
                 </button>
               )}
-
-              {/* <SendInvitationModal /> */}
             </div>
           </div>
         </div>

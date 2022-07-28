@@ -2,8 +2,13 @@ import axios from "axios";
 
 export const getStudentDetails = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/StudentProfileDetails/userId?userId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/StudentProfileDetails/userId?userId=${id}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -24,9 +29,13 @@ export const getStudentDetails = async (id) => {
 
 export const updateStudentDetails = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.put(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/UpdateStudentProfile/userId`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -70,9 +79,14 @@ export const sendStudentKycData = async (data) => {
 
 export const sendStudentEmploymentData = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
+
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/EmploymentHistory`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -93,8 +107,13 @@ export const sendStudentEmploymentData = async (data) => {
 
 export const getStudentEmploymentData = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/GetEmployementHis/userId?userId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/GetEmployementHis/userId?userId=${id}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -115,9 +134,13 @@ export const getStudentEmploymentData = async (id) => {
 
 export const updateStudentEmploymentData = async (id, data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.put(
       `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/UpdateEmployementHis/id?id=${id}`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;

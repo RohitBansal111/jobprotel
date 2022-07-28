@@ -274,8 +274,6 @@ const Register = () => {
     });
   };
 
-
-
   const finalSubmitEmployer = async (employer) => {
     let formData = new FormData();
     formData.append("address", employer.address);
@@ -463,8 +461,11 @@ const Register = () => {
             </div>
           </div>
         </div>
-        {loading?
-        <div className="data-loader"><Loader /></div>:null}
+        {loading ? (
+          <div className="data-loader">
+            <Loader />
+          </div>
+        ) : null}
         <div className="register-form-area">
           <div className="register-form-boxen">
             {currentPage === 0 && (

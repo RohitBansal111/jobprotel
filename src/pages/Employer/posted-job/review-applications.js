@@ -74,7 +74,7 @@ const ReviewApplications = () => {
                       // ))
                     }
                   </div>
-                  {users && users.length > 10 && (
+                  {totalRecords > 0 && (
                     <Pagination
                       activePage={pageNumber}
                       itemsCountPerPage={pageSize}

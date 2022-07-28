@@ -236,7 +236,7 @@ const PostedJob = () => {
                       ))
                     )}
                   </div>
-                  {jobList.length > 4 && (
+                  {totalRecords > 0 && (
                     <Pagination
                       activePage={activePage}
                       itemsCountPerPage={pageSize}
