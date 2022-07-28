@@ -107,6 +107,15 @@ ul {
           border: 1px solid #53bead !important;
         }
       }
+      .edit-profile-file{
+        width: 50%;
+      }
+      .btn{
+        .fa{
+          font-weight: 500 !important;
+          font-size: 13px;
+        }
+      }
     }
     .uploaded-file-name{
       display: flex;
@@ -169,12 +178,12 @@ ul {
 .pagination{
   padding: 15px 0px 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   li{
     margin: 0px 6px;
-    width: 30px;
-    height: 30px;
-    background-color: #afafaf;
+    width: 35px;
+    height: 35px;
+    background-color: #f4f4f4;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -183,14 +192,16 @@ ul {
       cursor: not-allowed;
     }
     &.active{
-      background-color: #1fbdad;
+      background-color: #0e9586;
       a{
         color: #fff;
       }
     }
     a{
-      font-size: 13px;
-      font-weight: 500;
+      color: #a9a9a9;
+      font-size: 16px;
+      border-radius: 50%;
+      line-height: 22px;
       &:hover{
         color: #444444;
       }

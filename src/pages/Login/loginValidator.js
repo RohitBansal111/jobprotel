@@ -19,6 +19,7 @@ const LoginValidator = (values) => {
     error.password =
       "Your password should have at least one special charachter, digits, uppercase and lowercase character, Length: 8+ character.";
   }
+  console.log(error,"error")
   return error;
 };
 

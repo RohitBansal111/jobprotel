@@ -918,7 +918,7 @@ const EditProfile = () => {
                                     <option value="5">5 days</option>
                                   </Field>
                                 </div>
-                                <div className="form-field flex50">
+                                <div className="form-field flex100">
                                   <label>Experience</label>
                                   <div className="inner-multi-field">
                                     <div className="form-field flex50">
@@ -930,40 +930,45 @@ const EditProfile = () => {
                                         pattern="[0-9]*"
                                       />
                                     </div>
-                                    <div className="form-field flex50">
-                                      <Field
-                                        name="experienceInYears"
-                                        label="Experience in Year's"
-                                        component={renderSelect}
-                                        placeholder="Year's"
-                                        type="text"
-                                      >
-                                        <option value="0">0 year</option>
-                                        {[...Array.from(Array(51).keys())]
-                                          .slice(1)
-                                          .map((num, i) => (
-                                            <option key={i} value={num}>
-                                              {num ? num + " year's" : ""}
-                                            </option>
-                                          ))}
-                                      </Field>
-                                      <Field
-                                        name="experienceInMonths"
-                                        label="Experience in Month's"
-                                        component={renderSelect}
-                                        placeholder="Month's"
-                                        type="text"
-                                      >
-                                        <option value="0">0 month</option>
-                                        {[...Array.from(Array(13).keys())]
-                                          .slice(1)
-                                          .map((num, i) => (
-                                            <option key={i} value={num}>
-                                              {num ? num + " month's" : ""}
-                                            </option>
-                                          ))}
-                                      </Field>
+                                    <div className="form-field flex50 inner-multi-field">
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="experienceInYears"
+                                          label="Experience in Year's"
+                                          component={renderSelect}
+                                          placeholder="Year's"
+                                          type="text"
+                                        >
+                                          <option value="0">0 year</option>
+                                          {[...Array.from(Array(51).keys())]
+                                            .slice(1)
+                                            .map((num, i) => (
+                                              <option key={i} value={num}>
+                                                {num ? num + " year's" : ""}
+                                              </option>
+                                            ))}
+                                        </Field>
+                                      </div>
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="experienceInMonths"
+                                          label="Experience in Month's"
+                                          component={renderSelect}
+                                          placeholder="Month's"
+                                          type="text"
+                                        >
+                                          <option value="0">0 month</option>
+                                          {[...Array.from(Array(13).keys())]
+                                            .slice(1)
+                                            .map((num, i) => (
+                                              <option key={i} value={num}>
+                                                {num ? num + " month's" : ""}
+                                              </option>
+                                            ))}
+                                        </Field>
+                                      </div>
                                     </div>
+                                    
                                   </div>
                                 </div> 
                                 <div className="form-field flex50">
@@ -1028,38 +1033,45 @@ const EditProfile = () => {
                                       previewImg.map((img, index) => (
                                         <>
                                           <li key={index}>
-                                            {index + 1}. {img.certificates}
-                                            <label>File Title</label>
-                                            <input
-                                              name="title"
-                                              onChange={(e) =>
-                                                handleFormTitleChange(index, e)
-                                              }
-                                              value={img.title}
-                                            />
-                                            <button className="btn btn-remove">
-                                              <i
-                                                className="fa fa-times-circle"
-                                                aria-hidden="true"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                  manageCertificates(img.id)
-                                                }
-                                              />
-                                            </button>
-                                            <span className="btn btn-edit">
-                                              <i
-                                                className="fa fa-edit"
-                                                aria-hidden="true"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                  editCertificates(
-                                                    img.id,
-                                                    img.title
-                                                  )
-                                                }
-                                              />
-                                            </span>
+                                            <div className="change-title">
+                                              <label>{index + 1}. File Title</label>
+                                              <div className="d-flex">
+                                                <input
+                                                  name="title"
+                                                  className="edit-profile-file"
+                                                  onChange={(e) =>
+                                                    handleFormTitleChange(index, e)
+                                                  }
+                                                  value={img.title}
+                                                />
+                                                <button className="btn p-0 ms-3">
+                                                <i
+                                                  className="fa fa-times-circle"
+                                                  aria-hidden="true"
+                                                  style={{ cursor: "pointer" }}
+                                                  onClick={() =>
+                                                    manageCertificates(img.id)
+                                                  }
+                                                />
+                                                <span className="btn btn-edit p-0 ps-3">
+                                                  <i
+                                                    className="fa fa-edit"
+                                                    aria-hidden="true"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() =>
+                                                      editCertificates(
+                                                        img.id,
+                                                        img.title
+                                                      )
+                                                    }
+                                                  />
+                                                </span>
+                                              </button>
+                                              </div>
+                                            </div>
+                                            <div className="uploaded-file-name py-1">
+                                                <span>{img.certificates}</span>
+                                            </div>
                                           </li>
                                         </>
                                       ))}
