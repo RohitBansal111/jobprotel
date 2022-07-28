@@ -23,7 +23,6 @@ const DetailsPage = () => {
   const authData = useSelector((state) => state.auth.user);
   toast.options = { preventDuplicates: true };
   const [loading, setLoading] = useState(true);
-
   const [jobDetails, setJobDetails] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
@@ -64,7 +63,7 @@ const DetailsPage = () => {
       remarks: "test",
     };
     const resp = await jobServices.applyJob(payload);
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
@@ -83,7 +82,7 @@ const DetailsPage = () => {
       }
     }
   };
-  
+
   const saveJob = async () => {
     const payload = {
       jobId: id,
@@ -91,6 +90,8 @@ const DetailsPage = () => {
     };
     const resp = await jobServices.saveJob(payload);
     if (resp.status == 200) {
+      console.log(id, "asdf")
+      getJobDetails(id);
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
@@ -109,7 +110,7 @@ const DetailsPage = () => {
       }
     }
   };
-  
+
   const getTimeZone = (timezone) => {
     if (timezone && timezone == "Doesn't Matter") {
       return timezone;
@@ -256,11 +257,19 @@ const DetailsPage = () => {
                     )}
 
                     {jobDetails?.isJobFavorite ? (
-                      <button type="button" className="btn btn-primary-outline" disabled>
+                      <button
+                        type="button"
+                        className="btn btn-primary-outline"
+                        disabled
+                      >
                         Saved
                       </button>
                     ) : (
-                      <button type="button" className="btn btn-primary-outline"  onClick={() => saveJob()}>
+                      <button
+                        type="button"
+                        className="btn btn-primary-outline"
+                        onClick={() => saveJob()}
+                      >
                         Save Job
                       </button>
                     )}

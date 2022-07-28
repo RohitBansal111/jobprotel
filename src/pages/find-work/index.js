@@ -31,7 +31,6 @@ const FindWork = () => {
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
-      console.log(authData)
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
@@ -228,7 +227,7 @@ const FindWork = () => {
                           <span className="update-name">
                             Job Applied &nbsp;
                           </span>
-                          {totalRecords && totalRecords}
+                          {authData?.studentDetails?.appliedJobCount}
                         </Link>
                       </li>
                       {/* <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
