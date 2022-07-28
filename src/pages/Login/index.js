@@ -42,13 +42,13 @@ const Login = () => {
   //   }
   // }, [login])
   
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (values) => {
+    //e.preventDefault();
     if (!termsPrivacy) {
       toast.error("Please accept terms policy first.");
     }
-    if (userName !== "" && password !== "" && termsPrivacy) {
-      dispatch(authActions.login(login, navigate));
+    if (values.userName !== "" && values.password !== "" && termsPrivacy) {
+      dispatch(authActions.login(values, navigate));
     }
   };
   const handleInputChange = (event) => {
@@ -93,7 +93,7 @@ const Login = () => {
               <div className="form-main">
                 <Form onSubmit={handleLogin} validate={validate}>
                   {({ handleSubmit, submitting, values }) => (
-                    <form onSubmit={handleLogin} autoComplete="off">
+                    <form onSubmit={handleSubmit} autoComplete="off">
                       <div className="form-field-group">
                         <div className="form-field flex100">
                           <Field
@@ -103,7 +103,7 @@ const Login = () => {
                             placeholder="Enter email address"
                             type="text"
                             value={userName}
-                            onChange={handleChange}
+                            //onChange={handleChange}
                           />
                         </div>
                         <div className="form-field flex100">
@@ -114,7 +114,7 @@ const Login = () => {
                             placeholder="Enter password"
                             type={showLoginPassword ? "password" : "text"}
                             value={password}
-                            onChange={handleChange}
+                            //onChange={handleChange}
                           >
                             {password !== "" && (
                               <span className="eye-btn">

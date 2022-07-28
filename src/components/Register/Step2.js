@@ -336,7 +336,7 @@ const Step2 = ({
                 <div className="form-field flex100">
                   <Field
                     name="interests"
-                    defaultValue={next && data ? data.interests : ""}
+                    dvalue={next && data ? data.interests : ""}
                     label="Interested Area"
                     suggestions={skillslist}
                     placeholder="Enter Intrested Area"

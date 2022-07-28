@@ -251,7 +251,7 @@ const Step3 = ({
                     suggestions={skillslist}
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
-                    defaultValue={next && data ? data.skills : ""}
+                    dvalue={next && data ? data.skills : ""}
                   />
                 </div>
                 <div className="form-field flex50">
