@@ -42,6 +42,7 @@ const Step2 = ({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
+  const [err, setErr] = useState([]);
 
   const handleImageChange = (event) => {
     setModal(true);
@@ -60,15 +61,28 @@ const Step2 = ({
     }
   };
 
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    if (img.personalInfoImg.length < 1000) {
+      error.logo = "Profile Image is Required";
+      isValid = false;
+    }
+    setErr(error);
+    return isValid;
+  };
+
   const SaveStep2 = (values) => {
-    userPersonalInfo({
-      ...values,
-      timezone: timezone,
-      qualificationId: qualificationId,
-      profileImageUrl: img,
-      profileImage: profileImage,
-    });
-    nextPage();
+    if (validation()) {
+      userPersonalInfo({
+        ...values,
+        timezone: timezone,
+        qualificationId: qualificationId,
+        profileImageUrl: img,
+        profileImage: profileImage,
+      });
+      nextPage();
+    }
   };
 
   useEffect(async () => {
@@ -94,8 +108,8 @@ const Step2 = ({
   };
 
   const handleTimeZone = (data) => {
-    console.log(JSON.stringify(data))
-    setTimezone(JSON.stringify(data));
+    console.log(JSON.stringify(data));
+    setTimezone(data);
   };
 
   useMemo(() => {
@@ -140,9 +154,9 @@ const Step2 = ({
           {({ handleSubmit, values, touched, error }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-field-group">
-                <div className="form-field flex50">
+                <div className="form-field flex100">
                   <label htmlFor="gender"> {titleStrings.genderTitle} </label>
-                  <div className="radio-button-groupss">
+                  <div className="radio-button-groupss absolute-error">
                     {genderList &&
                       genderList.length > 0 &&
                       genderList.map((gender, index) => (
@@ -173,6 +187,7 @@ const Step2 = ({
                           type="file"
                           onChange={handleImageChange}
                         />
+                        <p style={{ color: "red" }}>{err && err.logo}</p>
                       </div>
                     </div>
                     <div className="aws-placeholder image4">

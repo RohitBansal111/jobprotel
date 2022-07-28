@@ -101,7 +101,6 @@ const EmployerProfile = () => {
       pageNumber: activePage,
       pageSize: pageSize,
     };
-    console.log(data);
     if (data) {
       const resp = await jobServices.getArchiveJobByEmployer(data);
       let response = resp.data.data;
@@ -221,7 +220,10 @@ const EmployerProfile = () => {
                   </div> */}
                 </div>
                 {loading ? (
-                  <Loader />
+                  <div className="fullpage-loader">
+                    {" "}
+                    <Loader />{" "}
+                  </div>
                 ) : (
                   <>
                     <section className="profile-information-view">
@@ -380,9 +382,7 @@ const EmployerProfile = () => {
                                     activePage={activePage}
                                     itemsCountPerPage={pageSize}
                                     totalItemsCount={totalRecords}
-                                    pageRangeDisplayed={
-                                      totalRecords / pageSize + 1
-                                    }
+                                    pageRangeDisplayed={4}
                                     onChange={handlePageChange}
                                   />
                                   {/* } */}
@@ -428,9 +428,7 @@ const EmployerProfile = () => {
                                       activePage={activePageArchive}
                                       itemsCountPerPage={pageSize}
                                       totalItemsCount={totalRecordsArchive}
-                                      pageRangeDisplayed={
-                                        totalRecordsArchive / pageSize + 1
-                                      }
+                                      pageRangeDisplayed={4}
                                       onChange={handlePageChangeArchive}
                                     />
                                     {/* <ul className="pagination">

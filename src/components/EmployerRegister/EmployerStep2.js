@@ -55,7 +55,6 @@ const EmployerStep2 = ({
   }, []);
 
   const instanceSaveStep2 = (values) => {
-    console.log(values);
     initialEmpStep2({
       ...values,
       logoImageUrl: img,
@@ -77,8 +76,8 @@ const EmployerStep2 = ({
   };
   
   const SaveStep2 = (values) => {
-    setLoading(true);
     if (validation()) {
+      setLoading(true);
       EmployerCompleteInfo(values, phoneNumberFlag, img);
     }
   };

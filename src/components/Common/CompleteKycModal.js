@@ -18,7 +18,6 @@ const CompleteKycModal = ({ jobList, studentData }) => {
 
   const handleFrontSide = (e) => {
     let files = e.target.files[0];
-    console.log(files);
     setMainfile(files);
   };
 
@@ -44,7 +43,6 @@ const CompleteKycModal = ({ jobList, studentData }) => {
 
   const handleSubmitKycForm = async (values) => {
     let formData = new FormData();
-    console.log(mainfile);
     formData.append("StudentId", studentId);
     formData.append("documentTitle", values.documentTitle);
     formData.append("mainFile", mainfile);
@@ -60,7 +58,6 @@ const CompleteKycModal = ({ jobList, studentData }) => {
             resp.data.message ? resp.data.message : "Something went wrong"
           );
           const resp2 = await studentServices.getStudentDetails(studentId);
-          console.log(resp2);
           dispatch({
             type: types.LOGIN_USER_SUCCESS,
             payload: resp2.data.data,

@@ -43,6 +43,10 @@ ul {
 .modal-open .modal {
   background-color: #0000007d;
 }
+.inner-page-wrapper{
+  padding-bottom: 30px;
+  min-height: calc(100vh - 120px);
+}
 .main-content {
   background: #f1f2f4;
 }
@@ -72,14 +76,123 @@ ul {
 .uploaded-documents{
   margin-top: 3px;
   li{
-    display: flex;
-    align-items: center;
-    font-size: 14px;
+    font-size: 12px;
     .btn-remove{
       padding: 0px;
       padding-left: 10px;
       i{
         color: red;
+      }
+    }
+    .change-title{
+      display: block;
+      width: 100%;
+      label{
+        display: block !important;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      input{
+        color: grey;
+        padding: 5px 10px;
+        height: 36px !important;
+        background-color: #f8f8f8;
+        border: 1px solid #e9e9e9;
+        border-radius: 6px;
+        width: 100%;
+        font-size: 12px;
+        outline: 0px;
+        box-shadow: none;
+        &:focus{
+          border: 1px solid #53bead !important;
+        }
+      }
+    }
+    .uploaded-file-name{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span{
+        font-size: 12px;
+        font-weight: 400;
+      }
+      .btn{
+        .fa{
+          font-weight: 500 !important;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+// Loader
+.data-loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  background-color: #00000061;
+  span{
+    border-color: rgb(250, 250, 250) rgb(250, 250, 250) transparent !important;
+  }
+}
+.search-data-loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.fullpage-loader{
+  width: 100%;
+  background-color: #fff;
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page-wrapper-loader{
+  display: flex;
+  align-items: center;
+  .fullpage-loader{
+    background-color: #f1f2f4;
+  }
+}
+
+// Common Pagination
+.pagination{
+  padding: 15px 0px 20px;
+  display: flex;
+  justify-content: center;
+  li{
+    margin: 0px 6px;
+    width: 30px;
+    height: 30px;
+    background-color: #afafaf;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:disabled{
+      cursor: not-allowed;
+    }
+    &.active{
+      background-color: #1fbdad;
+      a{
+        color: #fff;
+      }
+    }
+    a{
+      font-size: 13px;
+      font-weight: 500;
+      &:hover{
+        color: #444444;
       }
     }
   }
