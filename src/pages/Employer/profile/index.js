@@ -348,9 +348,8 @@ const EmployerProfile = () => {
                               id="nav-completed"
                               role="tabpanel"
                               aria-labelledby="nav-completed-tab"
-                            >
+                            > 
                               <div className="project-detail-list">
-                                <div className="project-dbox">
                                   {activeJobs?.length > 0
                                     ? activeJobs.map((active, i) => (
                                         <div className="project-dbox" key={i}>
@@ -375,7 +374,6 @@ const EmployerProfile = () => {
                                         </div>
                                       ))
                                     : "No Active Jobs"}
-                                </div>
                                 <div className="project-pagination">
                                   {/* {activeJobs?.length > 4 && */}
                                   <Pagination

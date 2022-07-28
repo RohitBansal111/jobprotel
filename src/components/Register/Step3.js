@@ -377,12 +377,12 @@ const Step3 = ({
                   <ul className="uploaded-documents">
                     {previewImg &&
                       previewImg.length > 0 &&
-                      previewImg.map((img, index) => (
+                      previewImg.map((img, index) => ( 
                         <>
                           <li key={index}>
                             <div className="change-title">
                               <label>{index + 1}. File Title</label>
-                              <input
+                              <input 
                                 name="title"
                                 onChange={(e) => handleFormChange(index, e)}
                                 value={img.title}
