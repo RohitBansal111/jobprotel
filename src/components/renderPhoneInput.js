@@ -23,7 +23,7 @@ export const RenderPhoneInput = ({
   };
   return (
     <div className="field-render-main">
-      <label htmlFor={`label${label}`}>{label}</label>
+      {/* <label htmlFor={`label${label}`}>{label}</label> */}
       <div className="field-inner-group">
         <PhoneInput
           {...inputProps}

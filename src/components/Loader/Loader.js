@@ -1,17 +1,11 @@
-import React from "react";
-import "./Loader.css";
+import React, { useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
-export const Loader = (props) => {
+export const Loader = () => {
+  let [loading, setLoading] = useState(true);
   return (
-    <div className="loader-main-hp">
-      <div
-        style={{ background: "#1f293f" }}
-        className={
-          "loader-hp " +
-          (props.smaller ? "small " : null) +
-          (props.invert ? "inverted " : null)
-        }
-      ></div>
-    </div>
+    
+      <ClipLoader loading={loading} size={50} />
+      
   );
 };

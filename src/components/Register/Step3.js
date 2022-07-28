@@ -28,10 +28,10 @@ const Step3 = ({
   let titleStrings = new LocalizedStrings(titles);
   const [resumeFile, setResumeFile] = useState("");
   const [previewImg, setPreviewImg] = useState([]);
-  const [error, setError] = useState([]);
   const [certificate, setCertificate] = useState("");
   const [designationlist, setDesignationlist] = useState([]);
   const [inputFields, setInputFields] = useState([]);
+  const [err, setErr] = useState([]);
 
   const instanceSaveStep3 = (values) => {
     initialProfInfo({
@@ -42,9 +42,26 @@ const Step3 = ({
     prevPage();
   };
 
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    if (!resumeFile) {
+      error.resume = "Resume file is Required";
+      isValid = false;
+    }
+    if (certificate && certificate == "Yes") {
+      error.extraCer = "Certificate is Required";
+      isValid = false;
+    }
+    setErr(error);
+    return isValid;
+  };
+
   const SaveStep3 = (values) => {
-    setLoading(true);
-    userProfessionalInfo(values);
+    if (validation()) {
+      setLoading(true);
+      userProfessionalInfo(values);
+    }
   };
 
   useEffect(() => {
@@ -91,7 +108,6 @@ const Step3 = ({
 
   useEffect(async () => {
     const designationList = await dropdownServices.designationList();
-
     setDesignationlist(designationList.data);
   }, []);
 
@@ -251,7 +267,7 @@ const Step3 = ({
                     suggestions={skillslist}
                     placeholder="Enter Intrested Area"
                     component={RenderTagField}
-                    defaultValue={next && data ? data.skills : ""}
+                    dvalue={next && data ? data.skills : ""}
                   />
                 </div>
                 <div className="form-field flex50">
@@ -297,9 +313,7 @@ const Step3 = ({
                       accept=".jpg, .jpeg, .png, application/pdf, .doc"
                       type="file"
                     />
-                    <p style={{ color: "red" }}>
-                      {error && error.resume ? error.resume : ""}
-                    </p>
+                    <p style={{ color: "red" }}>{err?.resume}</p>
                     <ul className="uploaded-documents">
                       {resumeFile && resumeFile.length > 0 && (
                         <li>{resumeFile}</li>
@@ -309,7 +323,7 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex50">
                   <label htmlFor="certificate"> Extra certificates </label>
-                  <div className="radio-button-groupss">
+                  <div className="radio-button-groupss absolute-error">
                     <Field
                       label={titleStrings.noTitle}
                       name="certificate"
@@ -357,33 +371,36 @@ const Step3 = ({
                       }}
                       multiple
                     />
+                    <p style={{ color: "red" }}>{err?.extraCer}</p>
                   </div>
-                  <p style={{ color: "red" }}>
-                    {error && error.certificate ? error.certificate : ""}
-                  </p>
+
                   <ul className="uploaded-documents">
                     {previewImg &&
                       previewImg.length > 0 &&
                       previewImg.map((img, index) => (
                         <>
                           <li key={index}>
-                            {index + 1}. {img.certificates.name}
-                            <label>File Title</label>
-                            <input
-                              name="title"
-                              onChange={(e) => handleFormChange(index, e)}
-                              value={img.title}
-                            />
-                            <button className="btn btn-remove">
-                              <i
-                                className="fa fa-times-circle"
-                                aria-hidden="true"
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  manageCertificates(img.certificates.name)
-                                }
+                            <div className="change-title">
+                              <label>{index + 1}. File Title</label>
+                              <input
+                                name="title"
+                                onChange={(e) => handleFormChange(index, e)}
+                                value={img.title}
                               />
-                            </button>
+                            </div>
+                            <div className="uploaded-file-name">
+                              <span>{img.certificates.name}</span>
+                              <button className="btn btn-remove">
+                                <i
+                                  className="fa fa-times-circle"
+                                  aria-hidden="true"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    manageCertificates(img.certificates.name)
+                                  }
+                                />
+                              </button>
+                            </div>
                           </li>
                         </>
                       ))}

@@ -148,7 +148,7 @@ const InviteCard = ({
             activePage={activePage}
             itemsCountPerPage={pageSize}
             totalItemsCount={totalRecords}
-            pageRangeDisplayed={totalRecords / pageSize + 1}
+            pageRangeDisplayed={4}
             onChange={handlePageChange}
           />
         </div>

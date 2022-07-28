@@ -219,8 +219,6 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                               src={img.personalInfoImg}
                               className="img-aws"
                               alt="user"
-                              width={100}
-                              height={100}
                               layout="fill"
                             />
                           </div>
@@ -263,6 +261,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                         />
                       </div>
                       <div className="form-field flex50">
+                        <label>Company Phone Number</label>
                         <Field
                           name="companyPhone"
                           label="Company Phone Number"
@@ -339,7 +338,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                           type="submit"
                           className="btn btn-primary button-submit"
                         >
-                          {loading && <Loader />} Update Info
+                          {loading &&  <div className="button-submit-loader"><Loader /></div>} Update Info
                         </button>
                       </div>
                     </div>

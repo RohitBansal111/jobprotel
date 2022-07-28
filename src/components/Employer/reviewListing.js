@@ -121,7 +121,7 @@ const EmployerReviewCard = ({
           activePage={activePage}
           itemsCountPerPage={pageSize}
           totalItemsCount={totalRecords}
-          pageRangeDisplayed={totalRecords / pageSize + 1}
+          pageRangeDisplayed={4}
           onChange={handlePageChangeReview}
         />
       </div>

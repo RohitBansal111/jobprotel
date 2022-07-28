@@ -338,7 +338,7 @@ const FindWork = () => {
                   </div>
                   <div className="default-feeds-search">
                     {loading ? (
-                      <Loader />
+                      <div className="search-data-loader mb-4"><Loader /></div>
                     ) : jobList && jobList.length === 0 ? (
                       <h4>No jobs found</h4>
                     ) : (
@@ -354,7 +354,7 @@ const FindWork = () => {
                       activePage={activePage}
                       itemsCountPerPage={pageSize}
                       totalItemsCount={totalRecords}
-                      pageRangeDisplayed={totalRecords / pageSize + 1}
+                      pageRangeDisplayed={4}
                       onChange={handlePageChange}
                     />
                   )}

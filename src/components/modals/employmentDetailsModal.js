@@ -126,7 +126,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                       </div>
                       <div className="form-field flex100">
                         <label>Current Employer</label>
-                        <div className="radio-button-groupss">
+                        <div className="radio-button-groupss absolute-error">
                           <Field
                             name="isCurrentEmployer"
                             value="true"
@@ -167,8 +167,8 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                       </div>
 
                       <div className="form-field flex100">
-                        <label>Expected Salary</label>
                         <Field
+                          label="Expected Salary"
                           name="salary"
                           component={renderNumberField}
                           placeholder="Enter salary expectations"

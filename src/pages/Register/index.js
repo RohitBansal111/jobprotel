@@ -93,7 +93,9 @@ const Register = () => {
   const userPersonalInfo = (data) => {
     setUserData({ ...userData, ...data });
   };
-
+  const initialPersonalInfo = (data) => {
+    setUserData({ ...employer, ...data });
+  };
   const userProfessionalInfo = (data1) => {
     setUserData({ ...userData, ...data1 });
     finalSubmit({ ...userData, ...data1 });
@@ -201,7 +203,7 @@ const Register = () => {
       formData.append("resumeFile", userData.resumeFile);
       formData.append("roles", userData.roles);
       formData.append("stateId", userData.stateId);
-      formData.append("timezone", userData.timezone);
+      formData.append("timezone", JSON.stringify(userData.timezone));
       formData.append("workHoursPerDay", userData.workHoursPerDay);
       formData.append("workingType", userData.workingType);
       if (
@@ -272,9 +274,7 @@ const Register = () => {
     });
   };
 
-  const initialPersonalInfo = (data) => {
-    setEmployer({ ...employer, ...data });
-  };
+
 
   const finalSubmitEmployer = async (employer) => {
     let formData = new FormData();
@@ -463,7 +463,8 @@ const Register = () => {
             </div>
           </div>
         </div>
-        {loading ? <Loader /> : null}
+        {loading?
+        <div className="data-loader"><Loader /></div>:null}
         <div className="register-form-area">
           <div className="register-form-boxen">
             {currentPage === 0 && (

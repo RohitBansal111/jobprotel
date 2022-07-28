@@ -153,6 +153,14 @@
   display: flex;
   align-items: center;
   height: 50px;
+  position: relative;
+  &.absolute-error{
+    .error{
+      display: block;
+      position: absolute;
+      bottom: -10px;
+    }
+  }
 }
 .field-render-main {
   margin-right: 20px;
@@ -171,6 +179,7 @@
         background-color: #f8f8f8;
         outline: 0px;
         color: #4a4a4a;
+        width: 100%;
         &:focus-visible{
             outline: 0px;
         }
