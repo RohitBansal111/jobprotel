@@ -101,7 +101,6 @@ const EmployerProfile = () => {
       pageNumber: activePage,
       pageSize: pageSize,
     };
-    console.log(data);
     if (data) {
       const resp = await jobServices.getArchiveJobByEmployer(data);
       let response = resp.data.data;

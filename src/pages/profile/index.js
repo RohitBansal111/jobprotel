@@ -39,7 +39,6 @@ const Profile = () => {
   const [kycStatus, setKycStatus] = useState(true);
 
   const handlePageChange = (pageNumber) => {
-    console.log(`active page is ${pageNumber}`);
     setActivePage(pageNumber);
     setLoading(true);
     getProjectHistory(id, pageNumber);
@@ -107,7 +106,6 @@ const Profile = () => {
 
   const handleDeleteData = async (d) => {
     const resp = await studentServices.deleteStudentEmploymentData(d);
-    console.log(resp);
     if (resp.status === 200) {
       employmentDetails
         .filter((data) => data.id !== d)

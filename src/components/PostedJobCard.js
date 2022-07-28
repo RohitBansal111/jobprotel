@@ -11,7 +11,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import * as jobServices from "../services/jobServices";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "toastr";
 import * as types from "../types/auth";
 import * as studentServices from "../services/studentServices";
@@ -51,16 +51,15 @@ const PostedJobCard = ({ jobs, type, activePage, pageSize }) => {
       remarks: "test",
     };
     const resp = await jobServices.applyJob(payload);
-    if (resp.status == 200) { 
+    if (resp.status == 200) {
       const resp2 = await studentServices.getStudentDetails(authData.id);
-          console.log(resp2);
-          if(resp.status === 200) {
-            dispatch({
-              type: types.LOGIN_USER_SUCCESS,
-              payload: resp2.data.data,
-              token: localStorage.getItem("jobPortalUserToken"),
-            });
-          }
+      if (resp.status === 200) {
+        dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: resp2.data.data,
+          token: localStorage.getItem("jobPortalUserToken"),
+        });
+      }
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );

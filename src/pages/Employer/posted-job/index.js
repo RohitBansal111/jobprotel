@@ -57,7 +57,6 @@ const PostedJob = () => {
   };
 
   const handlePageChange = (pageNumber) => {
-    console.log(`active page is ${pageNumber}`);
     setActivePage(pageNumber);
     setLoading(true);
     getJobList(authData.id, pageNumber);

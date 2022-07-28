@@ -38,7 +38,6 @@ const DetailsPage = () => {
 
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
-    console.log(resp, "resp");
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
@@ -90,7 +89,6 @@ const DetailsPage = () => {
     };
     const resp = await jobServices.saveJob(payload);
     if (resp.status == 200) {
-      console.log(id, "asdf")
       getJobDetails(id);
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
