@@ -122,7 +122,9 @@ const DetailsPage = () => {
   return (
     <Layout>
       {loading ? (
-        <Loader />
+        <div className="inner-page-wrapper page-wrapper-loader">
+          <div className="fullpage-loader py-5"> <Loader /> </div>
+        </div>
       ) : (
         <section className="job-details-wrapper">
           <div className="container">
