@@ -288,7 +288,10 @@ const Profile = () => {
                   </div> */}
                 </div>
                 {loading ? (
-                  <div className="fullpage-loader"> <Loader /> </div>
+                  <div className="fullpage-loader">
+                    {" "}
+                    <Loader />{" "}
+                  </div>
                 ) : (
                   <>
                     <section className="profile-information-view">

@@ -29,9 +29,12 @@ import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
 import ResetPassword from "./pages/resetPassword";
+import InviteWithStatus from "./pages/invitesWithStatus";
+import PaymentSuccess from "./pages/payments/PaymentSuccess";
+import PaymentFailure from "./pages/payments/PaymentFailure";
+import InvitationRoutes from "./HOC/InvitationRoutes";
 
 function App() {
-  var role = "employer";
   return (
     <Router>
       <Routes>
@@ -55,26 +58,22 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {role === "student" && (
-          <Route
-            path="/find-work"
-            element={
-              <PrivateRoutes>
-                <FindWork />
-              </PrivateRoutes>
-            }
-          />
-        )}
-        {role === "employer" && (
-          <Route
-            path="/posted-jobs"
-            element={
-              <PrivateRoutes>
-                <PostedJob />
-              </PrivateRoutes>
-            }
-          />
-        )}
+        <Route
+          path="/find-work"
+          element={
+            <PrivateRoutes>
+              <FindWork />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/posted-jobs"
+          element={
+            <PrivateRoutes>
+              <PostedJob />
+            </PrivateRoutes>
+          }
+        />
         <Route path="/find-work" element={<FindWork />} />
 
         <Route path="/policy" element={<PrivacyPolicy />} />
@@ -88,7 +87,27 @@ function App() {
         <Route path="/jobs-applied" element={<StudentApplication />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/notifications" element={<Notification />} />
-        <Route path="/invites" element={<Invites />} />
+
+        <Route
+          path="/invites/:status/:jobId/:userId"
+          element={
+            <InvitationRoutes>
+              <Invites />
+            </InvitationRoutes>
+          }
+          exact
+        />
+
+        <Route
+          path="/invites"
+          element={
+            <PrivateRoutes>
+              <Invites />
+            </PrivateRoutes>
+          }
+          exact
+        />
+
         <Route path="/student/profile" element={<Profile />} />
         <Route path="/employer/profile" element={<EmployerProfile />} />
         <Route
@@ -108,6 +127,8 @@ function App() {
         <Route path="/roles" element={<EmployerRoles />} />
         <Route path="/employer-inbox" element={<EmployerInbox />} />
         <Route path="/find-work/details/:id" element={<DetailsPage />} />
+        <Route path="/payment-suceess" element={<PaymentSuccess />} />
+        <Route path="/payment-failure" element={<PaymentFailure />} />
       </Routes>
     </Router>
   );

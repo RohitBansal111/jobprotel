@@ -13,6 +13,7 @@ const ApplicationCards = ({
   totalRecords,
   jobsApplied,
 }) => {
+  console.log(totalRecords)
   return (
     <>
       {jobsApplied?.jobs?.map((applied, i) => (
@@ -70,7 +71,13 @@ const ApplicationCards = ({
                 </ul>
               </div>
               <div className="application-status">
-                <span className="status-pending">Pending</span>
+                <span className="status-pending">
+                  {applied?.appiledJobStatus === 0
+                    ? "Pending"
+                    : applied?.appiledJobStatus === 1
+                    ? "Accepted"
+                    : "Rejected"}
+                </span>
               </div>
             </div>
           </div>

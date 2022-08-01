@@ -65,7 +65,7 @@ const FindWork = () => {
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
       setLoading(false);
-      console.log(response.data.data)
+      console.log(response.data.data);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -171,9 +171,9 @@ const FindWork = () => {
                           {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
-                      <li>
+                      {/* <li>
                         Timing <span className="result">10AM - 2PM</span>
-                      </li>
+                      </li> */}
                       <li>
                         Skills{" "}
                         {/* <span className="result">React-Redux, Flutter</span> */}
@@ -185,9 +185,11 @@ const FindWork = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          Year{", "}
+                          {studentData?.studentDetails?.experienceInYears && "Year"}
+                          {", "}
                           {studentData?.studentDetails?.experienceInMonths}{" "}
-                          Month
+                          {studentData?.studentDetails?.experienceInMonths && "Month"}
+                           
                         </span>
                       </li>
                       <li>
@@ -339,14 +341,22 @@ const FindWork = () => {
                   </div>
                   <div className="default-feeds-search">
                     {loading ? (
-                      <div className="search-data-loader mb-4"><Loader /></div>
+                      <div className="search-data-loader mb-4">
+                        <Loader />
+                      </div>
                     ) : jobList && jobList.length === 0 ? (
                       <h4>No jobs found</h4>
                     ) : (
                       jobList &&
                       jobList.length > 0 &&
                       jobList.map((jobs, index) => (
-                        <PostedJobCard jobs={jobs} key={index} getJobList={getJobList} activePage={activePage} type="find" />
+                        <PostedJobCard
+                          jobs={jobs}
+                          key={index}
+                          getJobList={getJobList}
+                          activePage={activePage}
+                          type="find"
+                        />
                       ))
                     )}
                   </div>

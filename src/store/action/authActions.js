@@ -9,18 +9,28 @@ export const login = (user, navigate) => {
       let resp = await loginUser(user);
 
       if (resp.status === 200) {
-        const response = resp.data.data
-        if (resp.status === 200 && response.roles === "STUDENT") {
-          toast.success("Login Successfully");
-          navigate("/find-work");
-        } else if (resp.status === 200 && response.roles === "EMPLOYER") {
-          toast.success("Login Successfully");
-          navigate("/posted-jobs");
-        } 
-        if(resp.data.userToken) {
-          localStorage.setItem("jobPortalUserToken", resp.data.userToken)
-          localStorage.setItem("jobPortalUser", JSON.stringify(response))
+        const response = resp.data.data;
+        if (resp.data.userToken) {
+          localStorage.setItem("jobPortalUserToken", resp.data.userToken);
+          localStorage.setItem("jobPortalUser", JSON.stringify(response));
         }
+
+        if (resp.status === 200 && response.roles === "Student") {
+          toast.success("Login Successfully");
+          let item = localStorage.getItem("jobInvitation");
+          let inviteData = JSON.parse(item);
+          if (item && item !== undefined) {
+            localStorage.removeItem("jobInvitation");
+            let path = `invites/${inviteData.status}/${inviteData.jobId}/${inviteData.userId}`;
+            navigate(path);
+          } else {
+            navigate("/find-work");
+          }
+        } else if (resp.status === 200 && response.roles === "Employer") {
+          toast.success("Login Success");
+          navigate("/posted-jobs");
+        }
+
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
           payload: resp.data.data,

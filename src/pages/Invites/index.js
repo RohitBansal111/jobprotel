@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import InviteCard from "../../components/Invite/InviteCard";
 import Layout from "../../components/Layout";
 import Filtericon from "./../../assets/icons/filter-ico.png";
@@ -7,8 +7,12 @@ import { useSelector } from "react-redux";
 import * as jobsInvitationServices from "../../services/jobsInvitationServices";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "toastr";
+import * as updateInvitationService from "../../services/updateInvitationService";
 
 const Invites = () => {
+  const { status, jobId, userId } = useParams();
+  let navigate = useNavigate();
+
   const authData = useSelector((state) => state.auth.user);
   const [search, setSearch] = useState("");
   const [activePage, setActivePage] = useState(1);
@@ -27,7 +31,6 @@ const Invites = () => {
     const resp = await jobsInvitationServices.getJobInvitationlist(data);
     if (resp.status === 200) {
       let response = resp.data.data;
-      console.log(response);
       setLoading(false);
       setTotalRecords(resp.data.totalCount);
       if (response.length > 0) {
@@ -44,12 +47,43 @@ const Invites = () => {
     setLoading(true);
     getInvitations(authData.id, pageNumber);
   };
-  console.log(jobInvitations);
   useEffect(() => {
     if (authData) {
       getInvitations(authData.id, activePage);
+      // console.log(userId, authData.id);
+      // console.log(userId == authData.id, userId, authData.id, "ppp");
+      if (status !== undefined && jobId !== undefined) {
+        let id = authData.id;
+        let userRoles = authData.roles;
+        if (userId == id && userRoles == "Student") {
+          changeInvitationStatus(status, jobId);
+        } else {
+          toast.error("Not Authorized User");
+          let jobInvitation = {
+            userId,
+            jobId,
+            status,
+          };
+          localStorage.setItem("jobInvitation", JSON.stringify(jobInvitation));
+          navigate("/invites");
+        }
+      }
     }
   }, [authData]);
+
+  const changeInvitationStatus = async (status, jobId) => {
+    let data = {
+      id: jobId,
+      invitationStatus: status,
+    };
+    const resp = await updateInvitationService.updateInvitationStatus(data);
+    if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+      navigate("/invite");
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -136,23 +170,27 @@ const Invites = () => {
                   <div className="feed-title">
                     {jobInvitations?.length > 0 ? (
                       <>
-                      <h2>Top results you might like</h2>
-                      <p>
-                        Showing{" "}
-                        {activePage == 1
-                          ? activePage
-                          : 1 + (activePage - 1) * pageSize}
-                        -
-                        {jobInvitations?.length
-                          ? (activePage - 1) * pageSize + jobInvitations?.length
-                          : 0}{" "}
-                        of {totalRecords} results
-                      </p>
+                        <h2>Top results you might like</h2>
+                        <p>
+                          Showing{" "}
+                          {activePage == 1
+                            ? activePage
+                            : 1 + (activePage - 1) * pageSize}
+                          -
+                          {jobInvitations?.length
+                            ? (activePage - 1) * pageSize +
+                              jobInvitations?.length
+                            : 0}{" "}
+                          of {totalRecords} results
+                        </p>
                       </>
                     ) : null}
                   </div>
                   {loading ? (
-                    <div className="fullpage-loader py-5"> <Loader /> </div>
+                    <div className="fullpage-loader py-5">
+                      {" "}
+                      <Loader />{" "}
+                    </div>
                   ) : jobInvitations?.length > 0 ? (
                     <div className="default-feeds-search">
                       <InviteCard
