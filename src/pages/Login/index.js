@@ -31,19 +31,12 @@ const Login = () => {
       ...login,
       [name]: value,
     });
-    if (e.key === 'Enter') {
-      console.log('do validate');
+    if (e.key === "Enter") {
+      console.log("do validate");
     }
   };
 
-  // useEffect(() => {
-  //   if (e.key === 'Enter') {
-  //     console.log('do validate');
-  //   }
-  // }, [login])
-  
   const handleLogin = async (values) => {
-    //e.preventDefault();
     if (!termsPrivacy) {
       toast.error("Please accept terms policy first.");
     }

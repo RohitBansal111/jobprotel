@@ -19,7 +19,7 @@ const MyApplications = () => {
 
   const getAppliedJobs = async (id, activePage = activePage, search) => {
     let data = {
-      userId: id,
+      // userId: id,
       serachItem: search,
       pageNumber: activePage,
       pageSize: pageSize,

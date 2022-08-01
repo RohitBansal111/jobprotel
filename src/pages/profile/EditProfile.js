@@ -65,6 +65,7 @@ const EditProfile = () => {
   const [editData, setEditData] = useState([]);
   const authData = useSelector((state) => state.auth.user);
 
+  console.log(previewImg)
   const resumeHandler = (e) => {
     const files = e.target.files[0];
     setResumeFile(files);
@@ -108,6 +109,7 @@ const EditProfile = () => {
   const getExtraCertificate = async (id) => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
+    console.log(response)
     if (resp.status === 200 && response.length > 0) {
       // setLoading(false);
       let arr = [];
@@ -118,6 +120,7 @@ const EditProfile = () => {
           id: resp.id,
         };
         arr.push(obj);
+        console.log(obj)
       });
       setPreviewImg(arr);
     }

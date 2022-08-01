@@ -50,8 +50,9 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       userId: authData.id,
       remarks: "test",
     };
+    try{
     const resp = await jobServices.applyJob(payload);
-    if (resp.status == 200) {
+    // if (resp.status == 200) {
       getJobList(activePage);
       const resp2 = await studentServices.getStudentDetails(authData.id);
       if (resp.status === 200) {
@@ -61,22 +62,26 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
           token: localStorage.getItem("jobPortalUserToken"),
         });
       }
+      console.log(resp.data.data.message,"+++++++")
       toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
+        !resp.data.status ? resp.data.data.message : "Something went wrong"
       );
-    } else {
-      if (resp.errors && typeof resp.errors === "object") {
-        let errors = "";
-        let keys = Object.keys(resp.errors);
-        keys.forEach((key) => {
-          errors = key + "," + errors;
-        });
+    // }
+   } catch(error) {
+    // console.log(error.response,"++++++++++")
+    
+      // if (resp.errors && typeof resp.errors === "object") {
+      //   let errors = "";
+      //   let keys = Object.keys(resp.errors);
+      //   keys.forEach((key) => {
+      //     errors = key + "," + errors;
+      //   });
 
-        errors = errors.replace(/,\s*$/, "");
-        toast.error(errors + "is Required");
-      } else if (resp.error) {
-        toast.error(resp.error ? resp.error : "Something went wrong");
-      }
+      //   errors = errors.replace(/,\s*$/, "");
+      //   toast.error(errors + "is Required");
+      // } else if (resp.error) {
+      //   toast.error(resp.error ? resp.error : "Something went wrong");
+      // }
     }
   };
   return (
