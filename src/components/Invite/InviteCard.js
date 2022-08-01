@@ -40,7 +40,7 @@ const InviteCard = ({
     }
   };
   console.log(jobInvitations);
-  const handleChatNow = () => navigate("/employer-inbox");
+  const handleChatNow = (id,jobId) => navigate(`/inbox/${id}/${jobId}`);
 
   return (
     <>
@@ -127,9 +127,10 @@ const InviteCard = ({
               ) : invites?.jobInvitationStatus === 1 ? (
                 <>
                   {/* <h3 style={{ color: "green", marginRight:"-800px" }}>Accepted</h3> */}
+                 <p>{console.log(invites)}</p>
                   <button
                     type="button"
-                    onClick={handleChatNow}
+                    onClick={()=>handleChatNow(invites.userId,invites.jobId)}
                     className="btn btn-primary mr-2"
                   >
                     <i className="fa fa-comments mr-2"></i> Chat Now

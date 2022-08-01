@@ -23,6 +23,7 @@ const Header = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
       );
     }
+    console.log(authData,"authData")
   }, [authData]);
 
   const [userData, setUserData] = useState([]);

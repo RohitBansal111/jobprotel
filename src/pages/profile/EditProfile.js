@@ -170,6 +170,12 @@ const EditProfile = () => {
   };
 
   const getStudentData = async (id = authData.id) => {
+    
+    setStudentProfilePic(UserAvtar);
+    setImg({
+      // ...img,
+      personalInfoImg: UserAvtar,
+    });
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       setLoading(false);
@@ -378,6 +384,7 @@ const EditProfile = () => {
         getStudentData(authData.id);
       }
     } else if (resp.errors && typeof resp.errors === "object") {
+      setLoading(false);
       let errors = "";
       let keys = Object.keys(resp.errors);
       keys.forEach((key) => {
@@ -387,6 +394,7 @@ const EditProfile = () => {
       errors = errors.replace(/,\s*$/, "");
       toast.error(errors + "is Required");
     } else if (resp.error) {
+      setLoading(false);
       toast.error(resp.error ? resp.error : "Something went wrong");
     }
   };

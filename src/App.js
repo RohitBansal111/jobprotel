@@ -85,7 +85,7 @@ function App() {
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />
         <Route path="/posted-jobs" element={<PostedJob />} />
         <Route path="/jobs-applied" element={<StudentApplication />} />
-        <Route path="/inbox" element={<Inbox />} />
+        <Route path="/inbox/:userId/:jobId" element={<Inbox />} />
         <Route path="/notifications" element={<Notification />} />
 
         <Route
