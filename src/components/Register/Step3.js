@@ -377,33 +377,29 @@ const Step3 = ({
                   <ul className="uploaded-documents">
                     {previewImg &&
                       previewImg.length > 0 &&
-                      previewImg.map((img, index) => ( 
+                      previewImg.map((img, index) => (
                         <>
                           <li key={index}>
                             <div className="change-title">
                               <label>{index + 1}. File Title</label>
-                              <div className="d-flex">
-                                <input 
-                                  name="title"
-                                  className="edit-profile-file"
-                                  onChange={(e) => handleFormChange(index, e)}
-                                  value={img.title}
-                                />
-                                <button className="btn btn-edit p-0 ps-3">
-                                  <i
-                                    className="fa fa-times-circle"
-                                    aria-hidden="true"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() =>
-                                      manageCertificates(img.certificates.name)
-                                    }
-                                  />
-                                </button>
-                              </div>
-                             
+                              <input
+                                name="title"
+                                onChange={(e) => handleFormChange(index, e)}
+                                value={img.title}
+                              />
                             </div>
                             <div className="uploaded-file-name">
                               <span>{img.certificates.name}</span>
+                              <button className="btn btn-remove">
+                                <i
+                                  className="fa fa-times-circle"
+                                  aria-hidden="true"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    manageCertificates(img.certificates.name)
+                                  }
+                                />
+                              </button>
                             </div>
                           </li>
                         </>

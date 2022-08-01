@@ -130,7 +130,7 @@ const InviteCard = ({
                  <p>{console.log(invites)}</p>
                   <button
                     type="button"
-                    onClick={()=>handleChatNow(invites.company?.id,invites.jobId)}
+                    onClick={()=>handleChatNow(invites.userId,invites.jobId)}
                     className="btn btn-primary mr-2"
                   >
                     <i className="fa fa-comments mr-2"></i> Chat Now
