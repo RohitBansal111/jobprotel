@@ -417,11 +417,6 @@ const EditProfile = () => {
   }
   const handleImageChange = (event) => {
     // console.log(event.target.files[0]);
-    setStudentProfilePic(UserAvtar);
-    setImg({
-      // ...img,
-      personalInfoImg: UserAvtar,
-    });
     setModal(true);
     if (event.target.files && event.target.files.length > 0) {
       setImageValid(true);

@@ -182,8 +182,8 @@ export const applyJob = async (data) => {
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.message
-          ? err.response.data.message
+        err.response && err.response.data && err.response.data.data && err.response.data.data.message
+          ? err.response.data.data.message
           : err.message,
       status: 400,
     };
