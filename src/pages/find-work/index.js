@@ -39,12 +39,11 @@ const FindWork = () => {
   }, [authData]);
 
   useEffect(() => {
-    // if(authData?.studentDetails?.kycStatus === "true"){
     setTimeout(() => {
       setKycStatus(false);
     }, 1000);
-    // }
   }, []);
+
   const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
@@ -65,7 +64,7 @@ const FindWork = () => {
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
       setLoading(false);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -185,11 +184,12 @@ const FindWork = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears && "Year"}
+                          {studentData?.studentDetails?.experienceInYears &&
+                            "Year"}
                           {", "}
                           {studentData?.studentDetails?.experienceInMonths}{" "}
-                          {studentData?.studentDetails?.experienceInMonths && "Month"}
-                           
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            "Month"}
                         </span>
                       </li>
                       <li>

@@ -2,9 +2,13 @@ import axios from "axios";
 
 export const postExtraCertificates = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/AddExtracertificate`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -25,8 +29,12 @@ export const postExtraCertificates = async (data) => {
 
 export const getExtraCertificates = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/GetExtraCertificateByUser/studentID?studentID=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/GetExtraCertificateByUser/studentID?studentID=${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -47,8 +55,13 @@ export const getExtraCertificates = async (id) => {
 
 export const deleteExtraCertificates = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
+
     const resp = await axios.delete(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/DeleteExtraCertificate/certId?certId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/DeleteExtraCertificate/certId?certId=${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -69,9 +82,14 @@ export const deleteExtraCertificates = async (id) => {
 
 export const updateExtraCertificatesTitle = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
+
     const resp = await axios.put(
       `${process.env.REACT_APP_PUBLIC_API_URL}/ExtraCertificates/EditExtracertificate/certId`,
-      data
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;

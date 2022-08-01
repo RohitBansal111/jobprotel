@@ -95,8 +95,6 @@ const Login = () => {
                             component={renderField}
                             placeholder="Enter email address"
                             type="text"
-                            value={userName}
-                            //onChange={handleChange}
                           />
                         </div>
                         <div className="form-field flex100">
@@ -106,26 +104,22 @@ const Login = () => {
                             component={renderField}
                             placeholder="Enter password"
                             type={showLoginPassword ? "password" : "text"}
-                            value={password}
-                            //onChange={handleChange}
                           >
-                            {password !== "" && (
-                              <span className="eye-btn">
-                                {showLoginPassword ? (
-                                  <i
-                                    className="fa fa-eye-slash"
-                                    aria-hidden="true"
-                                    onClick={handlePassword}
-                                  />
-                                ) : (
-                                  <i
-                                    className="fa fa-eye"
-                                    aria-hidden="true"
-                                    onClick={handlePassword}
-                                  />
-                                )}
-                              </span>
-                            )}
+                            <span className="eye-btn">
+                              {showLoginPassword ? (
+                                <i
+                                  className="fa fa-eye-slash"
+                                  aria-hidden="true"
+                                  onClick={handlePassword}
+                                />
+                              ) : (
+                                <i
+                                  className="fa fa-eye"
+                                  aria-hidden="true"
+                                  onClick={handlePassword}
+                                />
+                              )}
+                            </span>
                           </Field>
                         </div>
                         <div className="form-field flex100">

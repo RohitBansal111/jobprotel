@@ -22,7 +22,6 @@ const PostedJob = () => {
   const [loading, setLoading] = useState(true);
 
   const authData = useSelector((state) => state.auth.user);
-
   useEffect(async () => {
     if (authData) {
       setId(authData.id);

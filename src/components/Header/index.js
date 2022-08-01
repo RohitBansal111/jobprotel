@@ -28,7 +28,7 @@ const Header = () => {
   const [userData, setUserData] = useState([]);
   const dispatch = useDispatch();
   const [mobileMenu, setmobileMenu] = useState("");
-  const [role, setRole] = useState("EMPLOYER");
+  const [role, setRole] = useState("Employer");
 
   const menuToggle = () => {
     setmobileMenu("navbar-mobile");
@@ -63,7 +63,7 @@ const Header = () => {
       <div className="container d-flex align-items-center justify-content-between">
         <div className="inner-logo">
           <Link
-            to={role === "EMPLOYER" ? "/posted-jobs" : "/find-work"}
+            to={role === "Employer" ? "/posted-jobs" : "/find-work"}
             className="logo d-flex align-items-center"
           >
             <img src={Logo} alt="Real Job" />
@@ -72,7 +72,7 @@ const Header = () => {
         <div className="right-side-nav">
           <nav id="navbar" className={`navbar ${mobileMenu}`}>
             <ul>
-              {role !== "EMPLOYER" ? (
+              {role !== "Employer" ? (
                 <>
                   <li>
                     <NavLink
@@ -254,7 +254,7 @@ const Header = () => {
                   <Link
                     className="dropdown-item"
                     to={
-                      role === "EMPLOYER"
+                      role === "Employer"
                         ? "/employer/profile"
                         : "/student/profile"
                     }
@@ -266,12 +266,12 @@ const Header = () => {
                 <li>
                   <Link
                     className="dropdown-item"
-                    to={role === "EMPLOYER" ? "/posted-jobs" : "/find-work"}
+                    to={role === "Employer" ? "/posted-jobs" : "/find-work"}
                   >
                     <i className="fas fa-tachometer-alt"></i> Dashboard
                   </Link>
                 </li>
-                {role === "EMPLOYER" ? null : (
+                {role === "Employer" ? null : (
                   <li>
                     <Link className="dropdown-item" to="/student/edit-profile">
                       <i className="fas fa-user-cog"></i> Edit Profile

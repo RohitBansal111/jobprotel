@@ -37,6 +37,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     } else {
       formData.append("logoUrl", null);
     }
+    
     if (authData.id) {
       const resp = await employerServices.updateEmployerDetails(
         authData.id,
@@ -44,10 +45,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       );
       if (resp.status == 200) {
         setLoading(false);
-
         const resp2 = await employerServices.getEmployerDetails(authData.id);
-        console.log(resp2, "employer data");
-        console.log(resp2.data.data, "employer data");
         localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
 
         if (resp2.status == 200) {
@@ -61,7 +59,13 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-        getEmployerDetails();
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
+
+        if(authData){
+          getEmployerDetails(authData.id);
+        }
         document.getElementById("modelClose").click();
       } else if (resp.errors && typeof resp.errors === "object") {
         setLoading(false);
@@ -143,7 +147,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
 
   const handleImageChange = (event) => {
     setModal(true);
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files?.length > 0) {
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
     }
   };
