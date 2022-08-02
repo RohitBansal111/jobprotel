@@ -44,7 +44,7 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch }) => {
+const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser}) => {
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">
@@ -58,7 +58,8 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
       <ul>
         {users && users.length > 0 && users.map((item, index) => {
           return (
-            <li key={index} className="activeChat" onClick={() => handleUser(item)}>
+            <li key={index} className="activeChat" >
+              <div className="d-flex justify-content-between" onClick={() => handleUser(item)}>
               <div className="client-avtar">
                 <img src={process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />
                 <span style={{ backgroundColor: "grey" }}></span>
@@ -66,6 +67,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
               <div className="client-info">
                 <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student' ? item.employerDisplayName : item.studentDisplayName}</h5>
                 <p>{item.message}</p>
+              </div>
               </div>
               <div className="channel-action">
                 <button
@@ -87,8 +89,8 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
                   </svg>
                 </button>
                 <ul className="dropdown-menu" role="menu">
-                  <li>Block</li>
-                  <li>Close</li>
+                  <li onClick={()=>handleDeleteUser(item.chatRoomID)}>Delete</li>
+                  <li onClick={()=>handleCloseUser(item.chatRoomID)}>Close</li>
                 </ul>
               </div>
             </li>

@@ -6,7 +6,7 @@ import * as employerServices from "../../services/employerServices";
 import * as jobServices from "../../services/jobServices";
 import { useSelector } from "react-redux";
 import app from "../../helpers/firebase";
-import { getDatabase, ref, set, onValue, child, query, equalTo, orderByValue, get, update } from "@firebase/database";
+import { getDatabase, ref, set, onValue, child, query, equalTo, orderByValue, get, update ,remove} from "@firebase/database";
 import { useParams } from "react-router";
 
 
@@ -40,7 +40,7 @@ const Inbox = () => {
                setReceiverId(userId);
                getJobDetails(jobId);
                if (user.userRoles[0] === "Student") {
-                    const rid = user.id + '_' + userId;
+                    const rid = user.id + '_' + userId + '_'+jobId;
                     setRoomId(rid);
                     const resp = await getEmployerDetails(userId);
                     if (resp.status == 200) {
@@ -54,7 +54,7 @@ const Inbox = () => {
                          addUser(rid, user.fullName, user.studentDetails.pictureUrl, resp.data.data.fullName, resp.data.data.comapanyDetail.logoPath, user.id, resp.data.data.id)
                     }
                } else {
-                    const rid = userId + '_' + user.id;
+                    const rid = userId + '_' + user.id + '_'+ jobId;
                     setRoomId(rid);
                     const resp = await getStudentDetails(user.id);
                     if (resp.status == 200) {
@@ -105,7 +105,8 @@ const Inbox = () => {
                sender: user.id,
                studentId: studentId,
                employerId: employerId,
-               jobId: jobId
+               jobId: jobId,
+               block:false
 
           });
           readUsers()
@@ -274,7 +275,7 @@ const Inbox = () => {
           
      }, [user]);
 
-     const handleUser = (val) => {
+     const handleUser = (val) => { console.log("handleuser")
                setRoomId(val.chatRoomID);
                if(user.userRoles[0] && user.userRoles[0] == "Student")
                {
@@ -289,10 +290,50 @@ const Inbox = () => {
           
      }
 
-     const handleSearchSubmit =()=>{
-
+     const handleSearchSubmit =(e)=>{
+          e.preventDefault()
+          if(search !='' && search.length > 0)
+          {
+               if(user && user.userRoles[0] && user.userRoles[0] == "Student")
+               {
+                   
+                    const newUsers = users.filter((data)=>{
+                        if(data.employerDisplayName.toLowerCase().includes(search.toLowerCase()))
+                        {
+                         return data;
+                        }
+                    })
+                    setUsers(newUsers)
+               }else{
+                    const newUsers = users.filter((data)=>{
+                         if(data.studentDisplayName.toLowerCase().includes(search.toLowerCase()))
+                         {
+                          return data;
+                         }
+                     })
+                     setUsers(newUsers)
+               }
+               
+          }else{
+               readUsers();
+          }
+            
      }
 
+     const handleCloseUser =async(roomId)=>{
+          //update last message
+          
+          const updates = {};
+          updates['/message/'] = message;
+
+          await update(ref(db, "User/" + roomId), updates);
+          readUsers();
+     }
+     const handleDeleteUser =async(roomId)=>{
+         console.log("roomId23",roomId)
+          await remove(ref(db, "User/" + roomId));
+          readUsers();
+     }
 
      console.log(users, "users")
      return (
@@ -320,6 +361,8 @@ const Inbox = () => {
                                    handleSearchSubmit={handleSearchSubmit}
                                    search={search}
                                    setSearch={setSearch}
+                                   handleDeleteUser={handleDeleteUser}
+                                   handleCloseUser={handleCloseUser}
                                    />
                          </div>
                     </section>
