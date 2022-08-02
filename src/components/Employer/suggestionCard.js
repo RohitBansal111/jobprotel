@@ -13,9 +13,8 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
 
   const jobInvite = async () => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userid);
-    console.log(resp);
     if (resp.status === 200) {
-      toast.success(resp.data.message  ? resp.data.message : "Something went wrong")
+      toast.success(resp.data.data.message  ? resp.data.data.message : "Something went wrong")
       setInvitation(!invitation);
     }
   };
@@ -32,7 +31,7 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
           <div className="feeds-s-logo">
             <Link to="/public">
               <img
-                src={process.env.REACT_APP_IMAGE_API_URL + userData.pictureUrl}
+                src={process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl}
                 alt="Company Logo"
                 width="100px"
                 height="100px"
@@ -45,7 +44,7 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
                 {" "}
                 {userData?.user?.firstName} {userData?.user?.lastName}
               </Link>{" "}
-              <span className="desgination">(FrontEnd Developer)</span>{" "}
+              <span className="desgination">({userData?.designation?.title})</span>{" "}
             </h2>
             <ul className="feeds-s-ul">
               <li>

@@ -29,7 +29,7 @@ const InviteCard = ({
       invitationStatus: st,
     };
     const resp = await updateInvitationService.updateInvitationStatus(data);
-    console.log(resp);
+    // console.log(resp);
     if (resp.status === 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
@@ -39,7 +39,6 @@ const InviteCard = ({
       }
     }
   };
-  console.log(jobInvitations);
   const handleChatNow = (id,jobId) => navigate(`/inbox/${id}/${jobId}`);
 
   return (
@@ -127,7 +126,6 @@ const InviteCard = ({
               ) : invites?.jobInvitationStatus === 1 ? (
                 <>
                   {/* <h3 style={{ color: "green", marginRight:"-800px" }}>Accepted</h3> */}
-                 <p>{console.log(invites)}</p>
                   <button
                     type="button"
                     onClick={()=>handleChatNow(invites.userId,invites.jobId)}
@@ -143,7 +141,7 @@ const InviteCard = ({
           </div>
         </div>
       ))}
-      {totalRecords > 0 && (
+      {totalRecords > 5 && (
         <div>
           <Pagination
             activePage={activePage}

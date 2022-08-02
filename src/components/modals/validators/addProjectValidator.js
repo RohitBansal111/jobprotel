@@ -1,5 +1,9 @@
 const AddProjectValidator = (values) => {
   const error = {};
+  const regex = new RegExp(
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+
   if (!values.title) {
     error.title = "Required title";
   }
@@ -23,6 +27,8 @@ const AddProjectValidator = (values) => {
   }
   if (!values.companyEmail) {
     error.companyEmail = "Required company email address";
+  } else if (!regex.test(values.companyEmail)) {
+    error.companyEmail = "Please enter a valid email address";
   }
   console.log(error)
   return error;

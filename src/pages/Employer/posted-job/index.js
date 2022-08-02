@@ -26,7 +26,7 @@ const PostedJob = () => {
     if (authData) {
       setId(authData.id);
       setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
       );
       getJobList(authData.id, activePage);
     }
@@ -45,8 +45,8 @@ const PostedJob = () => {
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
-      console.log(response.data.data);
       setLoading(false);
+      console.log(response.data.data);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -235,7 +235,7 @@ const PostedJob = () => {
                       ))
                     )}
                   </div>
-                  {totalRecords > 0 && (
+                  {totalRecords > 5 && (
                     <Pagination
                       activePage={activePage}
                       itemsCountPerPage={pageSize}

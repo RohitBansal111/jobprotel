@@ -112,9 +112,13 @@ export const getJobListByStudent = async (data) => {
 
 export const getStudentListSuggestions = async (data) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken")
     const resp = await axios.post(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/StudentListNotSendInvite?jobId=${data.jobId}`,
-      data
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/StudentListNotSendInvite`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -134,7 +138,7 @@ export const getStudentListSuggestions = async (data) => {
 };
 
 export const sendStudentJobInvitations = async (jobId, userId) => {
-  const data = { jobId, userIds: [userId] };
+  const data = { jobId, userId };
   try {
     let token = localStorage.getItem("jobPortalUserToken")
 

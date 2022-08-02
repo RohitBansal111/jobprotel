@@ -64,7 +64,7 @@ const Applications = () => {
                         <EmployerReviewCard user={data} key={i} />
                       ))}
                   </div>
-                  {totalRecords > 0 &&  (
+                  {totalRecords > 5 &&  (
                     <Pagination
                       activePage={pageNumber}
                       itemsCountPerPage={pageSize}

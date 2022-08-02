@@ -19,7 +19,6 @@ const MyApplications = () => {
 
   const getAppliedJobs = async (id, activePage = activePage, search) => {
     let data = {
-      // userId: id,
       serachItem: search,
       pageNumber: activePage,
       pageSize: pageSize,
@@ -27,7 +26,7 @@ const MyApplications = () => {
     const resp = await jobsAppliedServices.getAppliedJobsByUserId(data);
     if (resp.status === 200) {
       let response = resp.data.data;
-       console.log(response);
+      //  console.log(response);
       setLoading(false);
       setTotalRecords(resp.data.totalCount);
       if (response.jobs.length > 0) {

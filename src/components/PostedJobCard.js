@@ -21,7 +21,6 @@ TimeAgo.addLocale(ru);
 
 const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
   const dispatch = useDispatch();
-
   const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
   const [jobId, setJobId] = useState("");
@@ -50,9 +49,8 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       userId: authData.id,
       remarks: "test",
     };
-    try{
-    const resp = await jobServices.applyJob(payload);
-    // if (resp.status == 200) {
+    try {
+      const resp = await jobServices.applyJob(payload);
       getJobList(activePage);
       const resp2 = await studentServices.getStudentDetails(authData.id);
       if (resp.status === 200) {
@@ -62,21 +60,18 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
           token: localStorage.getItem("jobPortalUserToken"),
         });
       }
-      console.log(resp.data.data.message,"+++++++")
+      console.log(resp, "+++++++");
       toast.success(
-        !resp.data.status ? resp.data.data.message : "Something went wrong"
+        resp.data.data.message ? resp.data.data.message : "Something went wrong"
       );
-    // }
-   } catch(error) {
-    // console.log(error.response,"++++++++++")
-    
+    } catch (error) {
+      // console.log(error.response,"++++++++++")
       // if (resp.errors && typeof resp.errors === "object") {
       //   let errors = "";
       //   let keys = Object.keys(resp.errors);
       //   keys.forEach((key) => {
       //     errors = key + "," + errors;
       //   });
-
       //   errors = errors.replace(/,\s*$/, "");
       //   toast.error(errors + "is Required");
       // } else if (resp.error) {
@@ -84,6 +79,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       // }
     }
   };
+
   return (
     <>
       <div className="feeds-search-coll">
@@ -156,7 +152,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
               ) : null}
             </p>
             <div className="d-flex">
-              {authData?.userRoles[0] === "EMPLOYER" ? (
+              {authData?.userRoles[0] === "Employer" ? (
                 <>
                   <button type="button" className="btn submit-btn me-2">
                     Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}

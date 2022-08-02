@@ -78,7 +78,6 @@ const EmployerProfile = () => {
   const getActiveJobs = async (id, activePage = activePage) => {
     let data = {
       serachItem: "",
-      // userId: id,
       pageNumber: activePage,
       pageSize: pageSize,
     };
@@ -97,7 +96,6 @@ const EmployerProfile = () => {
   const getArchiveJobs = async (id, activePage = activePage) => {
     let data = {
       serachItem: "",
-      // userId: id,
       pageNumber: activePage,
       pageSize: pageSize,
     };
@@ -348,46 +346,45 @@ const EmployerProfile = () => {
                               id="nav-completed"
                               role="tabpanel"
                               aria-labelledby="nav-completed-tab"
-                            > 
+                            >
                               <div className="project-detail-list">
-                                  {activeJobs?.length > 0
-                                    ? activeJobs.map((active, i) => (
-                                        <div className="project-dbox" key={i}>
-                                          <h2 className="prname">
-                                            {active.title}
-                                          </h2>
-                                          <div className="prd-buget-column">
-                                            <div className="prdate-budgetprice">
-                                              <span className="prdate">
-                                                {active?.skills
-                                                  ?.split(",")
-                                                  .map((sk, i) => (
-                                                    <Link to="#" key={i}>
-                                                      {sk}
-                                                      {" ,"}
-                                                    </Link>
-                                                  ))}
-                                              </span>
-                                              {/* <span className="prbudget">With Budget <b>$550</b></span> */}
-                                            </div>
+                                {activeJobs?.length > 0
+                                  ? activeJobs.map((active, i) => (
+                                      <div className="project-dbox" key={i}>
+                                        <h2 className="prname">
+                                          {active.title}
+                                        </h2>
+                                        <div className="prd-buget-column">
+                                          <div className="prdate-budgetprice">
+                                            <span className="prdate">
+                                              {active?.skills
+                                                ?.split(",")
+                                                .map((sk, i) => (
+                                                  <Link to="#" key={i}>
+                                                    {sk}
+                                                    {" ,"}
+                                                  </Link>
+                                                ))}
+                                            </span>
+                                            {/* <span className="prbudget">With Budget <b>$550</b></span> */}
                                           </div>
                                         </div>
-                                      ))
-                                    : "No Active Jobs"}
+                                      </div>
+                                    ))
+                                  : "No Active Jobs"}
                                 <div className="project-pagination">
-                                  {totalRecords > 0 && 
-                                  <Pagination
-                                    activePage={activePage}
-                                    itemsCountPerPage={pageSize}
-                                    totalItemsCount={totalRecords}
-                                    pageRangeDisplayed={4}
-                                    onChange={handlePageChange}
-                                  />
-                                  }
+                                  {totalRecords > 5 && (
+                                    <Pagination
+                                      activePage={activePage}
+                                      itemsCountPerPage={pageSize}
+                                      totalItemsCount={totalRecords}
+                                      pageRangeDisplayed={4}
+                                      onChange={handlePageChange}
+                                    />
+                                  )}
                                 </div>
                               </div>
                             </div>
-
                             <div
                               className="tab-pane fade"
                               id="nav-inprogress"
@@ -420,7 +417,7 @@ const EmployerProfile = () => {
                                       ))
                                     : "No Archive Jobs"}
                                 </div>
-                                {totalRecordsArchive > 0 &&  (
+                                {totalRecordsArchive > 0 && (
                                   <div className="project-pagination">
                                     <Pagination
                                       activePage={activePageArchive}

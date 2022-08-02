@@ -13,7 +13,6 @@ const ApplicationCards = ({
   totalRecords,
   jobsApplied,
 }) => {
-  console.log(totalRecords)
   return (
     <>
       {jobsApplied?.jobs?.map((applied, i) => (
@@ -84,7 +83,7 @@ const ApplicationCards = ({
         </div>
       ))}
       <div>
-        {totalRecords > 0 && (
+        {totalRecords > 5 && (
           <Pagination
             activePage={activePage}
             itemsCountPerPage={pageSize}

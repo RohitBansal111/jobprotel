@@ -31,6 +31,7 @@ const FindWork = () => {
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
+      // console.log(authData)
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
@@ -360,7 +361,7 @@ const FindWork = () => {
                       ))
                     )}
                   </div>
-                  {totalRecords > 0 && (
+                  {totalRecords > 5 && (
                     <Pagination
                       activePage={activePage}
                       itemsCountPerPage={pageSize}

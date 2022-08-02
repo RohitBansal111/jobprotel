@@ -83,7 +83,6 @@ const Register = () => {
     companyName: "",
   });
 
-  console.log(employer);
   const [completeEmpInfo, setCompleteEmpInfo] = useState(false);
 
   const userBasicInfo = (data) => {
@@ -234,7 +233,6 @@ const Register = () => {
         );
         navigate("/");
       } else {
-        console.log(resp, "resp");
         setLoading(false);
         if (resp.errors && typeof resp.errors === "object") {
           let errors = "";
@@ -258,7 +256,6 @@ const Register = () => {
   };
 
   const EmployerCompleteInfo = (data, phoneNumberFlag, img) => {
-    console.log(img, "imgg");
     setEmployer({
       ...employer,
       ...data,
@@ -301,7 +298,6 @@ const Register = () => {
       );
     } else {
       setLoading(false);
-      console.log(resp);
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);

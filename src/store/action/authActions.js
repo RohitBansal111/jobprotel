@@ -38,10 +38,6 @@ export const login = (user, navigate) => {
         });
       } else {
         toast.error(resp.error ? resp.error : "Something went wrong");
-        // dispatch({
-        //   type: types.LOGIN_USER_FAILURE,
-        //   payload: resp.error,
-        // });
       }
     } catch (e) {
       dispatch({

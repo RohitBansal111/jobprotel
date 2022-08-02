@@ -31,8 +31,9 @@ const Invites = () => {
     const resp = await jobsInvitationServices.getJobInvitationlist(data);
     if (resp.status === 200) {
       let response = resp.data.data;
+      // console.log(resp);
       setLoading(false);
-      setTotalRecords(resp.data.totalCount);
+      setTotalRecords(resp?.data?.totalCount);
       if (response.length > 0) {
         setJobInvitations(response);
       }
@@ -50,8 +51,6 @@ const Invites = () => {
   useEffect(() => {
     if (authData) {
       getInvitations(authData.id, activePage);
-      // console.log(userId, authData.id);
-      // console.log(userId == authData.id, userId, authData.id, "ppp");
       if (status !== undefined && jobId !== undefined) {
         let id = authData.id;
         let userRoles = authData.roles;
@@ -81,7 +80,7 @@ const Invites = () => {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      navigate("/invite");
+      navigate("/invites");
     }
   };
 

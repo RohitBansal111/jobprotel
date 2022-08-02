@@ -1,29 +1,49 @@
 import SuggestionCard from "../../../components/Employer/suggestionCard";
 import Layout from "../../../components/Layout";
 import * as jobServices from "../../../services/jobServices";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { Loader } from "../../../components/Loader/Loader";
+import Pagination from "react-js-pagination";
 
 const EmployerJobSuggestion = () => {
   const { jobid } = useParams();
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activePage, setActivePage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
     getSuggestions(jobid);
   }, [jobid]);
 
   const getSuggestions = async (jobid) => {
-    const resp = await jobServices.getStudentListSuggestions({ jobId: jobid });
-    console.log(resp, "data");
+    let data = {
+      jobId: jobid,
+      pageNumber: activePage,
+      pageSize: pageSize,
+    };
+    const resp = await jobServices.getStudentListSuggestions(data);
     if (resp.status == 200) {
       setSuggestions(resp.data.data);
+      console.log(resp.data.data)
       setLoading(false);
-      console.log(resp.data.data, "aaaaaa");
+    } else if (resp.status == 400) {
+      setLoading(false);
+    } else {
+      setLoading(false);
     }
   };
-  // console.log(userId)
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+    setLoading(true);
+    if(jobid) {
+      getSuggestions(jobid, pageNumber);
+    }
+  };
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -44,20 +64,31 @@ const EmployerJobSuggestion = () => {
                     ) : suggestions && suggestions.length === 0 ? (
                       <h4>No suggestions found</h4>
                     ) : (
-                      suggestions &&
-                      suggestions.length > 0 &&
+                      suggestions?.length > 0 &&
                       suggestions.map((data, index) => (
                         <SuggestionCard
                           userData={data}
                           key={index}
                           jobId={jobid}
-                          userId={data.user.id}
+                          userId={data?.user?.id}
                         />
                       ))
                     )}
                   </div>
                 </li>
               </ul>
+            </div>
+
+            <div>
+              {totalRecords > 5 && (
+                <Pagination
+                  activePage={activePage}
+                  itemsCountPerPage={pageSize}
+                  totalItemsCount={totalRecords}
+                  pageRangeDisplayed={4}
+                  onChange={handlePageChange}
+                />
+              )}
             </div>
           </div>
         </section>

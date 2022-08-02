@@ -43,7 +43,7 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({users}) => {
+const ClientChannel = ({ users }) => {
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">
@@ -51,16 +51,24 @@ const ClientChannel = ({users}) => {
         <SearchIcon />
       </div>
       <ul>
-        {users && users.length> 0 && users.map((item, index) => {
-          return (
-            <li key={index}>
+        {users &&
+          users.length > 0 &&
+          users.map((item, index) => {
+            return (
+              <li key={index}>
                 <div className="client-avtar">
-                  <img src={process.env.REACT_APP_IMAGE_API_URL+item.studentUserImage} alt="client" />
+                  <img
+                    src={
+                      process.env.REACT_APP_IMAGE_API_URL +
+                      item.studentUserImage
+                    }
+                    alt="client"
+                  />
                   <span style={{ backgroundColor: "grey" }}></span>
                 </div>
                 <div className="client-info">
                   <h5>{item.studentDisplayName}</h5>
-                  <h5>  </h5>
+                  <h5> </h5>
                   <p>{item.message}</p>
                 </div>
                 <div className="channel-action">
@@ -87,9 +95,9 @@ const ClientChannel = ({users}) => {
                     <li>Close</li>
                   </ul>
                 </div>
-            </li>
-          );
-        })}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

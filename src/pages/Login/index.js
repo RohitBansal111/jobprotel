@@ -7,34 +7,23 @@ import { renderField } from "../../components/renderField";
 import { Link } from "react-router-dom";
 import toast from "toastr";
 import { useNavigate } from "react-router-dom";
-import * as authServices from "../../services/authServices";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../../store/action/authActions";
+
 const Login = () => {
   let titleStrings = new LocalizedStrings(titles);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   toast.options = { preventDuplicates: true };
   const [login, setLogin] = useState({
-    userName: "",
-    password: "",
     termsPrivacy: false,
   });
-  const [showLoginPassword, setShowLoginPassword] = useState(true);
 
-  const { userName, password, termsPrivacy } = login;
-  const handlePassword = () => setShowLoginPassword(!showLoginPassword);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLogin({
-      ...login,
-      [name]: value,
-    });
-    if (e.key === "Enter") {
-      console.log("do validate");
-    }
-  };
+  const [showPassword, setShowPassword] = useState(true);
+
+  const { termsPrivacy } = login;
+  const handlePassword = () => setShowPassword(!showPassword);
 
   const handleLogin = async (values) => {
     if (!termsPrivacy) {
@@ -44,6 +33,7 @@ const Login = () => {
       dispatch(authActions.login(values, navigate));
     }
   };
+
   const handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -103,10 +93,10 @@ const Login = () => {
                             label={titleStrings.passwordTitle}
                             component={renderField}
                             placeholder="Enter password"
-                            type={showLoginPassword ? "password" : "text"}
+                            type={showPassword ? "password" : "text"}
                           >
                             <span className="eye-btn">
-                              {showLoginPassword ? (
+                              {showPassword ? (
                                 <i
                                   className="fa fa-eye-slash"
                                   aria-hidden="true"

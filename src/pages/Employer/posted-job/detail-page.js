@@ -37,7 +37,6 @@ const EmployerJobDetailsPage = () => {
   }, [id]);
 
   useEffect(() => {
-    console.log(selector);
     if (selector) {
       setLoading(false);
       setConnects(selector?.comapanyDetail?.availableConnects);
@@ -45,7 +44,7 @@ const EmployerJobDetailsPage = () => {
   }, [selector]);
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
-    console.log(resp);
+    // console.log(resp);
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;

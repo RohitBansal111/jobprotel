@@ -1,6 +1,6 @@
-import { saveState } from "../store/localStorage"
-import { getInstance } from "./axiosFactory"
-import { get } from "lodash"
+import { saveState } from "../store/localStorage";
+import { getInstance } from "./axiosFactory";
+import { get } from "lodash";
 const axiosInstance = getInstance();
 
 export function loginSuccess(loginResult) {
@@ -13,13 +13,13 @@ export function loginFailure(failure) {
 
 export const login = (username, password) => {
   return new Promise((resolve, reject) => {
-    axiosInstance.post('/account/login', {
-      userid: username,
-      password: password,
-      loginWith: 'form'
-    })
+    axiosInstance
+      .post("/account/login", {
+        userid: username,
+        password: password,
+        loginWith: "form",
+      })
       .then((result) => {
-
         saveState({ auth: { ...get(result, "data"), loggedIn: true } });
         resolve(result.data);
         //dispatch(loginSuccess(result.data));
@@ -27,11 +27,6 @@ export const login = (username, password) => {
       .catch((error) => {
         // dispatch(loginFailure(error));
         reject(error.message);
-      })
-  })
-
-}
-
-
-
-
+      });
+  });
+};

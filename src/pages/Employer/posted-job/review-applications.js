@@ -12,7 +12,7 @@ const ReviewApplications = () => {
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [totalRecords, setTotalRecords] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [activePage, setActivePage] = useState(1);
 
   console.log(users, "data1");
@@ -27,8 +27,8 @@ const ReviewApplications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    // console.log(resp.data, "data");
     if (resp.status == 200) {
+      // setTotalRecords()
       setUsers(resp.data?.data[0]);
       setLoading(false);
     }
@@ -74,7 +74,7 @@ const ReviewApplications = () => {
                       // ))
                     }
                   </div>
-                  {totalRecords > 0 && (
+                  {totalRecords > 5 && (
                     <Pagination
                       activePage={pageNumber}
                       itemsCountPerPage={pageSize}

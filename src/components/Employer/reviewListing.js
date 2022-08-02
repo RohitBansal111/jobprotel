@@ -116,7 +116,7 @@ const EmployerReviewCard = ({
           </p>
         </div>
         <div>
-          {totalRecords > 0 && (
+          {totalRecords > 5 && (
             <Pagination
               activePage={activePage}
               itemsCountPerPage={pageSize}
