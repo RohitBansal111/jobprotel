@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/svg-icons/search";
-import ClientAvtar from "./../../assets/images/profile-img.jpg";
+// import ClientAvtar from "./../../assets/images/profile-img.jpg";
+
 
 const channelList = [
   {
@@ -43,61 +44,59 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({ users }) => {
+const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser,roomId}) => {
+  console.log("aman900",roomId)
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">
-        <input type="text" className="form-control" placeholder="Search" />
-        <SearchIcon />
+        <form onSubmit={handleSearchSubmit}>
+          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search" />
+          <button type="submit" className="btn-submit">
+            <SearchIcon />
+          </button>
+        </form>
       </div>
       <ul>
-        {users &&
-          users.length > 0 &&
-          users.map((item, index) => {
-            return (
-              <li key={index}>
-                <div className="client-avtar">
-                  <img
-                    src={
-                      process.env.REACT_APP_IMAGE_API_URL +
-                      item.studentUserImage
-                    }
-                    alt="client"
-                  />
-                  <span style={{ backgroundColor: "grey" }}></span>
-                </div>
-                <div className="client-info">
-                  <h5>{item.studentDisplayName}</h5>
-                  <h5> </h5>
-                  <p>{item.message}</p>
-                </div>
-                <div className="channel-action">
-                  <button
-                    type="button"
-                    tabIndex="0"
-                    data-toggle="dropdown"
-                    className="btn btn-action"
+        {users && users.length > 0 && users.map((item, index) => {
+          return (
+            <li key={index} className={roomId == item.chatRoomID?"activeChat":null} >
+              <div className="d-flex justify-content-between" onClick={() => handleUser(item)}>
+              <div className="client-avtar">
+                <img src={process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />
+                <span style={{ backgroundColor: "grey" }}></span>
+              </div>
+              <div className="client-info">
+                <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student' ? item.employerDisplayName : item.studentDisplayName}</h5>
+                <p>{item.message}</p>
+              </div>
+              </div>
+              <div className="channel-action">
+                <button
+                  type="button"
+                  tabIndex="0"
+                  data-toggle="dropdown"
+                  className="btn btn-action"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    viewBox="0 0 14 14"
+                    role="img"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      viewBox="0 0 14 14"
-                      role="img"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M3.52 6.75c0 .966-.789 1.75-1.76 1.75A1.755 1.755 0 010 6.75C0 5.784.788 5 1.76 5c.971 0 1.76.784 1.76 1.75m10.48 0c0 .966-.788 1.75-1.76 1.75a1.755 1.755 0 01-1.759-1.75c0-.966.788-1.75 1.759-1.75.972 0 1.76.784 1.76 1.75m-5.24 0c0 .966-.788 1.75-1.76 1.75a1.755 1.755 0 01-1.76-1.75C5.24 5.784 6.03 5 7 5c.972 0 1.76.784 1.76 1.75"
-                      ></path>
-                    </svg>
-                  </button>
-                  <ul className="dropdown-menu" role="menu">
-                    <li>Block</li>
-                    <li>Close</li>
-                  </ul>
-                </div>
-              </li>
-            );
-          })}
+                    <path
+                      fillRule="evenodd"
+                      d="M3.52 6.75c0 .966-.789 1.75-1.76 1.75A1.755 1.755 0 010 6.75C0 5.784.788 5 1.76 5c.971 0 1.76.784 1.76 1.75m10.48 0c0 .966-.788 1.75-1.76 1.75a1.755 1.755 0 01-1.759-1.75c0-.966.788-1.75 1.759-1.75.972 0 1.76.784 1.76 1.75m-5.24 0c0 .966-.788 1.75-1.76 1.75a1.755 1.755 0 01-1.76-1.75C5.24 5.784 6.03 5 7 5c.972 0 1.76.784 1.76 1.75"
+                    ></path>
+                  </svg>
+                </button>
+                <ul className="dropdown-menu" role="menu">
+                  <li onClick={()=>handleDeleteUser(item.chatRoomID)}>Delete</li>
+                  <li onClick={()=>handleCloseUser(item.chatRoomID)}>Close</li>
+                </ul>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

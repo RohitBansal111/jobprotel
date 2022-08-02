@@ -1,6 +1,9 @@
 .chat-feeds-wrapper{
   border-top: 1px solid #e0e0e0;
 }
+.chat-full-screen{
+  max-height: calc(100vh - 120px);
+}
 .client-chat-wrapper{
   padding: 0px;
   .channel-list-wrapper{
@@ -13,20 +16,20 @@
     ul{
       li{
         border-bottom: 1px solid #f2f2f2;
-        display: block;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        justify-content: space-between;
+        &.activeChat{
+          background-color: #ebebeb;
+        }
         a{
           display: flex;
           padding: 12px;
           cursor: pointer;
           &:hover{
             background-color: #f5f6f7;
-          }
-        }
-        &:hover{
-          .channel-action{
-            .btn-action{
-              display: block;
-            }
           }
         }
         .client-avtar{
@@ -45,8 +48,7 @@
           }
         }
         .client-info{
-          flex: 0 0 83%;
-          width: 0;
+          flex: 0 0 75%;
           h5{
             font-size: 15px;
             text-overflow: ellipsis;
@@ -69,25 +71,26 @@
         .channel-action{
           position: relative;
           height: 30px;
+          flex: 0 0 13%;
           .btn-action{
-            position: absolute;
             z-index: 999;
-            display: none;
+            padding: 5px;
             svg{
               width: 15px;
               height: 15px;
               cursor: pointer;
               fill: grey;
             }
-            &:hover{
-              ~.dropdown-menu{
-                display: block;
-              }
+          }
+          &:hover{
+            .dropdown-menu{
+              display: block;
             }
           }
           .dropdown-menu{
             right: 0px;
             left: auto;
+            top: 100%;
             margin: 0px;
             padding: 0px;
             box-shadow: 2px 3px 5px #eae9e9;
@@ -106,17 +109,21 @@
       height: 60px;
       position: relative;
       padding: 12px 15px;
-      svg{
-        width: 18px;
-        height: 18px;
-        fill: #a0a0a0;
+      .btn-submit{
         position: absolute;
-        left: 20px;
-        top: 22px;
+        right: 20px;
+        top: 17px;
+        border: none;
+        background-color: transparent;
+        svg{
+          fill: #a0a0a0;
+          width: 18px;
+          height: 18px;
+        }
       }
       .form-control{
         border: none;
-        padding-left: 35px;
+        padding-right: 35px;
       }
     }
   }
@@ -189,14 +196,34 @@
   }
 }
 .client-employer-chat{
+  min-height: calc(100vh - 278px);
   max-height: calc(100vh - 278px);
-  overflow: auto;
+  >div{
+    min-height: calc(100vh - 278px);
+    max-height: calc(100vh - 278px); 
+    >div{
+      min-height: calc(100vh - 278px);
+      max-height: calc(100vh - 278px);
+    }
+  }
   ul{
     li{
       display: flex;
       padding: 15px;
       &:hover{
         background-color: #f8f8f8;
+      }
+      &.rightChat{
+        justify-content: flex-end;
+        .chat-avtar{
+         
+        }
+        .chat-full-desc{
+          width: 100%;
+          text-align: right;
+          padding-right: 10px;
+          padding-left: 0px;
+        }
       }
       .chat-avtar{
         margin-right: 10px;
@@ -208,16 +235,15 @@
         }
       }
       .chat-full-desc{
+        padding-left: 10px;
         h5{
-          margin-bottom: 7px;
-          span{
-            color: darkgrey;
-            font-weight: 300;
-            font-size: 14px;
-          }
+          margin-bottom: 2px;
+          font-size: 16px;
         } 
-        p{
-
+        span{
+          color: darkgrey;
+          font-weight: 300;
+          font-size: 12px;
         }
       }
     }
