@@ -29,6 +29,7 @@ const Inbox = () => {
      const [errors, setErrors] = useState({});
      const [users, setUsers] = useState([]);
      const [jobTitle, setJobTitle] = useState("");
+     const [search, setSearch] = useState("");
      const [jobIdd, setJobIdd] = useState("");
      const { userId, jobId } = useParams();
 
@@ -217,11 +218,14 @@ const Inbox = () => {
                          {    
                               setRoomId(finalData[0]?.chatRoomID);
                               setJobIdd(finalData[0]?.jobId)
+                              setStudentDisplayName(finalData[0]?.studentDisplayName)
+                              setEmployerDisplayName(finalData[0]?.employerDisplayName)
+                              getJobDetails(finalData[0]?.jobId)
                               if(user && user.userRoles[0] && user.userRoles[0] == "Student")
                               {
-                                   setReceiverId(finalData[0].employerId)
+                                   setReceiverId(finalData[0]?.employerId)
                               }else{
-                                   setReceiverId(finalData[0].studentId)
+                                   setReceiverId(finalData[0]?.studentId)
                               }
                          }
                          setUsers(finalData)
@@ -236,11 +240,14 @@ const Inbox = () => {
                          {
                               setRoomId(finalData[0]?.chatRoomID)
                               setJobIdd(finalData[0]?.jobId)
+                              setStudentDisplayName(finalData[0]?.studentDisplayName)
+                              setEmployerDisplayName(finalData[0]?.employerDisplayName)
+                              getJobDetails(finalData[0]?.jobId)
                               if(user && user.userRoles[0] && user.userRoles[0] == "Student")
                               {
-                                   setReceiverId(finalData[0].employerId)
+                                   setReceiverId(finalData[0]?.employerId)
                               }else{
-                                   setReceiverId(finalData[0].studentId)
+                                   setReceiverId(finalData[0]?.studentId)
                               }
                          }
                          setUsers(finalData)
@@ -282,6 +289,9 @@ const Inbox = () => {
           
      }
 
+     const handleSearchSubmit =()=>{
+
+     }
 
 
      console.log(users, "users")
@@ -307,6 +317,9 @@ const Inbox = () => {
                                    studentDisplayName={studentDisplayName}
                                    employerDisplayName={employerDisplayName}
                                    jobTitle={jobTitle}
+                                   handleSearchSubmit={handleSearchSubmit}
+                                   search={search}
+                                   setSearch={setSearch}
                                    />
                          </div>\
                     </section>
