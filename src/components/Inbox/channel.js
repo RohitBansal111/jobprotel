@@ -44,7 +44,8 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser}) => {
+const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser,roomId}) => {
+  console.log("aman900",roomId)
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">
@@ -58,7 +59,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
       <ul>
         {users && users.length > 0 && users.map((item, index) => {
           return (
-            <li key={index} className="activeChat" >
+            <li key={index} className={roomId == item.chatRoomID?"activeChat":null} >
               <div className="d-flex justify-content-between" onClick={() => handleUser(item)}>
               <div className="client-avtar">
                 <img src={process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />

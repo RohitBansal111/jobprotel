@@ -6,8 +6,9 @@ import * as employerServices from "../../services/employerServices";
 import * as jobServices from "../../services/jobServices";
 import { useSelector } from "react-redux";
 import app from "../../helpers/firebase";
+import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, set, onValue, child, query, equalTo, orderByValue, get, update ,remove} from "@firebase/database";
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 
 
 const Inbox = () => {
@@ -31,8 +32,9 @@ const Inbox = () => {
      const [jobTitle, setJobTitle] = useState("");
      const [search, setSearch] = useState("");
      const [jobIdd, setJobIdd] = useState("");
+     const [roomStatus, setRoomStatus] = useState(false)
      const { userId, jobId } = useParams();
-
+     const navigate = useNavigate();
 
      useEffect(async () => {
           console.log(user, "user")
@@ -41,7 +43,7 @@ const Inbox = () => {
                getJobDetails(jobId);
                if (user.userRoles[0] === "Student") {
                     const rid = user.id + '_' + userId + '_'+jobId;
-                    setRoomId(rid);
+                    setRoomId(rid); console.log("aman12")
                     const resp = await getEmployerDetails(userId);
                     if (resp.status == 200) {
                          setStudentDisplayName(user?.fullName);
@@ -52,10 +54,11 @@ const Inbox = () => {
                          setEmployerId(resp.data.data.id)
                          //call function
                          addUser(rid, user.fullName, user.studentDetails.pictureUrl, resp.data.data.fullName, resp.data.data.comapanyDetail.logoPath, user.id, resp.data.data.id)
+                         navigate("/inbox")
                     }
                } else {
                     const rid = userId + '_' + user.id + '_'+ jobId;
-                    setRoomId(rid);
+                    setRoomId(rid);console.log("aman13")
                     const resp = await getStudentDetails(user.id);
                     if (resp.status == 200) {
 
@@ -66,6 +69,7 @@ const Inbox = () => {
                          setStudentId(resp.data.data.id)
                          setEmployerId(user.id)
                          addUser(rid, resp.data.data.fullName, resp.data.data.studentDetails.pictureUrl, user.fullName, user.comapanyDetail.logoPath, userId, user.id)
+                         navigate("/inbox")
                     }
                }
           }
@@ -198,7 +202,7 @@ const Inbox = () => {
      };
 
      const readUsers = async () => {
-
+          
           //get user roomes
           // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
           const starUserRef = ref(db, "User");
@@ -206,18 +210,22 @@ const Inbox = () => {
           onValue(starUserRef, (snapshot) => {
                const data = snapshot.val();
                console.log(data, 'data24')
-               if (data) {
+               if (data) { console.log(roomId,"aman67")
                     if (user.userRoles[0] == 'Student') {
                          //setUsers(current => [...current, data]);
                          const convertedData = Object.keys(data).map(d => {
                               return data[d];
                          })
-
+                         console.log(roomId,"aman68")
                          const finalData = convertedData.filter((data) => data.studentId == user.id)
-                         
-                         if(!roomId)
-                         {    
-                              setRoomId(finalData[0]?.chatRoomID);
+                         console.log("amanroom",roomId,roomStatus)
+                         console.log(roomId,"aman69")
+                         if(finalData.length > 0)
+                         {
+                         if(!roomId && !roomStatus)
+                         {    console.log("aman166",roomId)
+                              setRoomStatus(true)
+                              setRoomId(finalData[0]?.chatRoomID);console.log("aman15",roomId)
                               setJobIdd(finalData[0]?.jobId)
                               setStudentDisplayName(finalData[0]?.studentDisplayName)
                               setEmployerDisplayName(finalData[0]?.employerDisplayName)
@@ -230,6 +238,8 @@ const Inbox = () => {
                               }
                          }
                          setUsers(finalData)
+                         }
+                         
 
                     } else {
                          //setUsers(current => [...current, data]);
@@ -237,9 +247,10 @@ const Inbox = () => {
                               return data[d];
                          })
                          const finalData = convertedData.filter((data) => data.employerId == user.id)
-                         if(!roomId)
+                         if(!roomId && !roomStatus)
                          {
-                              setRoomId(finalData[0]?.chatRoomID)
+                              setRoomStatus(true)
+                              setRoomId(finalData[0]?.chatRoomID); console.log("aman17")
                               setJobIdd(finalData[0]?.jobId)
                               setStudentDisplayName(finalData[0]?.studentDisplayName)
                               setEmployerDisplayName(finalData[0]?.employerDisplayName)
@@ -258,6 +269,12 @@ const Inbox = () => {
                }
                else {
                     setUsers([]);
+                    //setRoomId("")
+                    setJobIdd("")
+                    setStudentDisplayName("")
+                    setEmployerDisplayName("")
+                    getJobDetails("")
+                    setMessages([])
 
                }
           });
@@ -271,12 +288,15 @@ const Inbox = () => {
           }
      }, [roomId]);
      useEffect(() => {
-          readUsers();
+          if(user)readUsers();
+          
           
      }, [user]);
 
      const handleUser = (val) => { console.log("handleuser")
-               setRoomId(val.chatRoomID);
+     if(val.chatRoomID){
+               setRoomId(val.chatRoomID); console.log("aman18")
+               console.log(val.chatRoomID,"aman19")
                if(user.userRoles[0] && user.userRoles[0] == "Student")
                {
                     setReceiverId(val.employerId);
@@ -287,6 +307,7 @@ const Inbox = () => {
                setEmployerDisplayName(val.employerDisplayName)
                getJobDetails(val.jobId);
                readMessage(val.chatRoomID);
+          }
           
      }
 
@@ -322,9 +343,9 @@ const Inbox = () => {
 
      const handleCloseUser =async(roomId)=>{
           //update last message
-          
+          console.log("close")
           const updates = {};
-          updates['/message/'] = message;
+          updates['/block/'] = true;
 
           await update(ref(db, "User/" + roomId), updates);
           readUsers();
@@ -363,6 +384,7 @@ const Inbox = () => {
                                    setSearch={setSearch}
                                    handleDeleteUser={handleDeleteUser}
                                    handleCloseUser={handleCloseUser}
+                                   roomId={roomId}
                                    />
                          </div>
                     </section>
