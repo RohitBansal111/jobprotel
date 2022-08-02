@@ -13,7 +13,14 @@
     ul{
       li{
         border-bottom: 1px solid #f2f2f2;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        cursor: pointer;
+        &.activeChat{
+          background-color: #ebebeb;
+        }
         a{
           display: flex;
           padding: 12px;
@@ -22,13 +29,13 @@
             background-color: #f5f6f7;
           }
         }
-        &:hover{
-          .channel-action{
-            .btn-action{
-              display: block;
-            }
-          }
-        }
+        // &:hover{
+        //   .channel-action{
+        //     .btn-action{
+        //       display: block;
+        //     }
+        //   }
+        // }
         .client-avtar{
           margin-right: 10px;
           flex: 0 0 10%;
@@ -45,8 +52,7 @@
           }
         }
         .client-info{
-          flex: 0 0 83%;
-          width: 0;
+          flex: 0 0 75%;
           h5{
             font-size: 15px;
             text-overflow: ellipsis;
@@ -69,25 +75,25 @@
         .channel-action{
           position: relative;
           height: 30px;
+          flex: 0 0 13%;
           .btn-action{
-            position: absolute;
             z-index: 999;
-            display: none;
             svg{
               width: 15px;
               height: 15px;
               cursor: pointer;
               fill: grey;
             }
-            &:hover{
-              ~.dropdown-menu{
-                display: block;
-              }
-            }
+            // &:hover{
+            //   ~.dropdown-menu{
+            //     display: block;
+            //   }
+            // }
           }
           .dropdown-menu{
             right: 0px;
             left: auto;
+            top: 100%;
             margin: 0px;
             padding: 0px;
             box-shadow: 2px 3px 5px #eae9e9;
@@ -189,14 +195,33 @@
   }
 }
 .client-employer-chat{
+  min-height: calc(100vh - 278px);
   max-height: calc(100vh - 278px);
-  overflow: auto;
+  >div{
+    min-height: calc(100vh - 278px);
+    max-height: calc(100vh - 278px); 
+    >div{
+      min-height: calc(100vh - 278px);
+      max-height: calc(100vh - 278px);
+    }
+  }
   ul{
     li{
       display: flex;
       padding: 15px;
       &:hover{
         background-color: #f8f8f8;
+      }
+      &.rightChat{
+        justify-content: flex-end;
+        .chat-avtar{
+         
+        }
+        .chat-full-desc{
+          width: 100%;
+          text-align: right;
+          padding-right: 10px;
+        }
       }
       .chat-avtar{
         margin-right: 10px;
