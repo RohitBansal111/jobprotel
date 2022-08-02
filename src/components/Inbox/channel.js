@@ -43,7 +43,7 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({users}) => {
+const ClientChannel = ({users,handleUser,user}) => {
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">
@@ -53,13 +53,13 @@ const ClientChannel = ({users}) => {
       <ul>
         {users && users.length> 0 && users.map((item, index) => {
           return (
-            <li key={index}>
+            <li key={index} onClick={()=>handleUser(item)}>
                 <div className="client-avtar">
                   <img src={process.env.REACT_APP_IMAGE_API_URL+item.studentUserImage} alt="client" />
                   <span style={{ backgroundColor: "grey" }}></span>
                 </div>
                 <div className="client-info">
-                  <h5>{item.studentDisplayName}</h5>
+                  <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student'?item.employerDisplayName:item.studentDisplayName}</h5>
                   <h5>  </h5>
                   <p>{item.message}</p>
                 </div>
