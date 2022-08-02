@@ -62,7 +62,6 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
               </div>
               <div className="client-info">
                 <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student' ? item.employerDisplayName : item.studentDisplayName}</h5>
-                <h5>  </h5>
                 <p>{item.message}</p>
               </div>
               {/* <div className="channel-action">
