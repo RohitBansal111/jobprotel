@@ -1,6 +1,9 @@
 .chat-feeds-wrapper{
   border-top: 1px solid #e0e0e0;
 }
+.chat-full-screen{
+  max-height: calc(100vh - 120px);
+}
 .client-chat-wrapper{
   padding: 0px;
   .channel-list-wrapper{
@@ -15,7 +18,6 @@
         border-bottom: 1px solid #f2f2f2;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         padding: 10px;
         cursor: pointer;
         &.activeChat{
@@ -29,13 +31,6 @@
             background-color: #f5f6f7;
           }
         }
-        // &:hover{
-        //   .channel-action{
-        //     .btn-action{
-        //       display: block;
-        //     }
-        //   }
-        // }
         .client-avtar{
           margin-right: 10px;
           flex: 0 0 10%;
@@ -78,17 +73,18 @@
           flex: 0 0 13%;
           .btn-action{
             z-index: 999;
+            padding: 5px;
             svg{
               width: 15px;
               height: 15px;
               cursor: pointer;
               fill: grey;
             }
-            // &:hover{
-            //   ~.dropdown-menu{
-            //     display: block;
-            //   }
-            // }
+          }
+          &:hover{
+            .dropdown-menu{
+              display: block;
+            }
           }
           .dropdown-menu{
             right: 0px;
@@ -112,17 +108,21 @@
       height: 60px;
       position: relative;
       padding: 12px 15px;
-      svg{
-        width: 18px;
-        height: 18px;
-        fill: #a0a0a0;
+      .btn-submit{
         position: absolute;
-        left: 20px;
-        top: 22px;
+        right: 20px;
+        top: 17px;
+        border: none;
+        background-color: transparent;
+        svg{
+          fill: #a0a0a0;
+          width: 18px;
+          height: 18px;
+        }
       }
       .form-control{
         border: none;
-        padding-left: 35px;
+        padding-right: 35px;
       }
     }
   }
@@ -221,6 +221,7 @@
           width: 100%;
           text-align: right;
           padding-right: 10px;
+          padding-left: 0px;
         }
       }
       .chat-avtar{
@@ -233,16 +234,15 @@
         }
       }
       .chat-full-desc{
+        padding-left: 10px;
         h5{
-          margin-bottom: 7px;
-          span{
-            color: darkgrey;
-            font-weight: 300;
-            font-size: 14px;
-          }
+          margin-bottom: 2px;
+          font-size: 16px;
         } 
-        p{
-
+        span{
+          color: darkgrey;
+          font-weight: 300;
+          font-size: 12px;
         }
       }
     }

@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/svg-icons/search";
-import ClientAvtar from "./../../assets/images/profile-img.jpg";
+// import ClientAvtar from "./../../assets/images/profile-img.jpg";
+
 
 const channelList = [
   {
@@ -49,13 +50,15 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
       <div className="client-search-box">
         <form onSubmit={handleSearchSubmit}>
           <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search" />
-          <input type="submit" value="search"/>
+          <button type="submit" className="btn-submit">
+            <SearchIcon />
+          </button>
         </form>
       </div>
       <ul>
         {users && users.length > 0 && users.map((item, index) => {
           return (
-            <li key={index} onClick={() => handleUser(item)}>
+            <li key={index} className="activeChat" onClick={() => handleUser(item)}>
               <div className="client-avtar">
                 <img src={process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />
                 <span style={{ backgroundColor: "grey" }}></span>
@@ -64,7 +67,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
                 <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student' ? item.employerDisplayName : item.studentDisplayName}</h5>
                 <p>{item.message}</p>
               </div>
-              {/* <div className="channel-action">
+              <div className="channel-action">
                 <button
                   type="button"
                   tabIndex="0"
@@ -87,7 +90,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
                   <li>Block</li>
                   <li>Close</li>
                 </ul>
-              </div> */}
+              </div>
             </li>
           );
         })}

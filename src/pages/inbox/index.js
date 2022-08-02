@@ -297,7 +297,7 @@ const Inbox = () => {
      console.log(users, "users")
      return (
           <Layout>
-               <div className="inner-page-wrapper">
+               <div className="inner-page-wrapper chat-full-screen">
                     <section className="topbg-banner">
                          <div className="container">
                               <div className="innerbg-banner"></div>
@@ -321,7 +321,7 @@ const Inbox = () => {
                                    search={search}
                                    setSearch={setSearch}
                                    />
-                         </div>\
+                         </div>
                     </section>
                </div>
           </Layout>

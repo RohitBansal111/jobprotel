@@ -15,8 +15,9 @@ const ClientEmployerChat = ({messages,user}) => {
                val.senderId === user._id ? (
                 <li className='employer-chat rightChat'>
                   <div className='chat-full-desc'>
-                    <h5> {val.displayName && val.displayName} <span>{timeAgo(val.dateTime)}</span></h5>
+                    <h5> {val.displayName && val.displayName} </h5>
                     <p>{val.message && val.message}</p>
+                    <span>{timeAgo(val.dateTime)}</span>
                   </div>
                   <div className='chat-avtar'>
                       <img src={process.env.REACT_APP_IMAGE_API_URL+val.userImage} alt="User" />
@@ -28,8 +29,9 @@ const ClientEmployerChat = ({messages,user}) => {
                       <img src={process.env.REACT_APP_IMAGE_API_URL+val.userImage} alt="User" />
                   </div>
                   <div className='chat-full-desc'>
-                    <h5> {val.displayName && val.displayName} <span>{timeAgo(val.dateTime)}</span></h5>
+                    <h5> {val.displayName && val.displayName} </h5>
                     <p>{val.message && val.message}</p>
+                    <span>{timeAgo(val.dateTime)}</span>
                   </div>
                 </li>
                
