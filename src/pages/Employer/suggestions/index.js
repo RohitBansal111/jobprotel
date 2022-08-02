@@ -40,7 +40,10 @@ const EmployerJobSuggestion = () => {
                 <li>
                   <div className="default-feeds-search">
                     {loading ? (
-                      <Loader />
+                      <div className="fullpage-loader py-5">
+                        {" "}
+                        <Loader />{" "}
+                      </div>
                     ) : suggestions && suggestions.length === 0 ? (
                       <h4>No suggestions found</h4>
                     ) : (
