@@ -1,7 +1,7 @@
 import ClientChannel from "./channel"
 import ClientChatBoxSingle from "./client-chat-box"
 
-const ChatInbox = ({ users, message, setMessage, handleSubmit, errors, messages, user, handleSubmitOnTextArea, handleUser, studentDisplayName, employerDisplayName ,jobTitle,handleSearchSubmit,search,setSearch}) => {
+const ChatInbox = ({ users, message, setMessage, handleSubmit, errors, messages, user, handleSubmitOnTextArea, handleUser, studentDisplayName, employerDisplayName ,jobTitle,handleSearchSubmit,search,setSearch,handleDeleteUser,handleCloseUser}) => {
 
 
     return (
@@ -15,6 +15,8 @@ const ChatInbox = ({ users, message, setMessage, handleSubmit, errors, messages,
                     handleSearchSubmit={handleSearchSubmit}
                     search={search}
                     setSearch={setSearch}
+                    handleDeleteUser={handleDeleteUser}
+                    handleCloseUser={handleCloseUser}
                     />
                 </div>
                 <div className="col-12 col-md-8 p-0">
