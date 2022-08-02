@@ -20,6 +20,7 @@
         align-items: center;
         padding: 10px;
         cursor: pointer;
+        justify-content: space-between;
         &.activeChat{
           background-color: #ebebeb;
         }
