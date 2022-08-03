@@ -24,7 +24,7 @@ const ClientEmployerChat = ({messages,user,receiverDisplayName}) => {
                   </div>
                 </li>
                 ):
-                <li className='employer-chat'>
+                <li className='employer-chat leftChat'>
                   <div className='chat-avtar'>
                       <img src={process.env.REACT_APP_IMAGE_API_URL+val.userImage} alt="User" />
                   </div>
