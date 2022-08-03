@@ -62,7 +62,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
             <li key={index} className={roomId == item.chatRoomID?"activeChat":null} >
               <div className="d-flex justify-content-between" onClick={() => handleUser(item)}>
               <div className="client-avtar">
-                <img src={process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />
+                <img src={user && user.userRoles[0] && user.userRoles[0] == "Student"?process.env.REACT_APP_IMAGE_API_URL + item.employerUserImage:process.env.REACT_APP_IMAGE_API_URL + item.studentUserImage} alt="client" />
                 <span style={{ backgroundColor: "grey" }}></span>
               </div>
               <div className="client-info">

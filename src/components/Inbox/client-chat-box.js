@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import EmojiIcon from "../../assets/svg-icons/emoji";
 import LaunchIcon from "./../../assets/svg-icons/launch";
 import ClientEmployerChat from "./client-employer-chat";
@@ -7,6 +7,9 @@ import Picker from '@emoji-mart/react'
 
 
 const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, errors, user, handleSubmitOnTextArea ,studentDisplayName,employerDisplayName,jobTitle,chatDisabled,addEmoji,receiverDisplayName}) => {
+  const [showEmoji, setShowEmoji] = useState(false)
+  const handleEmoji = () => setShowEmoji(!showEmoji)
+  const handleCloseEmoji = () => setShowEmoji(false)
   return (
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
@@ -20,23 +23,28 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
       </div>
       <div className="client-textarea-box">
         <form onSubmit={handleSubmit}>
-          <textarea
+          <input
             className="form-control"
             placeholder="Write a message..."
             value={message}
-            onKeyDown={handleSubmitOnTextArea}
+            // onKeyDown={handleSubmitOnTextArea}
             onChange={(e) => setMessage(e.target.value)}
             disabled={chatDisabled}
-          ></textarea>
+          />
           <span>{errors && errors.message && errors.message}</span>
-          <div className="emoji-action">
-            <div className="message-launch">
-            <Picker data={data} onEmojiSelect={addEmoji} />
-              <button type="submit" className="btn">
-                <LaunchIcon />
-              </button>
+          <button type="button" onClick={handleEmoji} className="emoji-button">😄</button>
+          {
+            showEmoji &&
+            <div className="emoji-action">
+              <div className="message-launch">
+              <button type="button" onClick={handleCloseEmoji} className="close-emoji">✕</button>
+              <Picker data={data} onEmojiSelect={addEmoji} />
+              </div>
             </div>
-          </div>
+          }
+          <button type="submit" className="btn-submit">
+            <LaunchIcon />
+          </button>
         </form>
       </div>
     </div>

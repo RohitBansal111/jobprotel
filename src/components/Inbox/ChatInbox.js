@@ -7,7 +7,7 @@ const ChatInbox = ({ users, message, setMessage, handleSubmit, errors, messages,
     return (
         <div className="client-chat-wrapper">
             <div className="row m-0">
-                <div className="col-12 col-md-4 p-0">
+                <div className="col-12 col-md-3 p-0">
                     <ClientChannel 
                     users={users} 
                     handleUser={handleUser} 
@@ -21,7 +21,7 @@ const ChatInbox = ({ users, message, setMessage, handleSubmit, errors, messages,
                     chatDisabled={chatDisabled}
                     />
                 </div>
-                <div className="col-12 col-md-8 p-0">
+                <div className="col-12 col-md-9 p-0">
                     <ClientChatBoxSingle
                         message={message}
                         setMessage={setMessage}

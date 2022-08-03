@@ -53,7 +53,7 @@
             font-size: 15px;
             text-overflow: ellipsis;
             overflow: hidden;
-            width: 92%;
+            width: 100%;
             height: 1.2em;
             white-space: nowrap;
             color: $Dark-heading;
@@ -62,7 +62,7 @@
             font-size: 15px;
             text-overflow: ellipsis;
             overflow: hidden;
-            width: 92%;
+            width: 100%;
             height: 1.2em;
             color: grey;
             white-space: nowrap;
@@ -167,17 +167,57 @@
       border-top: 1px solid #e0e0e0;
       .form-control{
         min-height: 80px;
-        border: none;
+        border: none; 
         font-size: 14px;
         padding: 10px;
+        padding-right: 55px;
+      }
+      .emoji-button{
+        border: none;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        background-color: #fff;
+      }
+      .btn-submit{
+        position: absolute;
+        top: 15px;
+        right: 30px;
+        background-color: transparent;
+        border: none;
+        svg{
+          path{
+            fill: grey;
+          }
+        }
       }
       .emoji-action{
         .message-launch{
           position: absolute;
-          bottom: 0px;
-          right: 15px;
+          bottom: 82px;
+          left: 10px;
           display: flex;
           align-items: center;
+          .close-emoji{
+            background-color: #f72f2f;
+            color: #fff;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            z-index: 9;
+          }
           .emoji-icon{
             margin-right: 20px;
           }
@@ -210,11 +250,13 @@
     li{
       display: flex;
       padding: 15px;
+      width: 70%;
       &:hover{
         background-color: #f8f8f8;
       }
       &.rightChat{
         justify-content: flex-end;
+        margin-left: auto;
         .chat-avtar{
          
         }
@@ -236,6 +278,7 @@
       }
       .chat-full-desc{
         padding-left: 10px;
+        width: 90%;
         h5{
           margin-bottom: 2px;
           font-size: 16px;
@@ -244,6 +287,14 @@
           color: darkgrey;
           font-weight: 300;
           font-size: 12px;
+        }
+        p{
+          font-size: 14px;
+          width: 90%;
+          color: grey;
+          white-space: pre-wrap;
+          margin-left: auto;
+          word-break: break-word;
         }
       }
     }

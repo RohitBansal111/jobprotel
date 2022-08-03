@@ -172,6 +172,12 @@ section.complete-kyc {
               font-size: 14px;
               color: #576967;
               span {
+                flex: 0 0 55%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 100%;
+                color: grey;
+                white-space: nowrap;
                 &.result {
                   font-weight: 600;
                 }

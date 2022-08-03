@@ -10,8 +10,11 @@ import { useSelector, useDispatch } from "react-redux";
 import toast from "toastr";
 import * as types from "../../types/auth";
 import { Loader } from "../Loader/Loader";
+import app from "../../helpers/firebase";
+import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
 
 const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
+  const db = getDatabase(app);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   // const { employerData } = props;
@@ -45,6 +48,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       );
       if (resp.status == 200) {
         setLoading(false);
+        readUsers(authData.id,values.firstName,values.lastName);
         const resp2 = await employerServices.getEmployerDetails(authData.id);
         localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
 
@@ -59,9 +63,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 300);
+     //    setTimeout(() => {
+     //      window.location.reload();
+     //    }, 300);
 
         if(authData){
           getEmployerDetails(authData.id);
@@ -99,6 +103,29 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       }
     }
   };
+
+  const readUsers =  (userId,firstName,lastName) => {
+     const starUserRef = ref(db, "User");
+     onValue(starUserRef, (snapshot) => {
+          const data = snapshot.val();
+          if (data) { 
+           const convertedData = Object.keys(data).map(d => {
+             return data[d];
+        })
+        let finalData = convertedData.filter((data) => data.employerId == userId)
+            finalData.map((data)=>{
+               console.log(data,"data1")
+               const updates = {};
+               updates['/employerDisplayName/'] = firstName.charAt(0).toUpperCase() + firstName.slice(1)+" "+lastName;
+ 
+                update(ref(db, "User/" + data.chatRoomID), updates);
+              
+            })
+ 
+          }
+     });
+ 
+   };
 
   const [img, setImg] = useState({
     personalInfoImg: "",

@@ -367,6 +367,9 @@ const EditProfile = () => {
     const resp = await studentServices.updateStudentDetails(formData);
     if (resp.status === 200) {
       setLoadingUpdate(false)
+      //call firebase
+      readUsers(authData.id,values.firstname,values.lastname);
+
       const resp2 = await studentServices.getStudentDetails(id);
       localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
       if (resp2.status == 200) {
@@ -375,6 +378,8 @@ const EditProfile = () => {
           payload: resp2.data.data,
           token: localStorage.getItem("jobPortalUserToken"),
         });
+        
+        
       }
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
@@ -400,6 +405,28 @@ const EditProfile = () => {
       setLoading(false);
       toast.error(resp.error ? resp.error : "Something went wrong");
     }
+  };
+
+  const readUsers =  (userId,firstName,lastName) => {
+    const starUserRef = ref(db, "User");
+    onValue(starUserRef, (snapshot) => {
+         const data = snapshot.val();
+         if (data) { 
+          const convertedData = Object.keys(data).map(d => {
+            return data[d];
+       })
+       let finalData = convertedData.filter((data) => data.studentId == userId)
+           finalData.map((data)=>{
+              const updates = {};
+              updates['/studentDisplayName/'] = firstName.charAt(0).toUpperCase() + firstName.slice(1)+" "+lastName;
+
+               update(ref(db, "User/" + data.chatRoomID), updates);
+             
+           })
+
+         }
+    });
+
   };
   const closeModal = () => {
     setModal(false);
