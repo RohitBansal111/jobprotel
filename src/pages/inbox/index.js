@@ -7,7 +7,7 @@ import * as jobServices from "../../services/jobServices";
 import { useSelector } from "react-redux";
 import app from "../../helpers/firebase";
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref, set, onValue, child, query, equalTo, orderByValue, get, update ,remove} from "@firebase/database";
+import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
 import { Navigate, useParams } from "react-router";
 
 const Inbox = () => {
@@ -31,8 +31,10 @@ const Inbox = () => {
      const [jobTitle, setJobTitle] = useState("");
      const [search, setSearch] = useState("");
      const [jobIdd, setJobIdd] = useState("");
+     const [chatDisabled, setChatDisabled] = useState(false)
      const [roomStatus, setRoomStatus] = useState(false)
      const { userId, jobId } = useParams();
+     
      const navigate = useNavigate();
 
      useEffect(async () => {
@@ -136,9 +138,11 @@ const Inbox = () => {
           //update last message
           const updates = {};
           updates['/message/'] = message;
+          updates['/dateTime/'] = d1;
 
           await update(ref(db, "User/" + roomId), updates);
           readMessage(roomId)
+          readUsers(roomId);
 
      };
 
@@ -196,74 +200,21 @@ const Inbox = () => {
 
                }
           });
-
+          readUsers(roomId);
 
      };
 
-     const readUsers = async () => {
+     const readUsers = async (roomId) => {
           
           //get user roomes
           // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
-          const starUserRef = ref(db, "User");
+          const starUserRef = query(ref(db, "User"),orderByChild('dateTime'));
           //const refData= ref.order().equalTo(user.id, 'studentId');
           onValue(starUserRef, (snapshot) => {
                const data = snapshot.val();
                console.log(data, 'data24')
                if (data) { console.log(roomId,"aman67")
-                    if (user.userRoles[0] == 'Student') {
-                         //setUsers(current => [...current, data]);
-                         const convertedData = Object.keys(data).map(d => {
-                              return data[d];
-                         })
-                         console.log(roomId,"aman68")
-                         const finalData = convertedData.filter((data) => data.studentId == user.id)
-                         console.log("amanroom",roomId,roomStatus)
-                         console.log(roomId,"aman69")
-                         if(finalData.length > 0)
-                         {
-                         if(!roomId && !roomStatus)
-                         {    console.log("aman166",roomId)
-                              setRoomStatus(true)
-                              setRoomId(finalData[0]?.chatRoomID);console.log("aman15",roomId)
-                              setJobIdd(finalData[0]?.jobId)
-                              setStudentDisplayName(finalData[0]?.studentDisplayName)
-                              setEmployerDisplayName(finalData[0]?.employerDisplayName)
-                              getJobDetails(finalData[0]?.jobId)
-                              if(user && user.userRoles[0] && user.userRoles[0] == "Student")
-                              {
-                                   setReceiverId(finalData[0]?.employerId)
-                              }else{
-                                   setReceiverId(finalData[0]?.studentId)
-                              }
-                         }
-                         setUsers(finalData)
-                         }
-                         
-
-                    } else {
-                         //setUsers(current => [...current, data]);
-                         const convertedData = Object.keys(data).map(d => {
-                              return data[d];
-                         })
-                         const finalData = convertedData.filter((data) => data.employerId == user.id)
-                         if(!roomId && !roomStatus)
-                         {
-                              setRoomStatus(true)
-                              setRoomId(finalData[0]?.chatRoomID); console.log("aman17")
-                              setJobIdd(finalData[0]?.jobId)
-                              setStudentDisplayName(finalData[0]?.studentDisplayName)
-                              setEmployerDisplayName(finalData[0]?.employerDisplayName)
-                              getJobDetails(finalData[0]?.jobId)
-                              if(user && user.userRoles[0] && user.userRoles[0] == "Student")
-                              {
-                                   setReceiverId(finalData[0]?.employerId)
-                              }else{
-                                   setReceiverId(finalData[0]?.studentId)
-                              }
-                         }
-                         setUsers(finalData)
-
-                    }
+                    updateUsers(data,roomId)
 
                }
                else {
@@ -280,6 +231,78 @@ const Inbox = () => {
 
      };
 
+     ;
+     const updateUsers =(data,roomId)=>{
+          
+          if (user.userRoles[0] == 'Student') {
+               const convertedData = Object.keys(data).map(d => {
+                    return data[d];
+               })
+               let finalData = convertedData.filter((data) => data.studentId == user.id)
+               const sortByDate = finalData => {
+                    const sorter = (a, b) => {
+                       return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime();
+                    }
+                    finalData.sort(sorter);
+                 }
+               sortByDate(finalData)
+               if(finalData.length > 0)
+               {
+               if(!roomId && !roomStatus)
+               {    
+                    setRoomStatus(true)
+                    setRoomId(finalData[0]?.chatRoomID);
+                    setJobIdd(finalData[0]?.jobId)
+                    setStudentDisplayName(finalData[0]?.studentDisplayName)
+                    setEmployerDisplayName(finalData[0]?.employerDisplayName)
+                    getJobDetails(finalData[0]?.jobId)
+                    setChatDisabled(finalData[0]?.block)
+                    if(user && user.userRoles[0] && user.userRoles[0] == "Student")
+                    {
+                         setReceiverId(finalData[0]?.employerId)
+                    }else{
+                         setReceiverId(finalData[0]?.studentId)
+                    }
+                    
+               }
+               setUsers(finalData)
+               }
+               
+
+          } else {
+               //setUsers(current => [...current, data]);
+               const convertedData = Object.keys(data).map(d => {
+                    return data[d];
+               })
+               const finalData = convertedData.filter((data) => data.employerId == user.id)
+               const sortByDate = finalData => {
+                    const sorter = (a, b) => {
+                       return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime();
+                    }
+                    finalData.sort(sorter);
+                 }
+               sortByDate(finalData)
+               console.log("finalData",finalData,user)
+               if(!roomId && !roomStatus)
+               {
+                    setRoomStatus(true)
+                    setRoomId(finalData[0]?.chatRoomID); console.log("aman17")
+                    setJobIdd(finalData[0]?.jobId)
+                    setStudentDisplayName(finalData[0]?.studentDisplayName)
+                    setEmployerDisplayName(finalData[0]?.employerDisplayName)
+                    getJobDetails(finalData[0]?.jobId)
+                    if(user && user.userRoles[0] && user.userRoles[0] == "Student")
+                    {
+                         setReceiverId(finalData[0]?.employerId)
+                    }else{
+                         setReceiverId(finalData[0]?.studentId)
+                    }
+               }
+               setUsers(finalData)
+
+          }
+     }
+
      useEffect(() => {
           if (roomId) {
                readMessage(roomId);
@@ -287,7 +310,7 @@ const Inbox = () => {
           }
      }, [roomId]);
      useEffect(() => {
-          if(user)readUsers();
+          if(user)readUsers("");
           
           
      }, [user]);
@@ -302,10 +325,12 @@ const Inbox = () => {
                }else{
                     setReceiverId(val.studentId);
                }
+               setChatDisabled(val.block)
                setStudentDisplayName(val.studentDisplayName)
                setEmployerDisplayName(val.employerDisplayName)
                getJobDetails(val.jobId);
                readMessage(val.chatRoomID);
+               readUsers(val.chatRoomID);
           }
           
      }
@@ -355,6 +380,14 @@ const Inbox = () => {
           readUsers();
      }
 
+      const addEmoji = e => {
+          let sym = e.unified.split('-')
+          let codesArray = []
+          sym.forEach(el => codesArray.push('0x' + el))
+          let emoji = String.fromCodePoint(...codesArray)
+          setMessage(message+emoji)
+        }
+
      console.log(users, "users")
      return (
           <Layout>
@@ -384,6 +417,8 @@ const Inbox = () => {
                                    handleDeleteUser={handleDeleteUser}
                                    handleCloseUser={handleCloseUser}
                                    roomId={roomId}
+                                   chatDisabled={chatDisabled}
+                                   addEmoji={addEmoji}
                                    />
                          </div>
                     </section>

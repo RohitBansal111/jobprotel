@@ -44,7 +44,7 @@ const channelList = [
     lastChat: "sure, I will available in 1 hour",
   },
 ];
-const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser,roomId}) => {
+const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, setSearch ,handleDeleteUser, handleCloseUser,roomId,chatDisabled}) => {
   console.log("aman900",roomId)
   return (
     <div className="channel-list-wrapper">
@@ -67,7 +67,7 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
               </div>
               <div className="client-info">
                 <h5>{user && user.userRoles[0] && user.userRoles[0] == 'Student' ? item.employerDisplayName : item.studentDisplayName}</h5>
-                <p>{item.message}</p>
+                <p>{item.message.slice(0, 20) + (item.message.length > 20 ? "..." : "")  }</p>
               </div>
               </div>
               <div className="channel-action">
@@ -91,7 +91,10 @@ const ClientChannel = ({ users, handleUser, user, handleSearchSubmit, search, se
                 </button>
                 <ul className="dropdown-menu" role="menu">
                   <li onClick={()=>handleDeleteUser(item.chatRoomID)}>Delete</li>
+                  {chatDisabled?
+                  <li>Closed</li>:
                   <li onClick={()=>handleCloseUser(item.chatRoomID)}>Close</li>
+                  }
                 </ul>
               </div>
             </li>

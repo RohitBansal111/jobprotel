@@ -151,7 +151,7 @@ const Header = () => {
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link inactive"
                       }
-                      to="/employer-inbox"
+                      to="/inbox"
                     >
                       Inbox
                     </NavLink>
