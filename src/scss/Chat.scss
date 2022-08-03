@@ -254,17 +254,23 @@
       &:hover{
         background-color: #f8f8f8;
       }
+      &.leftChat{
+        margin-right: auto;
+        p{
+          margin-right: auto;
+        }
+      }
       &.rightChat{
         justify-content: flex-end;
         margin-left: auto;
-        .chat-avtar{
-         
-        }
         .chat-full-desc{
           width: 100%;
           text-align: right;
           padding-right: 10px;
           padding-left: 0px;
+          p{
+            margin-left: auto;
+          }
         }
       }
       .chat-avtar{
@@ -293,7 +299,6 @@
           width: 90%;
           color: grey;
           white-space: pre-wrap;
-          margin-left: auto;
           word-break: break-word;
         }
       }
