@@ -363,16 +363,14 @@ const Inbox = () => {
      }
 
      const handleCloseUser =async(roomId)=>{
-          //update last message
-          console.log("close")
+          var d1 = new Date().toISOString();
           const updates = {};
           updates['/block/'] = true;
-
+          updates['/dateTime/'] = d1;
           await update(ref(db, "User/" + roomId), updates);
           readUsers();
      }
      const handleDeleteUser =async(roomId)=>{
-         console.log("roomId23",roomId)
           await remove(ref(db, "User/" + roomId));
           readUsers();
      }
