@@ -24,8 +24,11 @@ import toast from "toastr";
 import * as extraCertificateServices from "../../services/studentExtraCertificates";
 import * as types from "../../types/auth";
 import { Loader } from "../../components/Loader/Loader";
+import app from "../../helpers/firebase";
+import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
 
 const EditProfile = () => {
+  const db = getDatabase(app);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [loadingUpdate, setLoadingUpdate] = useState(false);

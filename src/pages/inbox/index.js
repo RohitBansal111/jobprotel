@@ -19,6 +19,7 @@ const Inbox = () => {
      const [studentId, setStudentId] = useState("");
      const [employerId, setEmployerId] = useState("");
      const [receiverId, setReceiverId] = useState("");
+     const [receiverDisplayName,setReceiverDisplayName] = useState("")
      const [employerDisplayName, setEmployerDisplayName] = useState("");
      const [employerUserImage, setEmployerUserImage] = useState("")
      const [studentDisplayName, setStudentDisplayName] = useState("");
@@ -231,7 +232,7 @@ const Inbox = () => {
 
      };
 
-     ;
+     
      const updateUsers =(data,roomId)=>{
           
           if (user.userRoles[0] == 'Student') {
@@ -257,12 +258,9 @@ const Inbox = () => {
                     setEmployerDisplayName(finalData[0]?.employerDisplayName)
                     getJobDetails(finalData[0]?.jobId)
                     setChatDisabled(finalData[0]?.block)
-                    if(user && user.userRoles[0] && user.userRoles[0] == "Student")
-                    {
-                         setReceiverId(finalData[0]?.employerId)
-                    }else{
-                         setReceiverId(finalData[0]?.studentId)
-                    }
+                    setReceiverId(finalData[0]?.employerId)
+                    setReceiverDisplayName(finalData[0]?.employerDisplayName)
+                   
                     
                }
                setUsers(finalData)
@@ -291,12 +289,9 @@ const Inbox = () => {
                     setStudentDisplayName(finalData[0]?.studentDisplayName)
                     setEmployerDisplayName(finalData[0]?.employerDisplayName)
                     getJobDetails(finalData[0]?.jobId)
-                    if(user && user.userRoles[0] && user.userRoles[0] == "Student")
-                    {
-                         setReceiverId(finalData[0]?.employerId)
-                    }else{
-                         setReceiverId(finalData[0]?.studentId)
-                    }
+                    setReceiverId(finalData[0]?.studentId)
+                    setReceiverDisplayName(finalData[0]?.studentDisplayName)
+                    
                }
                setUsers(finalData)
 
@@ -315,15 +310,17 @@ const Inbox = () => {
           
      }, [user]);
 
-     const handleUser = (val) => { console.log("handleuser")
+     const handleUser = (val) => { 
      if(val.chatRoomID){
-               setRoomId(val.chatRoomID); console.log("aman18")
-               console.log(val.chatRoomID,"aman19")
+               setRoomId(val.chatRoomID); 
+
                if(user.userRoles[0] && user.userRoles[0] == "Student")
                {
                     setReceiverId(val.employerId);
+                    setReceiverDisplayName(val.employerDisplayName)
                }else{
                     setReceiverId(val.studentId);
+                    setReceiverDisplayName(val.studentDisplayName)
                }
                setChatDisabled(val.block)
                setStudentDisplayName(val.studentDisplayName)
@@ -419,6 +416,7 @@ const Inbox = () => {
                                    roomId={roomId}
                                    chatDisabled={chatDisabled}
                                    addEmoji={addEmoji}
+                                   receiverDisplayName={receiverDisplayName}
                                    />
                          </div>
                     </section>

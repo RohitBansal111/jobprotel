@@ -6,17 +6,17 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
 
-const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, errors, user, handleSubmitOnTextArea ,studentDisplayName,employerDisplayName,jobTitle,chatDisabled,addEmoji}) => {
+const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, errors, user, handleSubmitOnTextArea ,studentDisplayName,employerDisplayName,jobTitle,chatDisabled,addEmoji,receiverDisplayName}) => {
   return (
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
         <h5>
           {studentDisplayName && studentDisplayName},{employerDisplayName && employerDisplayName} 
         </h5>
-        <p>{jobTitle && jobTitle}</p>
+        <p>{jobTitle.slice(0, 30) + (jobTitle.length > 30 ? "..." : "")  }</p>
       </div>
       <div className="client-employer-chat">
-        <ClientEmployerChat messages={messages} user={user} />
+        <ClientEmployerChat messages={messages} user={user} receiverDisplayName={receiverDisplayName}/>
       </div>
       <div className="client-textarea-box">
         <form onSubmit={handleSubmit}>
