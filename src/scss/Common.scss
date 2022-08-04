@@ -218,3 +218,25 @@ ul {
     }
   }
 }
+
+// React responsive Modal
+.react-responsive-modal-modal{
+  border: none;
+  padding: 0px;
+  box-shadow: none;
+  border-radius: 5px;
+}
+.react-theme-modal{
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+.buy-connect-form{
+  .form-field{
+    span{
+      display: block;
+      color: darkgrey;
+      padding: 2px 0px;
+    }
+  }
+}

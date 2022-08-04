@@ -16,12 +16,16 @@ import * as projectServices from "../../services/projectHistorySevices";
 import moment from "moment";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
+import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
+  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false)
+
+  const handleBuyConnect = () => setShowBuyConnectModal(true)
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
@@ -248,8 +252,8 @@ const Profile = () => {
                     </ul>
                   </div>
                 </div>
-                {/* <button type="button" className="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addColleague"> Add colleague </button>
-                          <AddColeagueModal /> */}
+                <button type="button" className="btn btn-primary w-100 mt-3" onClick={handleBuyConnect}> Buy Connects </button>
+                <BuyConnectsModal showBuyConnectModal={showBuyConnectModal} setShowBuyConnectModal={setShowBuyConnectModal} />
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">

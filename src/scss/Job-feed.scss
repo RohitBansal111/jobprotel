@@ -636,6 +636,11 @@ section.complete-kyc {
 }
 .modal-dialog {
   min-width: 600px;
+  .btn-secondary{
+    min-width: 120px;
+    height: 40px;
+    width: auto;
+  }
   .button-submit {
     min-width: 120px;
     height: 40px;

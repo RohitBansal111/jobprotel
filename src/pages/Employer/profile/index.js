@@ -13,6 +13,8 @@ import * as types from "../../../types/auth";
 import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
 import Pagination from "react-js-pagination";
+import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
+
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,9 @@ const EmployerProfile = () => {
 
   const [activeJobs, setActiveJobs] = useState([]);
   const [archiveJobs, setArchiveJobs] = useState([]);
+
+  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false)
+  const handleBuyConnect = () => setShowBuyConnectModal(true)
 
   const authData = useSelector((state) => state.auth.user);
 
@@ -182,6 +187,8 @@ const EmployerProfile = () => {
                     </ul>
                   </div>
                 </div>
+                <button type="button" className="btn btn-primary w-100 mt-3" onClick={handleBuyConnect}> Buy Connects </button>
+                <BuyConnectsModal showBuyConnectModal={showBuyConnectModal} setShowBuyConnectModal={setShowBuyConnectModal} />
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
