@@ -162,8 +162,10 @@
     }
   }
 }
-.field-render-main {
+.render-radio {
   margin-right: 20px;
+}
+.field-render-main {
   &:last-child {
     margin-right: 0px;
   }
