@@ -137,6 +137,10 @@ const Profile = () => {
       return "N/A";
     }
   };
+  const viewTextChange=(id)=>{
+    const btn = document.getElementById(id);
+    btn.innerHTML = btn.textContent == "View More"?"View Less":"View More";
+  }
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -579,6 +583,8 @@ const Profile = () => {
                                     aria-expanded="false"
                                     aria-controls="collapseExample"
                                     className="btn btn-view-more"
+                                    id={`#collapseEx${index}`}
+                                    onClick={()=>viewTextChange(`#collapseEx${index}`)}
                                   >
                                     View More
                                   </button>

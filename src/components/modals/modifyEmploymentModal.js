@@ -31,7 +31,7 @@ const ModifyEmploymentModal = ({ empData }) => {
     const endDOnly = endDate1 + " " + "00:00:00";
     const endDateOnly = moment(endDOnly).format("X");
 
-    if(startDOnly > endDOnly)
+    if(startDOnly < endDOnly)
     {
       error.endDate = "End Date should be greater than start date";
       isValid = false;
