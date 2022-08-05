@@ -574,7 +574,6 @@ const Profile = () => {
                                     type="button"
                                     data-bs-toggle="collapse"
                                     href={`#collapseExample${index}`}
-                                    role="button"
                                     aria-expanded="false"
                                     aria-controls="collapseExample"
                                     className="btn btn-view-more"

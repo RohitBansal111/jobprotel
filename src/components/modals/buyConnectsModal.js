@@ -19,14 +19,16 @@ const BuyConnectsModal = ({showBuyConnectModal,setShowBuyConnectModal}) => {
                             </div>
                             <div className='form-field flex100'>
                                 <label>Select the amount to buy</label>
-                                <select className='form-control'>
-                                    <option>10 for $1.5</option>
-                                    <option>20 for $3</option>
-                                    <option>40 for $6</option>
-                                    <option>60 for $9</option>
-                                    <option>80 for $12</option>
-                                    <option>150 for $22.5</option>
-                                </select>
+                                <div className='render-select'>
+                                    <select className='form-control'>
+                                        <option>10 for $1.5</option>
+                                        <option>20 for $3</option>
+                                        <option>40 for $6</option>
+                                        <option>60 for $9</option>
+                                        <option>80 for $12</option>
+                                        <option>150 for $22.5</option>
+                                    </select>
+                                </div>
                             </div>
                             <div className='form-field flex100'>
                                 <label>Your account will be charged</label>

@@ -150,7 +150,7 @@ export const renderSelect = ({
       }
     >
       <label>{label}</label>
-      <div className="field-inner-group">
+      <div className="field-inner-group render-select">
         <select {...inputProps} className="form-control">
           {children}
         </select>

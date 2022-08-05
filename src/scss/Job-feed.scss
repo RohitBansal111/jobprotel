@@ -113,8 +113,14 @@ section.complete-kyc {
             .profile-img {
               background: #fff;
               padding: 4px;
+              width: 128px;
+              object-fit: cover;
               border-radius: 50%;
+              height: 128px;
+              display: block;
+              margin: auto;
               img {
+                display: block;
                 width: 128px;
                 object-fit: contain;
                 border-radius: 50%;
@@ -590,20 +596,37 @@ section.complete-kyc {
         width: 36px;
       }
     }
-    .filter-container-wrapper{
-      background: #ffffff;
-      border: 1px solid #e5f0ef;
-      border-radius: 4px;
-      padding: 20px;
-      margin-bottom: 20px;
-      position: absolute;
-      right: 0px;
-      top: 100%;
-      min-width: 250px;
-      box-shadow: 0 0 3px 0px #f0f0f0;
-      border-top: 3px solid #409185;
-      .form-field-group{
-        margin-top: 0px;
+  }
+}
+.filter-container-wrapper{
+  background: #ffffff;
+  border: 1px solid #e5f0ef;
+  border-radius: 4px;
+  padding: 20px 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  @include Phone{
+    padding: 15px;
+  }
+  .form-field-group{
+    margin-top: 0px;
+    @include Phone{
+      display: block;
+    }
+    .form-field{
+      margin-bottom: 0px;
+      flex: 1;
+      padding: 0px 10px;
+      @include Phone{
+        margin-bottom: 12px;
+        padding: 0px;
+      }
+      label{
+        display: none;
+      }
+      .btn{
+        height: 38px;
+        width: 100%;
       }
     }
   }

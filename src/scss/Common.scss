@@ -54,6 +54,22 @@ ul {
   min-width: 130px;
   font-size: 18px !important;
 }
+.render-select{
+  position: relative;
+  &::before{
+    content: "";
+    background-image: url('./../assets/icons/arrow-down.png');
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 10px;
+    top: 16px;
+    background-size: 17px;
+    background-position: right;
+    background-repeat: no-repeat;
+    z-index: 999;
+  }
+}
 // Footer
 .footer-main {
   background: #d5d5d5;
@@ -238,5 +254,9 @@ ul {
       color: darkgrey;
       padding: 2px 0px;
     }
+    .form-control{
+      height: 50px;
+    }
   }
 }
+

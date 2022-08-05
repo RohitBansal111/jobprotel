@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PostedJobCard from "../../components/PostedJobCard";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/profile-img.jpg";
+import UserAvtar from "./../../assets/images/user.webp";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import Filtericon from "./../../assets/icons/filter-ico.png";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
@@ -141,7 +141,7 @@ const FindWork = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic} alt="user profile" />
+                        <img src={studentProfilePic ? studentProfilePic : UserAvtar} alt="user profile" />
                       </span>
                     </div>
                     <h3>{studentData?.fullName} </h3>
@@ -285,38 +285,41 @@ const FindWork = () => {
                     >
                       <img src={Filtericon} alt="Filter icon" />
                     </button>
-                    {showFilter && (
-                      <div className="filter-container-wrapper">
-                        <div className="form-field-group">
-                          <div className="form-field">
-                            <label>Hour's/Day</label>
-                            <input
-                              type="number"
-                              className="form-control"
-                              placeholder="Enter hour"
-                            />
-                          </div>
-                          <div className="form-field">
-                            <label>Skills</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter skills"
-                            />
-                          </div>
-                          <div className="form-field">
-                            <label>Experience</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter experience"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
+                {showFilter && (
+                  <div className="filter-container-wrapper">
+                    <div className="form-field-group">
+                      <div className="form-field">
+                        <label>Hour's/Day</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          placeholder="Enter hour"
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Skills</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter skills"
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Experience</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter experience"
+                        />
+                      </div>
+                      <div className="form-field">
+                        <button type="button" className="btn btn-primary">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="search-feeds-section">
                   <div className="feed-title">
