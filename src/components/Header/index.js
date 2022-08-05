@@ -176,7 +176,7 @@ const Header = () => {
             <img src={Logo} alt="Real Job" />
           </Link>
         </div>
-        <span onClick={sendMessage}>Send Message</span>
+        {/* <span onClick={sendMessage}>Send Message</span> */}
         <div className="right-side-nav">
           <nav id="navbar" className={`navbar ${mobileMenu}`}>
             <ul>
