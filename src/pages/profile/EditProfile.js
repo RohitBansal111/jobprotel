@@ -239,7 +239,7 @@ const EditProfile = () => {
         email: response.email,
         houseno: response.studentDetails.address,
         addressLine1: response.studentDetails.addressLine1,
-        addressLine2: response.studentDetails.addressLine2,
+        addressLine2: response.studentDetails.addressLine2 != 'null'?response.studentDetails.addressLine2:"",
         Country: response.studentDetails.countryResponse.id,
         state: response.studentDetails.stateResponse.id,
         city: response.studentDetails.cityName,
