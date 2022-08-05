@@ -34,6 +34,8 @@ const Inbox = () => {
      const [jobIdd, setJobIdd] = useState("");
      const [chatDisabled, setChatDisabled] = useState(false)
      const [roomStatus, setRoomStatus] = useState(false)
+     const [receiverLiveStatus, setReceiverLiveStatus] = useState(false);
+     const [senderLiveStatus, setSenderLiveStatus] = useState(false);
      const { userId, jobId } = useParams();
      
      const navigate = useNavigate();
@@ -55,7 +57,7 @@ const Inbox = () => {
                          setStudentId(user.id)
                          setEmployerId(resp.data.data.id)
                          //call function
-                         addUser(rid, user.fullName, user.studentDetails.pictureUrl, resp.data.data.fullName, resp.data.data.comapanyDetail.logoPath, user.id, resp.data.data.id)
+                         addUser(rid, user.fullName, user.studentDetails.pictureUrl, resp.data.data.fullName, resp.data.data.comapanyDetail.logoPath, user.id, resp.data.data.id,user.userRoles[0])
                          navigate("/inbox")
                     }
                } else {
@@ -70,12 +72,27 @@ const Inbox = () => {
                          setEmployerUserImage(user.comapanyDetail.logoPath)
                          setStudentId(resp.data.data.id)
                          setEmployerId(user.id)
-                         addUser(rid, resp.data.data.fullName, resp.data.data.studentDetails.pictureUrl, user.fullName, user.comapanyDetail.logoPath, userId, user.id)
+                         addUser(rid, resp.data.data.fullName, resp.data.data.studentDetails.pictureUrl, user.fullName, user.comapanyDetail.logoPath, userId, user.id,user.userRoles[0])
                          navigate("/inbox")
                     }
                }
           }
      }, [user, userId, jobId])
+
+     useEffect(()=>{
+          //update last message
+          if(roomId && !senderLiveStatus && user)
+          {
+          const updates = {};
+          if(user && user.userRoles[0] && user.userRoles[0] == 'Student')
+          {
+               updates['/studentLive/'] = true;
+          }else{
+               updates['/employerLive/'] = true;
+          }
+           update(ref(db, "User/" + roomId), updates);
+          }
+     },[roomId,user])
 
      const getStudentDetails = async (id) => {
           const resp = await studentServices.getStudentDetails(id);
@@ -94,7 +111,7 @@ const Inbox = () => {
           const resp = await employerServices.getEmployerDetails(id);
           return resp
      }
-     const addUser = (roomId, studentDisplayName, studentUserImage, employerDisplayName, employerUserImage, studentId, employerId) => {
+     const addUser = (roomId, studentDisplayName, studentUserImage, employerDisplayName, employerUserImage, studentId, employerId,userRole) => {
           console.log(studentDisplayName, studentUserImage, employerDisplayName, employerUserImage)
           const date = new Date().getTime();
           var d1 = new Date().toISOString();
@@ -112,7 +129,8 @@ const Inbox = () => {
                studentId: studentId,
                employerId: employerId,
                jobId: jobId,
-               block:false
+               block:false,
+               live:true,
 
           });
           readUsers()
@@ -202,8 +220,7 @@ const Inbox = () => {
                }
           });
           readUsers(roomId);
-
-     };
+    };
 
      const readUsers = async (roomId) => {
           
@@ -226,7 +243,6 @@ const Inbox = () => {
                     setEmployerDisplayName("")
                     getJobDetails("")
                     setMessages([])
-
                }
           });
 
@@ -260,7 +276,7 @@ const Inbox = () => {
                     setChatDisabled(finalData[0]?.block)
                     setReceiverId(finalData[0]?.employerId)
                     setReceiverDisplayName(finalData[0]?.employerDisplayName)
-                   
+                    setReceiverLiveStatus(finalData[0]?.live)
                     
                }
                setUsers(finalData)
@@ -291,6 +307,7 @@ const Inbox = () => {
                     getJobDetails(finalData[0]?.jobId)
                     setReceiverId(finalData[0]?.studentId)
                     setReceiverDisplayName(finalData[0]?.studentDisplayName)
+                    setReceiverLiveStatus(finalData[0]?.live)
                     
                }
                setUsers(finalData)
@@ -313,7 +330,7 @@ const Inbox = () => {
      const handleUser = (val) => { 
      if(val.chatRoomID){
                setRoomId(val.chatRoomID); 
-
+               setReceiverLiveStatus(val.live && val.live)
                if(user.userRoles[0] && user.userRoles[0] == "Student")
                {
                     setReceiverId(val.employerId);

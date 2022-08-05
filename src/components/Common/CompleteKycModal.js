@@ -115,7 +115,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
                         <Field
                           name="remarks"
                           label="Remarks"
-                          placeholder="Enter email address"
+                          placeholder="Enter remarks"
                           component={renderField}
                         />
                       </div>

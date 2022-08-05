@@ -211,12 +211,7 @@ const FindWork = () => {
                           }
                         </span>
                       </li>
-                      <li>
-                        Hours / day{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
-                        </span>
-                      </li>
+                    
                     </ul>
                   </div>
                 </div>
