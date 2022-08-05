@@ -43,13 +43,13 @@ const ProfileValidate = (values) => {
      if(!values.salary){ 
           error.salary = "Required Expected Salary"
      }
-     if(!values.experienceInMonths){ 
-          error.experienceInMonths = "Required experience in months"
-     }
+     // if(!values.experienceInMonths){ 
+     //      error.experienceInMonths = "Required experience in months"
+     // }
    
-     if(!values.experienceInYears){ 
-          error.experienceInYears = "Required Experience in years"
-     }
+     // if(!values.experienceInYears){ 
+     //      error.experienceInYears = "Required experience in years"
+     // }
      if(!values.working){ 
           error.working = "Required Working"
      }

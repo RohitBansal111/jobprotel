@@ -247,7 +247,7 @@ const Step3 = ({
                 <div className="form-field flex100">
                   <Field
                     name="designation"
-                    label="Category"
+                    label="Categories of Job"
                     component={renderSelect}
                     placeholder="Enter category"
                     defaultValue={next && data ? data.designation : ""}
