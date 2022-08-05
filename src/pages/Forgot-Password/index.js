@@ -14,12 +14,23 @@ const ForgotPassword = () => {
   const handleForgotPassword = async (value) => {
     if (value) {
       const resp = await authServices.forgotPassword(value);
-      console.log(resp);
-      if (resp.status == 200) {
-        value.email = ""
+      if (resp && resp.status == 200) {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
+      } else {
+        if (resp.errors && typeof resp.errors === "object") {
+          let errors = "";
+          let keys = Object.keys(resp.errors);
+          keys.forEach((key) => {
+            errors = key + "," + errors;
+          });
+  
+          errors = errors.replace(/,\s*$/, "");
+          toast.error(errors + "is Required");
+        } else if (resp.error) {
+          toast.error(resp.error ? resp.error : "Something went wrong");
+        }
       }
     }
   };

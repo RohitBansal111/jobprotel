@@ -101,6 +101,7 @@ export const renderField = ({
   meta: { touched, error },
   pattern,
   disabled=false,
+  min
 }) => {
   const inputProps = {
     ...input,
@@ -119,6 +120,7 @@ export const renderField = ({
           id={`label${label}`}
           className="form-control"
           disabled={disabled}
+          min={min}
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

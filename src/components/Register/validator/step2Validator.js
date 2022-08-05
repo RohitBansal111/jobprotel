@@ -34,6 +34,9 @@ const Step2Validator = (values) => {
   if (!values.qualificationId) {
     error.qualificationId = "Qualification is Required";
   }
+  if(values.qualificationId == "Other" && !values.qualification){ 
+    error.qualification = "Required qualification"
+  }
   if (
     !values.interests ||
     (values.interests && values.interests.length === 0)

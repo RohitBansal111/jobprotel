@@ -79,7 +79,7 @@ function App() {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
 
-        <Route path="/public" element={<PublicProfile />} />
+        <Route path="/public/:userId" element={<PublicProfile />} />
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />

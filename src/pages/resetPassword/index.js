@@ -45,12 +45,26 @@ const ResetPassword = (props) => {
     };
     if (data.token) {
       const resp = await authServices.resetPassword(data);
-      if (resp.status === 200) {
+      if (resp && resp.status == 200) {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         navigate("/");
+      } else {
+        if (resp.errors && typeof resp.errors === "object") {
+          let errors = "";
+          let keys = Object.keys(resp.errors);
+          keys.forEach((key) => {
+            errors = key + "," + errors;
+          });
+  
+          errors = errors.replace(/,\s*$/, "");
+          toast.error(errors + "is Required");
+        } else if (resp.error) {
+          toast.error(resp.error ? resp.error : "Something went wrong");
+        }
       }
+      
     }
   };
 

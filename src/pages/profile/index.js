@@ -129,6 +129,7 @@ const Profile = () => {
     // }
   }, []);
   const getTimeZone = (timezone) => {
+    console.log(timezone,"timezone")
     if (timezone) {
       const zone = JSON.parse(timezone);
       return zone.value;
@@ -412,7 +413,7 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Working</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workingType}
+                                {studentData?.studentDetails?.workingType} days
                               </span>
                             </li>
                             <li>
@@ -422,7 +423,8 @@ const Profile = () => {
                                   <li style={{ cursor: "pointer" }}>
                                     <a
                                       target="_blank"
-                                      href={studentResume && studentResume}
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails
+                                        ?.resumeFilePath}`}
                                     >
                                       {
                                         studentData?.studentDetails

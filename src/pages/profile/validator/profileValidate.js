@@ -17,10 +17,10 @@ const ProfileValidate = (values) => {
      }
     
      if(!values.houseno){ 
-          error.houseno = "Required House No."
+          error.houseno = "Required Address."
      }
      if(!values.addressLine1){ 
-          error.addressLine1 = "Required Addres line1"
+          error.addressLine1 = "Required Address line1"
      }
      if(!values.city){ 
           error.city = "Required City"
@@ -64,7 +64,7 @@ const ProfileValidate = (values) => {
           error.qualificationId = "Required qualification"
      }
      if(values.qualificationId == "Other" && !values.qualification){ 
-          error.qualificationId = "Required qualification"
+          error.qualification = "Required qualification"
      }
      
      if(!values.skills){ 

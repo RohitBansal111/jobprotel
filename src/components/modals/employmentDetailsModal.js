@@ -13,12 +13,37 @@ import * as studentServices from "../../services/studentServices";
 import * as dropdownServices from "../../services/dropDownServices";
 import toast from "toastr";
 import { useNavigate } from "react-router";
+import moment from "moment";
 
 const EmploymentDetailsModal = ({getEmploymentDetails}) => {
   const authData = useSelector((state) => state.auth.user);
   const [designationlist, setDesignationlist] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const [id, setId] = useState("");
+
+  const validation = (values) => {
+    let isValid = true;
+    let error = {};
+    const {startDate,endDate} = values
+    const startDate1 = moment(startDate).format("MM/DD/YYYY");
+    const startDOnly = startDate1 + " " + "00:00:00";
+    const startDateOnly = moment(startDOnly).format("X");
+
+    const endDate1 = moment(endDate).format("MM/DD/YYYY");
+    const endDOnly = endDate1 + " " + "00:00:00";
+    const endDateOnly = moment(endDOnly).format("X");
+
+    if(startDOnly > endDOnly)
+    {
+      error.endDate = "End Date should be greater than start date";
+      isValid = false;
+    }
+    
+    setErrors(error);
+    return isValid;
+  };
+
   const handleJobPost = async (values) => {
     let {
       employerName,
@@ -29,6 +54,8 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
       startDate,
     } = values;
 
+    if(validation(values))
+    {
     let data = {
       userId: id,
       designationId,
@@ -40,7 +67,15 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
     };
     if (data.userId) {
       const resp = await studentServices.sendStudentEmploymentData(data);
-      if (resp.status === 200) {
+      console.log(resp,"resp")
+      if (resp.status == 200) {
+        values.employerName = "";
+        values.designationId = "";
+        values.isCurrentEmployer = ""
+        values.salary = "";
+        values.endDate = "";
+        values.startDate = "";
+
         if(authData) {
           getEmploymentDetails(authData)
         }
@@ -58,6 +93,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
         
       }
     }
+  }
   };
 
   useEffect(() => {
@@ -105,6 +141,11 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           component={renderSelect}
                           placeholder="Enter category"
                         >
+                           <option
+                                value="{designation.id}"
+                              >
+                                Select Designation
+                              </option>
                           {designationlist &&
                             designationlist.map((designation) => (
                               <option
@@ -163,7 +204,9 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
+                          min={values.startDate && values.startDate}
                         />
+                        <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
 
                       <div className="form-field flex100">

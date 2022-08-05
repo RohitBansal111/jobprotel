@@ -10,14 +10,40 @@ import validate from "./validators/employerDetailsCValidator";
 import * as dropdownServices from "../../services/dropDownServices";
 import * as studentServices from "../../services/studentServices";
 import toast from "toastr";
+import moment from "moment";
 
 const ModifyEmploymentModal = ({ empData }) => {
   const [designationlist, setDesignationlist] = useState([]);
   const [id, setId] = useState("");
   const [userId, setUserId] = useState("");
   const [data, setData] = useState([]);
+  const [errors, setErrors] = useState({});
+
+  const validation = (values) => {
+    let isValid = true;
+    let error = {};
+    const {startDate,endDate} = values
+    const startDate1 = moment(startDate).format("MM/DD/YYYY");
+    const startDOnly = startDate1 + " " + "00:00:00";
+    const startDateOnly = moment(startDOnly).format("X");
+
+    const endDate1 = moment(endDate).format("MM/DD/YYYY");
+    const endDOnly = endDate1 + " " + "00:00:00";
+    const endDateOnly = moment(endDOnly).format("X");
+
+    if(startDOnly > endDOnly)
+    {
+      error.endDate = "End Date should be greater than start date";
+      isValid = false;
+    }
+    
+    setErrors(error);
+    return isValid;
+  };
 
   const handleJobPost = async (values) => {
+    if(validation(values))
+    {
     if (id && userId) {
       const resp = await studentServices.updateStudentEmploymentData(id, {
         ...values,
@@ -30,6 +56,7 @@ const ModifyEmploymentModal = ({ empData }) => {
         );
       }
     }
+  }
   };
 
   const getEmpData = (empData) => {
@@ -97,6 +124,11 @@ const ModifyEmploymentModal = ({ empData }) => {
                           component={renderSelect}
                           placeholder="Enter category"
                         >
+                          <option
+                                value="{designation.id}"
+                              >
+                                Select Designation
+                              </option>
                           {designationlist?.map((designation) => (
                             <option value={designation.id} key={designation.id}>
                               {designation.title}
@@ -151,7 +183,9 @@ const ModifyEmploymentModal = ({ empData }) => {
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
-                        />
+                          min={values.startDate && values.startDate}
+                          />
+                          <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
 
                       <div className="form-field flex100">
