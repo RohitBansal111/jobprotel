@@ -5,12 +5,12 @@ const Step3Validator = (values) => {
   if (!values.collegeId) {
     error.collegeId = "Required College Name";
   }
-  if (!values.experienceInYears) {
-    error.experienceInYears = "Required Experience in Years";
-  }
-  if (!values.experienceInMonths) {
-    error.experienceInMonths = "Required Experience in Month";
-  }
+  // if (!values.experienceInYears) {
+  //   error.experienceInYears = "Required Experience in Years";
+  // }
+  // if (!values.experienceInMonths) {
+  //   error.experienceInMonths = "Required Experience in Month";
+  // }
   if (!values.expectedSalary) {
     error.expectedSalary = "Required Salary";
   }
