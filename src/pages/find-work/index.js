@@ -44,6 +44,7 @@ const FindWork = () => {
       setKycStatus(false);
     }, 1000);
   }, []);
+  
 
   const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);

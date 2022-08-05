@@ -456,7 +456,11 @@ const PostedJobModal = ({ id }) => {
                           // onClick={() => handleJobPost(values)}
                           disabled={loading?true:false}
                         >
-                          {loading && <Loader />} Post Now
+                          {loading && 
+                          <div className="button-submit-loader">
+                            <Loader />
+                          </div>
+                          } Post Now
                         </button>
                       </div>
                     </div>

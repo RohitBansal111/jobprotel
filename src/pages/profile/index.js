@@ -42,6 +42,7 @@ const Profile = () => {
   const [id, setId] = useState("");
   const [kycStatus, setKycStatus] = useState(true);
 
+  
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
