@@ -38,6 +38,18 @@ const Step2 = ({
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+  // const [timezone,setTimezone] = useState({
+  //   abbrev: "IST",
+  //   altName: "India Standard Time",
+  //   label: "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi",
+  //   offset: 5.5,
+  // });
+  const tt = {
+    abbrev: "IST",
+    altName: "India Standard Time",
+    label: "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi",
+    offset: 5.5,
+  }
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -76,7 +88,7 @@ const Step2 = ({
     if (validation()) {
       userPersonalInfo({
         ...values,
-        timezone: timezone,
+        timezone: typeof timezone == "object"?timezone:tt,
         qualificationId: qualificationId,
         profileImageUrl: img,
         profileImage: profileImage,
@@ -326,7 +338,7 @@ const Step2 = ({
                     onChange={handleQualification}
                     // defaultValue={next && data ? data.qualificationId : ""}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select
                     </option>
                     {qualificationList &&
@@ -338,7 +350,7 @@ const Step2 = ({
                     <option value="Other">Other</option>
                   </Field>
                 </div>
-                {inputField && (
+                {inputField || data.qualification ? 
                   <div className="form-field flex100">
                     <Field
                       name="qualification"
@@ -347,7 +359,8 @@ const Step2 = ({
                       // defaultValue={next && data ? data.qualification : ""}
                     />
                   </div>
-                )}
+                  :null
+                }
                 <div className="form-field flex100">
                   <Field
                     name="interests"

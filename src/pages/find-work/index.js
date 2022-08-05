@@ -150,7 +150,8 @@ const FindWork = () => {
                       {", "}
                       {studentData?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData?.studentDetails?.addressLine2}
+                      {studentData?.studentDetails?.addressLine2 !=
+                        "undefined" && studentData?.studentDetails?.addressLine2 !='null'?studentData?.studentDetails?.addressLine2:""}
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
@@ -185,12 +186,10 @@ const FindWork = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears &&
-                            "Year"}
+                          {" Year"}
                           {", "}
-                          {studentData?.studentDetails?.experienceInMonths}{" "}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            "Month"}
+                          {studentData?.studentDetails?.experienceInMonths}
+                          {" Month"}
                         </span>
                       </li>
                       <li>

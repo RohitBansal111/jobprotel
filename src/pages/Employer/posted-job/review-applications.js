@@ -60,7 +60,7 @@ const ReviewApplications = () => {
                 <li>
                   <div className="default-feeds-search">
                     {
-                      users && users.userData?.length > 0 && (
+                      users && users.userData?.length > 0 ? (
                         // users.map((data, i) => (
                         <EmployerReviewCard
                           user={users}
@@ -70,7 +70,8 @@ const ReviewApplications = () => {
                           totalRecords={totalRecords}
                           loading={loading}
                         />
-                      )
+                      ):
+                      <h3>No Record found</h3>
                       // ))
                     }
                   </div>

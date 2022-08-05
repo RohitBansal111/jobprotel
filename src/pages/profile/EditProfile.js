@@ -530,8 +530,8 @@ const EditProfile = () => {
                       {", "}
                       {studentData?.studentDetails?.addressLine1}
                       {", "}
-                      {studentData?.studentDetails?.addressLine2 !==
-                        "undefined"}
+                      {studentData?.studentDetails?.addressLine2 !=
+                        "undefined" && studentData?.studentDetails?.addressLine2 !='null'?studentData?.studentDetails?.addressLine2:""}
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
@@ -991,7 +991,7 @@ const EditProfile = () => {
                                             label="Experience in Month's"
                                           >
                                             <option value="0">0 month</option>
-                                            {[...Array.from(Array(13).keys())]
+                                            {[...Array.from(Array(12).keys())]
                                               .slice(1)
                                               .map((num, i) => (
                                                 <option key={i} value={num}>

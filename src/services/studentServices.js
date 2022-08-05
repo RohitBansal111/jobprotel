@@ -160,8 +160,12 @@ export const updateStudentEmploymentData = async (id, data) => {
 
 export const deleteStudentEmploymentData = async (id) => {
   try {
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.delete(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/DeleteEmployementHis/id?id=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/EmploymentHistory/DeleteEmployementHis/id?id=${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;

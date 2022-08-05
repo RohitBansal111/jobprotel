@@ -274,7 +274,7 @@ const PostedJobModal = ({ id }) => {
                               type="text"
                             >
                               <option value="0">0 month</option>
-                              {[...Array.from(Array(13).keys())]
+                              {[...Array.from(Array(12).keys())]
                                 .slice(1)
                                 .map((num, i) => (
                                   <option key={i} value={num}>
@@ -454,6 +454,7 @@ const PostedJobModal = ({ id }) => {
                           type="submit"
                           className="btn btn-primary button-submit"
                           // onClick={() => handleJobPost(values)}
+                          disabled={loading?true:false}
                         >
                           {loading && <Loader />} Post Now
                         </button>

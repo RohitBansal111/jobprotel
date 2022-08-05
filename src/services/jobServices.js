@@ -183,6 +183,7 @@ export const applyJob = async (data) => {
       throw new Error(resp);
     }
   } catch (err) {
+    console.log(err.response.data.data.message,"appliyed")
     return {
       data: "",
       error:

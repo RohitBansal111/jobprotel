@@ -77,15 +77,51 @@ export const loginUser = async (data) => {
 };
 
 export const forgotPassword = async (data) => {
-  return await axios.post(
-    `${process.env.REACT_APP_PUBLIC_API_URL}/Account/forgot-password`,
-    data
-  );
+  
+  try {
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/forgot-password`,
+      data
+    );
+
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
 };
 
 export const resetPassword = async (data) => {
-  return await axios.post(
-    `${process.env.REACT_APP_PUBLIC_API_URL}/Account/reset-password`,
-    data
-  );
+  
+  try {
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/reset-password`,
+      data
+    );
+
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
 };

@@ -12,12 +12,38 @@ import * as projectServices from "../../services/projectHistorySevices";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import toast from "toastr";
+import moment from "moment";
 
 const AddProjectModal = ({ getProjectHistory, activePage}) => {
   const authData = useSelector((state) => state.auth.user);
   const [id, setId] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validation = (values) => {
+    let isValid = true;
+    let error = {};
+    const {startdate,endDate} = values
+    const startDate1 = moment(startdate).format("MM/DD/YYYY");
+    const startDOnly = startDate1 + " " + "00:00:00";
+    const startDateOnly = moment(startDOnly).format("X");
+
+    const endDate1 = moment(endDate).format("MM/DD/YYYY");
+    const endDOnly = endDate1 + " " + "00:00:00";
+    const endDateOnly = moment(endDOnly).format("X");
+
+    if(startDOnly > endDOnly)
+    {
+      error.endDate = "End Date should be greater than start date";
+      isValid = false;
+    }
+    
+    setErrors(error);
+    return isValid;
+  };
 
   const saveProjectHistory = async (values) => {
+    if(validation(values))
+    {
     let data = { userId: id, ...values };
     if (data.userId) {
       const resp = await projectServices.postProjectHistoryData(data);
@@ -28,8 +54,18 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         getProjectHistory(id, activePage);
+
+        values.title="";
+        values.description="";
+        values.roleResponsiblity="";
+        values.projectUrl="";
+        values.startdate="";
+        values.endDate="";
+        values.totalTeamSize="";
+        values.companyEmail="";
       }
     }
+  }
   };
 
   useEffect(() => {
@@ -61,7 +97,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
           </div>
           <div className="modal-body p-4">
             <div className="kyc-detail-form">
-              <Form onSubmit={saveProjectHistory} validate={validate}>
+              <Form onSubmit={saveProjectHistory} validate={validate} >
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
@@ -114,7 +150,9 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
-                        />
+                          min={values.startdate && values.startdate}
+                          />
+                          <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
                       <div className="form-field flex100">
                         {/* <label htmlFor="certificate"> Status </label>

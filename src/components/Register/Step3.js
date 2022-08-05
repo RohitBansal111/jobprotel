@@ -49,7 +49,7 @@ const Step3 = ({
       error.resume = "Resume file is Required";
       isValid = false;
     }
-    if (certificate && certificate == "Yes") {
+    if (certificate && certificate == "Yes" && previewImg.length ==0) {
       error.extraCer = "Certificate is Required";
       isValid = false;
     }
@@ -118,7 +118,7 @@ const Step3 = ({
   };
 
   let file = "";
-
+  console.log(data,"values")
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>

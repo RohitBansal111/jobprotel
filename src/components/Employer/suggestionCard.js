@@ -6,13 +6,13 @@ import * as jobSevices from "../../services/jobServices";
 import { useEffect, useState } from "react";
 import toast from "toastr";
 
-const SuggestionCard = ({ userData, jobId, userId }) => {
-  const [userid, setUserId] = useState("");
+const SuggestionCard = ({ userData, jobId, userIdd }) => {
+  const [userId, setUserId] = useState("");
   const [jobid, setJobId] = useState("");
   const [invitation, setInvitation] = useState(false);
 
   const jobInvite = async () => {
-    const resp = await jobSevices.sendStudentJobInvitations(jobid, userid);
+    const resp = await jobSevices.sendStudentJobInvitations(jobid, userIdd);
     if (resp.status === 200) {
       toast.success(resp.data.data.message  ? resp.data.data.message : "Something went wrong")
       setInvitation(!invitation);
@@ -29,7 +29,7 @@ const SuggestionCard = ({ userData, jobId, userId }) => {
       <div className="feeds-search-head">
         <div className="feeds-head-left">
           <div className="feeds-s-logo">
-            <Link to="/public">
+            <Link to={`/public/${userIdd}`}>
               <img
                 src={process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl}
                 alt="Company Logo"

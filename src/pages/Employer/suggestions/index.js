@@ -73,7 +73,7 @@ const EmployerJobSuggestion = () => {
                           userData={data}
                           key={index}
                           jobId={jobid}
-                          userId={data?.user?.id}
+                          userIdd={data?.userId}
                         />
                       ))
                     )}
