@@ -158,7 +158,7 @@ const EmployerStep2 = ({
                     <Field
                       name="companyPhone"
                       placeholder="Enter Company Phone Number"
-                      value={phoneNumberFlag}
+                      value={phoneNumberFlag}  
                       onChange={setphoneNumberFlag}
                       component={RenderPhoneInput}
                     />
