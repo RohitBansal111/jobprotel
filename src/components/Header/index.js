@@ -6,17 +6,30 @@ import userAvtar from "./../../assets/images/user-img.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../types/auth";
 import CompanyProfile from "./../../assets/images/company-logo.png";
-import * as notificationServices from "../../services/notificationServices"
-import * as jobServices from "../../services/jobServices"
-import {HubConnectionBuilder} from "@microsoft/signalr";
+import * as notificationServices from "../../services/notificationServices";
+import * as jobServices from "../../services/jobServices";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import app from "../../helpers/firebase";
-import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  child,
+  query,
+  equalTo,
+  orderByChild,
+  get,
+  update,
+  remove,
+} from "@firebase/database";
 import { Navigate, useParams } from "react-router";
 
 const connection = new HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_IMAGE_API_URL}chatHub`)
   .withAutomaticReconnect()
   .build();
+
 const Header = () => {
   const db = getDatabase(app);
   const authData = useSelector((state) => state.auth.user);
@@ -24,101 +37,106 @@ const Header = () => {
   const [profilePic, setProfilePic] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
 
-  
-  console.log(connection,"hubConnectionState2")
-   
-    useEffect(() => {
-      if (connection) {
-          connection.start()
-              .then(result => {
-                  console.log('Connected!');
-
-                  connection.on('ReceiveMessage', message => {
-                      console.log(message,"message")
-                  });
-              })
-              .catch(e => console.log('Connection failed: ', e));
-      }
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then((result) => {
+          connection.on("ReceiveMessage", (message) => {});
+        })
+        .catch((e) => console.log("Connection failed: ", e));
+    }
   }, []);
 
-  
-  
+  const getNotifications = async (id) => {
+    let data = {
+      loggedInUserId: id,
+      pageNumber: 1,
+      pageSize: 5,
+    };
+
+    const resp = await notificationServices.getNotifications(data);
+    if (resp.status === 200) {
+      let response = resp.data.data
+      console.log(response, "resp");
+    }
+  };
 
   const sendMessage = async () => {
-      const chatMessage = {
-          user: "test",
-          message: "test",
-          connectionId: connection.connection.connectionId
-      };
-      console.log("connection",connection)
-      if (connection._connectionStarted) {
-          try { 
-            const send =  await connection.send('AddConnection', authData?.email, connection.connection.connectionId);
-            console.log(send,"send")
-            getJobDetails();
-          }
-          catch(e) {
-              console.log(e);
-          }
+    const chatMessage = {
+      user: "test",
+      message: "test",
+      connectionId: connection.connection.connectionId,
+    };
+    console.log("connection", connection);
+    if (connection._connectionStarted) {
+      try {
+        const send = await connection.send(
+          "AddConnection",
+          authData?.email,
+          connection.connection.connectionId
+        );
+        console.log(send, "send");
+        getJobDetails();
+      } catch (e) {
+        console.log(e);
       }
-      else {
-          alert('No connection to server yet.');
-      }
-  }
-
+    } else {
+      alert("No connection to server yet.");
+    }
+  };
 
   const getJobDetails = async () => {
     const resp = await jobServices.getJobByEmail(authData.email);
     if (resp.status == 200) {
-         console.log(resp.data.data,"jobdetails")
-      }
-  }
-
-
-  const pathName =  window.location.pathname;
-  useEffect(()=>{
-    if(pathName != "/inbox" && authData)
-    {  console.log(authData,"authData")
-      readUsers(authData.id)
+      console.log(resp.data.data, "jobdetails");
     }
-  },[pathName,authData])  
+  };
 
-  const readUsers =  (userId) => {
+  const pathName = window.location.pathname;
+  useEffect(() => {
+    if (pathName != "/inbox" && authData) {
+      readUsers(authData.id);
+    }
+  }, [pathName, authData]);
+
+  const readUsers = (userId) => {
     const starUserRef = ref(db, "User");
     onValue(starUserRef, (snapshot) => {
-         const data = snapshot.val();
-         if (data) { 
-          const convertedData = Object.keys(data).map(d => {
-            return data[d];
-          })
-       if(authData && authData.userRoles[0] && authData.userRoles[0] == "Student")
-       {
-        let finalData = convertedData.filter((data) => data.studentId == userId)
-        finalData.map((data)=>{
-          if(data.live)
-          {
-           const updates = {};
-           updates['/studentLive/'] = false;
-           update(ref(db, "User/" + data.chatRoomID), updates);
-          }
-          
-        })
-       }else{
-        let finalData = convertedData.filter((data) => data.employerId == userId)
-           finalData.map((data)=>{
-            if(data.live)
-            {
+      const data = snapshot.val();
+      if (data) {
+        const convertedData = Object.keys(data).map((d) => {
+          return data[d];
+        });
+        if (
+          authData &&
+          authData.userRoles[0] &&
+          authData.userRoles[0] == "Student"
+        ) {
+          let finalData = convertedData.filter(
+            (data) => data.studentId == userId
+          );
+          finalData.map((data) => {
+            if (data.live) {
               const updates = {};
-              updates['/employerLive/'] = false;
+              updates["/studentLive/"] = false;
               update(ref(db, "User/" + data.chatRoomID), updates);
             }
-           })
-       }
-       
-
-    }
+          });
+        } else {
+          let finalData = convertedData.filter(
+            (data) => data.employerId == userId
+          );
+          finalData.map((data) => {
+            if (data.live) {
+              const updates = {};
+              updates["/employerLive/"] = false;
+              update(ref(db, "User/" + data.chatRoomID), updates);
+            }
+          });
+        }
+      }
     });
-
   };
 
   useEffect(() => {
@@ -130,6 +148,9 @@ const Header = () => {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
       );
+    }
+    if(authData) {
+      getNotifications(authData.id)
     }
   }, [authData]);
 

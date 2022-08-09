@@ -63,7 +63,7 @@ const ProfileValidate = (values) => {
      if(!values.qualificationId){ 
           error.qualificationId = "Required qualification"
      }
-     if(values.qualificationId == "Other" && !values.qualification){ 
+     if(values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16" && !values.qualification){ 
           error.qualification = "Required qualification"
      }
      

@@ -12,8 +12,8 @@ const CompleteKycModal = ({ jobList, studentData }) => {
   const dispatch = useDispatch();
 
   const [studentId, setStudentId] = useState("");
-  const [mainfile, setMainfile] = useState({});
-  const [backfile, setBackfile] = useState({});
+  const [mainfile, setMainfile] = useState();
+  const [backfile, setBackfile] = useState();
   const [err, setErr] = useState([]);
 
   const handleFrontSide = (e) => {
@@ -37,10 +37,10 @@ const CompleteKycModal = ({ jobList, studentData }) => {
       error.backSideFile = "Required Back Id Proof Photo";
       isValid = false;
     }
+    console.log(error);
     setErr(error);
     return isValid;
   };
-
   const handleSubmitKycForm = async (values) => {
     let formData = new FormData();
     formData.append("StudentId", studentId);
@@ -127,7 +127,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
                           type="file"
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />
-                        <p>{err && err.mainfile}</p>
+                        <p>{err?.mainfile}</p>
                       </div>
                       <label>Back Id Proof</label>
                       <div className="form-field flex100">
@@ -137,7 +137,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
                           type="file"
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />
-                        <p>{err && err.backSideFile}</p>
+                        <p>{err?.backSideFile}</p>
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button

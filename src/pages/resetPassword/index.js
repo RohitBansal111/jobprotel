@@ -10,7 +10,6 @@ import * as authServices from "../../services/authServices";
 import toast from "toastr";
 
 const ResetPassword = (props) => {
-  // let titleStrings = new LocalizedStrings(titles);
   const [userToken, setUserToken] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);

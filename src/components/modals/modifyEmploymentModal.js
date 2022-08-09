@@ -22,7 +22,7 @@ const ModifyEmploymentModal = ({ empData }) => {
   const validation = (values) => {
     let isValid = true;
     let error = {};
-    const {startDate,endDate} = values
+    const { startDate, endDate } = values;
     const startDate1 = moment(startDate).format("MM/DD/YYYY");
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
@@ -31,39 +31,45 @@ const ModifyEmploymentModal = ({ empData }) => {
     const endDOnly = endDate1 + " " + "00:00:00";
     const endDateOnly = moment(endDOnly).format("X");
 
-    if(startDOnly < endDOnly)
-    {
+    if (endDOnly < startDOnly) {
       error.endDate = "End Date should be greater than start date";
       isValid = false;
     }
-    
+
     setErrors(error);
     return isValid;
   };
 
   const handleJobPost = async (values) => {
-    if(validation(values))
-    {
-    if (id && userId) {
-      const resp = await studentServices.updateStudentEmploymentData(id, {
-        ...values,
+    if (validation(values)) {
+      let data = {
+        designationId: values.designationId,
+        employerName: values.employerName,
+        endDate: values.endDate,
+        isCurrentEmployer: values.isCurrentEmployer == "1" ? true : false,
+        salary: values.salary,
+        startDate: values.startDate,
         userId,
-      });
-      if (resp.status === 200) {
-        document.getElementById("modifyEmploymentModal").click();
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
+      };
+      if (id && userId) {
+        const resp = await studentServices.updateStudentEmploymentData(
+          id,
+          data
         );
+        if (resp.status === 200) {
+          document.getElementById("modifyEmploymentModal").click();
+          toast.success(
+            resp.data.message ? resp.data.message : "Something went wrong"
+          );
+        }
       }
     }
-  }
   };
-
   const getEmpData = (empData) => {
     const data = {
       designationId: empData.designationId,
+      isCurrentEmployer: empData.isCurrentEmployer ? "1" : "2",
       employerName: empData.employerName,
-      isCurrentEmployer: empData.isCurrentEmployer,
       startDate: empData.startDate,
       endDate: empData.endDate,
       salary: empData.salary,
@@ -124,11 +130,9 @@ const ModifyEmploymentModal = ({ empData }) => {
                           component={renderSelect}
                           placeholder="Enter category"
                         >
-                          <option
-                                value="{designation.id}"
-                              >
-                                Select Designation
-                              </option>
+                          <option value="{designation.id}">
+                            Select Designation
+                          </option>
                           {designationlist?.map((designation) => (
                             <option value={designation.id} key={designation.id}>
                               {designation.title}
@@ -149,7 +153,7 @@ const ModifyEmploymentModal = ({ empData }) => {
                         <div className="radio-button-groupss absolute-error">
                           <Field
                             name="isCurrentEmployer"
-                            value={true}
+                            value="1"
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
@@ -158,7 +162,7 @@ const ModifyEmploymentModal = ({ empData }) => {
                           </Field>
                           <Field
                             name="isCurrentEmployer"
-                            value={false}
+                            value="2"
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
@@ -184,8 +188,8 @@ const ModifyEmploymentModal = ({ empData }) => {
                           component={renderField}
                           type="date"
                           min={values.startDate && values.startDate}
-                          />
-                          <p style={{ color: "red" }}>{errors?.endDate}</p>
+                        />
+                        <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
 
                       <div className="form-field flex100">

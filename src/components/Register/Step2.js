@@ -49,7 +49,7 @@ const Step2 = ({
     altName: "India Standard Time",
     label: "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi",
     offset: 5.5,
-  }
+  };
   const [img, setImg] = useState({
     personalInfoImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -66,7 +66,7 @@ const Step2 = ({
   const handleQualification = (e) => {
     let value = e.target.value;
     setQualificationId(value);
-    if (value == "Other") {
+    if (value == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       setInputField(true);
     } else {
       setInputField(false);
@@ -86,9 +86,15 @@ const Step2 = ({
 
   const SaveStep2 = (values) => {
     if (validation()) {
+      let data;
+      let data2;
+      if (qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16") {
+        data = values.qualification;
+      }
       userPersonalInfo({
         ...values,
-        timezone: typeof timezone == "object"?timezone:tt,
+        timezone: typeof timezone == "object" ? timezone : tt,
+        qualification: data ? data : null,
         qualificationId: qualificationId,
         profileImageUrl: img,
         profileImage: profileImage,
@@ -101,11 +107,12 @@ const Step2 = ({
     const resp = await dropdownServices.qualificationList();
     setQualificationList(resp.data);
     setQualificationId(data.qualificationId && data.qualificationId);
-    console.log("data.profileImageUrl-9", data.profileImageUrl);
     if (data.profileImageUrl) {
       setImg({ personalInfoImg: data.profileImageUrl.personalInfoImg });
       setProfileImage(data.profileImage);
-      console.log(data.profileImage);
+    }
+    if(data.qualification){
+      setInputField(true)
     }
   }, []);
 
@@ -142,8 +149,16 @@ const Step2 = ({
   };
 
   const instanceSaveStep2 = (values) => {
+    let data;
+    if (qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16") {
+      data = values.qualification;
+    } else {
+      data = values.qualificationId;
+    }
     initialPersonalInfo({
       ...values,
+      qualification: data ? data : null,
+      qualificationId: qualificationId,
       profileImageUrl: img,
       profileImage: profileImage,
     });
@@ -199,7 +214,9 @@ const Step2 = ({
                           type="file"
                           onChange={handleImageChange}
                         />
-                        <p style={{ color: "red" }} className="mt-2">{err && err.logo}</p>
+                        <p style={{ color: "red" }} className="mt-2">
+                          {err && err.logo}
+                        </p>
                       </div>
                     </div>
                     <div className="aws-placeholder image4">
@@ -336,9 +353,8 @@ const Step2 = ({
                     label={titleStrings.qualificationTitle}
                     component={renderSelect}
                     onChange={handleQualification}
-                    // defaultValue={next && data ? data.qualificationId : ""}
                   >
-                    <option value="">
+                    <option value="" disabled>
                       Select
                     </option>
                     {qualificationList &&
@@ -347,20 +363,18 @@ const Step2 = ({
                           {qualification.name}
                         </option>
                       ))}
-                    <option value="Other">Other</option>
+                    {/* <option value="Other">Other</option> */}
                   </Field>
                 </div>
-                {inputField || data.qualification ? 
+                {inputField && (
                   <div className="form-field flex100">
                     <Field
                       name="qualification"
                       label={titleStrings.qualificationTitle}
                       component={renderField}
-                      // defaultValue={next && data ? data.qualification : ""}
                     />
                   </div>
-                  :null
-                }
+                )}
                 <div className="form-field flex100">
                   <Field
                     name="interests"

@@ -7,9 +7,11 @@ import titles from "./forgot-password.json";
 import { Link } from "react-router-dom";
 import * as authServices from "../../services/authServices";
 import toast from "toastr";
+import { useNavigate } from "react-router";
 
 const ForgotPassword = () => {
   let titleStrings = new LocalizedStrings(titles);
+const navigate = useNavigate();
 
   const handleForgotPassword = async (value) => {
     if (value) {
@@ -18,6 +20,7 @@ const ForgotPassword = () => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
+        navigate("/")
       } else {
         if (resp.errors && typeof resp.errors === "object") {
           let errors = "";
