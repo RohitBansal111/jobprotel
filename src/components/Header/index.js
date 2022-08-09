@@ -23,6 +23,7 @@ const Header = () => {
 
   const [profilePic, setProfilePic] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
+  const [notifications, setNotifications] = useState("");
 
   
   console.log(connection,"hubConnectionState2")
@@ -42,27 +43,28 @@ const Header = () => {
   }, []);
 
   
-  
+  useEffect(()=>{
+    if(authData)
+    {
+    addConnection();
+    getNotifications();
+    }
+  },[connection,authData])
 
-  const sendMessage = async () => {
-      const chatMessage = {
-          user: "test",
-          message: "test",
-          connectionId: connection.connection.connectionId
-      };
+  const addConnection = async () => {
       console.log("connection",connection)
       if (connection._connectionStarted) {
           try { 
             const send =  await connection.send('AddConnection', authData?.email, connection.connection.connectionId);
             console.log(send,"send")
-            getJobDetails();
+            //getJobDetails();
           }
           catch(e) {
               console.log(e);
           }
       }
       else {
-          alert('No connection to server yet.');
+          console.log('No connection to server yet.');
       }
   }
 
@@ -71,6 +73,18 @@ const Header = () => {
     const resp = await jobServices.getJobByEmail(authData.email);
     if (resp.status == 200) {
          console.log(resp.data.data,"jobdetails")
+      }
+  }
+
+  const getNotifications = async () => {
+    const payload ={
+      pageNumber:1,
+      pagerSize:5
+    }
+    const resp = await notificationServices.getNotifications(payload);
+    if (resp.status == 200) {
+         console.log(resp.data.data,"notifications")
+         setNotifications(resp.data.data)
       }
   }
 
