@@ -17,6 +17,7 @@ import moment from "moment";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
+import toast from "toastr";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -112,6 +113,9 @@ const Profile = () => {
   const handleDeleteData = async (d) => {
     const resp = await studentServices.deleteStudentEmploymentData(d);
     if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
       employmentDetails
         .filter((data) => data.id !== d)
         .map((data) => setEmpDetails(data));
@@ -416,9 +420,9 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              <span className="plabel">Working</span>{" "}
+                              <span className="plabel">Working Type</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workingType} days
+                                {studentData?.studentDetails?.workingType == 1 ? "Onsite" : "Offsite"} 
                               </span>
                             </li>
                             <li>

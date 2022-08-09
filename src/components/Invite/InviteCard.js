@@ -23,13 +23,11 @@ const InviteCard = ({
   const authData = useSelector((state) => state.auth.user);
 
   const handleInvitation = async (st, id) => {
-    // console.log(st, id ,"asdf");
     let data = {
       id: id,
       invitationStatus: st,
     };
     const resp = await updateInvitationService.updateInvitationStatus(data);
-    // console.log(resp);
     if (resp.status === 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
@@ -39,7 +37,7 @@ const InviteCard = ({
       }
     }
   };
-  const handleChatNow = (id,jobId) => navigate(`/inbox/${id}/${jobId}`);
+  const handleChatNow = (id, jobId) => navigate(`/inbox/${id}/${jobId}`);
 
   return (
     <>
@@ -125,10 +123,9 @@ const InviteCard = ({
                 </>
               ) : invites?.jobInvitationStatus === 1 ? (
                 <>
-                  {/* <h3 style={{ color: "green", marginRight:"-800px" }}>Accepted</h3> */}
                   <button
                     type="button"
-                    onClick={()=>handleChatNow(invites.userId,invites.jobId)}
+                    onClick={() => handleChatNow(invites.userId, invites.jobId)}
                     className="btn btn-primary mr-2"
                   >
                     <i className="fa fa-comments mr-2"></i> Chat Now

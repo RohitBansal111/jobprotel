@@ -25,14 +25,28 @@ import * as extraCertificateServices from "../../services/studentExtraCertificat
 import * as types from "../../types/auth";
 import { Loader } from "../../components/Loader/Loader";
 import app from "../../helpers/firebase";
-import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  child,
+  query,
+  equalTo,
+  orderByChild,
+  get,
+  update,
+  remove,
+} from "@firebase/database";
 
 const EditProfile = () => {
+  const authData = useSelector((state) => state.auth.user);
+
   const db = getDatabase(app);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  
+
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
@@ -66,9 +80,7 @@ const EditProfile = () => {
   const [working, setWorking] = useState("");
   const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
-  const authData = useSelector((state) => state.auth.user);
 
-  console.log(previewImg);
   const resumeHandler = (e) => {
     const files = e.target.files[0];
     setResumeFile(files);
@@ -111,7 +123,6 @@ const EditProfile = () => {
   const getExtraCertificate = async (id) => {
     const resp = await extraCertificateServices.getExtraCertificates(id);
     let response = resp.data?.data?.result;
-    console.log(response);
     if (resp.status === 200 && response.length > 0) {
       let arr = [];
       response.map((resp) => {
@@ -121,7 +132,6 @@ const EditProfile = () => {
           id: resp.id,
         };
         arr.push(obj);
-        console.log(obj);
       });
       setPreviewImg(arr);
     }
@@ -173,95 +183,111 @@ const EditProfile = () => {
   };
 
   const getStudentData = async (id = authData.id) => {
-    
-    setStudentProfilePic(UserAvtar);
-    setImg({
-      // ...img,
-      personalInfoImg: UserAvtar,
-    });
-    const resp = await studentServices.getStudentDetails(id);
-    if (resp.status == 200) {
-      setLoading(false);
-      const response = resp.data.data;
-      setStudentData(response);
+    try {
+      setStudentProfilePic(UserAvtar);
+      setImg({
+        // ...img,
+        personalInfoImg: UserAvtar,
+      });
 
-      if (response?.studentDetails?.pictureUrl) {
-        setStudentProfilePic(
-          `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
+      const resp = await studentServices.getStudentDetails(id);
+      if (resp.status == 200) {
+        setLoading(false);
+        let response = resp.data.data;
+        setStudentData(response);
+
+        if (response?.studentDetails?.pictureUrl) {
+          setStudentProfilePic(
+            `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
+          );
+          setImg({
+            ...img,
+            personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
+          });
+        }
+
+        setStudentResume(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
         );
-        setImg({
-          ...img,
-          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
-        });
-      }
+        if (response.studentDetails.resumeFilePath) {
+          setResumeName(response?.studentDetails?.resumeFilePath);
+        }
+        let finalInterest = [];
+        if (response.studentDetails.interests) {
+          let interest = response.studentDetails.interests?.split(",");
+          interest &&
+            interest.length > 0 &&
+            interest.map((data) => {
+              if (data && data != "") {
+                const obj = { id: data, text: data };
+                finalInterest.push(obj);
+              }
+              setInterests(finalInterest);
+            });
+        }
 
-      setStudentResume(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
-      );
-      if (response.studentDetails.resumeFilePath) {
-        setResumeName(response?.studentDetails?.resumeFilePath);
-      }
-      let finalInterest = [];
-      if (response.studentDetails.interests) {
-        let interest = response.studentDetails.interests?.split(",");
-        interest &&
-          interest.length > 0 &&
-          interest.map((data) => {
-            if (data && data != "") {
-              const obj = { id: data, text: data };
-              finalInterest.push(obj);
-            }
-            setInterests(finalInterest);
-          });
-      }
+        let finalSkill = [];
+        if (response.studentDetails.skills) {
+          let skill = response.studentDetails.skills?.split(",");
+          skill &&
+            skill.length > 0 &&
+            skill.map((data) => {
+              if (data && data != "") {
+                const obj = { id: data, text: data };
+                finalSkill.push(obj);
+              }
+              setSkills(finalSkill);
+            });
+        }
 
-      let finalSkill = [];
-      if (response.studentDetails.skills) {
-        let skill = response.studentDetails.skills?.split(",");
-        skill &&
-          skill.length > 0 &&
-          skill.map((data) => {
-            if (data && data != "") {
-              const obj = { id: data, text: data };
-              finalSkill.push(obj);
-            }
-            setSkills(finalSkill);
-          });
+        if (response.studentDetails.countryResponse) {
+          CountryValue(response.studentDetails.countryResponse.id);
+        }
+        console.log(response);
+        if (response?.studentDetails?.qualificationName !== null) {
+          setInputField(true);
+        }
+        if (response) {
+          let data = {
+            firstname: response?.firstName,
+            lastname: response?.lastName,
+            email: response?.email,
+            houseno: response?.studentDetails?.address,
+            addressLine1: response?.studentDetails?.addressLine1,
+            addressLine2:
+              response?.studentDetails?.addressLine2 != null
+                ? response.studentDetails.addressLine2
+                : "",
+            Country: response?.studentDetails?.countryResponse?.id,
+            state: response?.studentDetails?.stateResponse.id,
+            city: response?.studentDetails?.cityName,
+            pin: response?.studentDetails?.postalCode,
+            age: response?.studentDetails?.age,
+            genderName: response?.studentDetails?.genderResponse?.id,
+            collegeId: response?.studentDetails?.collegeResponse?.id,
+            designation: response?.studentDetails?.designationResponse?.id,
+            qualificationId:
+              response?.studentDetails?.qualificationResponse?.id,
+            qualification: response?.studentDetails?.qualificationName,
+            hours: response?.studentDetails?.workHoursPerDay,
+            days: response?.studentDetails?.workDaysPerWeek,
+            salary: response?.studentDetails?.expectedSalary,
+            working: response?.studentDetails?.workingType.toString(),
+            experienceInYears: response?.studentDetails?.experienceInYears,
+            experienceInMonths: response?.studentDetails?.experienceInMonths,
+            timezone: JSON.parse(response?.studentDetails?.timezone),
+            intrestedArea: finalInterest,
+            skills: finalSkill,
+          };
+          setEditData(data);
+        }
+        if (response?.studentDetails?.qualificationResponse == null) {
+          setInputField(true);
+        }
+        setTimezone(JSON.parse(response?.studentDetails?.timezone));
       }
-
-      if (response.studentDetails.countryResponse) {
-        CountryValue(response.studentDetails.countryResponse.id);
-      }
-
-      const data = {
-        firstname: response.firstName,
-        lastname: response.lastName,
-        email: response.email,
-        houseno: response.studentDetails.address,
-        addressLine1: response.studentDetails.addressLine1,
-        addressLine2: response.studentDetails.addressLine2 != 'null'?response.studentDetails.addressLine2:"",
-        Country: response.studentDetails.countryResponse.id,
-        state: response.studentDetails.stateResponse.id,
-        city: response.studentDetails.cityName,
-        pin: response.studentDetails.postalCode,
-        age: response.studentDetails.age,
-        genderName: response.studentDetails.genderResponse.id,
-        collegeId: response.studentDetails.collegeResponse.id,
-        designation: response.studentDetails.designationResponse.id,
-        qualificationId: response.studentDetails.qualificationResponse.id,
-        qualification: response.studentDetails.qualificationName,
-        hours: response.studentDetails.workHoursPerDay,
-        days: response.studentDetails.workDaysPerWeek,
-        salary: response.studentDetails.expectedSalary,
-        working: response.studentDetails.workingType.toString(),
-        experienceInYears: response.studentDetails.experienceInYears,
-        experienceInMonths: response.studentDetails.experienceInMonths,
-        timezone: JSON.parse(response?.studentDetails?.timezone),
-        intrestedArea: finalInterest,
-        skills: finalSkill,
-      };
-      setTimezone(JSON.parse(response?.studentDetails?.timezone));
-      setEditData(data);
+    } catch (err) {
+      console.log(err, "+++++++err");
     }
   };
 
@@ -285,8 +311,8 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
-    setLoadingUpdate(true)
-
+    setLoadingUpdate(true);
+    console.log(values);
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -313,16 +339,15 @@ const EditProfile = () => {
     formData.append("address", values.houseno);
     formData.append("age", values.age);
 
-    if (values.qualificationId == "Other") {
+    if (values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       formData.append("qualification", values.qualification);
-    } else {
-      formData.append(
-        "qualificationId",
-        qualificationId
-          ? qualificationId
-          : studentData.studentDetails.qualificationResponse.id
-      );
     }
+    formData.append(
+      "qualificationId",
+      qualificationId
+        ? qualificationId
+        : studentData.studentDetails.qualificationResponse.id
+    );
 
     let interestsArr = [];
     values.intrestedArea &&
@@ -366,9 +391,9 @@ const EditProfile = () => {
 
     const resp = await studentServices.updateStudentDetails(formData);
     if (resp.status === 200) {
-      setLoadingUpdate(false)
+      setLoadingUpdate(false);
       //call firebase
-      readUsers(authData.id,values.firstname,values.lastname);
+      readUsers(authData.id, values.firstname, values.lastname);
 
       const resp2 = await studentServices.getStudentDetails(id);
       localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
@@ -378,8 +403,6 @@ const EditProfile = () => {
           payload: resp2.data.data,
           token: localStorage.getItem("jobPortalUserToken"),
         });
-        
-        
       }
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
@@ -407,26 +430,29 @@ const EditProfile = () => {
     }
   };
 
-  const readUsers =  (userId,firstName,lastName) => {
+  const readUsers = (userId, firstName, lastName) => {
     const starUserRef = ref(db, "User");
     onValue(starUserRef, (snapshot) => {
-         const data = snapshot.val();
-         if (data) { 
-          const convertedData = Object.keys(data).map(d => {
-            return data[d];
-       })
-       let finalData = convertedData.filter((data) => data.studentId == userId)
-           finalData.map((data)=>{
-              const updates = {};
-              updates['/studentDisplayName/'] = firstName.charAt(0).toUpperCase() + firstName.slice(1)+" "+lastName;
+      const data = snapshot.val();
+      if (data) {
+        const convertedData = Object.keys(data).map((d) => {
+          return data[d];
+        });
+        let finalData = convertedData.filter(
+          (data) => data.studentId == userId
+        );
+        finalData.map((data) => {
+          const updates = {};
+          updates["/studentDisplayName/"] =
+            firstName.charAt(0).toUpperCase() +
+            firstName.slice(1) +
+            " " +
+            lastName;
 
-               update(ref(db, "User/" + data.chatRoomID), updates);
-             
-           })
-
-         }
+          update(ref(db, "User/" + data.chatRoomID), updates);
+        });
+      }
     });
-
   };
   const closeModal = () => {
     setModal(false);
@@ -441,7 +467,6 @@ const EditProfile = () => {
   }
 
   const handleImageChange = (event) => {
-    // console.log(event.target.files[0]);
     setModal(true);
     if (event.target.files?.length > 0) {
       setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
@@ -450,8 +475,9 @@ const EditProfile = () => {
 
   const handleQualification = (e) => {
     let value = e.target.value;
+    console.log(value);
     setQualificationId(value);
-    if (value == "Other") {
+    if (value == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       setInputField(true);
     } else {
       setInputField(false);
@@ -518,12 +544,7 @@ const EditProfile = () => {
                       </span>
                     </div>
                     <h3>
-                      {studentData &&
-                        studentData.firstName &&
-                        studentData.firstName}{" "}
-                      {studentData &&
-                        studentData.lastName &&
-                        studentData.lastName}{" "}
+                      {studentData?.firstName} {studentData?.lastName}{" "}
                     </h3>
                     <p>
                       {studentData?.studentDetails?.address}
@@ -531,7 +552,10 @@ const EditProfile = () => {
                       {studentData?.studentDetails?.addressLine1}
                       {", "}
                       {studentData?.studentDetails?.addressLine2 !=
-                        "undefined" && studentData?.studentDetails?.addressLine2 !='null'?studentData?.studentDetails?.addressLine2:""}
+                        "undefined" &&
+                      studentData?.studentDetails?.addressLine2 != "null"
+                        ? studentData?.studentDetails?.addressLine2
+                        : ""}
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
@@ -873,7 +897,6 @@ const EditProfile = () => {
                                             </option>
                                           )
                                         )}
-                                      <option value="Other">Other</option>
                                     </Field>
                                   </div>
                                   {inputField && (
@@ -1145,7 +1168,7 @@ const EditProfile = () => {
                             </div>
                           </section>
                         </>
-                       )}
+                      )}
                       <div className="form-field flex100 mb-5 d-flex justify-content-end">
                         <button
                           type="submit"

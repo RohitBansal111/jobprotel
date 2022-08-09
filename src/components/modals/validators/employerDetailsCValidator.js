@@ -7,7 +7,7 @@ const EmployerDetailsValidator = (values) => {
   if (!values.employerName) {
     error.employerName = "Required organisation";
   }
-  if (!values.isCurrentEmployer) {
+  if (values.isCurrentEmployer  == "") {
     error.isCurrentEmployer = "Required current employer";
   }
   if (!values.startDate) {

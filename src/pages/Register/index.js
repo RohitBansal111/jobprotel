@@ -90,6 +90,7 @@ const Register = () => {
   };
 
   const userPersonalInfo = (data) => {
+    console.log(data);
     setUserData({ ...userData, ...data });
   };
   const initialPersonalInfo = (data) => {

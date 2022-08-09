@@ -34,7 +34,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
     const endDOnly = endDate1 + " " + "00:00:00";
     const endDateOnly = moment(endDOnly).format("X");
 
-    if(startDOnly < endDOnly)
+    if(endDOnly < startDOnly)
     {
       error.endDate = "End Date should be greater than start date";
       isValid = false;
@@ -142,7 +142,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           placeholder="Enter category"
                         >
                            <option
-                                value="{designation.id}"
+                                value=""
                               >
                                 Select Designation
                               </option>
