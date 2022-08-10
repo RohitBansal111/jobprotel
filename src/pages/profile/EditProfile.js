@@ -184,11 +184,11 @@ const EditProfile = () => {
 
   const getStudentData = async (id = authData.id) => {
     try {
-      setStudentProfilePic(UserAvtar);
-      setImg({
-        // ...img,
-        personalInfoImg: UserAvtar,
-      });
+      // setStudentProfilePic(UserAvtar);
+      // setImg({
+      //   // ...img,
+      //   personalInfoImg: UserAvtar,
+      // });
 
       const resp = await studentServices.getStudentDetails(id);
       if (resp.status == 200) {

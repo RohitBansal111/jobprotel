@@ -44,7 +44,6 @@ const FindWork = () => {
       setKycStatus(false);
     }, 1000);
   }, []);
-  
 
   const getStudentDetails = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
@@ -142,7 +141,12 @@ const FindWork = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic ? studentProfilePic : UserAvtar} alt="user profile" />
+                        <img
+                          src={
+                            studentProfilePic ? studentProfilePic : UserAvtar
+                          }
+                          alt="user profile"
+                        />
                       </span>
                     </div>
                     <h3>{studentData?.fullName} </h3>
@@ -152,7 +156,10 @@ const FindWork = () => {
                       {studentData?.studentDetails?.addressLine1}
                       {", "}
                       {studentData?.studentDetails?.addressLine2 !=
-                        "undefined" && studentData?.studentDetails?.addressLine2 !='null'?studentData?.studentDetails?.addressLine2:""}
+                        "undefined" &&
+                      studentData?.studentDetails?.addressLine2 != "null"
+                        ? studentData?.studentDetails?.addressLine2
+                        : ""}
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
@@ -211,7 +218,6 @@ const FindWork = () => {
                           }
                         </span>
                       </li>
-                    
                     </ul>
                   </div>
                 </div>
@@ -315,7 +321,9 @@ const FindWork = () => {
                         />
                       </div>
                       <div className="form-field">
-                        <button type="button" className="btn btn-primary">Reset</button>
+                        <button type="button" className="btn btn-primary">
+                          Reset
+                        </button>
                       </div>
                     </div>
                   </div>
