@@ -49,11 +49,12 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       userId: authData.id,
       remarks: "test",
     };
-   
-      const resp = await jobServices.applyJob(payload);
-      if (resp.status == 200) {
-        getJobList(activePage);
-       const resp2 = await studentServices.getStudentDetails(authData.id);
+
+    const resp = await jobServices.applyJob(payload);
+    if (resp.status == 200) {
+      console.log(resp);
+      getJobList(activePage);
+      const resp2 = await studentServices.getStudentDetails(authData.id);
       if (resp.status === 200) {
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
@@ -61,28 +62,25 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
           token: localStorage.getItem("jobPortalUserToken"),
         });
       }
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-      } else {
-        console.log(resp,"apll")
-        if (resp.errors && typeof resp.errors === "object") {
-          let errors = "";
-          let keys = Object.keys(resp.errors);
-          keys.forEach((key) => {
-            errors = key + "," + errors;
-          });
-  
-          errors = errors.replace(/,\s*$/, "");
-          toast.error(errors + "is Required");
-        } else if (resp.error) {
-          console.log(resp.error,"ap2")
-          toast.error(resp.error ? resp.error : "Something went wrong");
-        }
-      }
+      toast.success(
+        resp.data.data.message ? resp.data.data.message : "Something went wrong"
+      );
+    } else {
+      console.log(resp, "apll");
+      if (resp.errors && typeof resp.errors === "object") {
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
+        });
 
-     
-  
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        console.log(resp.error, "ap2");
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      }
+    }
   };
 
   return (
@@ -131,10 +129,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
         </div>
         <div className="feeds-search-detail">
           <p>
-            {/* We have a new project we might consider outsourcing. We need to hear
-            some full stacks experts regarding the difficulty of such project,
-            cost esitmations, and required skills. This job will be fast - a
-            conversation. ------------------ About the project in a nutshell.{" "} */}
             {jobs && jobs.description && jobs.description}
             {/* <Link to="#">See more </Link> */}
           </p>

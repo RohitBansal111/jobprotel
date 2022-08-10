@@ -21,9 +21,9 @@ const Applications = () => {
   }, []);
 
   useEffect(() => {
-    console.log(authData)
-  }, [authData])
-  
+    console.log(authData);
+  }, [authData]);
+
   const getUsers = async (pageNumber = pageNumber) => {
     const payload = {
       // jobId: '08da643b-794e-4c50-8f0f-545db712dbc4',
@@ -33,7 +33,9 @@ const Applications = () => {
     const resp = await jobServices.getReviewJobsByJobId(payload);
     console.log(resp.data.data, "data");
     if (resp.status == 200) {
-      setUsers(resp?.data?.data[0]?.users);
+      setUsers(resp.data?.data[0]?.users);
+      setLoading(false);
+    } else {
       setLoading(false);
     }
   };
@@ -51,33 +53,39 @@ const Applications = () => {
             <div className="innerbg-banner"></div>
           </div>
         </section>
-        <section className="job-feeds-wrapper">
-          <div className="container">
-            <h4 className="text-white mb-3">Review Applications</h4>
-            <div className="application-list-card mb-5">
-              <ul>
-                <li>
-                  <div className="default-feeds-search">
-                    {users &&
-                      users.length > 0 &&
-                      users.map((data, i) => (
-                        <EmployerReviewCard user={data} key={i} />
-                      ))}
-                  </div>
-                  {totalRecords > 5 &&  (
-                    <Pagination
-                      activePage={pageNumber}
-                      itemsCountPerPage={pageSize}
-                      totalItemsCount={totalRecords}
-                      pageRangeDisplayed={4}
-                      onChange={handlePageChange}
-                    />
-                  )}
-                </li>
-              </ul>
-            </div>
+        {loading ? (
+          <div className="button-submit-loader">
+            <Loader />
           </div>
-        </section>
+        ) : (
+          <section className="job-feeds-wrapper">
+            <div className="container">
+              <h4 className="text-white mb-3">Review Applications</h4>
+              <div className="application-list-card mb-5">
+                <ul>
+                  <li>
+                    <div className="default-feeds-search">
+                      {users &&
+                        users.length > 0 &&
+                        users.map((data, i) => (
+                          <EmployerReviewCard user={data} key={i} />
+                        ))}
+                    </div>
+                    {totalRecords > 5 && (
+                      <Pagination
+                        activePage={pageNumber}
+                        itemsCountPerPage={pageSize}
+                        totalItemsCount={totalRecords}
+                        pageRangeDisplayed={4}
+                        onChange={handlePageChange}
+                      />
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
     </Layout>
   );

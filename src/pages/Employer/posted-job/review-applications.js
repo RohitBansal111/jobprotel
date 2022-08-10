@@ -15,7 +15,6 @@ const ReviewApplications = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [activePage, setActivePage] = useState(1);
 
-  console.log(users, "data1");
   useEffect(() => {
     getUsers(jobid, pageNumber);
   }, [jobid]);
