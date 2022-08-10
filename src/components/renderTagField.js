@@ -58,6 +58,7 @@ export const RenderTagField = ({
           handleTagClick={handleTagClick}
           inputFieldPosition="inline"
           autocomplete
+          autoFocus={false}
           minQueryLength={1}
           renderSuggestion={({ text }, query) => (
             <div>
