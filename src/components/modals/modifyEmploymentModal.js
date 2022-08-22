@@ -12,7 +12,7 @@ import * as studentServices from "../../services/studentServices";
 import toast from "toastr";
 import moment from "moment";
 
-const ModifyEmploymentModal = ({ empData }) => {
+const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
   const [designationlist, setDesignationlist] = useState([]);
   const [id, setId] = useState("");
   const [userId, setUserId] = useState("");
@@ -57,6 +57,7 @@ const ModifyEmploymentModal = ({ empData }) => {
           id,
           data
         );
+        handleEmp()
         if (resp.status === 200) {
           document.getElementById("modifyEmploymentModal").click();
           toast.success(

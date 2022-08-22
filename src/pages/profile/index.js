@@ -89,6 +89,19 @@ const Profile = () => {
     }
   };
 
+useEffect(()=>{
+ 
+},[data])
+
+const handleDatarefresh=()=>{
+  if (authData) {
+  
+    getEmploymentDetails(authData);
+    
+ return true
+  }
+}
+
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
@@ -556,6 +569,7 @@ const Profile = () => {
                             </button>
                             <EmploymentDetailsModal
                               getEmploymentDetails={getEmploymentDetails}
+                              
                             />
                           </div>
                         </div>
@@ -602,7 +616,7 @@ const Profile = () => {
                               </li>
                             ))}
                           </ul>
-                          <ModifyEmploymentModal empData={data} />
+                          <ModifyEmploymentModal empData={data}  handleEmp={handleDatarefresh}/>
                         </div>
                       </div>
                     </section>

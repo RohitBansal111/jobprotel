@@ -65,7 +65,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
       startDate,
       salary,
     };
-   
+    console.log('sdffsda')
     if (data.userId) {
     
       const resp = await studentServices.sendStudentEmploymentData(data);
