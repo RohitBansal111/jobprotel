@@ -24,6 +24,7 @@ import {
   remove,
 } from "@firebase/database";
 import { Navigate, useParams } from "react-router";
+import ReactTimeAgo from "react-time-ago";
 
 const connection = new HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_IMAGE_API_URL}chatHub`)
@@ -32,11 +33,18 @@ const connection = new HubConnectionBuilder()
 
 const Header = () => {
   const db = getDatabase(app);
+  const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
+
+  const [userData, setUserData] = useState([]);
+  const [mobileMenu, setmobileMenu] = useState("");
+  const [role, setRole] = useState("Employer");
 
   const [profilePic, setProfilePic] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
-  const [notifications, setNotifications] = useState("");
+
+  const [notifications, setNotifications] = useState([]);
+  const [totalCount, setTotalCount] = useState(0)
 
   useEffect(() => {
     if (connection) {
@@ -58,8 +66,10 @@ const Header = () => {
 
     const resp = await notificationServices.getNotifications(data);
     if (resp.status === 200) {
-      let response = resp.data.data
+      setTotalCount(resp.data.totalCount)
+      let response = resp.data.data;
       console.log(response, "resp");
+      setNotifications(response);
     }
   };
 
@@ -150,15 +160,10 @@ const Header = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
       );
     }
-    if(authData) {
-      getNotifications(authData.id)
+    if (authData) {
+      getNotifications(authData.id);
     }
   }, [authData]);
-
-  const [userData, setUserData] = useState([]);
-  const dispatch = useDispatch();
-  const [mobileMenu, setmobileMenu] = useState("");
-  const [role, setRole] = useState("Employer");
 
   const menuToggle = () => {
     setmobileMenu("navbar-mobile");
@@ -310,53 +315,167 @@ const Header = () => {
                   aria-expanded="false"
                 >
                   <img src={Notification} alt="Notification" />
-                  <span className="notifi-badge"> 4 </span>
+                  <span className="notifi-badge">
+                    {" "}
+                    {totalCount}{" "}
+                  </span>
                 </button>
                 <ul
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton1"
                 >
-                  <li>
-                    <div className="notification-heading">
-                      <p>
-                        Your proposal to the job "I need a Logo Designer" was
-                        declined.
-                      </p>
-                    </div>
-                    <span>5 min. ago</span>
-                  </li>
-                  <li>
-                    <div className="notification-heading">
-                      <p>
-                        Your proposal to the job "I need a Logo Designer" was
-                        declined.
-                      </p>
-                    </div>
-                    <span>5 min. ago</span>
-                  </li>
-                  <li>
-                    <div className="notification-heading">
-                      <p>
-                        Your proposal to the job "I need a Logo Designer" was
-                        declined.
-                      </p>
-                    </div>
-                    <span>5 min. ago</span>
-                  </li>
-                  <li>
-                    <div className="notification-heading">
-                      <p>
-                        Your proposal to the job "I need a Logo Designer" was
-                        declined.
-                      </p>
-                    </div>
-                    <span>5 min. ago</span>
-                  </li>
-                  <li>
-                    <Link to="/notifications" className="notification-link">
-                      View All
-                    </Link>
-                  </li>
+                  {notifications &&
+                    notifications.length > 0 &&
+                    notifications.map((notification, i) =>
+                      notification.employerResponseDto !== null ? (
+                        <li key={i}>
+                          <div className="notification-heading">
+                            <p>
+                              ({i + 1}){" "}
+                              <b>
+                                {notification?.employerResponseDto?.companyName}
+                              </b>
+                              {", "}
+                              is looking for {" - "}
+                              <b>
+                                {notification?.notificationJobResponse?.title}{" "}
+                                (designation)
+                              </b>{" "}
+                              having{" "}
+                              {
+                                notification?.notificationJobResponse
+                                  ?.experience
+                              }{" "}
+                              Years of minimum experience.
+                              <br />
+                              <b>Working:- </b>{" "}
+                              {
+                                notification?.notificationJobResponse
+                                  ?.hoursPerDay
+                              }{" "}
+                              hours/day &{" "}
+                              {
+                                notification?.notificationJobResponse
+                                  ?.daysPerWeek
+                              }{" "}
+                              days/week.
+                              <br />
+                              <b>Job-Location:-</b>{" "}
+                              {notification?.notificationJobResponse?.location}.
+                              <br />
+                              <b>Salary:-</b> upto{" "}
+                              {notification?.notificationJobResponse?.salary}
+                              /month.
+                              <br />
+                              <b>Skills Required:-</b>{" "}
+                              {notification?.notificationJobResponse?.skills}{" "}
+                            </p>
+                          </div>
+                          <span>
+                            {notification?.createdOn ? (
+                              <ReactTimeAgo
+                                date={notification?.createdOn}
+                                locale="en-US"
+                              />
+                            ) : null}
+                          </span>
+                        </li>
+                      ) : (
+                        <li key={i}>
+                          <div className="notification-heading">
+                            <p>
+                              ({i + 1}){" "}
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                              </b>
+                              <br />
+                              
+                              has applied for designation{" "}
+                              <b>
+                                {
+                                  notification?.studentResponseDto
+                                    ?.designationResponse?.qualificationName
+                                }
+                              </b>
+                              <br />
+                              <b>Qualification:- </b>
+                              {
+                                notification?.studentResponseDto
+                                  ?.qualificationResponse?.qualificationName
+                              }
+                              {
+                                notification?.studentResponseDto
+                                  ?.qualificationName
+                              }
+                              <br />
+                              
+                              <b>Working:- </b>{" "}
+                              {
+                                notification?.studentResponseDto
+                                  ?.workHoursPerDay
+                              }{" "}
+                              hours/day &{" "}
+                              {
+                                notification?.studentResponseDto
+                                  ?.workDaysPerWeek
+                              }{" "}
+                              days/week. <br />
+                              <b>working-Type :-</b>{" "}
+                              {notification?.studentResponseDto?.workingType ==
+                              1
+                                ? "Onsite"
+                                : "Offsite"}
+                              <br />
+                              <b>Experience:- </b>
+                              {
+                                notification?.studentResponseDto
+                                  ?.experienceInYears
+                              }{" "}
+                              {notification?.studentResponseDto
+                                ?.experienceInYears
+                                ? "Year"
+                                : null}{" "}
+                              {notification?.studentResponseDto
+                                ?.experienceInMonths
+                                ? "&"
+                                : null}{" "}
+                              {
+                                notification?.studentResponseDto
+                                  ?.experienceInMonths
+                              }{" "}
+                              {notification?.studentResponseDto
+                                ?.experienceInMonths
+                                ? "Month"
+                                : null}
+                              <br />
+                              <b>Expected Salary:- </b>
+                              {
+                                notification?.studentResponseDto?.expectedSalary
+                              }
+                              {notification?.studentResponseDto?.expectedSalary 
+                                ? "/Month"
+                                : null}
+                            </p>
+                          </div>
+                          <span>
+                            {notification?.createdOn ? (
+                              <ReactTimeAgo
+                                date={notification?.createdOn}
+                                locale="en-US"
+                              />
+                            ) : null}
+                          </span>
+                        </li>
+                      )
+                    )}
+                  {totalCount > 5 && (
+                    <li>
+                      <Link to="/notifications" className="notification-link">
+                        View All
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </span>
