@@ -509,23 +509,21 @@ const Profile = () => {
                                           <button
                               type="button"
                               className="icon_button"
-                              data-bs-toggle="modal"
-                              data-bs-target="#employmentModal"
+                            
                               onClick={()=>{
-                                console.log(certificate)
-                                // Swal.fire({
-                                //   title: 'Are you sure?',
-                                //   text: "You won't be able to revert this!",
-                                //   icon: 'warning',
-                                //   showCancelButton: true,
-                                //   confirmButtonColor: '#3085d6',
-                                //   cancelButtonColor: '#d33',
-                                //   confirmButtonText: 'Yes, delete it!'
-                                // }).then((result) => {
-                                //   if (result.isConfirmed) {
-                                //    // handleExtraCertificateDelete(id)
-                                //   }
-                                // })
+                                Swal.fire({
+                                  title: 'Are you sure?',
+                                  text: "You won't be able to revert this!",
+                                  icon: 'warning',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    handleExtraCertificateDelete(certificate.certId)
+                                  }
+                                })
 
                               }}
                             >
@@ -630,6 +628,7 @@ const Profile = () => {
                         </div>
                         <div className="Project-info-list">
                           <div className="project-detail-list">
+                            {console.log(projectHistory)}
                             {projectHistory &&
                               projectHistory.length > 0 &&
                               projectHistory.map((project, index) => (
