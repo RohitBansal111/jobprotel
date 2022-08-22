@@ -235,6 +235,7 @@
         padding: 12px;
         margin-bottom: 10px;
         position: relative;
+        padding-bottom: 50px;
         h2.prname {
           font-size: 16px;
           color: #05574e;
@@ -246,6 +247,7 @@
           justify-content: space-between;
           align-items: flex-end;
           width: 100%;
+          padding-bottom: 5px;
           @include Phone {
             display: block;
           }
@@ -260,8 +262,6 @@
               margin-bottom: 5px;
             }
             .tech-links {
-              display: flex;
-              flex-wrap: wrap;
               li {
                 color: #132e31;
                 font-weight: 500;

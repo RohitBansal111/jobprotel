@@ -1056,19 +1056,18 @@ const EditProfile = () => {
                                   </div>
                                   <div className="form-field flex100">
                                     <label className="d-block">Resume</label>
-                                    <input
-                                      name="resume"
-                                      uploadlabel="Browse resume file"
-                                      type="file"
-                                      onChange={resumeHandler}
-                                    />
+                                    <div className="file-upload-placehlder">
+                                      <input
+                                        name="resume"
+                                        uploadlabel="Browse resume file"
+                                        type="file"
+                                        onChange={resumeHandler}
+                                      />
+                                      <span>Upload Resume</span>
+                                    </div>
                                     <ul className="uploaded-documents">
                                       <li>
                                         {resumeName}
-                                        {/* {studentData && studentData.resumeFilePath && (
-                                      <a href={studentResume} target="_blank">
-                                      </a>
-                                    )} */}
                                       </li>
                                     </ul>
                                   </div>
@@ -1076,14 +1075,17 @@ const EditProfile = () => {
                                     <label className="d-block">
                                       Extra Certificates
                                     </label>
-                                    <input
-                                      name="documents"
-                                      uploadlabel="Browse documents"
-                                      type="file"
-                                      accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                                      onChange={extraCertificateHandler}
-                                      multiple
-                                    />
+                                    <div className="file-upload-placehlder">
+                                      <input
+                                        name="documents"
+                                        uploadlabel="Browse documents"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                        onChange={extraCertificateHandler}
+                                        multiple
+                                      />
+                                      <span>Add Extra Certificates</span>
+                                    </div>
                                     <ul className="uploaded-documents">
                                       {previewImg &&
                                         previewImg.length > 0 &&

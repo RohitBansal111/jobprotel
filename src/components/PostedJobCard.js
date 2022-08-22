@@ -7,7 +7,7 @@ import ClockIcon from "./../assets/icons/clock-ico.png";
 import SendInvitationModal from "./Common/SendInvitationModal";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import * as jobServices from "../services/jobServices";
@@ -83,19 +83,20 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
     }
   };
 
+
   return (
     <>
       <div className="feeds-search-coll">
         <div className="feeds-search-head">
           <div className="feeds-head-left">
-            <div className="feeds-s-logo">
+            {/* <div className="feeds-s-logo">
               <Link to={`/job-details/${jobId}`}>
                 <img
                   src={`${process.env.REACT_APP_IMAGE_API_URL}${logo}`}
                   alt="Company Logo"
                 />
               </Link>
-            </div>
+            </div> */}
             <div className="feeds-s-name">
               <h2>
                 <Link
