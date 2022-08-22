@@ -28,9 +28,9 @@ const EmployerJobDetailsPage = () => {
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
   const [connects, setConnects] = useState("");
-  const handleApplicationReceived = () => {
-    navigate("/review-applications");
-  };
+  // const handleApplicationReceived = () => {
+  //   navigate("/review-applications");
+  // };
 
   useEffect(() => {
     getJobDetails(id);
@@ -44,7 +44,6 @@ const EmployerJobDetailsPage = () => {
   }, [selector]);
   const getJobDetails = async (id) => {
     const resp = await jobServices.getJobDetails(id);
-    // console.log(resp);
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
@@ -61,6 +60,7 @@ const EmployerJobDetailsPage = () => {
       setSkills(skills);
     }
   };
+  console.log(jobDetails.id, "::");
 
   return (
     <Layout>
@@ -189,10 +189,10 @@ const EmployerJobDetailsPage = () => {
                     <div className="post-action">
                       <button
                         type="button"
-                        onClick={handleApplicationReceived}
+                        // onClick={handleApplicationReceived}
                         className="btn btn-primary"
                       >
-                        Applications received ({jobDetails?.applicationRecivedCount})
+                       <Link to={`/review-applications/${jobDetails?.id}`}> Applications received ({jobDetails?.applicationRecivedCount})</Link>
                       </button>
                       <button type="button" className="btn btn-primary-outline">
                         Invitation accepted ({jobDetails?.invitationAcceptedCount})

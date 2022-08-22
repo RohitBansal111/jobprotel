@@ -344,7 +344,7 @@ const PostedJobModal = ({ id }) => {
                             ))}
                         </Field>
                       </div>
-                      <div className="form-field flex50">
+                      {/* <div className="form-field flex50">
                         <Field
                           name="timing"
                           label="Job Timings/days"
@@ -352,7 +352,7 @@ const PostedJobModal = ({ id }) => {
                           component={renderField}
                           type="text"
                         />
-                      </div>
+                      </div> */}
                       <div className="form-field flex50">
                         <label htmlFor="working">Select Time Zone</label>
                         <div className="radio-button-groupss absolute-error">
@@ -431,7 +431,7 @@ const PostedJobModal = ({ id }) => {
                         />
                         <p>$ {sal && sal}</p>
                       </div>
-                      <div className="form-field flex50">
+                      <div className="form-field flex100">
                         <Field
                           name="tags"
                           label="Tags"

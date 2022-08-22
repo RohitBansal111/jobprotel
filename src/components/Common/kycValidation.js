@@ -3,9 +3,9 @@ const KycValidator = (values) => {
   if (!values.documentTitle) {
     error.documentTitle = "Required Document Title";
   }
-  if (!values.remarks) {
-    error.remarks = "Remarks required";
-  }
+  // if (!values.remarks) {
+  //   error.remarks = "Remarks required";
+  // }
   return error;
 };
 

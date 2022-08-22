@@ -859,7 +859,7 @@ const EditProfile = () => {
                                   <div className="form-field flex50">
                                     <Field
                                       name="designation"
-                                      label="Category"
+                                      label="Categories of Job"
                                       component={renderSelect}
                                       onChange={handleDesignation}
                                     >
