@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import { getInstance } from "../redux/actions/axiosFactory";
+import moment from "moment";
 const axiosInstance = getInstance();
 
 export const renderRangeField = ({
@@ -110,6 +111,7 @@ export const renderField = ({
       onChange && onChange(e);
     },
   };
+ 
   return (
     <div className="field-render-main">
       <label htmlFor={`label${label}`}>{label}</label>
@@ -121,6 +123,7 @@ export const renderField = ({
           className="form-control"
           disabled={disabled}
           min={min}
+          max={placeholder=='Enter end date'?moment(new Date()).format('YYYY-MM-DD'):''}
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

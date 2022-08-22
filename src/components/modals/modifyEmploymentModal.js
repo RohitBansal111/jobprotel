@@ -18,6 +18,7 @@ const ModifyEmploymentModal = ({ empData }) => {
   const [userId, setUserId] = useState("");
   const [data, setData] = useState([]);
   const [errors, setErrors] = useState({});
+  const [endDate, setEndDate]=useState(false)
 
   const validation = (values) => {
     let isValid = true;
@@ -157,6 +158,9 @@ const ModifyEmploymentModal = ({ empData }) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
+                            onChange={(e)=>{
+                              setEndDate(true)
+                            }}
                           >
                             Yes
                           </Field>
@@ -166,10 +170,16 @@ const ModifyEmploymentModal = ({ empData }) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
+                            onChange={(e)=>{
+                              setEndDate(false)
+                            }}
                           >
                             No
                           </Field>
                         </div>
+                        {
+                          
+                        }
                       </div>
                       <div className="form-field flex100">
                         <Field
@@ -180,7 +190,8 @@ const ModifyEmploymentModal = ({ empData }) => {
                           type="date"
                         />
                       </div>
-                      <div className="form-field flex100">
+                      {
+                        !endDate && <div className="form-field flex100">
                         <Field
                           name="endDate"
                           label="End Date"
@@ -188,11 +199,14 @@ const ModifyEmploymentModal = ({ empData }) => {
                           component={renderField}
                           type="date"
                           min={values.startDate && values.startDate}
+                          disabled={endDate}
                         />
                         <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
+                      }
+                     
 
-                      <div className="form-field flex100">
+                      {/* <div className="form-field flex100">
                         <Field
                           label="Expected Salary"
                           name="salary"
@@ -201,14 +215,14 @@ const ModifyEmploymentModal = ({ empData }) => {
                           type="text"
                           pattern="[0-9]*"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
                         >
-                          Update Now
+                         Submit
                         </button>
                       </div>
                     </div>

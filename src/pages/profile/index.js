@@ -18,6 +18,7 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
+import Swal from 'sweetalert2'
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -145,6 +146,22 @@ const Profile = () => {
   const viewTextChange=(id)=>{
     const btn = document.getElementById(id);
     btn.innerHTML = btn.textContent == "View More"?"View Less":"View More";
+  }
+
+  const handlePopUp=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteData(id)
+      }
+    })
   }
   return (
     <Layout>
@@ -401,12 +418,12 @@ const Profile = () => {
                                 {studentData?.studentDetails?.workHoursPerDay}
                               </span>
                             </li>
-                            <li>
+                            {/* <li>
                               <span className="plabel">Expected salary </span>
                               <span className="result">
                                 $ {studentData?.studentDetails?.expectedSalary}
                               </span>
-                            </li>
+                            </li> */}
                             <li>
                               <span className="plabel">Total Experience</span>{" "}
                               <span className="result">
@@ -449,6 +466,7 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
+                                <div className="div_edit_btn"> 
                                 <ul className="tags">
                                   {studentData?.studentDetails?.studentExtraCertificate.map(
                                     (certificate, i) => (
@@ -465,6 +483,17 @@ const Profile = () => {
                                     )
                                   )}
                                 </ul>
+                                <div className="edit_btn"> <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modifyEmploymentModal"
+                                    onClick={() => handleEditingData(data)}
+                                  >
+                                    <i className="fas fa-pen"></i>
+                                  </button></div>
+                                </div>
+                               
                               </span>
                             </li>
                           </ul>
@@ -514,7 +543,8 @@ const Profile = () => {
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modifyEmploymentModal"
-                                    onClick={() => handleEditingData(data)}
+                                   onClick={() => handleEditingData(data)}
+                                 
                                   >
                                     <i className="fas fa-pen"></i>
                                   </button>
@@ -523,7 +553,8 @@ const Profile = () => {
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     // data-bs-target="#modifyEmploymentModal"
-                                    onClick={() => handleDeleteData(data.id)}
+                                  //  onClick={() => }
+                                  onClick={()=>handlePopUp(data.id)}
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>

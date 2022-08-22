@@ -19,6 +19,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
   const authData = useSelector((state) => state.auth.user);
   const [designationlist, setDesignationlist] = useState([]);
   const [errors, setErrors] = useState({});
+  const [checkEnd, setScheCkEnd]=useState(false)
 
   const [id, setId] = useState("");
 
@@ -30,27 +31,27 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
 
-    const endDate1 = moment(endDate).format("MM/DD/YYYY");
-    const endDOnly = endDate1 + " " + "00:00:00";
-    const endDateOnly = moment(endDOnly).format("X");
+    // const endDate1 = moment(endDate).format("MM/DD/YYYY");
+    // const endDOnly = endDate1 + " " + "00:00:00";
+    // const endDateOnly = moment(endDOnly).format("X");
 
-    if(endDOnly < startDOnly)
-    {
-      error.endDate = "End Date should be greater than start date";
-      isValid = false;
-    }
+    // if(endDOnly < startDOnly)
+    // {
+    //   error.endDate = "End Date should be greater than start date";
+    //   isValid = false;
+    // }
     
     setErrors(error);
     return isValid;
   };
 
-  const handleJobPost = async (values) => {
+  const handleSubmit = async (values) => {
+   
     let {
       employerName,
       designationId,
       isCurrentEmployer,
       salary,
-      endDate,
       startDate,
     } = values;
 
@@ -62,10 +63,11 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
       employerName,
       isCurrentEmployer,
       startDate,
-      endDate,
       salary,
     };
+   
     if (data.userId) {
+    
       const resp = await studentServices.sendStudentEmploymentData(data);
       console.log(resp,"resp")
       if (resp.status == 200) {
@@ -73,7 +75,6 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
         values.designationId = "";
         values.isCurrentEmployer = ""
         values.salary = "";
-        values.endDate = "";
         values.startDate = "";
 
         if(authData) {
@@ -88,7 +89,6 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
         designationId = "";
         isCurrentEmployer = ""
         salary = "";
-        endDate = "";
         startDate = "";
         
       }
@@ -130,7 +130,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
           </div>
           <div className="modal-body p-4">
             <div className="kyc-detail-form">
-              <Form onSubmit={handleJobPost} validate={validate}>
+              <Form onSubmit={handleSubmit} validate={validate}>
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
@@ -174,6 +174,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
+                            onChange={()=>setScheCkEnd(true)}
                           >
                             Yes
                           </Field>
@@ -183,6 +184,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
+                            onChange={()=>setScheCkEnd(false)}
                           >
                             No
                           </Field>
@@ -197,19 +199,25 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           type="date"
                         />
                       </div>
-                      <div className="form-field flex100">
+
+                      {
+                        !checkEnd &&    
+                         <div className="form-field flex100">
                         <Field
                           name="endDate"
                           label="End Date"
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
+                          value={!checkEnd?'2027-05-01':''}
                           min={values.startDate && values.startDate}
                         />
                         <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
+                      }
+                  
 
-                      <div className="form-field flex100">
+                      {/* <div className="form-field flex100">
                         <Field
                           label="Expected Salary"
                           name="salary"
@@ -218,14 +226,14 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           type="text"
                           pattern="[0-9]*"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
                         >
-                          Post Now
+                          Submit
                         </button>
                       </div>
                     </div>
