@@ -84,3 +84,11 @@ h5 {
     border: 1px solid $CommonBorder;
   }
 }
+.div_edit_btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.edit_btn{
+  padding-top: 29px;
+}

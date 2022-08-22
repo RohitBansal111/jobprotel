@@ -343,14 +343,19 @@ const Step3 = ({
                       component={RenderRadioButtonField}
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
-                      onChange={(e) => setCertificate(e.target.value)}
+                      onChange={(e) => {
+                        console.log(e.target.value)
+                        setCertificate(e.target.value)
+                      }}
                       currentIndex="1"
                     >
                       Yes
                     </Field>
                   </div>
                 </div>
-                <div className="form-field flex100 noLabel">
+
+                {
+                  certificate =='Yes' && <div className="form-field flex100 noLabel">
                   <div className="resume-upload">
                     <button
                       type="button"
@@ -386,6 +391,7 @@ const Step3 = ({
                                 name="title"
                                 onChange={(e) => handleFormChange(index, e)}
                                 value={img.title}
+                              
                               />
                             </div>
                             <div className="uploaded-file-name">
@@ -406,7 +412,13 @@ const Step3 = ({
                       ))}
                   </ul>
                 </div>
+                }
+                
               </div>
+
+
+
+
               <div className="form-action">
                 <button
                   type="button"

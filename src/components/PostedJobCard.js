@@ -7,7 +7,7 @@ import ClockIcon from "./../assets/icons/clock-ico.png";
 import SendInvitationModal from "./Common/SendInvitationModal";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+//import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import * as jobServices from "../services/jobServices";

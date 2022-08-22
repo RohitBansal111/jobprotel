@@ -42,8 +42,10 @@ const Header = () => {
 
   const [profilePic, setProfilePic] = useState("");
   const [companyLogo, setCompanyLogo] = useState("");
+
   const [notifications, setNotifications] = useState([]);
   const [totalCount, setTotalCount] = useState(0)
+
   useEffect(() => {
     if (connection) {
       connection
