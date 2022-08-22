@@ -9,6 +9,7 @@ import EmploymentDetailsModal from "../../components/modals/employmentDetailsMod
 import AddProjectModal from "../../components/modals/add-project-modal";
 import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal";
 import * as studentServices from "../../services/studentServices";
+import * as studentExtraCertificate from "../../services/studentExtraCertificates";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
@@ -162,6 +163,19 @@ const Profile = () => {
         handleDeleteData(id)
       }
     })
+  }
+
+  const handleExtraCertificateDelete=async(id)=>{
+    const resp = await studentExtraCertificate.deleteExtraCertificates(id);
+    if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+     
+      if (authData) {
+        getStudentData(authData.id);
+      }
+    }
   }
   return (
     <Layout>
@@ -466,8 +480,7 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                                <div className="div_edit_btn"> 
-                                <ul className="tags">
+                              {/* <ul className="tags">
                                   {studentData?.studentDetails?.studentExtraCertificate.map(
                                     (certificate, i) => (
                                       <>
@@ -476,23 +489,52 @@ const Profile = () => {
                                             href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
                                             target="_blank"
                                           >
-                                            {certificate.title}
+                                            {certificate.title.slice(0,3)}
                                           </a>
                                         </li>
                                       </>
                                     )
                                   )}
-                                </ul>
-                                <div className="edit_btn"> <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modifyEmploymentModal"
-                                    onClick={() => handleEditingData(data)}
-                                  >
-                                    <i className="fas fa-pen"></i>
-                                  </button></div>
-                                </div>
+                                </ul> */}
+                                 {studentData?.studentDetails?.studentExtraCertificate.map(
+                                    (certificate, i) => (
+                                      <>
+                                        <div key={i} className='div_edit_btn'>
+                                          <a
+                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                            target="_blank"
+                                          >
+                                            {certificate.title}
+                                          </a>
+                                          <button
+                              type="button"
+                              className="icon_button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#employmentModal"
+                              onClick={()=>{
+                                console.log(certificate)
+                                // Swal.fire({
+                                //   title: 'Are you sure?',
+                                //   text: "You won't be able to revert this!",
+                                //   icon: 'warning',
+                                //   showCancelButton: true,
+                                //   confirmButtonColor: '#3085d6',
+                                //   cancelButtonColor: '#d33',
+                                //   confirmButtonText: 'Yes, delete it!'
+                                // }).then((result) => {
+                                //   if (result.isConfirmed) {
+                                //    // handleExtraCertificateDelete(id)
+                                //   }
+                                // })
+
+                              }}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                                        </div>
+                                      </>
+                                    )
+                                  )}
                                
                               </span>
                             </li>
