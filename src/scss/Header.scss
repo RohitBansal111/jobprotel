@@ -224,6 +224,9 @@
     font-weight: 600;
     left: 16px;
     top: -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .notification-link {
     color: #1c7469;

@@ -24,14 +24,14 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
       </div>
       <div className="client-textarea-box">
         <form onSubmit={handleSubmit}>
-          <input
+          <textarea
             className="form-control"
             placeholder="Write a message..."
             value={message}
             // onKeyDown={handleSubmitOnTextArea}
             onChange={(e) => setMessage(e.target.value)}
             disabled={chatDisabled}
-          />
+          ></textarea>
           <span>{errors && errors.message && errors.message}</span>
           <button type="button" onClick={handleEmoji} className="emoji-button"  disabled={chatDisabled}>😄</button>
           {
