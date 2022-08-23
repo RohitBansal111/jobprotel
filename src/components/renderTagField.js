@@ -18,11 +18,9 @@ export const RenderTagField = ({
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
   const [tags, setTags] = useState(dvalue ? dvalue : []);
 
-
-  
-  // useEffect(() => {
-  //   setTags(dvalue || []);
-  // }, [dvalue]);
+  useEffect(() => {
+    setTags(dvalue || []);
+  }, [dvalue]);
   const handleDelete = (i) => {
     let newTags = tags.filter((tag, index) => index !== i);
     onChange(newTags);
@@ -53,15 +51,15 @@ export const RenderTagField = ({
         <ReactTags
           tags={tags}
           suggestions={suggestions}
-          // delimiters={delimiters}
-          // handleDelete={handleDelete}
-          // handleAddition={handleAddition}
-          // handleDrag={handleDrag}
-          // handleTagClick={handleTagClick}
-          // inputFieldPosition="inline"
-          // autocomplete
-          // autoFocus={false}
-          // minQueryLength={1}
+          delimiters={delimiters}
+          handleDelete={handleDelete}
+          handleAddition={handleAddition}
+          handleDrag={handleDrag}
+          handleTagClick={handleTagClick}
+          inputFieldPosition="inline"
+          autocomplete
+          autoFocus={false}
+          minQueryLength={1}
           renderSuggestion={({ text }, query) => (
             <div>
               {text} ({query})
