@@ -164,7 +164,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                     type="button"
                     className="btn submit-btn"
                   >
-                    Review Applications {jobs?.applicationRecivedCount}
+                    Review Applications ({jobs?.applicationRecivedCount})
                   </Link>
                 </>
               ) : jobs?.isJobApplied ? (
