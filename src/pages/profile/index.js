@@ -7,8 +7,10 @@ import AddColeagueModal from "../../components/modals/addColleaguesModal";
 import CompanyLogo from "../../assets/images/company-logo2.jpeg";
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal";
 import AddProjectModal from "../../components/modals/add-project-modal";
+import UpdateProjectModal from "../../components/modals/UpdateProjectModal";
 import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal";
 import * as studentServices from "../../services/studentServices";
+import * as studentExtraCertificate from "../../services/studentExtraCertificates";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
@@ -18,15 +20,16 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
+import Swal from 'sweetalert2'
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
-  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false)
+  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
 
-  const handleBuyConnect = () => setShowBuyConnectModal(true)
+  const handleBuyConnect = () => setShowBuyConnectModal(true);
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
@@ -42,8 +45,9 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState("");
   const [kycStatus, setKycStatus] = useState(true);
+  const [editProjectData, setEditProjectData] = useState([]);
+  const [editProject, setEditProject] = useState(false);
 
-  
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
@@ -54,7 +58,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response);
+      console.log(response, "::");
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
@@ -86,6 +90,19 @@ const Profile = () => {
       }
     }
   };
+
+useEffect(()=>{
+ 
+},[data])
+
+const handleDatarefresh=()=>{
+  if (authData) {
+  
+    getEmploymentDetails(authData);
+    
+ return true
+  }
+}
 
   useEffect(async () => {
     if (authData) {
@@ -134,7 +151,7 @@ const Profile = () => {
     // }
   }, []);
   const getTimeZone = (timezone) => {
-    console.log(timezone,"timezone")
+    console.log(timezone, "timezone");
     if (timezone) {
       const zone = JSON.parse(timezone);
       return zone.value;
@@ -142,9 +159,45 @@ const Profile = () => {
       return "N/A";
     }
   };
-  const viewTextChange=(id)=>{
+  const viewTextChange = (id) => {
     const btn = document.getElementById(id);
-    btn.innerHTML = btn.textContent == "View More"?"View Less":"View More";
+    btn.innerHTML = btn.textContent == "View More" ? "View Less" : "View More";
+  };
+
+  const handleEditProjectHistory = (data) => {
+    console.log(data, ":::");
+    setEditProjectData(data);
+    setEditProject(true);
+  };
+  
+
+  const handlePopUp=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteData(id)
+      }
+    })
+  }
+
+  const handleExtraCertificateDelete=async(id)=>{
+    const resp = await studentExtraCertificate.deleteExtraCertificates(id);
+    if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+     
+      if (authData) {
+        getStudentData(authData.id);
+      }
+    }
   }
   console.log(projectHistory);
   return (
@@ -263,8 +316,18 @@ const Profile = () => {
                     </ul>
                   </div>
                 </div>
-                <button type="button" className="btn btn-primary w-100 mt-3" onClick={handleBuyConnect}> Buy Connects </button>
-                <BuyConnectsModal showBuyConnectModal={showBuyConnectModal} setShowBuyConnectModal={setShowBuyConnectModal} />
+                <button
+                  type="button"
+                  className="btn btn-primary w-100 mt-3"
+                  onClick={handleBuyConnect}
+                >
+                  {" "}
+                  Buy Connects{" "}
+                </button>
+                <BuyConnectsModal
+                  showBuyConnectModal={showBuyConnectModal}
+                  setShowBuyConnectModal={setShowBuyConnectModal}
+                />
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
@@ -403,11 +466,18 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
+                              <span className="plabel">Days / week</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.workDaysPerWeek}
+                              </span>
+                            </li>
+                            
+                            {/* <li>
                               <span className="plabel">Expected salary </span>
                               <span className="result">
                                 $ {studentData?.studentDetails?.expectedSalary}
                               </span>
-                            </li>
+                            </li> */}
                             <li>
                               <span className="plabel">Total Experience</span>{" "}
                               <span className="result">
@@ -423,7 +493,9 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Working Type</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workingType == 1 ? "Onsite" : "Offsite"} 
+                                {studentData?.studentDetails?.workingType == 1
+                                  ? "Onsite"
+                                  : "Offsite"}
                               </span>
                             </li>
                             <li>
@@ -450,7 +522,7 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                                <ul className="tags">
+                              {/* <ul className="tags">
                                   {studentData?.studentDetails?.studentExtraCertificate.map(
                                     (certificate, i) => (
                                       <>
@@ -459,13 +531,51 @@ const Profile = () => {
                                             href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
                                             target="_blank" rel="noreferrer"
                                           >
-                                            {certificate.title}
+                                            {certificate.title.slice(0,3)}
                                           </a>
                                         </li>
                                       </>
                                     )
                                   )}
-                                </ul>
+                                </ul> */}
+                                 {studentData?.studentDetails?.studentExtraCertificate.map(
+                                    (certificate, i) => (
+                                      <>
+                                        <div key={i} className='div_edit_btn'>
+                                          <a
+                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                            target="_blank"
+                                          >
+                                            {certificate.title}
+                                          </a>
+                                          <button
+                              type="button"
+                              className="icon_button"
+                            
+                              onClick={()=>{
+                                Swal.fire({
+                                  title: 'Are you sure?',
+                                  text: "You won't be able to revert this!",
+                                  icon: 'warning',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    handleExtraCertificateDelete(certificate.certId)
+                                  }
+                                })
+
+                              }}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                                        </div>
+                                      </>
+                                    )
+                                  )}
+                               
                               </span>
                             </li>
                           </ul>
@@ -488,6 +598,7 @@ const Profile = () => {
                             </button>
                             <EmploymentDetailsModal
                               getEmploymentDetails={getEmploymentDetails}
+                              
                             />
                           </div>
                         </div>
@@ -515,7 +626,8 @@ const Profile = () => {
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modifyEmploymentModal"
-                                    onClick={() => handleEditingData(data)}
+                                   onClick={() => handleEditingData(data)}
+                                 
                                   >
                                     <i className="fas fa-pen"></i>
                                   </button>
@@ -524,7 +636,8 @@ const Profile = () => {
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     // data-bs-target="#modifyEmploymentModal"
-                                    onClick={() => handleDeleteData(data.id)}
+                                  //  onClick={() => }
+                                  onClick={()=>handlePopUp(data.id)}
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>
@@ -532,7 +645,7 @@ const Profile = () => {
                               </li>
                             ))}
                           </ul>
-                          <ModifyEmploymentModal empData={data} />
+                          <ModifyEmploymentModal empData={data}  handleEmp={handleDatarefresh}/>
                         </div>
                       </div>
                     </section>
@@ -558,14 +671,12 @@ const Profile = () => {
                         </div>
                         <div className="Project-info-list">
                           <div className="project-detail-list">
+                            {console.log(projectHistory)}
                             {projectHistory &&
                               projectHistory.length > 0 &&
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
-                                  <h2 className="prname">
-                                    {/* Front-End Sketch to Tailwind */}
-                                    {project.title}
-                                  </h2>
+                                  <h2 className="prname">{project.title}</h2>
                                   <div className="prd-buget-column">
                                     <div className="project-tenure-skills">
                                       <span className="prdate">
@@ -590,9 +701,36 @@ const Profile = () => {
                                     aria-controls="collapseExample"
                                     className="btn btn-view-more"
                                     id={`#collapseEx${index}`}
-                                    onClick={()=>viewTextChange(`#collapseEx${index}`)}
+                                    onClick={() =>
+                                      viewTextChange(`#collapseEx${index}`)
+                                    }
                                   >
                                     View More
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#UpdateProjectModal"
+                                    onClick={() =>
+                                      handleEditProjectHistory(project)
+                                    }
+                                  >
+                                    <i className="fas fa-pen"></i>
+                                  </button>
+                                  {editProject && (
+                                    <UpdateProjectModal
+                                      editProjectData={editProjectData}
+                                      getProjectHistory={getProjectHistory}
+                                    />
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    // onClick={() => handleDeleteData(data.id)}
+                                  >
+                                    <i className="fas fa-trash"></i>
                                   </button>
                                   <div
                                     className="full-project-details collapse"
@@ -603,9 +741,7 @@ const Profile = () => {
                                     <p className="mt-3"><b>Email: &nbsp;</b>{project.companyEmail}</p>
                                     <p><b>Team Size: &nbsp;</b>{project.totalTeamSize}</p>
                                     <p>
-                                      <b>Link:</b>{" "}
-                                      {/* <Link to="/">https://bit.ly/3HAAMCF</Link> */}
-                                      {project.projectUrl}
+                                      <b>Link:</b> {project.projectUrl}
                                     </p>
                                     {/* <p>
                                   <b>Attachment:</b>

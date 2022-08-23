@@ -18,9 +18,9 @@ const PostedJobValidator = (values) => {
      // if(!values.experienceInMonth){ 
      //      error.experienceInMonth = "Required experience in Months"
      // }
-     if(!values.timing){ 
-          error.timing = "Required Job Timing/Days"
-     }
+     // if(!values.timing){ 
+     //      error.timing = "Required Job Timing/Days"
+     // }
      if(!values.salary){ 
           error.salary = "Required salary"
      }

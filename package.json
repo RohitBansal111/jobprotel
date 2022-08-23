@@ -35,7 +35,7 @@
     "react-final-form-file-field": "^0.0.6",
     "react-google-recaptcha": "^2.1.0",
     "react-js-pagination": "^3.0.3",
-    "react-loader-spinner": "^5.1.5",
+    "react-loader-spinner": "^5.2.0",
     "react-localization": "^1.0.17",
     "react-moment": "^1.1.2",
     "react-multi-select-component": "^4.2.9",
@@ -58,6 +58,7 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.50.0",
     "spacetime": "^7.1.4",
+    "sweetalert2": "^11.4.29",
     "toastr": "^2.1.4",
     "web-vitals": "^2.1.4"
   },

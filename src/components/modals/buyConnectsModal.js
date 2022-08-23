@@ -126,35 +126,35 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
   });
   let OptionsData = [
     {
-      connects: 10,
-      price: 1.5,
-      value: "10 for $6.5",
-    },
-    {
       connects: 20,
-      price: 3,
-      value: "20 for $3",
+      price: 10,
+      value: "10$ for 20 connects",
     },
     {
       connects: 40,
-      price: 6,
-      value: "40 for $6",
+      price: 18,
+      value: "18$ for 40 connects",
     },
-    {
-      connects: 60,
-      price: 9,
-      value: "40 for $6",
-    },
-    {
-      connects: 80,
-      price: 12,
-      value: "80 for $12",
-    },
-    {
-      connects: 150,
-      price: 22.5,
-      value: "150 for $22.5",
-    },
+    // {
+    //   connects: 40,
+    //   price: 6,
+    //   value: "40 for $6",
+    // },
+    // {
+    //   connects: 60,
+    //   price: 9,
+    //   value: "40 for $6",
+    // },
+    // {
+    //   connects: 80,
+    //   price: 12,
+    //   value: "80 for $12",
+    // },
+    // {
+    //   connects: 150,
+    //   price: 22.5,
+    //   value: "150 for $22.5",
+    // },
   ];
   useEffect(() => {
     setData({
