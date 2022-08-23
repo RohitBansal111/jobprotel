@@ -737,29 +737,10 @@ const Profile = () => {
                                   >
                                     View More
                                   </button>
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#UpdateProjectModal"
-                                    onClick={() =>
-                                      handleEditProjectHistory(project)
-                                    }
-                                  >
-                                    <i className="fas fa-pen"></i>
-                                  </button>
                                     <UpdateProjectModal
                                       editProjectData={editProjectData}
                                       getProjectHistory={getProjectHistory}
                                     />
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    onClick={() => handleRemoveProjectHistory(project.id)}
-                                  >
-                                    <i className="fas fa-trash"></i>
-                                  </button>
                                   <div
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}
