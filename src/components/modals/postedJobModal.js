@@ -109,6 +109,7 @@ const PostedJobModal = ({ id }) => {
     //   employerId: id,
     // });
     if (values.skills.length > 0 && values.tags.length > 0) {
+      console.log(values, "::")
       postJob({
         ...values,
         hoursPerDay: values.hoursDays,
@@ -119,6 +120,7 @@ const PostedJobModal = ({ id }) => {
         timeZone: showTimeZone ? timezone : timezone2,
         employerId: id,
         salary: sal,
+        timing: "2-4",
         experienceInYears: values.experienceInYears
           ? values.experienceInYears
           : 0,

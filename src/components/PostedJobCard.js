@@ -27,7 +27,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
   const [logo, setLogo] = useState("");
   const GetTags = () => {
     let job = jobs.tags;
-
     job = job && job.split && job.split(",");
     setTags(job);
   };
