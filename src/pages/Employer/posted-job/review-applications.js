@@ -71,7 +71,7 @@ const ReviewApplications = () => {
                           loading={loading}
                         />
                       ):
-                      <div className="no-reccord-found">
+                      <div className="no-record-found text-center p-5">
                         <h3>No Record found</h3>
                       </div>
                       // ))
