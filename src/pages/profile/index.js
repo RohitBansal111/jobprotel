@@ -74,7 +74,6 @@ const Profile = () => {
   };
 
   const getProjectHistory = async (id, activePage = activePage) => {
-    console.log(id, activePage, ":::");
     let data = {
       userId: id,
       pageNumber: activePage,
@@ -90,8 +89,6 @@ const Profile = () => {
       }
     }
   };
-
-  useEffect(() => {}, [data]);
 
   const handleDatarefresh = () => {
     if (authData) {
@@ -198,7 +195,6 @@ const Profile = () => {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-
       if (authData) {
         getStudentData(authData.id);
       }
