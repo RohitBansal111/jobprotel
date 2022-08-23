@@ -27,7 +27,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
   const [logo, setLogo] = useState("");
   const GetTags = () => {
     let job = jobs.tags;
-
     job = job && job.split && job.split(",");
     setTags(job);
   };
@@ -157,12 +156,15 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                   <button type="button" className="btn submit-btn me-2">
                     Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                   </button>
+                  {
+                    console.log(jobs)
+                  }
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"
                     className="btn submit-btn"
                   >
-                    Review Applications 
+                    Review Applications {jobs?.applicationRecivedCount}
                   </Link>
                 </>
               ) : jobs?.isJobApplied ? (
