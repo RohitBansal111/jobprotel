@@ -890,3 +890,20 @@ section.complete-kyc {
     font-size: 14px;
   }
 }
+
+.employer-salary{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  p{
+    margin: 0;
+    font-size: 15px;
+    color: #132e31;
+    font-weight: 700;
+  }
+  .project-budget{
+    color: #656565;
+    font-size: 15px;
+    margin-left: 10px;
+  }
+}
