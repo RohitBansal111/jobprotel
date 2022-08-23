@@ -148,7 +148,14 @@ const Profile = () => {
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
-      return zone.value;
+      console.log('qwer',zone)
+
+      if(zone?.value ==undefined){
+        return zone.altName
+      }else{
+        return zone.value;
+      }
+    
     } else {
       return "N/A";
     }
@@ -420,6 +427,7 @@ const Profile = () => {
                               </div>
                             </li>
                             <li>
+                              {console.log('qwer',studentData)}
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {getTimeZone(
