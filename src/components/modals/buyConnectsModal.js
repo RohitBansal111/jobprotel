@@ -53,9 +53,9 @@ const ButtonWrapper = ({
                 },
               ],
             })
-            .then((orderId,ch) => {
+            .then((orderId) => {
               console.log(orderId);
-              console.log(ch)
+
               // Your code here after create the order
               return orderId;
             });
@@ -77,23 +77,23 @@ const ButtonWrapper = ({
               },
               purchase_units,
             } = check;
-            let dataFinal = {
-              available_connects: dataConnects.available_connects,
-              buy_connects: dataConnects.buy_connects,
-              transaction_id: id,
+
+            let data_payload = {
+              subscription_Name: dataConnects.sub_name,
+              buyConnects: String(dataConnects.buy_connects),
+              transaction_Id: id,
               intent: intent,
+              payer_Email_Address: email_address,
+              payer_Name: given_name,
+              payer_Id: payer_id,
+              currency_Code: purchase_units[0]?.amount?.currency_code,
+              amount: purchase_units[0]?.amount?.value,
+              transaction_Time: create_time,
+              payer_Phoneno: national_number,
               status: status,
-              payer_email_address: email_address,
-              payer_name: given_name,
-              payer_id: payer_id,
-              currency_code: purchase_units[0].amount.currency_code,
-              amount: Number(purchase_units[0].amount.value),
-              transaction_time: create_time,
-              payer_phoneno: national_number,
-              subscription_name: dataConnects.sub_name,
             };
-            console.log(dataConnects);
-            const res = await postPaymentdetails(dataFinal);
+            console.log(data_payload);
+              const res = await postPaymentdetails(data_payload);
             if (res.status == 200) {
               const response = res.data.data;
               if (status == "COMPLETED") {
