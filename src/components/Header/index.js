@@ -331,17 +331,17 @@ const Header = () => {
                         <li key={i}>
                           <div className="notification-heading">
                             <p>
-                              ({i + 1}){" "}
-                              <b>
+                              {/* ({i + 1}){" "} */}
+                              {/* <b>
                                 {notification?.employerResponseDto?.companyName}
                               </b>
                               {", "}
-                              is looking for {" - "}
+                              is looking for {" - "} */}
                               <b>
                                 {notification?.notificationJobResponse?.title}{" "}
-                                (designation)
+                                {/* (designation) */}
                               </b>{" "}
-                              having{" "}
+                              {/* having{" "}
                               {
                                 notification?.notificationJobResponse
                                   ?.experience
@@ -368,7 +368,7 @@ const Header = () => {
                               /month.
                               <br />
                               <b>Skills Required:-</b>{" "}
-                              {notification?.notificationJobResponse?.skills}{" "}
+                              {notification?.notificationJobResponse?.skills}{" "} */}
                             </p>
                           </div>
                           <span>

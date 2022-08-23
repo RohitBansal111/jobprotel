@@ -9,7 +9,11 @@ import toast from "toastr";
 import * as jobServices from "../../services/jobServices";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
+<<<<<<< HEAD
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+=======
 //import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+>>>>>>> 2e9407adf12c7851f425f623c9c27f6bc56e7390
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import { Loader } from "../../components/Loader/Loader";

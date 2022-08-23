@@ -83,19 +83,20 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
     }
   };
 
+
   return (
     <>
       <div className="feeds-search-coll">
         <div className="feeds-search-head">
           <div className="feeds-head-left">
-            <div className="feeds-s-logo">
+            {/* <div className="feeds-s-logo">
               <Link to={`/job-details/${jobId}`}>
                 <img
                   src={`${process.env.REACT_APP_IMAGE_API_URL}${logo}`}
                   alt="Company Logo"
                 />
               </Link>
-            </div>
+            </div> */}
             <div className="feeds-s-name">
               <h2>
                 <Link

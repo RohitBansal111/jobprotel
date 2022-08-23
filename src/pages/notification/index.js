@@ -58,17 +58,14 @@ const Notification = () => {
           </div>
         </section>
         {loading ? (
-          <div className="button-submit-loader">
-            <Loader />
-          </div>
+         <div className="fullpage-loader py-5"> <Loader /> </div>
         ) : (
           <section className="job-feeds-wrapper">
             <div className="container">
               <h4 className="text-white mb-3">Notification</h4>
               <div className="Notification-list text-white default-feeds-search">
                 <div className="feeds-search-coll">
-                  <div className="feeds-search-head">
-                    <div className="feeds-head-left">
+                 
                       {/* <div className="feeds-s-logo">
                       <Link to="/public">
                         <img
@@ -86,6 +83,8 @@ const Notification = () => {
                         notifications.length > 0 &&
                         notifications.map((notification, i) =>
                           notification.employerResponseDto !== null ? (
+                            <div className="feeds-search-head">
+                            <div className="feeds-head-left">
                             <div className="feeds-s-name pe-4">
                               <h2>
                                 <Link to="/public"> Rahul Singh</Link>{" "}
@@ -102,6 +101,8 @@ const Notification = () => {
                                 a typeface without relying on meaningful
                                 content.
                               </p>
+                            </div>
+                            </div>
                             </div>
                           ) : (
                             <li key={i}>
@@ -246,8 +247,6 @@ const Notification = () => {
                     )}
                   </div>
                 </div>
-              </div>
-            </div>
           </section>
         )}
       </div>

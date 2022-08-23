@@ -497,7 +497,8 @@ const Profile = () => {
                                   <li style={{ cursor: "pointer" }}>
                                     <a
                                       target="_blank"
-                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.resumeFilePath}`}
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails
+                                        ?.resumeFilePath}`} rel="noreferrer"
                                     >
                                       {
                                         studentData?.studentDetails
@@ -520,7 +521,7 @@ const Profile = () => {
                                         <li key={i}>
                                           <a
                                             href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                           >
                                             {certificate.title.slice(0,3)}
                                           </a>
@@ -679,9 +680,9 @@ const Profile = () => {
                                           "MMM Do YYYY"
                                         )}
                                       </span>
-                                      <ul className="tech-links">
-                                        {project.roleResponsiblity}
-                                      </ul>
+                                      <p className="tech-links">
+                                      <b>Title: &nbsp;</b> {project.roleResponsiblity}
+                                      </p>
                                     </div>
                                   </div>
                                   <button
@@ -725,7 +726,10 @@ const Profile = () => {
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}
                                   >
-                                    <p>{project.description}</p>
+                                    <p><b className="d-block mt-1">Description: &nbsp;</b>{project.description}</p>
+                                    <p><b className="d-block mt-2">Roles & Responsibility: &nbsp;</b>{project.roleResponsiblity}</p>
+                                    <p className="mt-3"><b>Email: &nbsp;</b>{project.companyEmail}</p>
+                                    <p><b>Team Size: &nbsp;</b>{project.totalTeamSize}</p>
                                     <p>
                                       <b>Link:</b> {project.projectUrl}
                                     </p>
