@@ -101,6 +101,13 @@ const Register = () => {
     finalSubmit({ ...userData, ...data1 });
   };
 
+  const handlechangeCollege = async(data) => {
+    const resp = await dropdownData.collegeList(data);
+    // console.log(resp, ":::")
+    if(resp.status == 200) {
+      setCollegelist(resp.data)
+    }
+  }
   const initialProfInfo = (data) => {
     setUserData({ ...userData, ...data });
   };
@@ -331,7 +338,7 @@ const Register = () => {
       let obj = { id: data.id, text: data.name };
       skillListData.push(obj);
     });
-    setCollegelist(collegeList.data);
+    // setCollegelist(collegeList.data);
     setCountrylist(countryList.data);
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
@@ -495,6 +502,7 @@ const Register = () => {
                     genderList={genderList}
                     skillslist={skillslist}
                     initialPersonalInfo={initialPersonalInfo}
+                    handlechangeCollege={handlechangeCollege}
                   />
                 )}
                 {currentPage === 3 && (

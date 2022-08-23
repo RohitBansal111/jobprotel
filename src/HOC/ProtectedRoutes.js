@@ -8,9 +8,8 @@ function ProtectedRoutes({ children }) {
   if (auth) {
     authData = JSON.parse(auth);
   }
-
   return authData ? (
-    authData.roles && authData.roles === "EMPLOYER" ? (
+    authData.roles && authData.roles === "Employer" ? (
       <Navigate to="/posted-jobs" />
     ) : (
       <Navigate to="/find-work" />

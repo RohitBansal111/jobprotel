@@ -400,7 +400,13 @@ const Inbox = () => {
           setMessage(message+emoji)
         }
 
-     console.log(users, "users")
+
+        useEffect(()=>{
+          console.log(users[0], "users")
+         setChatDisabled(users[0]?.block)
+
+        },[users])
+ 
      return (
           <Layout>
                <div className="inner-page-wrapper chat-full-screen">

@@ -90,8 +90,6 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {}, [data]);
-
   const handleDatarefresh = () => {
     if (authData) {
       getEmploymentDetails(authData);
@@ -102,6 +100,7 @@ const Profile = () => {
 
   useEffect(async () => {
     if (authData) {
+      console.log(authData)
       getStudentData(authData.id);
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
@@ -164,6 +163,16 @@ const Profile = () => {
     setEditProjectData(data);
   };
 
+  const handleRemoveProjectHistory = async(projectID) => {
+    const resp = await projectServices.removeProjectHistoryData(projectID)
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+      getProjectHistory(id, activePage)
+    }
+  }
+
   const handlePopUp = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -186,7 +195,6 @@ const Profile = () => {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-
       if (authData) {
         getStudentData(authData.id);
       }
@@ -728,6 +736,29 @@ const Profile = () => {
                                     }
                                   >
                                     View More
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#UpdateProjectModal"
+                                    onClick={() =>
+                                      handleEditProjectHistory(project)
+                                    }
+                                  >
+                                    <i className="fas fa-pen"></i>
+                                  </button>
+                                    <UpdateProjectModal
+                                      editProjectData={editProjectData}
+                                      getProjectHistory={getProjectHistory}
+                                    />
+                                  <button
+                                    type="button"
+                                    className="icon_button_text"
+                                    data-bs-toggle="modal"
+                                    onClick={() => handleRemoveProjectHistory(project.id)}
+                                  >
+                                    <i className="fas fa-trash"></i>
                                   </button>
                                   <div
                                     className="full-project-details collapse"

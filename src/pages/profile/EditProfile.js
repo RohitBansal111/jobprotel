@@ -143,8 +143,14 @@ const EditProfile = () => {
       getExtraCertificate(authData.id);
 
       setId(authData.id);
+     
     }
+   
   }, [authData, callCertificate]);
+
+
+
+
 
   const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
@@ -286,6 +292,8 @@ const EditProfile = () => {
         }
         setTimezone(JSON.parse(response?.studentDetails?.timezone));
       }
+
+      window.scrollTo(0, 0)
     } catch (err) {
       console.log(err, "+++++++err");
     }
@@ -903,7 +911,7 @@ const EditProfile = () => {
                                     <div className="form-field flex100">
                                       <Field
                                         name="qualification"
-                                        label="Qualification"
+                                        // label="Qualification"
                                         component={renderField}
                                       />
                                     </div>
@@ -978,7 +986,6 @@ const EditProfile = () => {
                                     </Field>
                                   </div>
                                   <div className="form-field flex100">
-                                    {/* <label>Expected Salary</label> */}
                                     <div className="d-flex justify-content-between">
                                       <div className="form-field flex50">
                                         <Field
@@ -990,7 +997,6 @@ const EditProfile = () => {
                                         />
                                       </div>
                                       <div className="form-field flex50 inner-multi-field-2">
-                                        {/* <label>Experience</label> */}
                                         <div className="form-field flex50">
                                           <Field
                                             name="experienceInYears"

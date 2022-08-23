@@ -26,6 +26,7 @@ const Step2 = ({
   genderList,
   skillslist,
   initialPersonalInfo,
+  handlechangeCollege,
 }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [qualificationList, setQualificationList] = useState(null);
@@ -122,8 +123,10 @@ const Step2 = ({
   }, [data.countryId]);
 
   const handleChangeCountry = async (e) => {
+    // console.log(e.target.value, ":::");
     const resp = await dropdownServices.stateList(e.target.value);
     setStateList(resp.data);
+    handlechangeCollege(e.target.value)
   };
 
   const handleTimeZone = (data) => {
@@ -278,7 +281,6 @@ const Step2 = ({
                     label={titleStrings.countryTitle}
                     component={renderSelect}
                     onChange={handleChangeCountry}
-                    // defaultValue={next && data ? data.countryId : ""}
                   >
                     <option value="" disabled>
                       Select Country
