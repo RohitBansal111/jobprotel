@@ -5,7 +5,7 @@ export const postPaymentdetails = async (data) => {
     try {
       let token = localStorage.getItem("jobPortalUserToken")
       const res = await axios.post(
-        `${process.env.REACT_APP_PUBLIC_API_URL}`,
+        `${process.env.REACT_APP_PUBLIC_API_URL}BuyConnect/BuyConnects`,
         data,
         {
           headers: { Authorization: `Bearer ${token}` },

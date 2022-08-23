@@ -138,7 +138,7 @@ const ClientChannel = ({
                       Delete
                     </li>
                     {chatDisabled ? (
-                      <li>Closed</li>
+                      <li >Closed</li>
                     ) : (
                       <li onClick={() => handleCloseUser(item.chatRoomID)}>
                         Close

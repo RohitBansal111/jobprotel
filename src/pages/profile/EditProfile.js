@@ -143,8 +143,14 @@ const EditProfile = () => {
       getExtraCertificate(authData.id);
 
       setId(authData.id);
+     
     }
+   
   }, [authData, callCertificate]);
+
+
+
+
 
   const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
@@ -286,6 +292,8 @@ const EditProfile = () => {
         }
         setTimezone(JSON.parse(response?.studentDetails?.timezone));
       }
+
+      window.scrollTo(0, 0)
     } catch (err) {
       console.log(err, "+++++++err");
     }

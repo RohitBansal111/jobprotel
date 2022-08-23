@@ -192,7 +192,7 @@ const EmployerJobDetailsPage = () => {
                         // onClick={handleApplicationReceived}
                         className="btn btn-primary"
                       >
-                       <Link to={`/review-applications/${jobDetails?.id}`}> Applications received ({jobDetails?.applicationRecivedCount})</Link>
+                       <Link to={jobDetails?.id != undefined ?`/review-applications/${jobDetails?.id}`:'#'}> Applications received ({jobDetails?.applicationRecivedCount})</Link>
                       </button>
                       <button type="button" className="btn btn-primary-outline">
                         Invitation accepted ({jobDetails?.invitationAcceptedCount})

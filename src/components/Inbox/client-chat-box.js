@@ -10,6 +10,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
   const [showEmoji, setShowEmoji] = useState(false)
   const handleEmoji = () => setShowEmoji(!showEmoji)
   const handleCloseEmoji = () => setShowEmoji(false)
+  console.warn(chatDisabled)
   return (
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
@@ -32,7 +33,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
             disabled={chatDisabled}
           />
           <span>{errors && errors.message && errors.message}</span>
-          <button type="button" onClick={handleEmoji} className="emoji-button">😄</button>
+          <button type="button" onClick={handleEmoji} className="emoji-button"  disabled={chatDisabled}>😄</button>
           {
             showEmoji &&
             <div className="emoji-action">
@@ -42,7 +43,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
               </div>
             </div>
           }
-          <button type="submit" className="btn-submit">
+          <button type="submit" className="btn-submit"  disabled={chatDisabled}>
             <LaunchIcon />
           </button>
         </form>
