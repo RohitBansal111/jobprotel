@@ -28,8 +28,8 @@ const UpdateProjectModal = ({
   const validation = (values) => {
     let isValid = true;
     let error = {};
-    const { startdate, endDate } = values;
-    const startDate1 = moment(startdate).format("MM/DD/YYYY");
+    const { startDate, endDate } = values;
+    const startDate1 = moment(startDate).format("MM/DD/YYYY");
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
 
@@ -54,7 +54,7 @@ const UpdateProjectModal = ({
         description: values.description,
         roleResponsiblity: values.roleResponsiblity,
         projectUrl: values.projectUrl,
-        startDate: values.startdate,
+        startDate: values.startDate,
         endDate: values.endDate,
         totalTeamSize: values.totalTeamSize,
         companyEmail: values.companyEmail,
@@ -81,8 +81,6 @@ const UpdateProjectModal = ({
   // }, [authData]);
 
   useEffect(() => {
-    console.log(editProjectData, ":::");
-    console.log(editProjectData.userId, ":::");
     setId(editProjectData.id);
     setUserId(editProjectData.userId);
     setData(editProjectData);
@@ -153,7 +151,7 @@ const UpdateProjectModal = ({
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="startdate"
+                          name="startDate"
                           label="Start Date"
                           placeholder="Enter start date"
                           component={renderField}
@@ -167,7 +165,7 @@ const UpdateProjectModal = ({
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
-                          min={values.startdate && values.startdate}
+                          min={data?.startDate}
                         />
                         <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
@@ -187,6 +185,7 @@ const UpdateProjectModal = ({
                           component={renderField}
                           placeholder="Enter company email address"
                           type="text"
+                          disabled
                         />
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">

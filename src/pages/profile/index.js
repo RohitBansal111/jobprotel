@@ -20,7 +20,7 @@ import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -46,7 +46,6 @@ const Profile = () => {
   const [id, setId] = useState("");
   const [kycStatus, setKycStatus] = useState(true);
   const [editProjectData, setEditProjectData] = useState([]);
-  const [editProject, setEditProject] = useState(false);
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -91,18 +90,15 @@ const Profile = () => {
     }
   };
 
-useEffect(()=>{
- 
-},[data])
+  useEffect(() => {}, [data]);
 
-const handleDatarefresh=()=>{
-  if (authData) {
-  
-    getEmploymentDetails(authData);
-    
- return true
-  }
-}
+  const handleDatarefresh = () => {
+    if (authData) {
+      getEmploymentDetails(authData);
+
+      return true;
+    }
+  };
 
   useEffect(async () => {
     if (authData) {
@@ -151,7 +147,6 @@ const handleDatarefresh=()=>{
     // }
   }, []);
   const getTimeZone = (timezone) => {
-    console.log(timezone, "timezone");
     if (timezone) {
       const zone = JSON.parse(timezone);
       return zone.value;
@@ -167,39 +162,36 @@ const handleDatarefresh=()=>{
   const handleEditProjectHistory = (data) => {
     console.log(data, ":::");
     setEditProjectData(data);
-    setEditProject(true);
   };
-  
 
-  const handlePopUp=(id)=>{
+  const handlePopUp = (id) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDeleteData(id)
+        handleDeleteData(id);
       }
-    })
-  }
+    });
+  };
 
-  const handleExtraCertificateDelete=async(id)=>{
+  const handleExtraCertificateDelete = async (id) => {
     const resp = await studentExtraCertificate.deleteExtraCertificates(id);
     if (resp.status === 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-     
+
       if (authData) {
         getStudentData(authData.id);
       }
     }
-  }
-  console.log(projectHistory);
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -471,7 +463,7 @@ const handleDatarefresh=()=>{
                                 {studentData?.studentDetails?.workDaysPerWeek}
                               </span>
                             </li>
-                            
+
                             {/* <li>
                               <span className="plabel">Expected salary </span>
                               <span className="result">
@@ -522,7 +514,7 @@ const handleDatarefresh=()=>{
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                              {/* <ul className="tags">
+                                {/* <ul className="tags">
                                   {studentData?.studentDetails?.studentExtraCertificate.map(
                                     (certificate, i) => (
                                       <>
@@ -598,7 +590,6 @@ const handleDatarefresh=()=>{
                             </button>
                             <EmploymentDetailsModal
                               getEmploymentDetails={getEmploymentDetails}
-                              
                             />
                           </div>
                         </div>
@@ -626,8 +617,7 @@ const handleDatarefresh=()=>{
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modifyEmploymentModal"
-                                   onClick={() => handleEditingData(data)}
-                                 
+                                    onClick={() => handleEditingData(data)}
                                   >
                                     <i className="fas fa-pen"></i>
                                   </button>
@@ -636,8 +626,8 @@ const handleDatarefresh=()=>{
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     // data-bs-target="#modifyEmploymentModal"
-                                  //  onClick={() => }
-                                  onClick={()=>handlePopUp(data.id)}
+                                    //  onClick={() => }
+                                    onClick={() => handlePopUp(data.id)}
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>
@@ -645,7 +635,10 @@ const handleDatarefresh=()=>{
                               </li>
                             ))}
                           </ul>
-                          <ModifyEmploymentModal empData={data}  handleEmp={handleDatarefresh}/>
+                          <ModifyEmploymentModal
+                            empData={data}
+                            handleEmp={handleDatarefresh}
+                          />
                         </div>
                       </div>
                     </section>
@@ -671,7 +664,6 @@ const handleDatarefresh=()=>{
                         </div>
                         <div className="Project-info-list">
                           <div className="project-detail-list">
-                            {console.log(projectHistory)}
                             {projectHistory &&
                               projectHistory.length > 0 &&
                               projectHistory.map((project, index) => (
@@ -690,12 +682,12 @@ const handleDatarefresh=()=>{
                                       >
                                         <i className="fas fa-pen"></i>
                                       </button>
-                                      {editProject && (
+                                      {/* {editProject && ( */}
                                         <UpdateProjectModal
                                           editProjectData={editProjectData}
                                           getProjectHistory={getProjectHistory}
                                         />
-                                      )}
+                                      {/* )} */}
                                       <button
                                         type="button"
                                         className="icon_button_text"

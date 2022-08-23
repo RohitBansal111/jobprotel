@@ -49,7 +49,7 @@ const Step3 = ({
       error.resume = "Resume file is Required";
       isValid = false;
     }
-    if (certificate && certificate == "Yes" && previewImg.length ==0) {
+    if (certificate && certificate == "Yes" && previewImg.length == 0) {
       error.extraCer = "Certificate is Required";
       isValid = false;
     }
@@ -118,7 +118,7 @@ const Step3 = ({
   };
 
   let file = "";
-  console.log(data,"values")
+  console.log(data, "values");
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -344,8 +344,8 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => {
-                        console.log(e.target.value)
-                        setCertificate(e.target.value)
+                        console.log(e.target.value);
+                        setCertificate(e.target.value);
                       }}
                       currentIndex="1"
                     >
@@ -354,70 +354,65 @@ const Step3 = ({
                   </div>
                 </div>
 
-                {
-                  certificate =='Yes' && <div className="form-field flex100 noLabel">
-                  <div className="resume-upload">
-                    <button
-                      type="button"
-                      className="btn themesecondarybackground fileUpload"
-                    >
-                      <i className="fa fa-upload me-3"></i>{" "}
-                      {"Upload Certificates"}
-                    </button>
-                    <input
-                      label={titleStrings.extraCertificateTitle}
-                      name="document"
-                      onClick={() => setArray("")}
-                      onChange={handleExtraCertificates}
-                      accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                      type="file"
-                      ref={(input) => {
-                        file = input;
-                      }}
-                      multiple
-                    />
-                    <p style={{ color: "red" }}>{err?.extraCer}</p>
-                  </div>
+                {certificate == "Yes" && (
+                  <div className="form-field flex100 noLabel">
+                    <div className="resume-upload">
+                      <button
+                        type="button"
+                        className="btn themesecondarybackground fileUpload"
+                      >
+                        <i className="fa fa-upload me-3"></i>{" "}
+                        {"Upload Certificates"}
+                      </button>
+                      <input
+                        label={titleStrings.extraCertificateTitle}
+                        name="document"
+                        onClick={() => setArray("")}
+                        onChange={handleExtraCertificates}
+                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                        type="file"
+                        ref={(input) => {
+                          file = input;
+                        }}
+                        multiple
+                      />
+                      <p style={{ color: "red" }}>{err?.extraCer}</p>
+                    </div>
 
-                  <ul className="uploaded-documents">
-                    {previewImg &&
-                      previewImg.length > 0 &&
-                      previewImg.map((img, index) => (
-                        <>
-                          <li key={index}>
-                            <div className="change-title">
-                              <label>{index + 1}. File Title</label>
-                              <input
-                                name="title"
-                                onChange={(e) => handleFormChange(index, e)}
-                                value={img.title}
-                              
-                              />
-                            </div>
-                            <div className="uploaded-file-name">
-                              <span>{img.certificates.name}</span>
-                              <button className="btn btn-remove">
-                                <i
-                                  className="fa fa-times-circle"
-                                  aria-hidden="true"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    manageCertificates(img.certificates.name)
-                                  }
+                    <ul className="uploaded-documents">
+                      {previewImg &&
+                        previewImg.length > 0 &&
+                        previewImg.map((img, index) => (
+                          <>
+                            <li key={index}>
+                              <div className="change-title">
+                                <label>{index + 1}. File Title</label>
+                                <input
+                                  name="title"
+                                  onChange={(e) => handleFormChange(index, e)}
+                                  value={img.title}
                                 />
-                              </button>
-                            </div>
-                          </li>
-                        </>
-                      ))}
-                  </ul>
-                </div>
-                }
-                
+                              </div>
+                              <div className="uploaded-file-name">
+                                <span>{img.certificates.name}</span>
+                                <button className="btn btn-remove">
+                                  <i
+                                    className="fa fa-times-circle"
+                                    aria-hidden="true"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      manageCertificates(img.certificates.name)
+                                    }
+                                  />
+                                </button>
+                              </div>
+                            </li>
+                          </>
+                        ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-
-
-
 
               <div className="form-action">
                 <button
