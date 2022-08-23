@@ -42,6 +42,8 @@ const ProfileValidate = (values) => {
      }
      if(!values.salary){ 
           error.salary = "Required Expected Salary"
+     }else if(values.salary == 0) {
+          error.salary = "Expected Salary must be greater than 0"
      }
      // if(!values.experienceInMonths){ 
      //      error.experienceInMonths = "Required experience in months"

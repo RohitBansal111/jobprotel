@@ -74,6 +74,7 @@ const Profile = () => {
   };
 
   const getProjectHistory = async (id, activePage = activePage) => {
+    console.log(id, activePage, ":::");
     let data = {
       userId: id,
       pageNumber: activePage,
@@ -102,6 +103,7 @@ const Profile = () => {
 
   useEffect(async () => {
     if (authData) {
+      console.log(authData)
       getStudentData(authData.id);
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
@@ -163,6 +165,16 @@ const Profile = () => {
     console.log(data, ":::");
     setEditProjectData(data);
   };
+
+  const handleRemoveProjectHistory = async(projectID) => {
+    const resp = await projectServices.removeProjectHistoryData(projectID)
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+      getProjectHistory(id, activePage)
+    }
+  }
 
   const handlePopUp = (id) => {
     Swal.fire({
@@ -718,7 +730,7 @@ const Profile = () => {
                                     type="button"
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
-                                    // onClick={() => handleDeleteData(data.id)}
+                                    onClick={() => handleRemoveProjectHistory(project.id)}
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>
