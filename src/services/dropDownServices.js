@@ -57,10 +57,10 @@ export const qualificationList = async () => {
   }
 };
 
-export const collegeList = async () => {
+export const collegeList = async (id) => {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/College`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/College?CountryId=${id}`
     );
     if (resp.status == 200) {
       return resp;

@@ -68,7 +68,6 @@ const Header = () => {
     if (resp.status === 200) {
       setTotalCount(resp.data.totalCount)
       let response = resp.data.data;
-      console.log(response, "resp");
       setNotifications(response);
     }
   };
