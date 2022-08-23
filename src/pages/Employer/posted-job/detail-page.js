@@ -91,9 +91,7 @@ const EmployerJobDetailsPage = () => {
                       <p>{jobDetails?.category?.name}</p>
                     </div>
                     <div className="job-description">
-                      <p>
-                        {jobDetails?.description}
-                      </p>
+                      <p>{jobDetails?.description}</p>
                       {/* <p>
                     I need help with the html and css for the attached image.
                   </p>
@@ -131,28 +129,23 @@ const EmployerJobDetailsPage = () => {
                           qualifications.map((qual) => qual.name)}
                       </p>
                       <p>
-                        <b>SKills: </b>{" "}
-                        {jobDetails?.skills}
+                        <b>SKills: </b> {jobDetails?.skills}
                       </p>
                       <p>
-                        <b>Job Location: </b>{" "}
-                        {jobDetails?.hoursPerDay}
+                        <b>Job Location: </b> {jobDetails?.hoursPerDay}
                       </p>
                       <p>
-                        <b>Hour/day: </b>{" "}
-                        {jobDetails?.location}
+                        <b>Hour/day: </b> {jobDetails?.location}
                       </p>
                       <p>
-                        <b>Days / Week: </b>{" "}
-                        {jobDetails?.daysPerWeek}
+                        <b>Days / Week: </b> {jobDetails?.daysPerWeek}
                       </p>
                       <p>
                         <b>Job Timings/days: </b>
                         {jobDetails?.timing}
                       </p>
                       <p>
-                        <b>Time Zone: </b>{" "}
-                        {jobDetails?.timeZone}
+                        <b>Time Zone: </b> {jobDetails?.timeZone}
                       </p>
                       {/* <p>
                         <b>Category: </b>{" "}
@@ -162,12 +155,10 @@ const EmployerJobDetailsPage = () => {
                           jobDetails.category.name}
                       </p> */}
                       <p>
-                        <b>Salary: </b> ${" "}
-                        {jobDetails?.salary}
+                        <b>Salary: </b> $ {jobDetails?.salary}
                       </p>
                       <p>
-                        <b>Tags:</b>{" "}
-                        {jobDetails?.tags}
+                        <b>Tags:</b> {jobDetails?.tags}
                       </p>
                     </div>
                     <div className="inner-info-section">
@@ -192,10 +183,21 @@ const EmployerJobDetailsPage = () => {
                         // onClick={handleApplicationReceived}
                         className="btn btn-primary"
                       >
-                       <Link to={jobDetails?.id != undefined ?`/review-applications/${jobDetails?.id}`:'#'}> Applications received ({jobDetails?.applicationRecivedCount})</Link>
+                        <Link
+                          to={
+                            jobDetails?.id != undefined
+                              ? `/review-applications/${jobDetails?.id}`
+                              : "#"
+                          }
+                        >
+                          {" "}
+                          Applications received (
+                          {jobDetails?.applicationRecivedCount})
+                        </Link>
                       </button>
                       <button type="button" className="btn btn-primary-outline">
-                        Invitation accepted ({jobDetails?.invitationAcceptedCount})
+                        Invitation accepted (
+                        {jobDetails?.invitationAcceptedCount})
                       </button>
                     </div>
                     <div className="connects-info">
