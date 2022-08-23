@@ -148,7 +148,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
             <p className="post-ago">
               <img src={ClockIcon} alt="clock" />
               {jobs?.createdOn ? (
-                <ReactTimeAgo date={jobs.createdOn} locale="en-US" />
+                <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
               ) : null}
             </p>
             <div className="d-flex">
@@ -162,7 +162,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                     type="button"
                     className="btn submit-btn"
                   >
-                    Review Applications
+                    Review Applications 
                   </Link>
                 </>
               ) : jobs?.isJobApplied ? (

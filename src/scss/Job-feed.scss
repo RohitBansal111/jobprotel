@@ -806,6 +806,13 @@ section.complete-kyc {
         font-size: 15px !important;
         height: 48px;
         line-height: 15px;
+        color: $Theme-white;
+        a{
+          color: $Theme-white;
+          &:focus{
+            color: $Theme-white;
+          }
+        }
       }
       .btn-primary-outline{
         margin-top: 15px;
