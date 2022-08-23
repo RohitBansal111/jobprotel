@@ -14,7 +14,7 @@ import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
 import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
-
+import LocationIcon from "../../../assets/icons/loc-ico.png";
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -34,8 +34,8 @@ const EmployerProfile = () => {
   const [activeJobs, setActiveJobs] = useState([]);
   const [archiveJobs, setArchiveJobs] = useState([]);
 
-  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false)
-  const handleBuyConnect = () => setShowBuyConnectModal(true)
+  const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
+  const handleBuyConnect = () => setShowBuyConnectModal(true);
 
   const authData = useSelector((state) => state.auth.user);
 
@@ -88,8 +88,8 @@ const EmployerProfile = () => {
     };
     if (data) {
       const resp = await jobServices.getActiveJobByEmployer(data);
-      console.log(resp);
       let response = resp.data.data;
+      console.log(response, "::");
       if (resp.status === 200) {
         setLoading(false);
         setTotalRecords(resp.data.totalCount);
@@ -187,8 +187,18 @@ const EmployerProfile = () => {
                     </ul>
                   </div>
                 </div>
-                <button type="button" className="btn btn-primary w-100 mt-3" onClick={handleBuyConnect}> Buy Connects </button>
-                <BuyConnectsModal showBuyConnectModal={showBuyConnectModal} setShowBuyConnectModal={setShowBuyConnectModal} />
+                <button
+                  type="button"
+                  className="btn btn-primary w-100 mt-3"
+                  onClick={handleBuyConnect}
+                >
+                  {" "}
+                  Buy Connects{" "}
+                </button>
+                <BuyConnectsModal
+                  showBuyConnectModal={showBuyConnectModal}
+                  setShowBuyConnectModal={setShowBuyConnectModal}
+                />
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
@@ -361,6 +371,15 @@ const EmployerProfile = () => {
                                         <h2 className="prname">
                                           {active.title}
                                         </h2>
+                                        <ul className="feeds-s-ul">
+                                          <li>
+                                            <img
+                                              src={LocationIcon}
+                                              alt="Location"
+                                            />
+                                            {active?.location}
+                                          </li>
+                                        </ul>
                                         <div className="prd-buget-column">
                                           <div className="prdate-budgetprice">
                                             <span className="prdate">
@@ -373,7 +392,28 @@ const EmployerProfile = () => {
                                                   </Link>
                                                 ))}
                                             </span>
-                                            {/* <span className="prbudget">With Budget <b>$550</b></span> */}
+                                          </div>
+                                        </div>
+                                        <div className="feeds-budget">
+                                          <p>Salary Range</p>
+                                          <span className="project-budget">
+                                            $ {active?.salary}
+                                          </span>
+                                        </div>
+                                        <div className="feeds-search-detail">
+                                          <p>
+                                            {active?.description}
+                                          </p>
+                                          <div className="feeds-tags">
+                                            {/* <ul className="feeds-ul">
+                                              {tags &&
+                                                tags.length > 0 &&
+                                                tags.map((tag, index) => (
+                                                  <li key={index}>
+                                                    <Link to="#">{tag}</Link>
+                                                  </li>
+                                                ))}
+                                            </ul> */}
                                           </div>
                                         </div>
                                       </div>
