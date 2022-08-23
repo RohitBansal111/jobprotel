@@ -544,7 +544,7 @@ const handleDatarefresh=()=>{
                                         <div key={i} className='div_edit_btn'>
                                           <a
                                             href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                           >
                                             {certificate.title}
                                           </a>
@@ -676,7 +676,37 @@ const handleDatarefresh=()=>{
                               projectHistory.length > 0 &&
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
-                                  <h2 className="prname">{project.title}</h2>
+                                  <div className="project-history-title-action mb-3">
+                                    <h2 className="prname mb-0">{project.title}</h2>
+                                    <div className="d-flex">
+                                      <button
+                                        type="button"
+                                        className="icon_button_text"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#UpdateProjectModal"
+                                        onClick={() =>
+                                          handleEditProjectHistory(project)
+                                        }
+                                      >
+                                        <i className="fas fa-pen"></i>
+                                      </button>
+                                      {editProject && (
+                                        <UpdateProjectModal
+                                          editProjectData={editProjectData}
+                                          getProjectHistory={getProjectHistory}
+                                        />
+                                      )}
+                                      <button
+                                        type="button"
+                                        className="icon_button_text"
+                                        data-bs-toggle="modal"
+                                        // onClick={() => handleDeleteData(data.id)}
+                                      >
+                                        <i className="fas fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  
                                   <div className="prd-buget-column">
                                     <div className="project-tenure-skills">
                                       <span className="prdate">
@@ -706,31 +736,6 @@ const handleDatarefresh=()=>{
                                     }
                                   >
                                     View More
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#UpdateProjectModal"
-                                    onClick={() =>
-                                      handleEditProjectHistory(project)
-                                    }
-                                  >
-                                    <i className="fas fa-pen"></i>
-                                  </button>
-                                  {editProject && (
-                                    <UpdateProjectModal
-                                      editProjectData={editProjectData}
-                                      getProjectHistory={getProjectHistory}
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    // onClick={() => handleDeleteData(data.id)}
-                                  >
-                                    <i className="fas fa-trash"></i>
                                   </button>
                                   <div
                                     className="full-project-details collapse"
