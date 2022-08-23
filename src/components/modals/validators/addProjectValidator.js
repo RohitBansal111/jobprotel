@@ -16,8 +16,8 @@ const AddProjectValidator = (values) => {
   if (!values.projectUrl) {
     error.projectUrl = "Required projectUrl";
   }
-  if (!values.startdate) {
-    error.startdate = "Required startDate";
+  if (!values.startDate) {
+    error.startDate = "Required startDate";
   }
   if (!values.endDate) {
     error.endDate = "Required endDate";
@@ -30,7 +30,6 @@ const AddProjectValidator = (values) => {
   } else if (!regex.test(values.companyEmail)) {
     error.companyEmail = "Please enter a valid email address";
   }
-  console.log(error)
   return error;
 };
 

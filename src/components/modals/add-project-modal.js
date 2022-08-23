@@ -22,8 +22,8 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
   const validation = (values) => {
     let isValid = true;
     let error = {};
-    const {startdate,endDate} = values
-    const startDate1 = moment(startdate).format("MM/DD/YYYY");
+    const {startDate,endDate} = values
+    const startDate1 = moment(startDate).format("MM/DD/YYYY");
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
 
@@ -47,7 +47,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
     let data = { userId: id, ...values };
     if (data.userId) {
       const resp = await projectServices.postProjectHistoryData(data);
-      console.log(resp);
+      // console.log(resp);
       if (resp.status === 200) {
         document.getElementById("addProjectModal").click();
         toast.success(
@@ -59,7 +59,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
         values.description="";
         values.roleResponsiblity="";
         values.projectUrl="";
-        values.startdate="";
+        values.startDate="";
         values.endDate="";
         values.totalTeamSize="";
         values.companyEmail="";
@@ -136,7 +136,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="startdate"
+                          name="startDate"
                           label="Start Date"
                           placeholder="Enter start date"
                           component={renderField}
@@ -150,7 +150,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           placeholder="Enter end date"
                           component={renderField}
                           type="date"
-                          min={values.startdate && values.startdate}
+                          min={values.startDate && values.startDate}
                           />
                           <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
