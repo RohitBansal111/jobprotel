@@ -70,6 +70,8 @@ const ReviewApplications = () => {
                         pageSize={pageSize}
                         totalRecords={totalRecords}
                         jobid={jobid}
+                        getUsers={getUsers}
+                        pageNumber={pageNumber}
                       />
                     ) : (
                       <div className="no-record-found text-center p-5">

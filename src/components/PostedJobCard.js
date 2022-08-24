@@ -81,7 +81,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       }
     }
   };
-
+console.log(jobs, ":::");
   return (
     <>
       <div className="feeds-search-coll">
@@ -152,20 +152,13 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
             <div className="d-flex">
               {authData?.userRoles[0] === "Employer" ? (
                 <>
-
-
-                  {/* <Link
-                    to={
-                      jobs?.id != undefined
-                        ? `/review-applications/${jobs?.id}`
-                        : "#"
-                    }
-                  > */}
-                    <Link to="/invitation-accepted/dsfrte" type="button" className="btn submit-btn me-2">
-                      Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
-                    </Link>
-                  {/* </Link> */}
-
+                  <Link
+                    to={`/invitation-accepted/${jobs?.id}`}
+                    type="button"
+                    className="btn submit-btn me-2"
+                  >
+                    Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
+                  </Link>
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"

@@ -1,8 +1,9 @@
 import InvitationCard from "../../../components/Employer/invitationCard";
 import Layout from "../../../components/Layout";
+import { useNavigate, useParams } from "react-router";
 
 const InvitationAccepted = () => {
-  // const { jobid } = useParams();
+  const { jobid } = useParams();
   // const [users, setUsers] = useState([]);
   // const [loading, setLoading] = useState(true);
   // const [pageNumber, setPageNumber] = useState(1);

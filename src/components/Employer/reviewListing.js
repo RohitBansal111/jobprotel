@@ -15,30 +15,28 @@ const EmployerReviewCard = ({
   pageSize,
   totalRecords,
   jobid,
+  pageNumber,
+  getUsers,
 }) => {
   const navigate = useNavigate();
   const [showAcceptInvitation, setshowAcceptInvitation] = useState(true);
   const [showRejectedView, setshowRejectedView] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [id, setId] = useState("");
 
-  // console.log(user, "::");
-
-  const handleInvitation = async(status) => {
+  const handleInvitation = async (status, id) => {
     setshowAcceptInvitation(false);
-    if(id) {
-      let data = {
-        applayJobId: id,
-        appiledJobStatusByEmployer: status,
-      };
-      const resp = await appliedJobServices.updateAppliedJobs(data)
-      console.log(resp);
+    let data = {
+      applayJobId: id,
+      appiledJobStatusByEmployer: status,
+    };
+    const resp = await appliedJobServices.updateAppliedJobs(data);
+    console.log(resp);
 
-      if(resp.status == 200) {
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-      }
+    if (resp.status == 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+      getUsers(jobid, pageNumber)
     }
   };
 
@@ -50,10 +48,7 @@ const EmployerReviewCard = ({
       setUserData(user);
     }
   }, [user]);
-
-  useEffect(()=> {
-    setId(jobid)
-  }, [jobid])
+  // console.log(id, "::::")
   return userData?.length > 0 ? (
     userData?.map((user, i) => (
       <div className="feeds-search-coll">
@@ -91,39 +86,35 @@ const EmployerReviewCard = ({
           </div>
           <div className="feeds-s-name"></div>
           <div className="review-listing-action">
-            {showRejectedView ? (
+            {user?.appliedJobStatus == 0 && (
               <>
-                {showAcceptInvitation ? (
-                  <button
-                    type="button"
-                    onClick={()=> handleInvitation(1)}
-                    className="btn btn-primary mr-2"
-                  >
-                    Accept
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleChatNow}
-                    className="btn btn-primary mr-2"
-                  >
-                    <i className="fa fa-comments mr-2"></i> Chat Now
-                  </button>
-                )}
                 <button
                   type="button"
-                  onClick={()=> handleInvitation(2)}
+                  onClick={() => handleInvitation(1, user?.reviewApplicationId)}
+                  className="btn btn-primary mr-2"
+                >
+                  Accept
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleInvitation(2, user?.reviewApplicationId)}
                   className="btn btn-reject"
                 >
                   Reject
                 </button>
               </>
-            ) : (
+            )}
+            {user?.appliedJobStatus == 1 && (
               <button
                 type="button"
-                // onClick={handleRejected}
-                className="btn btn-reject"
+                onClick={handleChatNow}
+                className="btn btn-primary mr-2"
               >
+                <i className="fa fa-comments mr-2"></i> Chat Now
+              </button>
+            )}
+            {user?.appliedJobStatus == 2 && (
+              <button type="button" className="btn btn-reject">
                 Rejected
               </button>
             )}
