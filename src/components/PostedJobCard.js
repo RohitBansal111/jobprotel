@@ -153,6 +153,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
               {authData?.userRoles[0] === "Employer" ? (
                 <>
 
+
                   {/* <Link
                     to={
                       jobs?.id != undefined

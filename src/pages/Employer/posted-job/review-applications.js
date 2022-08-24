@@ -26,7 +26,7 @@ const ReviewApplications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    // console.log(resp, "::")
+    console.log(resp, "::")
     if (resp.status == 200) {
       setTotalRecords(resp.data?.totalCount);
       setUsers(resp.data?.data[0]?.users);
@@ -69,10 +69,12 @@ const ReviewApplications = () => {
                         handlePageChangeReview={handlePageChangeReview}
                         pageSize={pageSize}
                         totalRecords={totalRecords}
-                        loading={loading}
+                        jobid={jobid}
                       />
                     ) : (
+                      <div className="no-record-found text-center p-5">
                       <h3>No Record found</h3>
+                    </div>
                     )}
 
                   </div>
