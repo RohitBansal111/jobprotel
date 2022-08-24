@@ -38,7 +38,6 @@ const EmployerJobDetailsPage = () => {
 
   useEffect(() => {
     if (selector) {
-      setLoading(false);
       setConnects(selector?.comapanyDetail?.availableConnects);
     }
   }, [selector]);
@@ -60,7 +59,6 @@ const EmployerJobDetailsPage = () => {
       setSkills(skills);
     }
   };
-  console.log(jobDetails.id, "::");
 
   return (
     <Layout>

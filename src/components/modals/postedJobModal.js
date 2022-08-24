@@ -120,7 +120,7 @@ const PostedJobModal = ({ id }) => {
         timeZone: showTimeZone ? timezone : timezone2,
         employerId: id,
         salary: sal,
-        timing: "2-4",
+        // timing: "2-4",
         experienceInYears: values.experienceInYears
           ? values.experienceInYears
           : 0,
@@ -134,6 +134,7 @@ const PostedJobModal = ({ id }) => {
   };
 
   const postJob = async (data) => {
+    // debugger
     const resp = await jobServies.jobPost(data);
     console.log(resp);
     // redirect on success

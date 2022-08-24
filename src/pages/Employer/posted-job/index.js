@@ -46,7 +46,7 @@ const PostedJob = () => {
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
       setLoading(false);
-      // console.log(response.data.data);
+      console.log(response.data.data, "::::");
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
