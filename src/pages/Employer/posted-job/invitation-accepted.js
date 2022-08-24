@@ -1,44 +1,44 @@
+import { useState  ,useEffect } from "react";
 import InvitationCard from "../../../components/Employer/invitationCard";
 import Layout from "../../../components/Layout";
-
+import Pagination from "react-js-pagination";
+import { useParams } from "react-router";
+import * as invitationService from '../../../services/jobsInvitationServices'
 const InvitationAccepted = () => {
-  // const { jobid } = useParams();
-  // const [users, setUsers] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [pageNumber, setPageNumber] = useState(1);
-  // const [pageSize, setPageSize] = useState(5);
-  // const [totalRecords, setTotalRecords] = useState(0);
-  // const [activePage, setActivePage] = useState(1);
+  const [invitationData, setInvitationDats]=useState([])
+  const [totalRecords, setTotalRecords] = useState(0);
 
-  // useEffect(() => {
-  //   getUsers(jobid, pageNumber);
-  // }, [jobid]);
+  const [pageSize, setPageSize] = useState(5);
+  const [loading, setLoading] = useState(true);
+   const [pageNumber, setPageNumber] = useState(1);
+   const { jobid } = useParams();
 
-  // const getUsers = async (jobid, pageNumber = pageNumber) => {
-  //   const payload = {
-  //     jobId: jobid,
-  //     pageNumber: pageNumber,
-  //     pageSize: pageSize,
-  //   };
-  //   const resp = await jobServices.getReviewJobsByJobId(payload);
-  //   console.log(resp, "::")
-  //   if (resp.status == 200) {
-  //     setTotalRecords(resp.data?.totalCount);
-  //     setUsers(resp.data?.data[0]?.users);
-  //     setLoading(false);
-  //   }
-  // };
-  // const handlePageChange = (pageNumber) => {
-  //   setPageNumber(pageNumber);
-  //   // setLoading(true);
-  //   getUsers(jobid, pageNumber);
-  // };
+  useEffect(() => {
+    getInvitationRecord(jobid, pageNumber);
+  }, [jobid]);
 
-  // const handlePageChangeReview = (pageNumber) => {
-  //   setActivePage(pageNumber);
-  //   // setLoading(true);
-  //   getUsers(jobid, pageNumber);
-  // };
+  const getInvitationRecord = async (jobid, pageNumber = pageNumber) => {
+    const payload = {
+      jobId: jobid,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+    const resp = await invitationService.getJobInvitationlist(payload);
+    console.log(resp, "::")
+    if (resp.status == 200) {
+      setTotalRecords(resp.data?.totalCount||3);
+      setInvitationDats(resp.data?.data[0]?.users);
+      setLoading(false);
+    }
+  };
+  const handlePageChange = (pageNumber) => {
+    setPageNumber(pageNumber);
+    getInvitationRecord(jobid, pageNumber);
+  };
+
+ 
+
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -57,6 +57,16 @@ const InvitationAccepted = () => {
                     <InvitationCard />
                     <InvitationCard />
                     <InvitationCard />
+
+                    {totalRecords > 5 && (
+                    <Pagination
+                      activePage={pageNumber}
+                      itemsCountPerPage={pageSize}
+                      totalItemsCount={totalRecords}
+                      pageRangeDisplayed={4}
+                      onChange={handlePageChange}
+                    />
+                  )}
                   </div>
                 </li>
               </ul>
