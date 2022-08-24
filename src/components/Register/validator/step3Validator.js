@@ -14,8 +14,8 @@ const Step3Validator = (values) => {
   if (!values.expectedSalary) {
     error.expectedSalary = "Required Salary";
   }
-  if (!values.days) {
-    error.days = "Required Days/week";
+  if (!values.workDaysPerWeek) {
+    error.workDaysPerWeek = "Required Days/week";
   }
   if (!values.workHoursPerDay) {
     error.workHoursPerDay = "Required Hours/day";

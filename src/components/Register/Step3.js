@@ -208,18 +208,18 @@ const Step3 = ({
                 </div>
                 <div className="form-field flex50">
                   <Field
-                    name="days"
+                    name="workDaysPerWeek"
                     label="Days / Week"
                     component={renderSelect}
                     type="text"
-                    defaultValue={next && data ? data.days : ""}
+                    defaultValue={next && data ? data.workDaysPerWeek : ""}
                   >
                     <option value="">Select days</option>
-                    <option value="1 day">1 day</option>
-                    <option value="2 days">2 days</option>
-                    <option value="3 days">3 days</option>
-                    <option value="4 days">4 days</option>
-                    <option value="5 days">5 days</option>
+                    <option value="1">1 day</option>
+                    <option value="2">2 days</option>
+                    <option value="3">3 days</option>
+                    <option value="4">4 days</option>
+                    <option value="5">5 days</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">

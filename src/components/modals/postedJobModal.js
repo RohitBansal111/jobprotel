@@ -292,7 +292,7 @@ const PostedJobModal = ({ id }) => {
                         <Field
                           name="qualification"
                           label="Education"
-                          placeholder="Enter education"
+                          placeholder="Select Education"
                           component={RenderTagFieldOnlySuggestions}
                           suggestions={qualificationList}
                         />
