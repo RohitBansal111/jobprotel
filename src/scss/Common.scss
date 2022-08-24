@@ -4,6 +4,7 @@
 body {
   font-family: $FontFamily;
   color: #444444;
+  overflow: auto !important;
 }
 a {
   color: #444444;
