@@ -88,6 +88,7 @@ export const RenderTagFieldOnlySuggestions = ({
   label,
   suggestions,
   type,
+  placeholder,
   meta: { touched, error, warning },
 }) => {
   const KeyCodes = {
@@ -135,6 +136,7 @@ export const RenderTagFieldOnlySuggestions = ({
       <div className="ReactTags" style={{ marginBottom: 20 }}>
         <ReactTags
           tags={tags}
+          placeholder={placeholder}
           suggestions={suggestions}
           delimiters={delimiters}
           handleDelete={handleDelete}
