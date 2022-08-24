@@ -15,6 +15,7 @@ import toast from "toastr";
 import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
 import LocationIcon from "../../../assets/icons/loc-ico.png";
+import PostedJobCard from "../../../components/PostedJobCard";
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -367,7 +368,23 @@ const EmployerProfile = () => {
                               <div className="project-detail-list">
                                 {activeJobs?.length > 0
                                   ? activeJobs.map((active, i) => (
-                                      <div className="project-dbox" key={i}>
+
+                                    <>
+                                     <PostedJobCard
+                          jobs={active}
+                          key={i}
+                          type="post"
+                          activePage={activePage}
+                          pageSize={pageSize}
+                        />
+                        
+                        
+                        
+{/*                         
+                        <div className="project-dbox" key={i}>
+                                        {
+                                          console.log(active)
+                                        }
                                         <h2 className="prname">
                                           {active.title}
                                         </h2>
@@ -406,7 +423,7 @@ const EmployerProfile = () => {
                                             {active?.description}
                                           </p>
                                           <div className="feeds-tags">
-                                            {/* <ul className="feeds-ul">
+                                            <ul className="feeds-ul">
                                               {tags &&
                                                 tags.length > 0 &&
                                                 tags.map((tag, index) => (
@@ -414,10 +431,12 @@ const EmployerProfile = () => {
                                                     <Link to="#">{tag}</Link>
                                                   </li>
                                                 ))}
-                                            </ul> */}
+                                            </ul>
                                           </div>
                                         </div>
-                                      </div>
+                                      </div> */}
+                                      </>
+                                     
                                     ))
                                   : "No Active Jobs"}
                                 <div className="project-pagination">

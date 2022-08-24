@@ -10,7 +10,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
   const [showEmoji, setShowEmoji] = useState(false)
   const handleEmoji = () => setShowEmoji(!showEmoji)
   const handleCloseEmoji = () => setShowEmoji(false)
-  console.warn(chatDisabled)
+  console.warn('qwer',studentDisplayName)
   return (
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
@@ -20,6 +20,9 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
         <p>{jobTitle?.slice(0, 30) + (jobTitle?.length > 30 ? "..." : "")  }</p>
       </div>
       <div className="client-employer-chat">
+        {
+          console.log('qwer', messages)
+        }
         <ClientEmployerChat messages={messages} user={user} receiverDisplayName={receiverDisplayName}/>
       </div>
       <div className="client-textarea-box">

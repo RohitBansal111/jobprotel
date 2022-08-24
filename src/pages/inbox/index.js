@@ -47,13 +47,14 @@ const Inbox = () => {
   const [roomStatus, setRoomStatus] = useState(false);
   const [receiverLiveStatus, setReceiverLiveStatus] = useState(false);
   const [senderLiveStatus, setSenderLiveStatus] = useState(false);
+  const [liveRefresh , setLiveRefresh]=useState(true)
   const { userId, jobId } = useParams();
 
   const navigate = useNavigate();
 
   useEffect(async () => {
     console.log(user, "user");
-    if (user && userId && jobId) {
+    if (user && userId && jobId && liveRefresh) {
       setReceiverId(userId);
       getJobDetails(jobId);
       if (user.userRoles[0] === "Student") {
@@ -111,7 +112,7 @@ const Inbox = () => {
 
   useEffect(() => {
     //update last message
-    if (roomId && !senderLiveStatus && user) {
+    if (roomId && !senderLiveStatus && user  && liveRefresh) {
       const updates = {};
       if (user && user.userRoles[0] && user.userRoles[0] == "Student") {
         updates["/studentLive/"] = true;
@@ -258,10 +259,13 @@ const Inbox = () => {
         setMessages([]);
       }
     });
+
+   
     readUsers(roomId);
   };
 
   const readUsers = async (roomId) => {
+    console.warn('jdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffs')
     //get user roomes
     // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
     const starUserRef = query(ref(db, "User"), orderByChild("dateTime"));
@@ -272,6 +276,7 @@ const Inbox = () => {
       if (data) {
         console.log(roomId, "aman67");
         updateUsers(data, roomId);
+      
       } else {
         setUsers([]);
         //setRoomId("")
@@ -282,6 +287,7 @@ const Inbox = () => {
         setMessages([]);
       }
     });
+    setLiveRefresh(false)
   };
 
   const updateUsers = (data, roomId) => {
@@ -349,7 +355,9 @@ const Inbox = () => {
   };
 
   useEffect(() => {
-    if (roomId) {
+    console.log('qwer',roomStatus)
+    if (roomId ) {
+     
       readMessage(roomId);
       //readUsers(roomId);
     }
@@ -359,6 +367,7 @@ const Inbox = () => {
   }, [user]);
 
   const handleUser = (val) => {
+    setLiveRefresh(true)
     if (val.chatRoomID) {
       setRoomId(val.chatRoomID);
       setReceiverLiveStatus(val.live && val.live);
@@ -429,7 +438,7 @@ const Inbox = () => {
   };
 
   useEffect(() => {
-    console.log(users[0], "users");
+    console.log('qwer',users);
     setChatDisabled(users[0]?.block);
   }, [users]);
 
@@ -442,7 +451,10 @@ const Inbox = () => {
           </div>
         </section>
         <section className="job-feeds-wrapper">
-          <div className="container">
+
+          {
+            users?.length>0?
+             <div className="container">
             <ChatInbox
               users={users}
               message={message}
@@ -466,7 +478,13 @@ const Inbox = () => {
               addEmoji={addEmoji}
               receiverDisplayName={receiverDisplayName}
             />
+          </div>:<div className="container">
+
+            <h2 > No user Found</h2>
+            
           </div>
+          }
+         
         </section>
       </div>
     </Layout>

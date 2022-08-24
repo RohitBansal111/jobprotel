@@ -144,7 +144,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
           </div>
           <div className="posted-submit">
             <p className="post-ago">
-              <img src={ClockIcon} alt="clock" />
+              <img src={ClockIcon} alt="clock" width={23} height={23} />
               {jobs?.createdOn ? (
                 <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
               ) : null}

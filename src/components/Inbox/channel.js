@@ -81,6 +81,7 @@ const ClientChannel = ({
                 key={index}
                 className={roomId == item.chatRoomID ? "activeChat" : null}
               >
+               
                 <div
                   className="d-flex justify-content-between"
                   onClick={() => handleUser(item)}
