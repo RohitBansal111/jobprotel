@@ -161,7 +161,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                         : "#"
                     }
                   > */}
-                    <Link to="/invitation-accepted/dsfrte" type="button" className="btn submit-btn me-2">
+                    <Link to={`/invitation-accepted/${jobs?.id}`} type="button" className="btn submit-btn me-2">
                       Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                     </Link>
                   {/* </Link> */}

@@ -11,29 +11,30 @@ const InvitationAccepted = () => {
   const [pageSize, setPageSize] = useState(5);
   const [loading, setLoading] = useState(true);
    const [pageNumber, setPageNumber] = useState(1);
-   const { jobid } = useParams();
+   const { invitationid } = useParams();
 
   useEffect(() => {
-    getInvitationRecord(jobid, pageNumber);
-  }, [jobid]);
+    
+    getInvitationRecord(invitationid, pageNumber);
+  }, [invitationid]);
 
-  const getInvitationRecord = async (jobid, pageNumber = pageNumber) => {
+  const getInvitationRecord = async (invitationid, pageNumber = pageNumber) => {
     const payload = {
-      jobId: jobid,
+      jobId: invitationid,
       pageNumber: pageNumber,
       pageSize: pageSize,
     };
     const resp = await invitationService.getJobInvitationlist(payload);
     console.log(resp, "::")
     if (resp.status == 200) {
-      setTotalRecords(resp.data?.totalCount||3);
-      setInvitationDats(resp.data?.data[0]?.users);
+      setTotalRecords(resp.data?.totalCount);
+      setInvitationDats(resp.data?.data);
       setLoading(false);
     }
   };
   const handlePageChange = (pageNumber) => {
     setPageNumber(pageNumber);
-    getInvitationRecord(jobid, pageNumber);
+    getInvitationRecord(invitationid, pageNumber);
   };
 
  
@@ -54,9 +55,16 @@ const InvitationAccepted = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-                    <InvitationCard />
-                    <InvitationCard />
-                    <InvitationCard />
+
+                    {
+                      invitationData?.map((w)=>{
+                       
+                        return(
+                          <InvitationCard  data={w}/>
+                        )
+                      })
+                    }
+                  
 
                     {totalRecords > 5 && (
                     <Pagination
