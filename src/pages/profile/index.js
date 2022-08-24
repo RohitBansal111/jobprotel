@@ -46,7 +46,9 @@ const Profile = () => {
   const [id, setId] = useState("");
   const [kycStatus, setKycStatus] = useState(true);
   const [editProjectData, setEditProjectData] = useState([]);
-
+  const [extraCertificate,setExtraCertificateData]=useState([])
+  const [editCertificate , setEditCertificate]=useState([])
+  const [previewImg, setPreviewImg] = useState([]);
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
@@ -59,6 +61,7 @@ const Profile = () => {
       const response = resp.data.data;
       console.log(response, "::");
       setStudentData(response);
+      setExtraCertificateData(response?.studentDetails?.studentExtraCertificate)
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
       );
@@ -206,6 +209,36 @@ const Profile = () => {
         getStudentData(authData.id);
       }
     }
+  };
+
+  
+
+  const editCertificates = async (id, title , i) => {
+    if ((id, title)) {
+      let formData = new FormData();
+      formData.append("Title", title);
+      formData.append("CertId", id);
+
+      const resp = await studentExtraCertificate.updateExtraCertificatesTitle(
+        formData
+      );
+      if (resp.status === 200) {
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+        getStudentData();
+        let arr=[...editCertificate]
+
+        arr.splice(i,1)
+        setEditCertificate(arr)
+      }
+    }
+  };
+
+  const handleFormTitleChange = (index, event) => {
+    let data = [...extraCertificate];
+    data[index][event.target.name] = event.target.value;
+    setExtraCertificateData(data);
   };
   return (
     <Layout>
@@ -546,17 +579,73 @@ const Profile = () => {
                                     )
                                   )}
                                 </ul> */}
-                                 {studentData?.studentDetails?.studentExtraCertificate.map(
+                                 {extraCertificate?.map(
                                     (certificate, i) => (
                                       <>
                                         <div key={i} className='div_edit_btn'>
-                                          <a
+                                         
+                                           {
+                                            console.log('qwerrr',editCertificate[i])
+                                           }
+
+                                            {
+                                              editCertificate[i] !==undefined ?<input
+                                              name="title"
+                                              className="edit-profile-file"
+                                              onChange={(e) =>
+                                                handleFormTitleChange(
+                                                  i,
+                                                  e
+                                                )
+                                              }
+                                              value={certificate.title}
+                                            />: <a
                                             href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
                                             target="_blank" rel="noreferrer"
-                                          >
-                                            {certificate.title}
+                                          > {certificate.title}
                                           </a>
-                                          <button
+                                            }
+                                          
+
+                                          {
+                                            editCertificate[i]?
+                                            <>
+                                            
+                                            <button className="btn p-0 ms-3">
+                                                   
+                                                    <span className="btn btn-edit p-0 ps-3">
+                                                      <i
+                                                        className="fa fa-edit"
+                                                        aria-hidden="true"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                         {
+                                                           editCertificates(
+                                                            certificate.certId,
+                                                            certificate.title,
+                                                            i
+                                                          )}
+                                                        }
+                                                      />
+                                                    </span>
+                                                  </button>
+                                            
+                                            </>:
+                                            <> <button
+                              type="button"
+                              className="icon_button"
+                              onClick={()=>{
+                                let arr =[...editCertificate]
+                                arr[i]=true
+                                setEditCertificate(arr)
+                              }}
+                            >
+                              <i className="fas fa-pen"></i>
+                            </button>
+
+                            <button
                               type="button"
                               className="icon_button"
                             
@@ -578,7 +667,11 @@ const Profile = () => {
                               }}
                             >
                               <i className="fas fa-trash"></i>
-                            </button>
+                            </button></>
+                                          }
+
+                                         
+                                         
                                         </div>
                                       </>
                                     )

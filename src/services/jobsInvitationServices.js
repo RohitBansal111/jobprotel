@@ -4,7 +4,7 @@ export const getJobInvitationlist = async (data) => {
   try {
     let token = localStorage.getItem("jobPortalUserToken")
     const resp = await axios.post(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobInvitationListByUser`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}Job/GetJobInvitationAccepted`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },

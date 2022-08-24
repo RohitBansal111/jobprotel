@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import StudentProfile from "./../../assets/images/feed-logo.png";
 
-const InvitationCard = () => {
+const InvitationCard = ({data}) => {
   // const navigate = useNavigate();
   // const [showAcceptInvitation, setshowAcceptInvitation] = useState(true);
   // const [showRejectedView, setshowRejectedView] = useState(true);
@@ -41,6 +41,7 @@ const InvitationCard = () => {
   // useEffect(()=> {
   //   setId(jobid)
   // }, [jobid])
+
   return (
   
       <div className="feeds-search-coll">
@@ -49,7 +50,7 @@ const InvitationCard = () => {
             <div className="feeds-s-logo">
               <Link to="">
                 <img
-                  src={StudentProfile}
+                  src={`${process.env.REACT_APP_IMAGE_API_URL}/${data.pictureUrl}`}
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
                   alt="profile image2"
                 />
@@ -57,16 +58,16 @@ const InvitationCard = () => {
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to="">Rahul Singh</Link>{" "}
+                <Link to="">{data?.firstName}  {data?.lastName}</Link>{" "}
               </h2>
               <ul className="feeds-s-ul mb-2">
                 <li>
                   <img src={LocationIcon} alt="Location" />
-                  New Delhi
+                 {data?.cityName}
                 </li>
               </ul>
-              <p className="mb-1"><b>Role:</b> React Js Developer</p>
-              <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
+              <p className="mb-1"><b>Role:</b>{data?.skills}</p>
+              <p>{data?.description}</p>
             </div>
           </div>
           <div className="feeds-s-name"></div>

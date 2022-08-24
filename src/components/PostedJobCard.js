@@ -152,13 +152,20 @@ console.log(jobs, ":::");
             <div className="d-flex">
               {authData?.userRoles[0] === "Employer" ? (
                 <>
-                  <Link
-                    to={`/invitation-accepted/${jobs?.id}`}
-                    type="button"
-                    className="btn submit-btn me-2"
-                  >
-                    Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
-                  </Link>
+
+
+                  {/* <Link
+                    to={
+                      jobs?.id != undefined
+                        ? `/review-applications/${jobs?.id}`
+                        : "#"
+                    }
+                  > */}
+                    <Link to={`/invitation-accepted/${jobs?.id}`} type="button" className="btn submit-btn me-2">
+                      Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
+                    </Link>
+                  {/* </Link> */}
+
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"
