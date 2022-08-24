@@ -8,8 +8,8 @@
   padding: 0px;
   .channel-list-wrapper{
     background-color: $Theme-white;
-    min-height: calc(100vh - 121px);
-    max-height: calc(100vh - 121px);
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
     overflow: auto;
     border-radius: 0px;
     border-right: 1px solid #e0e0e0;
@@ -133,8 +133,8 @@
   }
   .channel-single-discussion{
     background-color: $Theme-white;
-    min-height: calc(100vh - 121px);
-    max-height: calc(100vh - 121px);
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
     position: relative;
     .client-chatbox-header{
       padding: 15px 20px;
@@ -239,14 +239,14 @@
   }
 }
 .client-employer-chat{
-  min-height: calc(100vh - 278px);
-  max-height: calc(100vh - 278px);
+  min-height: calc(100vh - 325px);
+  max-height: calc(100vh - 325px);
   >div{
-    min-height: calc(100vh - 278px);
-    max-height: calc(100vh - 278px); 
+    min-height: calc(100vh - 325px);
+    max-height: calc(100vh - 325px); 
     >div{
-      min-height: calc(100vh - 278px);
-      max-height: calc(100vh - 278px);
+      min-height: calc(100vh - 325px);
+      max-height: calc(100vh - 325px);
     }
   }
   ul{
