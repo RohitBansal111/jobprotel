@@ -17,7 +17,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
         <h5>
           {studentDisplayName && studentDisplayName},{employerDisplayName && employerDisplayName} 
         </h5>
-        <p>{jobTitle.slice(0, 30) + (jobTitle.length > 30 ? "..." : "")  }</p>
+        <p>{jobTitle?.slice(0, 30) + (jobTitle?.length > 30 ? "..." : "")  }</p>
       </div>
       <div className="client-employer-chat">
         <ClientEmployerChat messages={messages} user={user} receiverDisplayName={receiverDisplayName}/>

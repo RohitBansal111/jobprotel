@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const jobPost = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job`,
       data,
@@ -29,7 +29,7 @@ export const jobPost = async (data) => {
 
 export const getJobList = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmployer`,
       data,
@@ -56,7 +56,7 @@ export const getJobList = async (data) => {
 
 export const getJobDetails = async (id) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJob/jobId?jobId=${id}`,
@@ -84,7 +84,7 @@ export const getJobDetails = async (id) => {
 
 export const getJobListByStudent = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByStudent`,
@@ -112,7 +112,7 @@ export const getJobListByStudent = async (data) => {
 
 export const getStudentListSuggestions = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/StudentListNotSendInvite`,
       data,
@@ -140,7 +140,7 @@ export const getStudentListSuggestions = async (data) => {
 export const sendStudentJobInvitations = async (jobId, userId) => {
   const data = { jobId, userId };
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/SendInvitations`,
@@ -168,7 +168,7 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
 
 export const applyJob = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/appliedjobs`,
@@ -183,11 +183,14 @@ export const applyJob = async (data) => {
       throw new Error(resp);
     }
   } catch (err) {
-    console.log(err.response.data.data.message,"appliyed")
+    console.log(err.response.data.data.message, "appliyed");
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.data && err.response.data.data.message
+        err.response &&
+        err.response.data &&
+        err.response.data.data &&
+        err.response.data.data.message
           ? err.response.data.data.message
           : err.message,
       status: 400,
@@ -197,7 +200,7 @@ export const applyJob = async (data) => {
 
 export const saveJob = async (data) => {
   try {
-    let token = localStorage.getItem("jobPortalUserToken")
+    let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/AddFavroateJob`,
@@ -307,7 +310,6 @@ export const getReviewJobsByJobId = async (data) => {
 
 export const getJobByJobId = async (id) => {
   try {
-   
     const resp = await axios.get(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByjobId/jobId?jobId=${id}`
     );
@@ -330,7 +332,6 @@ export const getJobByJobId = async (id) => {
 
 export const getJobByEmail = async (email) => {
   try {
-   
     const resp = await axios.get(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Job/GetJobByEmail?email=${email}`
     );
@@ -342,10 +343,7 @@ export const getJobByEmail = async (email) => {
   } catch (err) {
     return {
       data: "",
-      error:
-        err.response && err.response.data && err.response.data.error
-          ? err.response.data.error
-          : err.message,
+      error: err.response?.data?.error ? err.response.data.error : err.message,
       status: 400,
     };
   }

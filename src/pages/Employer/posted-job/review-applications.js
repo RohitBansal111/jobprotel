@@ -26,22 +26,22 @@ const ReviewApplications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp, "::")
+    // console.log(resp, "::")
     if (resp.status == 200) {
-      // setTotalRecords()
-      setUsers(resp.data?.data[0]);
+      setTotalRecords(resp.data?.totalCount);
+      setUsers(resp.data?.data[0]?.users);
       setLoading(false);
     }
   };
   const handlePageChange = (pageNumber) => {
     setPageNumber(pageNumber);
-    setLoading(true);
+    // setLoading(true);
     getUsers(jobid, pageNumber);
   };
 
   const handlePageChangeReview = (pageNumber) => {
     setActivePage(pageNumber);
-    setLoading(true);
+    // setLoading(true);
     getUsers(jobid, pageNumber);
   };
   return (
@@ -59,21 +59,20 @@ const ReviewApplications = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-                    {
-                      users && users.userData?.length > 0 ? (
-                        // users.map((data, i) => (
-                        <EmployerReviewCard
-                          user={users}
-                          activePage={activePage}
-                          handlePageChangeReview={handlePageChangeReview}
-                          pageSize={pageSize}
-                          totalRecords={totalRecords}
-                          loading={loading}
-                        />
-                      ):
+                    {loading ? (
+                      <Loader />
+                    ) : users?.length > 0 ? (
+                      <EmployerReviewCard
+                        user={users}
+                        activePage={activePage}
+                        handlePageChangeReview={handlePageChangeReview}
+                        pageSize={pageSize}
+                        totalRecords={totalRecords}
+                        loading={loading}
+                      />
+                    ) : (
                       <h3>No Record found</h3>
-                      // ))
-                    }
+                    )}
                   </div>
                   {totalRecords > 5 && (
                     <Pagination

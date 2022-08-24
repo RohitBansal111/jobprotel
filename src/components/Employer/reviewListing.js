@@ -19,7 +19,7 @@ const EmployerReviewCard = ({
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
 
-  console.log(user, "data");
+  console.log(user, "::");
 
   const handleAcceptInvitation = () => {
     setshowAcceptInvitation(false);
@@ -30,7 +30,7 @@ const EmployerReviewCard = ({
 
   useEffect(() => {
     if (user) {
-      setUserData(user.users);
+      setUserData(user);
     }
   }, [user]);
 
@@ -45,12 +45,12 @@ const EmployerReviewCard = ({
                   src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
                   alt="profile image"
-                />{" "}
+                />
               </Link>
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to="/public"> {user?.fullName}</Link>{" "}
+                <Link to="/public">{user?.fullName}</Link>{" "}
                 {/* <span className="desgination">(FrontEnd Developer)</span>{" "} */}
               </h2>
               <ul className="feeds-s-ul">
@@ -64,8 +64,12 @@ const EmployerReviewCard = ({
                 Verified post
               </li> */}
               </ul>
+              <li>
+                {user?.studentDetails?.qualificationResponse?.qualificationName}
+              </li>
             </div>
           </div>
+          <div className="feeds-s-name"></div>
           <div className="review-listing-action">
             {showRejectedView ? (
               <>
