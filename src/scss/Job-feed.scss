@@ -413,6 +413,7 @@ section.complete-kyc {
             width: 55px;
             height: 55px;
             border-radius: 50%;
+            object-fit: cover;
           }
         }
         .feeds-s-name {
@@ -806,6 +807,13 @@ section.complete-kyc {
         font-size: 15px !important;
         height: 48px;
         line-height: 15px;
+        color: $Theme-white;
+        a{
+          color: $Theme-white;
+          &:focus{
+            color: $Theme-white;
+          }
+        }
       }
       .btn-primary-outline{
         margin-top: 15px;
@@ -880,5 +888,22 @@ section.complete-kyc {
     padding: 5px;
     border: 2px dotted #fff;
     font-size: 14px;
+  }
+}
+
+.employer-salary{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  p{
+    margin: 0;
+    font-size: 15px;
+    color: #132e31;
+    font-weight: 700;
+  }
+  .project-budget{
+    color: #656565;
+    font-size: 15px;
+    margin-left: 10px;
   }
 }

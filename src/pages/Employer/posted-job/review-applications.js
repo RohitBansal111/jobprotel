@@ -55,7 +55,7 @@ const ReviewApplications = () => {
         <section className="job-feeds-wrapper">
           <div className="container">
             <h4 className="text-white mb-3">Review Applications</h4>
-            <div className="application-list-card mb-5">
+            <div className="application-list-card common-inner-sec">
               <ul>
                 <li>
                   <div className="default-feeds-search">
@@ -71,7 +71,9 @@ const ReviewApplications = () => {
                         jobid={jobid}
                       />
                     ) : (
+                      <div className="no-record-found text-center p-5">
                       <h3>No Record found</h3>
+                    </div>
                     )}
                   </div>
                   {totalRecords > 5 && (

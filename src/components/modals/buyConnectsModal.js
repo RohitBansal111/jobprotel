@@ -208,8 +208,8 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
                       value={data.buy_connects}
                       onChange={HandleSelect}
                     >
-                      {OptionsData?.map((w) => {
-                        return <option value={w.connects}>{w.value}</option>;
+                      {OptionsData?.map((w, index) => {
+                        return <option key={index} value={w.connects}>{w.value}</option>;
                       })}
 
                       {/* <option value='20' price='3'>20 for $3</option>

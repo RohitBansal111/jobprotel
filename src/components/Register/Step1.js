@@ -4,7 +4,7 @@ import { renderField } from "../renderField";
 import titles from "./register.json";
 import validate from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Step1 = ({ nextPage, prevPage, userBasicInfo, data }) => {
   let titleStrings = new LocalizedStrings(titles);
@@ -17,6 +17,9 @@ const Step1 = ({ nextPage, prevPage, userBasicInfo, data }) => {
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);
 
+useEffect(() => {
+    window.scrollTo(0, 0)
+}, []);
   const validation = () => {
     let isValid = true;
     let error = {};

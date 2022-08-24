@@ -148,7 +148,14 @@ const Profile = () => {
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
-      return zone.value;
+      console.log('qwer',zone)
+
+      if(zone?.value ==undefined){
+        return zone.altName
+      }else{
+        return zone.value;
+      }
+    
     } else {
       return "N/A";
     }
@@ -420,6 +427,7 @@ const Profile = () => {
                               </div>
                             </li>
                             <li>
+                              {console.log('qwer',studentData)}
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {getTimeZone(
@@ -538,44 +546,44 @@ const Profile = () => {
                                     )
                                   )}
                                 </ul> */}
-                                {studentData?.studentDetails?.studentExtraCertificate.map(
-                                  (certificate, i) => (
-                                    <>
-                                      <div key={i} className="div_edit_btn">
-                                        <a
-                                          href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                          target="_blank"
-                                        >
-                                          {certificate.title}
-                                        </a>
-                                        <button
-                                          type="button"
-                                          className="icon_button"
-                                          onClick={() => {
-                                            Swal.fire({
-                                              title: "Are you sure?",
-                                              text: "You won't be able to revert this!",
-                                              icon: "warning",
-                                              showCancelButton: true,
-                                              confirmButtonColor: "#3085d6",
-                                              cancelButtonColor: "#d33",
-                                              confirmButtonText:
-                                                "Yes, delete it!",
-                                            }).then((result) => {
-                                              if (result.isConfirmed) {
-                                                handleExtraCertificateDelete(
-                                                  certificate.certId
-                                                );
-                                              }
-                                            });
-                                          }}
-                                        >
-                                          <i className="fas fa-trash"></i>
-                                        </button>
-                                      </div>
-                                    </>
-                                  )
-                                )}
+                                 {studentData?.studentDetails?.studentExtraCertificate.map(
+                                    (certificate, i) => (
+                                      <>
+                                        <div key={i} className='div_edit_btn'>
+                                          <a
+                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                            target="_blank" rel="noreferrer"
+                                          >
+                                            {certificate.title}
+                                          </a>
+                                          <button
+                              type="button"
+                              className="icon_button"
+                            
+                              onClick={()=>{
+                                Swal.fire({
+                                  title: 'Are you sure?',
+                                  text: "You won't be able to revert this!",
+                                  icon: 'warning',
+                                  showCancelButton: true,
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    handleExtraCertificateDelete(certificate.certId)
+                                  }
+                                })
+
+                              }}
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                                        </div>
+                                      </>
+                                    )
+                                  )}
+                               
                               </span>
                             </li>
                           </ul>
@@ -676,7 +684,37 @@ const Profile = () => {
                               projectHistory.length > 0 &&
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
-                                  <h2 className="prname">{project.title}</h2>
+                                  <div className="project-history-title-action mb-3">
+                                    <h2 className="prname mb-0">{project.title}</h2>
+                                    <div className="d-flex">
+                                      <button
+                                        type="button"
+                                        className="icon_button_text"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#UpdateProjectModal"
+                                        onClick={() =>
+                                          handleEditProjectHistory(project)
+                                        }
+                                      >
+                                        <i className="fas fa-pen"></i>
+                                      </button>
+                                      {/* {editProject && ( */}
+                                        <UpdateProjectModal
+                                          editProjectData={editProjectData}
+                                          getProjectHistory={getProjectHistory}
+                                        />
+                                      {/* )} */}
+                                      <button
+                                        type="button"
+                                        className="icon_button_text"
+                                        data-bs-toggle="modal"
+                                        // onClick={() => handleDeleteData(data.id)}
+                                      >
+                                        <i className="fas fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  
                                   <div className="prd-buget-column">
                                     <div className="project-tenure-skills">
                                       <span className="prdate">
@@ -707,29 +745,10 @@ const Profile = () => {
                                   >
                                     View More
                                   </button>
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#UpdateProjectModal"
-                                    onClick={() =>
-                                      handleEditProjectHistory(project)
-                                    }
-                                  >
-                                    <i className="fas fa-pen"></i>
-                                  </button>
                                     <UpdateProjectModal
                                       editProjectData={editProjectData}
                                       getProjectHistory={getProjectHistory}
                                     />
-                                  <button
-                                    type="button"
-                                    className="icon_button_text"
-                                    data-bs-toggle="modal"
-                                    onClick={() => handleRemoveProjectHistory(project.id)}
-                                  >
-                                    <i className="fas fa-trash"></i>
-                                  </button>
                                   <div
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}

@@ -146,12 +146,16 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
             <p className="post-ago">
               <img src={ClockIcon} alt="clock" />
               {jobs?.createdOn ? (
-                <ReactTimeAgo date={jobs.createdOn} locale="en-US" />
+                <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
               ) : null}
             </p>
             <div className="d-flex">
               {authData?.userRoles[0] === "Employer" ? (
                 <>
+
+                  
+
+
                   {/* <Link
                     to={
                       jobs?.id != undefined
@@ -163,6 +167,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                       Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                     </button>
                   {/* </Link> */}
+
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"

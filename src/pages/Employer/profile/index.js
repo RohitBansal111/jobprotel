@@ -380,9 +380,10 @@ const EmployerProfile = () => {
                                             {active?.location}
                                           </li>
                                         </ul>
-                                        <div className="prd-buget-column">
+                                        <div className="prd-buget-column mt-2">
                                           <div className="prdate-budgetprice">
                                             <span className="prdate">
+                                              <b>Skills: </b>
                                               {active?.skills
                                                 ?.split(",")
                                                 .map((sk, i) => (
@@ -394,14 +395,14 @@ const EmployerProfile = () => {
                                             </span>
                                           </div>
                                         </div>
-                                        <div className="feeds-budget">
-                                          <p>Salary Range</p>
+                                        <div className="feeds-budget employer-salary">
+                                          <p>Salary Range: </p>
                                           <span className="project-budget">
                                             $ {active?.salary}
                                           </span>
                                         </div>
                                         <div className="feeds-search-detail">
-                                          <p>
+                                          <p> <b>Descriprion: </b>
                                             {active?.description}
                                           </p>
                                           <div className="feeds-tags">
@@ -446,9 +447,10 @@ const EmployerProfile = () => {
                                           <h2 className="prname">
                                             {archive.title}
                                           </h2>
-                                          <div className="prd-buget-column">
+                                          <div className="prd-buget-column mt-2">
                                             <div className="prdate-budgetprice">
                                               <span className="prdate">
+                                                <b>Skills: </b>
                                                 {archive?.skills
                                                   ?.split(",")
                                                   .map((arc, i) => (
