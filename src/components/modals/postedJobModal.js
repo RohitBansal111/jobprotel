@@ -59,8 +59,8 @@ const PostedJobModal = ({ id }) => {
   const navigate = useNavigate();
   const handleTimeZone = (data) => {
     console.log("data", JSON.stringify(data));
-
-    setTimezone(data);
+    let d = JSON.stringify(data)
+    setTimezone(d);
   };
 
   const [showTimeZone, setShowTimeZone] = useState(false);
