@@ -29,10 +29,10 @@ import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
 import ResetPassword from "./pages/resetPassword";
-import InviteWithStatus from "./pages/invitesWithStatus";
 import PaymentSuccess from "./pages/payments/PaymentSuccess";
 import PaymentFailure from "./pages/payments/PaymentFailure";
 import InvitationRoutes from "./HOC/InvitationRoutes";
+import InvitationAccepted from "./pages/Employer/posted-job/invitation-accepted";
 
 function App() {
   return (
@@ -123,6 +123,10 @@ function App() {
         <Route
           path="/review-applications/:jobid"
           element={<ReviewApplications />}
+        />
+         <Route
+          path="/invitation-accepted/:invitationid"
+          element={<InvitationAccepted />}
         />
         <Route path="/applications" element={<Applications />} />
         <Route path="/roles" element={<EmployerRoles />} />
