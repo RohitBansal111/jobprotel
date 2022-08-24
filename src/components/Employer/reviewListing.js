@@ -3,8 +3,10 @@ import CompanyLogo from "./../../assets/images/feed-logo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Pagination from "react-js-pagination";
+import * as appliedJobServices from "../../services/appliedJobServices";
+import toast from "toastr";
 
 const EmployerReviewCard = ({
   user,
@@ -12,17 +14,32 @@ const EmployerReviewCard = ({
   handlePageChangeReview,
   pageSize,
   totalRecords,
-  loading,
+  jobid,
 }) => {
+  const navigate = useNavigate();
   const [showAcceptInvitation, setshowAcceptInvitation] = useState(true);
   const [showRejectedView, setshowRejectedView] = useState(true);
   const [userData, setUserData] = useState([]);
-  const navigate = useNavigate();
+  const [id, setId] = useState("");
 
-  console.log(user, "::");
+  // console.log(user, "::");
 
-  const handleAcceptInvitation = () => {
+  const handleInvitation = async(status) => {
     setshowAcceptInvitation(false);
+    if(id) {
+      let data = {
+        applayJobId: id,
+        appiledJobStatusByEmployer: status,
+      };
+      const resp = await appliedJobServices.updateAppliedJobs(data)
+      console.log(resp);
+
+      if(resp.status == 200) {
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+      }
+    }
   };
 
   const handleRejected = () => setshowRejectedView(false);
@@ -34,13 +51,16 @@ const EmployerReviewCard = ({
     }
   }, [user]);
 
+  useEffect(()=> {
+    setId(jobid)
+  }, [jobid])
   return userData?.length > 0 ? (
     userData?.map((user, i) => (
       <div className="feeds-search-coll">
         <div className="feeds-search-head">
           <div className="feeds-head-left">
             <div className="feeds-s-logo">
-              <Link to="/public">
+              <Link to={`/public/${user?.id}`}>
                 <img
                   src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
@@ -50,7 +70,7 @@ const EmployerReviewCard = ({
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to="/public">{user?.fullName}</Link>{" "}
+                <Link to={`/public/${user?.id}`}>{user?.fullName}</Link>{" "}
                 {/* <span className="desgination">(FrontEnd Developer)</span>{" "} */}
               </h2>
               <ul className="feeds-s-ul">
@@ -76,7 +96,7 @@ const EmployerReviewCard = ({
                 {showAcceptInvitation ? (
                   <button
                     type="button"
-                    onClick={handleAcceptInvitation}
+                    onClick={()=> handleInvitation(1)}
                     className="btn btn-primary mr-2"
                   >
                     Accept
@@ -92,7 +112,7 @@ const EmployerReviewCard = ({
                 )}
                 <button
                   type="button"
-                  onClick={handleRejected}
+                  onClick={()=> handleInvitation(2)}
                   className="btn btn-reject"
                 >
                   Reject
@@ -101,7 +121,7 @@ const EmployerReviewCard = ({
             ) : (
               <button
                 type="button"
-                onClick={handleRejected}
+                // onClick={handleRejected}
                 className="btn btn-reject"
               >
                 Rejected
