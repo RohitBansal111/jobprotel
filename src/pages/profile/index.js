@@ -620,10 +620,13 @@ const Profile = () => {
                                     <p>{data.employerName}</p>
                                     <p className="dateP">
                                       {data.startDate}
-                                      {data.startDate && data.endDate
-                                        ? " - "
-                                        : null}
-                                      {data.endDate}
+                                      {!data?.isCurrentEmployer && " - "
+                                        }
+                                       
+                                        {
+                                          !data?.isCurrentEmployer && data.endDate
+                                        }
+                                      
                                     </p>
                                   </div>
                                 </div>

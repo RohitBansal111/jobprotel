@@ -104,7 +104,8 @@ export const renderField = ({
   meta: { touched, error },
   pattern,
   disabled=false,
-  min
+  min,
+  max
 }) => {
   const inputProps = {
     ...input,
@@ -113,6 +114,21 @@ export const renderField = ({
       onChange && onChange(e);
     },
   };
+
+  var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+var yyyy = today.getFullYear();
+if(dd<10){
+  dd='0'+dd
+} 
+if(mm<10){
+  mm='0'+mm
+} 
+
+today = yyyy+'-'+mm+'-'+dd;
+
+
  
   return (
     <div className="field-render-main">
@@ -125,7 +141,8 @@ export const renderField = ({
           className="form-control"
           disabled={disabled}
           min={min}
-          // max={placeholder=='Enter end date'?moment(new Date()).format('YYYY-MM-DD'):''}
+          max={placeholder=='Enter end date'?moment(new Date()).format('YYYY-MM-DD'):''}
+         //max='2022-O8-24'
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

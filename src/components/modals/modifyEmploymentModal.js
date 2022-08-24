@@ -117,6 +117,7 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
           </div>
           <div className="modal-body p-4">
             <div className="kyc-detail-form">
+            
               <Form
                 initialValues={data}
                 onSubmit={handleJobPost}
@@ -191,16 +192,18 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
                           type="date"
                         />
                       </div>
+                      
                       {
                         !endDate && <div className="form-field flex100">
                         <Field
-                          name="endDate"
-                          label="End Date"
-                          placeholder="Enter end date"
-                          component={renderField}
-                          type="date"
+                           name="endDate"
+                           label="End Date"
+                           placeholder="Enter end date"
+                           component={renderField}
+                           type="date"
                           min={values.startDate && values.startDate}
-                          disabled={endDate}
+                          max={moment(new Date()).format('YYYY-MM-DD')}
+                         
                         />
                         <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
