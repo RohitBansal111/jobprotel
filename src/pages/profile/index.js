@@ -794,12 +794,10 @@ const Profile = () => {
                                       >
                                         <i className="fas fa-pen"></i>
                                       </button>
-                                      {/* {editProject && ( */}
                                         <UpdateProjectModal
                                           editProjectData={editProjectData}
                                           getProjectHistory={getProjectHistory}
                                         />
-                                      {/* )} */}
                                       <button
                                         type="button"
                                         className="icon_button_text"

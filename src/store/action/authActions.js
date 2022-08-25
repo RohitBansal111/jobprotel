@@ -3,10 +3,15 @@ import { loginUser } from "../../services/authServices";
 import toast from "toastr";
 
 export const login = (user, navigate) => {
+  console.log(user);
+  let data = {
+    userName: user?.userName,
+    password: user?.password.trim()
+  }
   toast.options = { preventDuplicates: true };
   return async (dispatch) => {
     try {
-      let resp = await loginUser(user);
+      let resp = await loginUser(data);
 
       if (resp.status === 200) {
         const response = resp.data.data;

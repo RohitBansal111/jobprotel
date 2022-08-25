@@ -25,11 +25,11 @@ const AddProjectValidator = (values) => {
   if (!values.totalTeamSize) {
     error.totalTeamSize = "Required Team Size";
   }
-  if (!values.companyEmail) {
-    error.companyEmail = "Required company email address";
-  } else if (!regex.test(values.companyEmail)) {
-    error.companyEmail = "Please enter a valid email address";
-  }
+  // if (!values.companyEmail) {
+  //   error.companyEmail = "Required company email address";
+  // } else if (!regex.test(values.companyEmail)) {
+  //   error.companyEmail = "Please enter a valid email address";
+  // }
   return error;
 };
 

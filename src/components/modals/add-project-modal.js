@@ -62,7 +62,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
         values.startDate="";
         values.endDate="";
         values.totalTeamSize="";
-        values.companyEmail="";
+        // values.companyEmail="";
       }
     }
   }
@@ -186,7 +186,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           pattern="[0-9]*"
                         />
                       </div>
-                      <div className="form-field flex100">
+                      {/* <div className="form-field flex100">
                         <Field
                           label="Company Email"
                           name="companyEmail"
@@ -194,7 +194,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           placeholder="Enter company email address"
                           type="text"
                         />
-                      </div>
+                      </div> */}
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"

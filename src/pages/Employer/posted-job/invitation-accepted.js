@@ -64,7 +64,6 @@ const InvitationAccepted = () => {
                         <h3>No Record found</h3>
                       </div>
                     )}
-
                     {totalRecords > 5 && (
                       <Pagination
                         activePage={pageNumber}

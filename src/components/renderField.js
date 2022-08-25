@@ -128,8 +128,6 @@ if(mm<10){
 
 today = yyyy+'-'+mm+'-'+dd;
 
-
- 
   return (
     <div className="field-render-main">
       <label htmlFor={`label${label}`}>{label}</label>
@@ -142,7 +140,6 @@ today = yyyy+'-'+mm+'-'+dd;
           disabled={disabled}
           min={min}
           max={placeholder=='Enter end date'?moment(new Date()).format('YYYY-MM-DD'):''}
-         //max='2022-O8-24'
         />
         {children}
         {touched && error && <span className="error">{error}</span>}

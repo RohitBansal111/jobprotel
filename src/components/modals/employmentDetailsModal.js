@@ -15,18 +15,18 @@ import toast from "toastr";
 import { useNavigate } from "react-router";
 import moment from "moment";
 
-const EmploymentDetailsModal = ({getEmploymentDetails}) => {
+const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
   const authData = useSelector((state) => state.auth.user);
   const [designationlist, setDesignationlist] = useState([]);
   const [errors, setErrors] = useState({});
-  const [checkEnd, setScheCkEnd]=useState(false)
+  const [checkEnd, setScheCkEnd] = useState(false);
 
   const [id, setId] = useState("");
 
   const validation = (values) => {
     let isValid = true;
     let error = {};
-    const {startDate,endDate} = values
+    const { startDate, endDate } = values;
     const startDate1 = moment(startDate).format("MM/DD/YYYY");
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
@@ -40,60 +40,51 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
     //   error.endDate = "End Date should be greater than start date";
     //   isValid = false;
     // }
-    
+
     setErrors(error);
     return isValid;
   };
 
   const handleSubmit = async (values) => {
-   
-    let {
-      employerName,
-      designationId,
-      isCurrentEmployer,
-      salary,
-      startDate,
-    } = values;
+    let { employerName, designationId, isCurrentEmployer, salary, startDate } =
+      values;
 
-    if(validation(values))
-    {
-    let data = {
-      userId: id,
-      designationId,
-      employerName,
-      isCurrentEmployer,
-      startDate,
-      salary,
-    };
-    console.log('sdffsda')
-    if (data.userId) {
-    
-      const resp = await studentServices.sendStudentEmploymentData(data);
-      console.log(resp,"resp")
-      if (resp.status == 200) {
-        values.employerName = "";
-        values.designationId = "";
-        values.isCurrentEmployer = ""
-        values.salary = "";
-        values.startDate = "";
+    if (validation(values)) {
+      let data = {
+        userId: id,
+        designationId,
+        employerName,
+        isCurrentEmployer,
+        startDate,
+        salary,
+      };
+      console.log("sdffsda");
+      if (data.userId) {
+        const resp = await studentServices.sendStudentEmploymentData(data);
+        console.log(resp, "resp");
+        if (resp.status == 200) {
+          values.employerName = "";
+          values.designationId = "";
+          values.isCurrentEmployer = "";
+          values.salary = "";
+          values.startDate = "";
 
-        if(authData) {
-          getEmploymentDetails(authData)
+          if (authData) {
+            getEmploymentDetails(authData);
+          }
+
+          document.getElementById("employmentModal").click();
+          toast.success(
+            resp.data.message ? resp.data.message : "Something went wrong"
+          );
+          employerName = "";
+          designationId = "";
+          isCurrentEmployer = "";
+          salary = "";
+          startDate = "";
         }
-
-        document.getElementById("employmentModal").click();
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-        employerName = "";
-        designationId = "";
-        isCurrentEmployer = ""
-        salary = "";
-        startDate = "";
-        
       }
     }
-  }
   };
 
   useEffect(() => {
@@ -141,11 +132,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                           component={renderSelect}
                           placeholder="Enter category"
                         >
-                           <option
-                                value=""
-                              >
-                                Select Designation
-                              </option>
+                          <option value="">Select Designation</option>
                           {designationlist &&
                             designationlist.map((designation) => (
                               <option
@@ -174,7 +161,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
-                            onChange={()=>setScheCkEnd(true)}
+                            onChange={() => setScheCkEnd(true)}
                           >
                             Yes
                           </Field>
@@ -184,7 +171,7 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
-                            onChange={()=>setScheCkEnd(false)}
+                            onChange={() => setScheCkEnd(false)}
                           >
                             No
                           </Field>
@@ -200,22 +187,20 @@ const EmploymentDetailsModal = ({getEmploymentDetails}) => {
                         />
                       </div>
 
-                      {
-                        !checkEnd &&    
-                         <div className="form-field flex100">
-                        <Field
-                          name="endDate"
-                          label="End Date"
-                          placeholder="Enter end date"
-                          component={renderField}
-                          type="date"
-                          value={!checkEnd?'2027-05-01':''}
-                          min={values.startDate && values.startDate}
-                        />
-                        <p style={{ color: "red" }}>{errors?.endDate}</p>
-                      </div>
-                      }
-                  
+                      {!checkEnd && (
+                        <div className="form-field flex100">
+                          <Field
+                            name="endDate"
+                            label="End Date"
+                            placeholder="Enter end date"
+                            component={renderField}
+                            type="date"
+                            value={!checkEnd ? "2027-05-01" : ""}
+                            min={values?.startDate}
+                          />
+                          <p style={{ color: "red" }}>{errors?.endDate}</p>
+                        </div>
+                      )}
 
                       {/* <div className="form-field flex100">
                         <Field

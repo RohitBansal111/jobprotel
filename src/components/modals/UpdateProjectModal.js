@@ -57,7 +57,7 @@ const UpdateProjectModal = ({
         startDate: values.startDate,
         endDate: values.endDate,
         totalTeamSize: values.totalTeamSize,
-        companyEmail: values.companyEmail,
+        // companyEmail: values.companyEmail,
       };
       if (id) {
         const resp = await projectServices.updateProjectHistoryData(id, data);
@@ -178,7 +178,7 @@ const UpdateProjectModal = ({
                           pattern="[0-9]*"
                         />
                       </div>
-                      <div className="form-field flex100">
+                      {/* <div className="form-field flex100">
                         <Field
                           label="Company Email"
                           name="companyEmail"
@@ -187,7 +187,7 @@ const UpdateProjectModal = ({
                           type="text"
                           disabled
                         />
-                      </div>
+                      </div> */}
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"

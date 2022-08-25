@@ -421,6 +421,7 @@ const Inbox = () => {
     const updates = {};
     updates["/block/"] = true;
     updates["/dateTime/"] = d1;
+    console.log(updates, ":::");
     await update(ref(db, "User/" + roomId), updates);
     readUsers();
   };
