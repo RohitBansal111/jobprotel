@@ -55,10 +55,14 @@ const InvitationAccepted = () => {
                   <div className="default-feeds-search">
                     {loading ? (
                       <Loader />
-                    ) : (
+                    ) : invitationData?.length > 0 ? (
                       invitationData?.map((w) => {
                         return <InvitationCard data={w} />;
                       })
+                    ) : (
+                      <div className="no-record-found text-center p-5">
+                        <h3>No Record found</h3>
+                      </div>
                     )}
 
                     {totalRecords > 5 && (
