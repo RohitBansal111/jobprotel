@@ -41,14 +41,14 @@ const InvitationCard = ({data}) => {
   // useEffect(()=> {
   //   setId(jobid)
   // }, [jobid])
-
+console.log(data, ":::");
   return (
   
       <div className="feeds-search-coll">
         <div className="feeds-search-head">
           <div className="feeds-head-left">
             <div className="feeds-s-logo">
-              <Link to="">
+              <Link to={`/public/${data?.userId}`}>
                 <img
                   src={`${process.env.REACT_APP_IMAGE_API_URL}/${data.pictureUrl}`}
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
@@ -58,7 +58,7 @@ const InvitationCard = ({data}) => {
             </div>
             <div className="feeds-s-name">
               <h2>
-                <Link to="">{data?.firstName}  {data?.lastName}</Link>{" "}
+                <Link to={`/public/${data?.userId}`}>{data?.firstName}  {data?.lastName}</Link>{" "}
               </h2>
               <ul className="feeds-s-ul mb-2">
                 <li>

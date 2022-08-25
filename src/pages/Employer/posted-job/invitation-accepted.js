@@ -1,20 +1,21 @@
-import { useState  ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import InvitationCard from "../../../components/Employer/invitationCard";
 import Layout from "../../../components/Layout";
 import Pagination from "react-js-pagination";
 import { useParams } from "react-router";
-import * as invitationService from '../../../services/jobsInvitationServices'
+import * as invitationService from "../../../services/jobsInvitationServices";
+import { Loader } from "../../../components/Loader/Loader";
+
 const InvitationAccepted = () => {
-  const [invitationData, setInvitationDats]=useState([])
+  const [invitationData, setInvitationDats] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
 
   const [pageSize, setPageSize] = useState(5);
   const [loading, setLoading] = useState(true);
-   const [pageNumber, setPageNumber] = useState(1);
-   const { invitationid } = useParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const { invitationid } = useParams();
 
   useEffect(() => {
-    
     getInvitationRecord(invitationid, pageNumber);
   }, [invitationid]);
 
@@ -25,7 +26,7 @@ const InvitationAccepted = () => {
       pageSize: pageSize,
     };
     const resp = await invitationService.getJobInvitationlist(payload);
-    console.log(resp, "::")
+    console.log(resp, "::");
     if (resp.status == 200) {
       setTotalRecords(resp.data?.totalCount);
       setInvitationDats(resp.data?.data);
@@ -36,9 +37,6 @@ const InvitationAccepted = () => {
     setPageNumber(pageNumber);
     getInvitationRecord(invitationid, pageNumber);
   };
-
- 
-
 
   return (
     <Layout>
@@ -55,26 +53,23 @@ const InvitationAccepted = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-
-                    {
-                      invitationData?.map((w)=>{
-                       
-                        return(
-                          <InvitationCard  data={w}/>
-                        )
+                    {loading ? (
+                      <Loader />
+                    ) : (
+                      invitationData?.map((w) => {
+                        return <InvitationCard data={w} />;
                       })
-                    }
-                  
+                    )}
 
                     {totalRecords > 5 && (
-                    <Pagination
-                      activePage={pageNumber}
-                      itemsCountPerPage={pageSize}
-                      totalItemsCount={totalRecords}
-                      pageRangeDisplayed={4}
-                      onChange={handlePageChange}
-                    />
-                  )}
+                      <Pagination
+                        activePage={pageNumber}
+                        itemsCountPerPage={pageSize}
+                        totalItemsCount={totalRecords}
+                        pageRangeDisplayed={4}
+                        onChange={handlePageChange}
+                      />
+                    )}
                   </div>
                 </li>
               </ul>

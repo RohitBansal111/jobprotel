@@ -28,7 +28,7 @@ const Invites = () => {
       pageNumber: activePage,
       pageSize: pageSize,
     };
-    const resp = await jobsInvitationServices.getJobInvitationlist(data);
+    const resp = await jobsInvitationServices.getJobInvitationListByUser(data);
     if (resp.status === 200) {
       let response = resp.data.data;
       // console.log(resp);
