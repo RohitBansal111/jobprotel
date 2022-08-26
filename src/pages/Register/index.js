@@ -533,6 +533,7 @@ const Register = () => {
                     next={next}
                     data={employer}
                     employerBasicInfo={employerBasicInfo}
+                    EmployerCompleteInfo={EmployerCompleteInfo}
                   />
                 )}
                 {currentPage === 2 && (

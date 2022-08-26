@@ -31,7 +31,7 @@ const Applications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp.data.data, "data");
+    console.log(resp, "data");
     if (resp.status == 200) {
       setUsers(resp.data?.data[0]?.users);
       setLoading(false);

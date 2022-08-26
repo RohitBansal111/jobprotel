@@ -51,7 +51,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
 
     const resp = await jobServices.applyJob(payload);
     if (resp.status == 200) {
-      console.log(resp);
       getJobList(activePage);
       const resp2 = await studentServices.getStudentDetails(authData.id);
       if (resp.status === 200) {

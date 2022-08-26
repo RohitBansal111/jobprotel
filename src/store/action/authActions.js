@@ -3,7 +3,6 @@ import { loginUser } from "../../services/authServices";
 import toast from "toastr";
 
 export const login = (user, navigate) => {
-  console.log(user);
   let data = {
     userName: user?.userName,
     password: user?.password.trim()
