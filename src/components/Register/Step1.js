@@ -32,7 +32,7 @@ useEffect(() => {
   };
   const SaveStep1 = (values) => {
     if (validation()) {
-      userBasicInfo(values);
+      // userBasicInfo(values);
       handleSubmit(values);
     }
   };

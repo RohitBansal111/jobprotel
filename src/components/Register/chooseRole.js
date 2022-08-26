@@ -6,17 +6,16 @@ import { Field, Form } from "react-final-form";
 import ChooseRoleValidate from "./validator/chooseValidate";
 import { RenderRadioButtonField } from "../renderField";
 
-const ChooseRole = ({role,nextPage, selectRole, setEmployer, setUserData}) => {
+const ChooseRole = ({role,nextPage, selectRole}) => {
   const SaveChooseRole = () => {
     nextPage();
   };
   const handleStudentRole = () => {
     selectRole("Student");
-    setUserData({roles: "Student"})
   };
   const handleEmployerRole = () => {
     selectRole("Employer");
-    setEmployer({roles: "Employer"})
+
   };
 
   return (
