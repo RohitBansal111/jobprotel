@@ -32,6 +32,7 @@
     "submitTitle": "Submit",
     "resumeTitle": "Upload resume",
     "extraCertificateTitle": "Extra certificates",
-    "expectedSalary": "Expected salary"
+    "expectedSalary": "Expected salary",
+    "submit":"Register"
   }
 }

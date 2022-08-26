@@ -6,7 +6,7 @@ import validate from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useState } from "react";
 
-const Step1 = ({ nextPage, prevPage, userBasicInfo, data }) => {
+const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [err, setErr] = useState([]);
   const [captcha, setCaptcha] = useState({ captchaCode: "" });
@@ -33,7 +33,7 @@ useEffect(() => {
   const SaveStep1 = (values) => {
     if (validation()) {
       userBasicInfo(values);
-      nextPage();
+      handleSubmit(values);
     }
   };
 
@@ -150,7 +150,7 @@ useEffect(() => {
                   className="btn btn-primary next-btn text-white text-center"
                 >
                   {" "}
-                  {titleStrings.nextTitle}{" "}
+                  {titleStrings.submit}{" "}
                 </button>
               </div>
             </form>

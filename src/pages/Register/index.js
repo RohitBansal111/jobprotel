@@ -26,42 +26,13 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const [userData, setUserData] = useState({
-    PostalCode: "",
-    address: "",
-    addressLine1: "",
-    addressLine2: "",
-    age: "",
     captcha: "",
-    city: "",
-    collegeId: "",
     confirmPassword: "",
-    countryId: "",
-    certificate: "No",
-    designation: "",
     email: "",
-    expectedSalary: "",
-    experienceInYears: "",
-    experienceInMonths: "",
     firstName: "",
-    genderId: "",
-    interests: [],
     lastName: "",
     password: "",
-    profileImage: null,
-    profileImageUrl: "",
-    qualificationId: "",
-    qualification: "",
-    resumeFile: null,
     roles: "",
-    stateId: "",
-    timezone: "",
-    workHoursPerDay: "",
-    workDaysPerWeek: "",
-    workingType: "1",
-    extraCertificateFile: null,
-    resumeFileName: "",
-    extraCertificateArray: [],
-    skills: [],
   });
   const [next, setNext] = useState(false);
 
@@ -346,6 +317,44 @@ const Register = () => {
     setSkillslist(skillListData);
   }, []);
 
+  const handleSubmit=async()=>{
+      let formData = new FormData();
+      formData.append("email", userData.email);
+      formData.append("confirmPassword", userData.confirmPassword);
+      formData.append("firstName", userData.firstName);
+      formData.append("lastName", userData.lastName);
+      formData.append("password", userData.password);
+      formData.append("roles", userData.roles);
+
+      console.log(formData)
+    
+      toast.success("Verify Email is Sent To your email ");
+
+     // const resp = await authServices.registerUser(formData);
+
+      // if (resp && resp.status == 200) {
+      //   setLoading(false);
+      //   toast.success(
+      //     resp.data.message ? resp.data.message : "Something went wrong"
+      //   );
+      //   navigate("/");
+      // } else {
+      //   setLoading(false);
+      //   if (resp.errors && typeof resp.errors === "object") {
+      //     let errors = "";
+      //     let keys = Object.keys(resp.errors);
+      //     keys.forEach((key) => {
+      //       errors = key + "," + errors;
+      //     });
+
+      //     errors = errors.replace(/,\s*$/, "");
+      //     toast.error(errors + "is Required");
+      //   } else if (resp.error) {
+      //     toast.error(resp.error ? resp.error : "Something went wrong");
+      //   }
+      // }
+  }
+
   return (
     <div className="page-wrapper">
       <div className="register-page-main">
@@ -488,12 +497,12 @@ const Register = () => {
                 {currentPage === 1 && (
                   <Step1
                     prevPage={prevPage}
-                    nextPage={nextPage}
+                    handleSubmit={handleSubmit}
                     userBasicInfo={userBasicInfo}
                     data={userData}
                   />
                 )}
-                {currentPage === 2 && (
+                {/* {currentPage === 2 && (
                   <Step2
                     prevPage={prevPage}
                     nextPage={nextPage}
@@ -506,8 +515,8 @@ const Register = () => {
                     initialPersonalInfo={initialPersonalInfo}
                     handlechangeCollege={handlechangeCollege}
                   />
-                )}
-                {currentPage === 3 && (
+                )} */}
+                {/* {currentPage === 3 && (
                   <Step3
                     prevPage={prevPage}
                     userProfessionalInfo={userProfessionalInfo}
@@ -521,7 +530,7 @@ const Register = () => {
                     initialProfInfo={initialProfInfo}
                     setLoading={setLoading}
                   />
-                )}
+                )} */}
               </div>
             )}
             {activeRole && activeRole === "Employer" && (
