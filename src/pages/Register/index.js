@@ -31,13 +31,10 @@ const Register = () => {
   });
   const [next, setNext] = useState(false);
 
- 
-
-
   const userBasicInfo = (data) => {
     setUserData({ ...userData, ...data });
   };
-  
+
   const nextPage = () => {
     setPage((prev) => ++prev);
   };
@@ -50,52 +47,51 @@ const Register = () => {
   const handleRole = (role) => {
     setActiveRole(role);
   };
-  const handleSubmit=async(data)=>{
-    if(activeRole =='Employer'){
-      data.roles=2
-    }else{
-      data.roles=1
+  const handleSubmit = async (data) => {
+    if (activeRole == "Employer") {
+      data.roles = 2;
+    } else {
+      data.roles = 1;
     }
-    
-      let formData = new FormData();
-      formData.append("email", data.email);
-      formData.append("confirmPassword", data.confirmPassword);
-      formData.append("firstName", data.firstName);
-      formData.append("lastName", data.lastName);
-      formData.append("password", data.password);
-      formData.append("roles",  data.roles);
-      toast.success("Verify Email is Sent To your email ");
-      var resp = null
-      if(activeRole=='Employer'){
-       // resp = await authServices.registerEmployer(formData);
-      }else{
-       //  resp = await authServices.registerUser(formData);
-      }
-      console.log(data)
-   
 
-      // if (resp && resp.status == 200) {
-      //   setLoading(false);
-      //   toast.success(
-      //     resp.data.message ? resp.data.message : "Something went wrong"
-      //   );
-      //   navigate("/");
-      // } else {
-      //   setLoading(false);
-      //   if (resp.errors && typeof resp.errors === "object") {
-      //     let errors = "";
-      //     let keys = Object.keys(resp.errors);
-      //     keys.forEach((key) => {
-      //       errors = key + "," + errors;
-      //     });
+    let formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("password", data.password);
+    formData.append("roles", data.roles);
+    toast.success("Verify Email is Sent To your email ");
+    var resp = null;
+    if (activeRole == "Employer") {
+      // resp = await authServices.registerEmployer(formData);
+    } else {
+      //  resp = await authServices.registerUser(formData);
+    }
+    console.log(data);
 
-      //     errors = errors.replace(/,\s*$/, "");
-      //     toast.error(errors + "is Required");
-      //   } else if (resp.error) {
-      //     toast.error(resp.error ? resp.error : "Something went wrong");
-      //   }
-      // }
-  }
+    // if (resp && resp.status == 200) {
+    //   setLoading(false);
+    //   toast.success(
+    //     resp.data.message ? resp.data.message : "Something went wrong"
+    //   );
+    //   navigate("/");
+    // } else {
+    //   setLoading(false);
+    //   if (resp.errors && typeof resp.errors === "object") {
+    //     let errors = "";
+    //     let keys = Object.keys(resp.errors);
+    //     keys.forEach((key) => {
+    //       errors = key + "," + errors;
+    //     });
+
+    //     errors = errors.replace(/,\s*$/, "");
+    //     toast.error(errors + "is Required");
+    //   } else if (resp.error) {
+    //     toast.error(resp.error ? resp.error : "Something went wrong");
+    //   }
+    // }
+  };
 
   return (
     <div className="page-wrapper">
@@ -232,19 +228,17 @@ const Register = () => {
                 selectRole={handleRole}
               />
             )}
-          
-              <div className="studen-section">
-                {currentPage === 1 && (
-                  <Step1
-                    prevPage={prevPage}
-                    handleSubmit={handleSubmit}
-                    userBasicInfo={userBasicInfo}
-                    data={userData}
-                  />
-                )}
-              
-              </div>
-           
+
+            <div className="studen-section">
+              {currentPage === 1 && (
+                <Step1
+                  prevPage={prevPage}
+                  handleSubmit={handleSubmit}
+                  userBasicInfo={userBasicInfo}
+                  data={userData}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
