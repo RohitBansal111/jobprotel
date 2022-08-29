@@ -214,7 +214,7 @@ const Register = () => {
       formData.append("timezone", JSON.stringify(userData.timezone));
       formData.append("workHoursPerDay", userData.workHoursPerDay);
       formData.append("workDaysPerWeek", userData.workDaysPerWeek);
-      formData.append("workingType", userData.workingType);
+      formData.append("workingType", userData.workingType)
       if (
         userData.extraCertificateFile &&
         userData.extraCertificateFile.length > 0
