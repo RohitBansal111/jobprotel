@@ -4,7 +4,7 @@ import axios from "axios";
 export const registerUser = async (data) => {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/Student-SignUp`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/SignUp`,
       data
     );
     if (resp.data.status == true) {
@@ -77,7 +77,6 @@ export const loginUser = async (data) => {
 };
 
 export const forgotPassword = async (data) => {
-  
   try {
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/forgot-password`,
@@ -102,11 +101,33 @@ export const forgotPassword = async (data) => {
 };
 
 export const resetPassword = async (data) => {
-  
   try {
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Account/reset-password`,
       data
+    );
+
+    if (resp.status == 200) {
+      return resp;
+    } else {
+      throw new Error(resp);
+    }
+  } catch (err) {
+    return {
+      data: "",
+      error:
+        err.response && err.response.data && err.response.data.error
+          ? err.response.data.error
+          : err.message,
+      status: 400,
+    };
+  }
+};
+
+export const verifyEmail = async (token, email) => {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/ConfirmEmail?token=${token}&email=${email}`
     );
 
     if (resp.status == 200) {

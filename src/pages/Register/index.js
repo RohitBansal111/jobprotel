@@ -62,13 +62,14 @@ const Register = () => {
     formData.append("password", data.password);
     formData.append("roles", data.roles);
     toast.success("Verify Email is Sent To your email ");
-    var resp = null;
-    if (activeRole == "Employer") {
-      // resp = await authServices.registerEmployer(formData);
-    } else {
-      //  resp = await authServices.registerUser(formData);
-    }
-    console.log(data);
+    // var resp = null;
+    // if (activeRole == "Employer") {
+      const resp = await authServices.registerUser(formData);
+    // } 
+    // else {
+    //    resp = await authServices.registerUser(formData);
+    // }
+    console.log(resp, ":::");
 
     // if (resp && resp.status == 200) {
     //   setLoading(false);

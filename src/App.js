@@ -57,7 +57,7 @@ function App() {
           }
         />
         <Route
-          path="/email-verification"
+          path="/email-verification/*"
           element={
             <ProtectedRoutes>
               <Verify />
