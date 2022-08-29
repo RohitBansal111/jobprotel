@@ -33,6 +33,7 @@ import PaymentSuccess from "./pages/payments/PaymentSuccess";
 import PaymentFailure from "./pages/payments/PaymentFailure";
 import InvitationRoutes from "./HOC/InvitationRoutes";
 import InvitationAccepted from "./pages/Employer/posted-job/invitation-accepted";
+import Verify from "./email-verification/Verify";
 
 function App() {
   return (
@@ -52,6 +53,14 @@ function App() {
           element={
             <ProtectedRoutes>
               <Register />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/email-verification"
+          element={
+            <ProtectedRoutes>
+              <Verify />
             </ProtectedRoutes>
           }
         />
@@ -83,7 +92,7 @@ function App() {
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />
-        <Route path="/posted-jobs" element={<PostedJob />} />
+        {/* <Route path="/posted-jobs" element={<PostedJob />} /> */}
         <Route path="/jobs-applied" element={<StudentApplication />} />
         <Route path="/inbox/:userId/:jobId" element={<Inbox />} />
         <Route path="/inbox" element={<Inbox />} />
@@ -124,7 +133,7 @@ function App() {
           path="/review-applications/:jobid"
           element={<ReviewApplications />}
         />
-         <Route
+        <Route
           path="/invitation-accepted/:invitationid"
           element={<InvitationAccepted />}
         />

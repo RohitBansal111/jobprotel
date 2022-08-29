@@ -80,7 +80,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
       }
     }
   };
-console.log(jobs, ":::");
   return (
     <>
       <div className="feeds-search-coll">
