@@ -138,7 +138,9 @@ const EditProfile = () => {
   };
 
   useEffect(async () => {
+   
     if (authData) {
+     
       getStudentData(authData.id);
       getExtraCertificate(authData.id);
 
@@ -195,13 +197,13 @@ const EditProfile = () => {
       //   // ...img,
       //   personalInfoImg: UserAvtar,
       // });
-
+     
       const resp = await studentServices.getStudentDetails(id);
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
-        setStudentData(response);
 
+        setStudentData(response);
         if (response?.studentDetails?.pictureUrl) {
           setStudentProfilePic(
             `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
@@ -211,15 +213,18 @@ const EditProfile = () => {
             personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
           });
         }
+        if(response?.studentDetails?.resumeFilePath !==undefined){
+          setStudentResume(
+            `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.resumeFilePath}`
+          );
+        }
 
-        setStudentResume(
-          `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.resumeFilePath}`
-        );
-        if (response.studentDetails.resumeFilePath) {
+        
+        if (response?.studentDetails?.resumeFilePath) {
           setResumeName(response?.studentDetails?.resumeFilePath);
         }
         let finalInterest = [];
-        if (response.studentDetails.interests) {
+        if (response?.studentDetails?.interests) {
           let interest = response.studentDetails.interests?.split(",");
           interest &&
             interest.length > 0 &&
@@ -233,7 +238,7 @@ const EditProfile = () => {
         }
 
         let finalSkill = [];
-        if (response.studentDetails.skills) {
+        if (response?.studentDetails?.skills) {
           let skill = response.studentDetails.skills?.split(",");
           skill &&
             skill.length > 0 &&
@@ -246,13 +251,20 @@ const EditProfile = () => {
             });
         }
 
-        if (response.studentDetails.countryResponse) {
+        if (response?.studentDetails?.countryResponse) {
           CountryValue(response.studentDetails.countryResponse.id);
         }
-        console.log(response);
         if (response?.studentDetails?.qualificationName !== null) {
           setInputField(true);
         }
+        
+        if (response?.studentDetails?.qualificationResponse == null) {
+          setInputField(true);
+        }
+        if(response?.studentDetails?.timezone) {
+          setTimezone(JSON.parse(response?.studentDetails?.timezone));
+        }
+
         if (response) {
           let data = {
             firstname: response?.firstName,
@@ -262,7 +274,7 @@ const EditProfile = () => {
             addressLine1: response?.studentDetails?.addressLine1,
             addressLine2:
               response?.studentDetails?.addressLine2 != null
-                ? response.studentDetails.addressLine2
+                ? response?.studentDetails?.addressLine2
                 : "",
             Country: response?.studentDetails?.countryResponse?.id,
             state: response?.studentDetails?.stateResponse.id,
@@ -281,21 +293,20 @@ const EditProfile = () => {
             working: response?.studentDetails?.workingType.toString(),
             experienceInYears: response?.studentDetails?.experienceInYears,
             experienceInMonths: response?.studentDetails?.experienceInMonths,
-            timezone: JSON.parse(response?.studentDetails?.timezone),
-            intrestedArea: finalInterest,
-            skills: finalSkill,
+            timezone: response?.studentDetails?.timezone !==undefined ?JSON.parse(response?.studentDetails?.timezone):'',
+            intrestedArea: finalInterest && finalInterest,
+            skills:finalSkill&& finalSkill,
           };
           setEditData(data);
         }
-        if (response?.studentDetails?.qualificationResponse == null) {
-          setInputField(true);
-        }
-        setTimezone(JSON.parse(response?.studentDetails?.timezone));
+      }else if (resp.status !== 200) {
+        setLoading(false)
+        toast.error(resp?.error ? resp.error : "someething went wrong")
       }
 
       window.scrollTo(0, 0)
     } catch (err) {
-      console.log(err, "+++++++err");
+      console.log(err, ":::");
     }
   };
 
@@ -320,7 +331,6 @@ const EditProfile = () => {
 
   const saveProfile = async (values) => {
     setLoadingUpdate(true);
-    console.log(values);
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -483,7 +493,6 @@ const EditProfile = () => {
 
   const handleQualification = (e) => {
     let value = e.target.value;
-    console.log(value);
     setQualificationId(value);
     if (value == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       setInputField(true);

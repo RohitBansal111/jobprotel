@@ -68,7 +68,6 @@ const Header = () => {
     if (resp.status === 200) {
       setTotalCount(resp.data.totalCount);
       let response = resp.data.data;
-      console.log(response, ":::");
       setNotifications(response);
     }
   };
@@ -184,13 +183,18 @@ const Header = () => {
       });
     }
     if (authData) {
-      setRole(authData?.userRoles[0]);
+     // setRole(authData?.userRoles?.userRoles[0]?.userRoles[0]);
+     setRole(authData?.userRoles[0]);
     }
   }, [authData]);
 
   const handleLogout = () => {
     localStorage.removeItem("jobPortalUser");
     localStorage.removeItem("jobPortalUserToken");
+    dispatch({
+      type: types.LOGOUT_USER,
+      
+    });
   };
   return (
     <header id="header" className="header header-scrolled">

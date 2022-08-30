@@ -46,7 +46,9 @@ const FindWork = () => {
   }, []);
 
   const getStudentDetails = async (id = authData.id) => {
+    console.log(id, ":::");
     const resp = await studentServices.getStudentDetails(id);
+   
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);

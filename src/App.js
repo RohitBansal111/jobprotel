@@ -25,6 +25,7 @@ import PrivacyPolicy from "./policy/privacyPolicy";
 import TermsConditions from "./T&C/TermsConditions";
 import ProtectedRoutes from "./HOC/ProtectedRoutes";
 import PrivateRoutes from "./HOC/PrivateRoutes";
+import ProtectedRouteToVerify from './HOC/ProtectedRouteToVerify'
 import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
@@ -59,9 +60,9 @@ function App() {
         <Route
           path="/email-verification/*"
           element={
-            <ProtectedRoutes>
+            <ProtectedRouteToVerify>
               <Verify />
-            </ProtectedRoutes>
+           </ProtectedRouteToVerify>
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -143,6 +144,10 @@ function App() {
         <Route path="/find-work/details/:id" element={<DetailsPage />} />
         <Route path="/payment-suceess" element={<PaymentSuccess />} />
         <Route path="/payment-failure" element={<PaymentFailure />} />
+        <Route path="*" element={<h2>
+
+          Page Not Found
+        </h2>} />
       </Routes>
     </Router>
   );

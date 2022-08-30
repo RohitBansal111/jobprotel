@@ -17,9 +17,9 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);
 
-useEffect(() => {
-    window.scrollTo(0, 0)
-}, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const validation = () => {
     let isValid = true;
     let error = {};
@@ -32,7 +32,6 @@ useEffect(() => {
   };
   const SaveStep1 = (values) => {
     if (validation()) {
-      // userBasicInfo(values);
       handleSubmit(values);
     }
   };

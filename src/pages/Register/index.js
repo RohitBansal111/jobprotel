@@ -60,16 +60,25 @@ const Register = () => {
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("password", data.password);
-    formData.append("roles", data.roles);
-    toast.success("Verify Email is Sent To your email ");
-    // var resp = null;
-    // if (activeRole == "Employer") {
-      const resp = await authServices.registerUser(formData);
-    // } 
-    // else {
-    //    resp = await authServices.registerUser(formData);
-    // }
+    formData.append("userRoleType", data.roles);
+
+    const resp = await authServices.registerUser(formData);
     console.log(resp, ":::");
+
+    if (resp.status == 200) {
+      toast.success(
+        resp?.data?.message ? resp.data.message : "Something went wrong"
+      );
+
+      setTimeout(() => {
+        navigate("/");
+        toast.success("verification mail has been sent to your email");
+      }, 5000);
+    } else {
+      toast.error(
+        resp?.data?.message ? resp.data.message : "Something went wrong"
+      );
+    }
 
     // if (resp && resp.status == 200) {
     //   setLoading(false);
