@@ -97,7 +97,7 @@ const PostedJob = () => {
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
                     <div>
                       {authData?.comapanyDetail?.address}
-                      {", "}
+                      {authData?.comapanyDetail?.cityName && ", "}
                       {authData?.comapanyDetail?.cityName}{" "}
                       <p>
                         {authData?.comapanyDetail?.stateResponse?.stateName}
@@ -210,7 +210,7 @@ const PostedJob = () => {
                           ? activePage
                           : 1 + (activePage - 1) * pageSize}
                         -
-                        {jobList && jobList.length
+                        {jobList?.length
                           ? (activePage - 1) * pageSize + jobList.length
                           : 0}{" "}
                         of {totalRecords} results

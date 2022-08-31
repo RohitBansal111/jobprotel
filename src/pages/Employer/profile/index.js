@@ -55,27 +55,26 @@ const EmployerProfile = () => {
   useEffect(async () => {
     if (authData) {
       setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
       );
-      setId(authData.id);
-      getEmployerDetails(authData.id);
-      getArchiveJobs(authData.id, activePage);
-      getActiveJobs(authData.id, activePage);
+      setId(authData?.id);
+      getEmployerDetails(authData?.id);
+      getArchiveJobs(authData?.id, activePage);
+      getActiveJobs(authData?.id, activePage);
     }
   }, [authData]);
 
   const getEmployerDetails = async (id = authData.id) => {
     const resp = await employerServices.getEmployerDetails(id);
-
-    if (resp.status === 200) {
+    if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
       setEmployerData(response);
 
       setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.comapanyDetail.logoPath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`
       );
-    } else {
+    } else if (resp.status !== 200) {
       setLoading(false);
       toast.error("Something went wrong");
     }
@@ -90,11 +89,12 @@ const EmployerProfile = () => {
     if (data) {
       const resp = await jobServices.getActiveJobByEmployer(data);
       let response = resp.data.data;
-      console.log(response, "::");
-      if (resp.status === 200) {
+      if (resp.status == 200) {
         setLoading(false);
         setTotalRecords(resp.data.totalCount);
         setActiveJobs(response);
+      } else if (resp.status !== 200) {
+        setLoading(false);
       }
     }
   };
@@ -113,6 +113,8 @@ const EmployerProfile = () => {
         setLoading(false);
         // setTotalRecordsArchive(resp.data.totalCount);
         setArchiveJobs(response);
+      } else if (resp.status !== 200) {
+        setLoading(false);
       }
     }
   };
@@ -143,19 +145,13 @@ const EmployerProfile = () => {
                         <img src={companyLogo} alt="Company profile" />
                       </span>
                     </div>
-                    <h3>
-                      {authData?.comapanyDetail?.companyName &&
-                        authData.comapanyDetail.companyName}
-                    </h3>
+                    <h3>{authData?.comapanyDetail?.companyName}</h3>
                     <div>
-                      {authData?.comapanyDetail?.address &&
-                        authData.comapanyDetail.address}
-                      {", "}
-                      {authData?.comapanyDetail?.cityName &&
-                        authData.comapanyDetail.cityName}{" "}
+                      {authData?.comapanyDetail?.address}
+                      {authData?.comapanyDetail?.cityName && ", "}
+                      {authData?.comapanyDetail?.cityName}{" "}
                       <p>
-                        {authData?.comapanyDetail?.stateResponse?.stateName &&
-                          authData.comapanyDetail.stateResponse.stateName}
+                        {authData?.comapanyDetail?.stateResponse?.stateName}
                       </p>
                     </div>
                   </div>
@@ -163,8 +159,7 @@ const EmployerProfile = () => {
                     <div className="profile-con">
                       <img src={ConnectIcon} alt="Connect" />
                       <span className="conn-count">
-                        {authData?.comapanyDetail?.availableConnects &&
-                          authData.comapanyDetail.availableConnects}
+                        {authData?.comapanyDetail?.availableConnects}
                       </span>
                     </div>
                     <h4>Available Connects</h4>
@@ -174,15 +169,13 @@ const EmployerProfile = () => {
                       <li>
                         Recruiting Manager{" "}
                         <span className="result">
-                          {authData?.comapanyDetail?.recruitingManagerName &&
-                            authData.comapanyDetail.recruitingManagerName}
+                          {authData?.comapanyDetail?.recruitingManagerName}
                         </span>
                       </li>
                       <li>
                         Contact Details{" "}
                         <span className="result">
-                          {authData?.comapanyDetail?.companyEmail &&
-                            authData.comapanyDetail.companyEmail}
+                          {authData?.comapanyDetail?.companyEmail}
                         </span>
                       </li>
                     </ul>
@@ -203,9 +196,7 @@ const EmployerProfile = () => {
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
-                  <div className="profile-update">
-                    {/* <p className="mailto:michael-taylor028@gmail.com">info@eminencetechnology.com</p> */}
-                  </div>
+                  <div className="profile-update"></div>
                   {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
@@ -257,9 +248,7 @@ const EmployerProfile = () => {
                             </li>
                             <li>
                               <span className="plabel">Email ID </span>
-                              <span className="result">
-                                {authData?.comapanyDetail?.companyEmail}
-                              </span>
+                              <span className="result">{authData?.email}</span>
                             </li>
                           </ul>
                         </div>
@@ -288,15 +277,6 @@ const EmployerProfile = () => {
                           />
                           <ul className="info-list-li">
                             <li>
-                              <span className="plabel">Recruiting Manager</span>
-                              <span className="result">
-                                {
-                                  authData?.comapanyDetail
-                                    ?.recruitingManagerName
-                                }
-                              </span>
-                            </li>
-                            <li>
                               <span className="plabel">Contact Number</span>{" "}
                               <span className="result">
                                 {authData?.comapanyDetail?.companyPhone}
@@ -305,12 +285,15 @@ const EmployerProfile = () => {
                             <li>
                               <span className="plabel">Company Address</span>{" "}
                               <span className="result">
-                                {authData?.comapanyDetail?.address} ,{" "}
+                                {authData?.comapanyDetail?.address}{" "}
+                                {authData?.comapanyDetail?.stateResponse
+                                  ?.stateName && ", "}
                                 {
                                   authData?.comapanyDetail?.stateResponse
                                     ?.stateName
                                 }{" "}
-                                ,{" "}
+                                {authData?.comapanyDetail?.countryResponse
+                                  ?.countryName && ", "}
                                 {
                                   authData?.comapanyDetail?.countryResponse
                                     ?.countryName
@@ -368,19 +351,16 @@ const EmployerProfile = () => {
                               <div className="project-detail-list">
                                 {activeJobs?.length > 0
                                   ? activeJobs.map((active, i) => (
+                                      <>
+                                        <PostedJobCard
+                                          jobs={active}
+                                          key={i}
+                                          type="post"
+                                          activePage={activePage}
+                                          pageSize={pageSize}
+                                        />
 
-                                    <>
-                                     <PostedJobCard
-                          jobs={active}
-                          key={i}
-                          type="post"
-                          activePage={activePage}
-                          pageSize={pageSize}
-                        />
-                        
-                        
-                        
-{/*                         
+                                        {/*                         
                         <div className="project-dbox" key={i}>
                                         {
                                           console.log(active)
@@ -436,7 +416,6 @@ const EmployerProfile = () => {
                                         </div>
                                       </div> */}
                                       </>
-                                     
                                     ))
                                   : "No Active Jobs"}
                                 <div className="project-pagination">
@@ -494,43 +473,6 @@ const EmployerProfile = () => {
                                       pageRangeDisplayed={4}
                                       onChange={handlePageChangeArchive}
                                     />
-                                    {/* <ul className="pagination">
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Prev
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        1
-                                      </Link>
-                                    </li>
-                                    <li className="page-item active">
-                                      <Link className="page-link" to="/">
-                                        2
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        3
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        4
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        5
-                                      </Link>
-                                    </li>
-                                    <li className="page-item">
-                                      <Link className="page-link" to="/">
-                                        Next
-                                      </Link>
-                                    </li>
-                                  </ul> */}
                                   </div>
                                 )}
                               </div>

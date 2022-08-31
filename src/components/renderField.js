@@ -103,9 +103,9 @@ export const renderField = ({
   type,
   meta: { touched, error },
   pattern,
-  disabled=false,
+  disabled = false,
   min,
-  max
+  max,
 }) => {
   const inputProps = {
     ...input,
@@ -116,17 +116,17 @@ export const renderField = ({
   };
 
   var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
-var yyyy = today.getFullYear();
-if(dd<10){
-  dd='0'+dd
-} 
-if(mm<10){
-  mm='0'+mm
-} 
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
 
-today = yyyy+'-'+mm+'-'+dd;
+  today = yyyy + "-" + mm + "-" + dd;
 
   return (
     <div className="field-render-main">
@@ -139,7 +139,11 @@ today = yyyy+'-'+mm+'-'+dd;
           className="form-control"
           disabled={disabled}
           min={min}
-          max={placeholder=='Enter end date'?moment(new Date()).format('YYYY-MM-DD'):''}
+          max={
+            placeholder == "Enter end date"
+              ? moment(new Date()).format("YYYY-MM-DD")
+              : ""
+          }
         />
         {children}
         {touched && error && <span className="error">{error}</span>}
@@ -228,7 +232,7 @@ export const RenderRadioButtonField = ({
   type,
   optionLength,
   currentIndex,
-  meta: { touched, error }
+  meta: { touched, error },
 }) => {
   const inputProps = {
     ...input,
@@ -392,8 +396,6 @@ export const RenderFileUploadField = ({
                 : "uploadedFile-section awsFileOption"
             }
           >
-            {/* <i className="fa fa-user"></i>
-            <i className="fa fa-camera"></i> */}
             <div className="aws-placeholder image4">
               {value && value.Location && (
                 <img

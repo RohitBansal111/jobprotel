@@ -93,7 +93,7 @@ const ButtonWrapper = ({
               status: status,
             };
             console.log(data_payload);
-              const res = await postPaymentdetails(data_payload);
+            const res = await postPaymentdetails(data_payload);
             if (res.status == 200) {
               const response = res.data.data;
               if (status == "COMPLETED") {
@@ -209,14 +209,12 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
                       onChange={HandleSelect}
                     >
                       {OptionsData?.map((w, index) => {
-                        return <option key={index} value={w.connects}>{w.value}</option>;
+                        return (
+                          <option key={index} value={w.connects}>
+                            {w.value}
+                          </option>
+                        );
                       })}
-
-                      {/* <option value='20' price='3'>20 for $3</option>
-                                        <option value='40' price='6'>40 for $6</option>
-                                        <option value='60' price='9'>60 for $9</option>
-                                        <option value='80' price='12'> 80 for $12</option>
-                                        <option value='150' price='22.5'>150 for $22.5</option> */}
                     </select>
                   </div>
                 </div>

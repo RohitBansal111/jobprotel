@@ -53,10 +53,6 @@ const ApplicationCards = ({
           <div className="feeds-search-detail">
             <p>
               {applied?.description}
-              {/* We have a new project we might consider outsourcing. We need to hear
-            some full stacks experts regarding the difficulty of such project,
-            cost esitmations, and required skills. This job will be fast - a
-            conversation. ------------------ About the project in a nutshell.{" "} */}
               {/* <Link to="#">See more </Link> */}
             </p>
             <div className="application-tag-status">

@@ -201,18 +201,6 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
                           <p style={{ color: "red" }}>{errors?.endDate}</p>
                         </div>
                       )}
-
-                      {/* <div className="form-field flex100">
-                        <Field
-                          label="Expected Salary"
-                          name="salary"
-                          component={renderNumberField}
-                          placeholder="Enter salary expectations"
-                          type="text"
-                          pattern="[0-9]*"
-                        />
-                      </div> */}
-
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"

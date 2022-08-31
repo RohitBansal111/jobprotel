@@ -74,7 +74,6 @@ const EmployerJobDetailsPage = () => {
                   <div className="details-card">
                     <div className="head43">
                       <h2>
-                        {/* React Js Developer */}
                         {jobDetails?.title}
                         <span>
                           {jobDetails?.created ? (
@@ -85,46 +84,22 @@ const EmployerJobDetailsPage = () => {
                           ) : null}
                         </span>
                       </h2>
-                      {/* <p>Mobile/Tablet Front-End Developer</p> */}
                       <p>{jobDetails?.category?.name}</p>
                     </div>
                     <div className="job-description">
                       <p>{jobDetails?.description}</p>
-                      {/* <p>
-                    I need help with the html and css for the attached image.
-                  </p>
-                  <p>
-                    The coding must be responsive, so even on a mobile phone the
-                    2 images overlap.
-                  </p>
-                  <p>Should be separate images.</p>
-                  <p>
-                    The button should be perfectly centered horizontally and
-                    vertically.
-                  </p>
-                  <p>
-                    If needed on screens under 450px, we can remove order and
-                    text decorate underline.
-                  </p>
-                  <p>**I do not need coding for the top 3 lines of text:</p>
-                  <p>
-                    Beautiful woven collection of classic motifs: buffalo plaid,
-                    paisley, ticking stripes & more.
-                  </p> */}
                     </div>
                     <div className="education-info">
                       <p>
                         <b>Experience: </b>{" "}
-                        {exp &&
-                          exp.length > 0 &&
+                        {exp?.length > 0 &&
                           exp.map((exp, index) => (
                             <span key={index}>{exp} </span>
                           ))}
                       </p>
                       <p>
                         <b>Education:</b>{" "}
-                        {qualifications &&
-                          qualifications.map((qual) => qual.name)}
+                        {qualifications?.map((qual) => qual.name)}
                       </p>
                       <p>
                         <b>SKills: </b> {jobDetails?.skills}
@@ -145,13 +120,6 @@ const EmployerJobDetailsPage = () => {
                       <p>
                         <b>Time Zone: </b> {jobDetails?.timeZone}
                       </p>
-                      {/* <p>
-                        <b>Category: </b>{" "}
-                        {jobDetails &&
-                          jobDetails.category &&
-                          jobDetails.category.name &&
-                          jobDetails.category.name}
-                      </p> */}
                       <p>
                         <b>Salary: </b> $ {jobDetails?.salary}
                       </p>

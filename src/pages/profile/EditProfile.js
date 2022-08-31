@@ -338,7 +338,7 @@ const EditProfile = () => {
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
 
-    if (img.personalInfoImg && img.personalInfoImg.length > 1000) {
+    if (img?.personalInfoImg?.length > 1000) {
       formData.append("profileImage", img.personalInfoImg);
     }
 
@@ -368,11 +368,10 @@ const EditProfile = () => {
     );
 
     let interestsArr = [];
-    values.intrestedArea &&
-      values.intrestedArea.map((interest) => interestsArr.push(interest.text));
+    values?.intrestedArea?.map((interest) => interestsArr.push(interest.text));
 
     let skillsArr = [];
-    values.skills && values.skills.map((skill) => skillsArr.push(skill.text));
+    values?.skills?.map((skill) => skillsArr.push(skill.text));
 
     for (var i = 0; i < interestsArr.length; i++) {
       formData.append(`interests[${i}]`, interestsArr[i]);
@@ -472,6 +471,7 @@ const EditProfile = () => {
       }
     });
   };
+
   const closeModal = () => {
     setModal(false);
   };
@@ -510,6 +510,7 @@ const EditProfile = () => {
     let value = e.target.value;
     setDesignationId(value);
   };
+
   const handleWorkingChange = (e) => {
     setWorking(e.target.value);
   };
@@ -1067,7 +1068,6 @@ const EditProfile = () => {
                                         OffSite
                                       </Field>
                                     </div>
-                                    {/* <p> {err && err.working && err.working}</p> */}
                                   </div>
                                   <div className="form-field flex100">
                                     <label className="d-block">Resume</label>

@@ -1,12 +1,12 @@
 import * as types from "../../types/auth";
-import { loginUser, verifyEmail} from "../../services/authServices";
+import { loginUser, verifyEmail } from "../../services/authServices";
 import toast from "toastr";
 
 export const login = (user, navigate) => {
   let data = {
     userName: user?.userName,
-    password: user?.password.trim()
-  }
+    password: user?.password.trim(),
+  };
   toast.options = { preventDuplicates: true };
   return async (dispatch) => {
     try {
@@ -18,7 +18,6 @@ export const login = (user, navigate) => {
           localStorage.setItem("jobPortalUserToken", resp.data.userToken);
           localStorage.setItem("jobPortalUser", JSON.stringify(response));
         }
-        console.log('::',response)
 
         if (resp.status === 200 && response.roles === "Student") {
           toast.success("Login Successfully");
@@ -54,7 +53,6 @@ export const login = (user, navigate) => {
 };
 
 export const loginWithToken = (data, token) => {
- 
   toast.options = { preventDuplicates: true };
   return async (dispatch) => {
     dispatch({
@@ -64,5 +62,3 @@ export const loginWithToken = (data, token) => {
     });
   };
 };
-
-

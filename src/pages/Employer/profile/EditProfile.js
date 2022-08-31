@@ -24,7 +24,6 @@ const EmployerEditProfile = () => {
           <div className="container">
             <div className="innerbg-banner">
               <div className="banner-edit">
-                {/* <Link to="#" className="btn edit-btn">Edit Profile</Link> */}
               </div>
             </div>
           </div>

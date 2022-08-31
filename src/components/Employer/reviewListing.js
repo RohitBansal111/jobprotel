@@ -36,7 +36,7 @@ const EmployerReviewCard = ({
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      getUsers(jobid, pageNumber)
+      getUsers(jobid, pageNumber);
     }
   };
 
@@ -66,12 +66,10 @@ const EmployerReviewCard = ({
             <div className="feeds-s-name">
               <h2>
                 <Link to={`/public/${user?.id}`}>{user?.fullName}</Link>{" "}
-                {/* <span className="desgination">(FrontEnd Developer)</span>{" "} */}
               </h2>
               <ul className="feeds-s-ul">
                 <li>
                   <img src={LocationIcon} alt="Location" />
-                  {/* India */}
                   {user?.studentDetails?.cityName}
                 </li>
                 {/* <li>
@@ -121,14 +119,7 @@ const EmployerReviewCard = ({
           </div>
         </div>
         <div className="feeds-search-detail">
-          <p>
-            {/* {user?.postedJob?.description} */}
-            {/* We have a new project we might consider outsourcing. We need to hear
-          some full stacks experts regarding the difficulty of such project,
-          cost esitmations, and required skills. This job will be fast - a
-          conversation. ------------------ About the project in a nutshell.{" "}
-          <Link to="#">See more </Link> */}
-          </p>
+          <p>{/* {user?.postedJob?.description} */}</p>
         </div>
         <div>
           {totalRecords > 5 && (

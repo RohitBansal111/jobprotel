@@ -51,7 +51,7 @@ const Verify = (props) => {
         );
       } else {
         setAccountStatus(3);
-        toast.error(resp.error ? resp.error : "Something went wrong");
+        toast.error(resp?.error ? resp.error : "Something went wrong");
       }
     }
   };

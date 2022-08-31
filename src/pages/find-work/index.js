@@ -48,7 +48,7 @@ const FindWork = () => {
   const getStudentDetails = async (id = authData.id) => {
     console.log(id, ":::");
     const resp = await studentServices.getStudentDetails(id);
-   
+
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
@@ -120,13 +120,7 @@ const FindWork = () => {
         </section>
         <section className="topbg-banner">
           <div className="container">
-            <div className="innerbg-banner">
-              {/* <div className="banner-edit">
-                <Link to="#" className="btn edit-btn">
-                  Edit
-                </Link>
-              </div> */}
-            </div>
+            <div className="innerbg-banner"></div>
           </div>
         </section>
         <section className="job-feeds-wrapper">
@@ -154,9 +148,9 @@ const FindWork = () => {
                     <h3>{studentData?.fullName} </h3>
                     <p>
                       {studentData?.studentDetails?.address}
-                      {", "}
+                      {studentData?.studentDetails?.addressLine1 && ", "}
                       {studentData?.studentDetails?.addressLine1}
-                      {", "}
+                      {studentData?.studentDetails?.addressLine2 && ", "}
                       {studentData?.studentDetails?.addressLine2 !=
                         "undefined" &&
                       studentData?.studentDetails?.addressLine2 != "null"
@@ -182,12 +176,8 @@ const FindWork = () => {
                           {studentData?.studentDetails?.workHoursPerDay}
                         </span>
                       </li>
-                      {/* <li>
-                        Timing <span className="result">10AM - 2PM</span>
-                      </li> */}
                       <li>
                         Skills{" "}
-                        {/* <span className="result">React-Redux, Flutter</span> */}
                         <span className="result">
                           {studentData?.studentDetails?.skills}
                         </span>
@@ -196,10 +186,13 @@ const FindWork = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          {" Year"}
-                          {", "}
+                          {studentData?.studentDetails?.experienceInYears &&
+                            " Year"}
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            ", "}
                           {studentData?.studentDetails?.experienceInMonths}
-                          {" Month"}
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            " Month"}
                         </span>
                       </li>
                       <li>
@@ -236,8 +229,6 @@ const FindWork = () => {
                           {authData?.studentDetails?.appliedJobCount}
                         </Link>
                       </li>
-                      {/* <li><Link to="#"><span className="update-name">In Progress</span>1</Link></li>
-                      <li><Link to="#"><span className="update-name">Completed Jobs</span>170</Link></li> */}
                     </ul>
                   </div>
                   {/* <div className="profile-strength">
@@ -341,7 +332,7 @@ const FindWork = () => {
                           ? activePage
                           : 1 + (activePage - 1) * pageSize}
                         -
-                        {jobList && jobList.length
+                        {jobList?.length
                           ? (activePage - 1) * pageSize + jobList.length
                           : 0}{" "}
                         of {totalRecords} results
@@ -353,11 +344,10 @@ const FindWork = () => {
                       <div className="search-data-loader mb-4">
                         <Loader />
                       </div>
-                    ) : jobList && jobList.length === 0 ? (
+                    ) : jobList?.length === 0 ? (
                       <h4>No jobs found</h4>
                     ) : (
-                      jobList &&
-                      jobList.length > 0 &&
+                      jobList?.length > 0 &&
                       jobList.map((jobs, index) => (
                         <PostedJobCard
                           jobs={jobs}

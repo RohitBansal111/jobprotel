@@ -25,7 +25,7 @@ import PrivacyPolicy from "./policy/privacyPolicy";
 import TermsConditions from "./T&C/TermsConditions";
 import ProtectedRoutes from "./HOC/ProtectedRoutes";
 import PrivateRoutes from "./HOC/PrivateRoutes";
-import ProtectedRouteToVerify from './HOC/ProtectedRouteToVerify'
+import ProtectedRouteToVerify from "./HOC/ProtectedRouteToVerify";
 import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
@@ -62,7 +62,7 @@ function App() {
           element={
             <ProtectedRouteToVerify>
               <Verify />
-           </ProtectedRouteToVerify>
+            </ProtectedRouteToVerify>
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -84,16 +84,13 @@ function App() {
             </PrivateRoutes>
           }
         />
-        <Route path="/find-work" element={<FindWork />} />
 
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
-
         <Route path="/public/:userId" element={<PublicProfile />} />
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />
-        {/* <Route path="/posted-jobs" element={<PostedJob />} /> */}
         <Route path="/jobs-applied" element={<StudentApplication />} />
         <Route path="/inbox/:userId/:jobId" element={<Inbox />} />
         <Route path="/inbox" element={<Inbox />} />
@@ -144,10 +141,7 @@ function App() {
         <Route path="/find-work/details/:id" element={<DetailsPage />} />
         <Route path="/payment-suceess" element={<PaymentSuccess />} />
         <Route path="/payment-failure" element={<PaymentFailure />} />
-        <Route path="*" element={<h2>
-
-          Page Not Found
-        </h2>} />
+        <Route path="*" element={<h2>Page Not Found</h2>} />
       </Routes>
     </Router>
   );

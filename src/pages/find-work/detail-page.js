@@ -61,13 +61,13 @@ const DetailsPage = () => {
       remarks: "test",
     };
     const resp = await jobServices.applyJob(payload);
-    console.log(resp,"ap")
+    console.log(resp, "ap");
     if (resp.status == 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
     } else {
-      console.log(resp,"apll")
+      console.log(resp, "apll");
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -78,7 +78,7 @@ const DetailsPage = () => {
         errors = errors.replace(/,\s*$/, "");
         toast.error(errors + "is Required");
       } else if (resp.error) {
-        console.log(resp.error,"ap2")
+        console.log(resp.error, "ap2");
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }
@@ -125,7 +125,10 @@ const DetailsPage = () => {
     <Layout>
       {loading ? (
         <div className="inner-page-wrapper page-wrapper-loader">
-          <div className="fullpage-loader py-5"> <Loader /> </div>
+          <div className="fullpage-loader py-5">
+            {" "}
+            <Loader />{" "}
+          </div>
         </div>
       ) : (
         <section className="job-details-wrapper">
@@ -136,7 +139,6 @@ const DetailsPage = () => {
                 <div className="details-card">
                   <div className="head43">
                     <h2>
-                      {/* React Js Developer */}
                       {jobDetails && jobDetails.title && jobDetails.title}
                       <span>
                         {jobDetails && jobDetails.created ? (
@@ -148,31 +150,9 @@ const DetailsPage = () => {
                       </span>
                     </h2>
                     {jobDetails?.category?.name}
-                    {/* <p>Mobile/Tablet Front-End Developer</p> */}
                   </div>
                   <div className="job-description">
                     <p>{jobDetails?.description}</p>
-                    {/* <p>
-                    I need help with the html and css for the attached image.
-                  </p>
-                  <p>
-                    The coding must be responsive, so even on a mobile phone the
-                    2 images overlap.
-                  </p>
-                  <p>Should be separate images.</p>
-                  <p>
-                    The button should be perfectly centered horizontally and
-                    vertically.
-                  </p>
-                  <p>
-                    If needed on screens under 450px, we can remove order and
-                    text decorate underline.
-                  </p>
-                  <p>**I do not need coding for the top 3 lines of text:</p>
-                  <p>
-                    Beautiful woven collection of classic motifs: buffalo plaid,
-                    paisley, ticking stripes & more.
-                  </p> */}
                   </div>
                   <div className="education-info">
                     <p>

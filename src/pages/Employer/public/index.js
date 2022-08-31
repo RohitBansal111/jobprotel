@@ -3,7 +3,7 @@ import Layout from "../../../components/Layout";
 import * as studentServices from "../../../services/studentServices";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import CompleteKycModal from "../../../components/Common/CompleteKycModal";
 import * as projectServices from "../../../services/projectHistorySevices";
 import moment from "moment";
@@ -49,11 +49,11 @@ const Profile = () => {
       );
 
       setStudentResume(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${response?.resumeFilePath}`
       );
 
-      let interests = response.interests;
-      interests = response && response?.studentDetails?.interests.split(",");
+      let interests = response?.interests;
+      interests = response?.studentDetails?.interests.split(",");
       setInterests(interests);
     }
   };
@@ -98,8 +98,6 @@ const Profile = () => {
     setData(data);
   };
 
-  
-
   useEffect(() => {
     // debugger
     // if(authData?.studentDetails?.kycStatus === "true"){
@@ -109,7 +107,7 @@ const Profile = () => {
     // }
   }, []);
   const getTimeZone = (timezone) => {
-    console.log(timezone,"timezone")
+    console.log(timezone, "timezone");
     if (timezone) {
       const zone = JSON.parse(timezone);
       return zone.value;
@@ -118,26 +116,21 @@ const Profile = () => {
     }
   };
 
-  const viewTextChange=(id)=>{
+  const viewTextChange = (id) => {
     const btn = document.getElementById(id);
-    btn.innerHTML = btn.textContent == "View More"?"View Less":"View More";
-  }
+    btn.innerHTML = btn.textContent == "View More" ? "View Less" : "View More";
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
-   
         <section className="topbg-banner">
           <div className="container">
             <div className="innerbg-banner">
-              <div className="banner-edit">
-                {/* <Link to="/student/edit-profile" className="btn edit-btn">
-                  Edit Profile
-                </Link> */}
-              </div>
+              <div className="banner-edit"></div>
             </div>
           </div>
-        </section>  
-   
+        </section>
+
         <section className="job-feeds-wrapper">
           <div className="container">
             <div className="profile-feed-inner">
@@ -167,7 +160,7 @@ const Profile = () => {
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
-                  
+
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
@@ -206,8 +199,6 @@ const Profile = () => {
                     </ul>
                   </div>
                 </div>
-                {/* <button type="button" className="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#addColleague"> Add colleague </button>
-                          <AddColeagueModal /> */}
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
@@ -216,7 +207,6 @@ const Profile = () => {
                       {studentData?.email}
                     </p>
                   </div>
-                  
                 </div>
                 {loading ? (
                   <div className="fullpage-loader">
@@ -262,8 +252,7 @@ const Profile = () => {
                               <span className="plabel">Interested area </span>
                               <div className="result">
                                 <ul className="tags">
-                                  {interests &&
-                                    interests.length > 0 &&
+                                  {interests?.length > 0 &&
                                     interests.map((interst, index) => (
                                       <li key={index}>
                                         <Link to="#">{interst}</Link>
@@ -295,7 +284,8 @@ const Profile = () => {
                             <li>
                               <span className="plabel">KYC Status</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.kycStatus === "true"
+                                {studentData?.studentDetails?.kycStatus ===
+                                "true"
                                   ? "KYC Completed"
                                   : "Not Completed"}
                               </span>
@@ -349,8 +339,7 @@ const Profile = () => {
                                   <li style={{ cursor: "pointer" }}>
                                     <a
                                       target="_blank"
-                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails
-                                        ?.resumeFilePath}`}
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.resumeFilePath}`}
                                     >
                                       {
                                         studentData?.studentDetails
@@ -393,7 +382,6 @@ const Profile = () => {
                       <div className="profile-information-coll">
                         <div className="profile-card-head">
                           <h3>Employment Details</h3>
-                         
                         </div>
                         <div className="profile-info-list">
                           <ul className="info-list-li additional-box">
@@ -401,7 +389,6 @@ const Profile = () => {
                               <li key={i}>
                                 <div className="designation-list-item">
                                   <div className="employer-sort-info">
-                                    {/* <h4>Front End - Team Lead </h4> */}
                                     <h4>{data?.designation?.title}</h4>
                                     <p>{data.employerName}</p>
                                     <p className="dateP">
@@ -413,7 +400,6 @@ const Profile = () => {
                                     </p>
                                   </div>
                                 </div>
-                              
                               </li>
                             ))}
                           </ul>
@@ -425,18 +411,13 @@ const Profile = () => {
                       <div className="Project-information-coll">
                         <div className="profile-card-head">
                           <h3>Project history</h3>
-                          
                         </div>
                         <div className="Project-info-list">
                           <div className="project-detail-list">
-                            {projectHistory &&
-                              projectHistory.length > 0 &&
+                            {projectHistory?.length > 0 &&
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
-                                  <h2 className="prname">
-                                    {/* Front-End Sketch to Tailwind */}
-                                    {project.title}
-                                  </h2>
+                                  <h2 className="prname">{project.title}</h2>
                                   <div className="prd-buget-column">
                                     <div className="project-tenure-skills">
                                       <span className="prdate">
@@ -462,7 +443,9 @@ const Profile = () => {
                                     aria-controls="collapseExample"
                                     className="btn btn-view-more"
                                     id={`#collapseEx${index}`}
-                                    onClick={()=>viewTextChange(`#collapseEx${index}`)}
+                                    onClick={() =>
+                                      viewTextChange(`#collapseEx${index}`)
+                                    }
                                   >
                                     View More
                                   </button>
@@ -475,7 +458,6 @@ const Profile = () => {
                                       <b>Link:</b>
                                       {project.projectUrl}
                                     </p>
-                                 
                                   </div>
                                 </div>
                               ))}
@@ -488,7 +470,6 @@ const Profile = () => {
                                 onChange={handlePageChange}
                               />
                             )}
-                            
                           </div>
                         </div>
                       </div>

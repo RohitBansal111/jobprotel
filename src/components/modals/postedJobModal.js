@@ -59,7 +59,7 @@ const PostedJobModal = ({ id }) => {
   const navigate = useNavigate();
   const handleTimeZone = (data) => {
     console.log("data", JSON.stringify(data));
-    let d = JSON.stringify(data)
+    let d = JSON.stringify(data);
     setTimezone(d);
   };
 
@@ -109,7 +109,7 @@ const PostedJobModal = ({ id }) => {
     //   employerId: id,
     // });
     if (values.skills.length > 0 && values.tags.length > 0) {
-      console.log(values, "::")
+      console.log(values, "::");
       postJob({
         ...values,
         hoursPerDay: values.hoursDays,
@@ -347,15 +347,6 @@ const PostedJobModal = ({ id }) => {
                             ))}
                         </Field>
                       </div>
-                      {/* <div className="form-field flex50">
-                        <Field
-                          name="timing"
-                          label="Job Timings/days"
-                          placeholder="Enter jobTiming/days"
-                          component={renderField}
-                          type="text"
-                        />
-                      </div> */}
                       <div className="form-field flex50">
                         <label htmlFor="working">Select Time Zone</label>
                         <div className="radio-button-groupss absolute-error">
@@ -457,13 +448,14 @@ const PostedJobModal = ({ id }) => {
                           type="submit"
                           className="btn btn-primary button-submit"
                           // onClick={() => handleJobPost(values)}
-                          disabled={loading?true:false}
+                          disabled={loading ? true : false}
                         >
-                          {loading && 
-                          <div className="button-submit-loader">
-                            <Loader />
-                          </div>
-                          } Post Now
+                          {loading && (
+                            <div className="button-submit-loader">
+                              <Loader />
+                            </div>
+                          )}{" "}
+                          Post Now
                         </button>
                       </div>
                     </div>

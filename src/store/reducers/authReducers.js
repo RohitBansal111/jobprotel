@@ -31,13 +31,13 @@ const authReducers = (state = initState, action) => {
         isLoading: false,
         message: action.payload,
       };
-      case types.LOGOUT_USER:
-        return {
-          isAuthenticated: false,
-          token: "",
-           isLoading: false,
-           errors: "",
-        };
+    case types.LOGOUT_USER:
+      return {
+        isAuthenticated: false,
+        token: "",
+        isLoading: false,
+        errors: "",
+      };
 
     default:
       return state;

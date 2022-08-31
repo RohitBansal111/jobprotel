@@ -64,7 +64,7 @@ const EmployerJobSuggestion = () => {
                         {" "}
                         <Loader />{" "}
                       </div>
-                    ) : suggestions && suggestions.length === 0 ? (
+                    ) : suggestions?.length === 0 ? (
                       <h4>No suggestions found</h4>
                     ) : (
                       suggestions?.length > 0 &&

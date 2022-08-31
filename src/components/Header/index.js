@@ -183,8 +183,8 @@ const Header = () => {
       });
     }
     if (authData) {
-     // setRole(authData?.userRoles?.userRoles[0]?.userRoles[0]);
-     setRole(authData?.userRoles[0]);
+      // setRole(authData?.userRoles?.userRoles[0]?.userRoles[0]);
+      setRole(authData?.userRoles[0]);
     }
   }, [authData]);
 
@@ -193,7 +193,6 @@ const Header = () => {
     localStorage.removeItem("jobPortalUserToken");
     dispatch({
       type: types.LOGOUT_USER,
-      
     });
   };
   return (

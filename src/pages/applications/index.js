@@ -32,9 +32,9 @@ const MyApplications = () => {
       if (response.jobs.length > 0) {
         setJobsApplied(response);
       }
-    }else {
-     setLoading(false);
-     toast.error("Something went wrong");
+    } else {
+      setLoading(false);
+      toast.error("Something went wrong");
     }
   };
 
@@ -61,8 +61,7 @@ const MyApplications = () => {
       <div className="inner-page-wrapper">
         <section className="topbg-banner">
           <div className="container">
-            <div className="innerbg-banner">
-            </div>
+            <div className="innerbg-banner"></div>
           </div>
         </section>
         <section className="job-feeds-wrapper">
@@ -126,36 +125,33 @@ const MyApplications = () => {
                       </button>
                     </form>
                   </div>
-                  {/* <div className="feed-filter">
-                    <button type="button" className="btn filter-btn">
-                      <img src={Filtericon} alt="Filter icon" />
-                    </button>
-                  </div> */}
                 </div>
                 <div className="search-feeds-section">
                   <div className="feed-title">
-                    {jobsApplied?.jobs?.length > 0 ?
-                    <>
-                    <h2>Top results you might like</h2>
-                    <p>
-                      Showing{" "}
-                      {activePage == 1
-                        ? activePage
-                        : 1 + (activePage - 1) * pageSize}
-                      -
-                      {jobsApplied?.jobs?.length
-                        ? (activePage - 1) * pageSize + jobsApplied?.jobs?.length
-                        : 0}{" "}
-                      of {totalRecords} results
-                    </p>
-                    </>
-                    : null
-                  }
+                    {jobsApplied?.jobs?.length > 0 ? (
+                      <>
+                        <h2>Top results you might like</h2>
+                        <p>
+                          Showing{" "}
+                          {activePage == 1
+                            ? activePage
+                            : 1 + (activePage - 1) * pageSize}
+                          -
+                          {jobsApplied?.jobs?.length
+                            ? (activePage - 1) * pageSize +
+                              jobsApplied?.jobs?.length
+                            : 0}{" "}
+                          of {totalRecords} results
+                        </p>
+                      </>
+                    ) : null}
                   </div>
                   {loading ? (
-                    <div className="fullpage-loader py-5"> <Loader /> </div>
-                  ) : (
-                    jobsApplied?.jobs?.length > 0 ?
+                    <div className="fullpage-loader py-5">
+                      {" "}
+                      <Loader />{" "}
+                    </div>
+                  ) : jobsApplied?.jobs?.length > 0 ? (
                     <div className="default-feeds-search">
                       <ApplicationCards
                         handlePageChange={handlePageChange}
@@ -165,7 +161,8 @@ const MyApplications = () => {
                         jobsApplied={jobsApplied}
                       />
                     </div>
-                    : <h1>No applied jobs found</h1>
+                  ) : (
+                    <h1>No applied jobs found</h1>
                   )}
                 </div>
               </div>

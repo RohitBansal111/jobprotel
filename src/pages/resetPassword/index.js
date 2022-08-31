@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import validate from "./resetPasswordValidator";
 import Logo from "./../../assets/images/logo.png";
 import { Field, Form } from "react-final-form";
-import LocalizedStrings from "react-localization";
 import { renderField } from "../../components/renderField";
 import * as authServices from "../../services/authServices";
 import toast from "toastr";
@@ -14,14 +12,11 @@ const ResetPassword = (props) => {
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
 
-
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handlePassword2 = () => setShowLoginPassword2(!showLoginPassword2);
 
-
   const useQuery = () => {
     const { search } = useLocation();
-
     return React.useMemo(() => new URLSearchParams(search), [search]);
   };
 
@@ -30,12 +25,10 @@ const ResetPassword = (props) => {
 
   useEffect(() => {
     let token = query.get("token");
-
     setUserToken(token.split(" ").join("+"));
   }, [query]);
 
   const handleResetPassword = async (values) => {
-
     let data = {
       password: values.password,
       confirmPassword: values.confirmPassword,
@@ -56,14 +49,13 @@ const ResetPassword = (props) => {
           keys.forEach((key) => {
             errors = key + "," + errors;
           });
-  
+
           errors = errors.replace(/,\s*$/, "");
           toast.error(errors + "is Required");
         } else if (resp.error) {
           toast.error(resp.error ? resp.error : "Something went wrong");
         }
       }
-      
     }
   };
 
@@ -94,7 +86,6 @@ const ResetPassword = (props) => {
             <div className="register-form">
               <h4 className="text-primary text-left">
                 <label>Reset Password</label>
-                {/* {titleStrings.pageTitle} */}
               </h4>
               <div className="form-main">
                 <Form onSubmit={handleResetPassword} validate={validate}>
@@ -118,23 +109,21 @@ const ResetPassword = (props) => {
                             placeholder="New Password"
                             type={showLoginPassword ? "password" : "text"}
                           >
-                            {/* {password !== "" && ( */}
-                              <span className="eye-btn">
-                                {showLoginPassword ? (
-                                  <i
-                                    className="fa fa-eye-slash"
-                                    aria-hidden="true"
-                                    onClick={handlePassword}
-                                  />
-                                ) : (
-                                  <i
-                                    className="fa fa-eye"
-                                    aria-hidden="true"
-                                    onClick={handlePassword}
-                                  />
-                                )}
-                              </span>
-                            {/* )} */}
+                            <span className="eye-btn">
+                              {showLoginPassword ? (
+                                <i
+                                  className="fa fa-eye-slash"
+                                  aria-hidden="true"
+                                  onClick={handlePassword}
+                                />
+                              ) : (
+                                <i
+                                  className="fa fa-eye"
+                                  aria-hidden="true"
+                                  onClick={handlePassword}
+                                />
+                              )}
+                            </span>
                           </Field>
                         </div>
                         <div className="form-field flex100">
@@ -145,23 +134,21 @@ const ResetPassword = (props) => {
                             placeholder="Confirm Password"
                             type={showLoginPassword2 ? "password" : "text"}
                           >
-                            {/* {password !== "" && ( */}
-                              <span className="eye-btn">
-                                {showLoginPassword2 ? (
-                                  <i
-                                    className="fa fa-eye-slash"
-                                    aria-hidden="true"
-                                    onClick={handlePassword2}
-                                  />
-                                ) : (
-                                  <i
-                                    className="fa fa-eye"
-                                    aria-hidden="true"
-                                    onClick={handlePassword2}
-                                  />
-                                )}
-                              </span>
-                            {/* )} */}
+                            <span className="eye-btn">
+                              {showLoginPassword2 ? (
+                                <i
+                                  className="fa fa-eye-slash"
+                                  aria-hidden="true"
+                                  onClick={handlePassword2}
+                                />
+                              ) : (
+                                <i
+                                  className="fa fa-eye"
+                                  aria-hidden="true"
+                                  onClick={handlePassword2}
+                                />
+                              )}
+                            </span>
                           </Field>
                         </div>
                         <div className="form-action w-100">
@@ -171,7 +158,6 @@ const ResetPassword = (props) => {
                           >
                             {" "}
                             Click to Reset Password
-                            {/* {titleStrings.ButtonTitle}{" "} */}
                           </button>
                         </div>
                         <div className="form-field flex100 mb-0 p-2">

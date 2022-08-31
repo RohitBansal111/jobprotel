@@ -12,13 +12,13 @@ import * as studentServices from "../../services/studentServices";
 import toast from "toastr";
 import moment from "moment";
 
-const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
+const ModifyEmploymentModal = ({ empData, handleEmp }) => {
   const [designationlist, setDesignationlist] = useState([]);
   const [id, setId] = useState("");
   const [userId, setUserId] = useState("");
   const [data, setData] = useState([]);
   const [errors, setErrors] = useState({});
-  const [endDate, setEndDate]=useState(false)
+  const [endDate, setEndDate] = useState(false);
 
   const validation = (values) => {
     let isValid = true;
@@ -57,7 +57,7 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
           id,
           data
         );
-        handleEmp()
+        handleEmp();
         if (resp.status === 200) {
           document.getElementById("modifyEmploymentModal").click();
           toast.success(
@@ -117,7 +117,6 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
           </div>
           <div className="modal-body p-4">
             <div className="kyc-detail-form">
-            
               <Form
                 initialValues={data}
                 onSubmit={handleJobPost}
@@ -160,8 +159,8 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
-                            onChange={(e)=>{
-                              setEndDate(true)
+                            onChange={(e) => {
+                              setEndDate(true);
                             }}
                           >
                             Yes
@@ -172,16 +171,14 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
-                            onChange={(e)=>{
-                              setEndDate(false)
+                            onChange={(e) => {
+                              setEndDate(false);
                             }}
                           >
                             No
                           </Field>
                         </div>
-                        {
-                          
-                        }
+                        {}
                       </div>
                       <div className="form-field flex100">
                         <Field
@@ -192,41 +189,27 @@ const ModifyEmploymentModal = ({ empData ,handleEmp}) => {
                           type="date"
                         />
                       </div>
-                      
-                      {
-                        !endDate && <div className="form-field flex100">
-                        <Field
-                           name="endDate"
-                           label="End Date"
-                           placeholder="Enter end date"
-                           component={renderField}
-                           type="date"
-                          min={values.startDate && values.startDate}
-                          max={moment(new Date()).format('YYYY-MM-DD')}
-                         
-                        />
-                        <p style={{ color: "red" }}>{errors?.endDate}</p>
-                      </div>
-                      }
-                     
 
-                      {/* <div className="form-field flex100">
-                        <Field
-                          label="Expected Salary"
-                          name="salary"
-                          component={renderNumberField}
-                          placeholder="Enter salary expectations"
-                          type="text"
-                          pattern="[0-9]*"
-                        />
-                      </div> */}
-
+                      {!endDate && (
+                        <div className="form-field flex100">
+                          <Field
+                            name="endDate"
+                            label="End Date"
+                            placeholder="Enter end date"
+                            component={renderField}
+                            type="date"
+                            min={values.startDate && values.startDate}
+                            max={moment(new Date()).format("YYYY-MM-DD")}
+                          />
+                          <p style={{ color: "red" }}>{errors?.endDate}</p>
+                        </div>
+                      )}
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
                         >
-                         Submit
+                          Submit
                         </button>
                       </div>
                     </div>

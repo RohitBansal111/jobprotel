@@ -79,14 +79,7 @@ const InviteCard = ({
             </div>
           </div>
           <div className="feeds-search-detail">
-            <p>
-              {invites?.description}
-              {/* We have a new project we might consider outsourcing. We need to
-              hear some full stacks experts regarding the difficulty of such
-              project, cost esitmations, and required skills. This job will be
-              fast - a conversation. ------------------ About the project in a
-              nutshell. <Link to="#">See more </Link> */}
-            </p>
+            <p>{invites?.description}</p>
             <div className="feeds-tags">
               <ul className="feeds-ul">
                 {invites?.skills?.split(",").map((sk, i) => (

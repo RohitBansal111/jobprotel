@@ -79,8 +79,7 @@ const Notification = () => {
                         />{" "}
                       </Link>
                     </div> */}
-                      {notifications &&
-                        notifications.length > 0 &&
+                      {notifications?.length > 0 &&
                         notifications.map((notification, i) =>
                           notification.employerResponseDto !== null ? (
                             <div className="feeds-search-head">

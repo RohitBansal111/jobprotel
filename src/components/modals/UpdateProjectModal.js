@@ -178,16 +178,6 @@ const UpdateProjectModal = ({
                           pattern="[0-9]*"
                         />
                       </div>
-                      {/* <div className="form-field flex100">
-                        <Field
-                          label="Company Email"
-                          name="companyEmail"
-                          component={renderField}
-                          placeholder="Enter company email address"
-                          type="text"
-                          disabled
-                        />
-                      </div> */}
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"

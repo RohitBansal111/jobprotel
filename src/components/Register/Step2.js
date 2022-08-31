@@ -112,8 +112,8 @@ const Step2 = ({
       setImg({ personalInfoImg: data.profileImageUrl.personalInfoImg });
       setProfileImage(data.profileImage);
     }
-    if(data.qualification){
-      setInputField(true)
+    if (data.qualification) {
+      setInputField(true);
     }
   }, []);
 
@@ -126,7 +126,7 @@ const Step2 = ({
     // console.log(e.target.value, ":::");
     const resp = await dropdownServices.stateList(e.target.value);
     setStateList(resp.data);
-    handlechangeCollege(e.target.value)
+    handlechangeCollege(e.target.value);
   };
 
   const handleTimeZone = (data) => {
@@ -365,7 +365,6 @@ const Step2 = ({
                           {qualification.name}
                         </option>
                       ))}
-                    {/* <option value="Other">Other</option> */}
                   </Field>
                 </div>
                 {inputField && (

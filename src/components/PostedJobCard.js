@@ -150,8 +150,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
             <div className="d-flex">
               {authData?.userRoles[0] === "Employer" ? (
                 <>
-
-
                   {/* <Link
                     to={
                       jobs?.id != undefined
@@ -159,9 +157,13 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                         : "#"
                     }
                   > */}
-                    <Link to={`/invitation-accepted/${jobs?.id}`} type="button" className="btn submit-btn me-2">
-                      Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
-                    </Link>
+                  <Link
+                    to={`/invitation-accepted/${jobs?.id}`}
+                    type="button"
+                    className="btn submit-btn me-2"
+                  >
+                    Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
+                  </Link>
                   {/* </Link> */}
 
                   <Link

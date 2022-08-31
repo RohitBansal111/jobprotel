@@ -46,8 +46,8 @@ const Profile = () => {
   const [id, setId] = useState("");
   const [kycStatus, setKycStatus] = useState(true);
   const [editProjectData, setEditProjectData] = useState([]);
-  const [extraCertificate,setExtraCertificateData]=useState([])
-  const [editCertificate , setEditCertificate]=useState([])
+  const [extraCertificate, setExtraCertificateData] = useState([]);
+  const [editCertificate, setEditCertificate] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -61,7 +61,9 @@ const Profile = () => {
       const response = resp.data.data;
       console.log(response, "::");
       setStudentData(response);
-      setExtraCertificateData(response?.studentDetails?.studentExtraCertificate)
+      setExtraCertificateData(
+        response?.studentDetails?.studentExtraCertificate
+      );
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
       );
@@ -71,7 +73,7 @@ const Profile = () => {
       );
 
       let interests = response.interests;
-      interests = response && response?.studentDetails?.interests.split(",");
+      interests = response?.studentDetails?.interests.split(",");
       setInterests(interests);
     }
   };
@@ -103,7 +105,7 @@ const Profile = () => {
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData)
+      console.log(authData);
       getStudentData(authData.id);
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
@@ -151,14 +153,13 @@ const Profile = () => {
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
-      console.log('qwer',zone)
+      console.log("qwer", zone);
 
-      if(zone?.value ==undefined){
-        return zone.altName
-      }else{
+      if (zone?.value == undefined) {
+        return zone.altName;
+      } else {
         return zone.value;
       }
-    
     } else {
       return "N/A";
     }
@@ -173,15 +174,15 @@ const Profile = () => {
     setEditProjectData(data);
   };
 
-  const handleRemoveProjectHistory = async(projectID) => {
-    const resp = await projectServices.removeProjectHistoryData(projectID)
+  const handleRemoveProjectHistory = async (projectID) => {
+    const resp = await projectServices.removeProjectHistoryData(projectID);
     if (resp.status == 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      getProjectHistory(id, activePage)
+      getProjectHistory(id, activePage);
     }
-  }
+  };
 
   const handlePopUp = (id) => {
     Swal.fire({
@@ -211,9 +212,7 @@ const Profile = () => {
     }
   };
 
-  
-
-  const editCertificates = async (id, title , i) => {
+  const editCertificates = async (id, title, i) => {
     if ((id, title)) {
       let formData = new FormData();
       formData.append("Title", title);
@@ -227,10 +226,10 @@ const Profile = () => {
           resp.data.message ? resp.data.message : "Something went wrong"
         );
         getStudentData();
-        let arr=[...editCertificate]
+        let arr = [...editCertificate];
 
-        arr.splice(i,1)
-        setEditCertificate(arr)
+        arr.splice(i, 1);
+        setEditCertificate(arr);
       }
     }
   };
@@ -302,9 +301,9 @@ const Profile = () => {
                     </h3>
                     <p>
                       {studentData?.studentDetails?.address}
-                      {", "}
+                      {studentData?.studentDetails?.addressLine1 && ", "}
                       {studentData?.studentDetails?.addressLine1}
-                      {", "}
+                      {studentData?.studentDetails?.addressLine2 && ", "}
                       {studentData?.studentDetails?.addressLine2}
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
@@ -324,9 +323,13 @@ const Profile = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          Year{", "}
-                          {studentData?.studentDetails?.experienceInMonths}{" "}
-                          Month
+                          {studentData?.studentDetails?.experienceInYears &&
+                            " Year"}
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            ", "}
+                          {studentData?.studentDetails?.experienceInMonths}
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            " Month"}
                         </span>
                       </li>
                       <li>
@@ -460,7 +463,7 @@ const Profile = () => {
                               </div>
                             </li>
                             <li>
-                              {console.log('qwer',studentData)}
+                              {console.log("qwer", studentData)}
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {getTimeZone(
@@ -512,13 +515,6 @@ const Profile = () => {
                                 {studentData?.studentDetails?.workDaysPerWeek}
                               </span>
                             </li>
-
-                            {/* <li>
-                              <span className="plabel">Expected salary </span>
-                              <span className="result">
-                                $ {studentData?.studentDetails?.expectedSalary}
-                              </span>
-                            </li> */}
                             <li>
                               <span className="plabel">Total Experience</span>{" "}
                               <span className="result">
@@ -546,8 +542,8 @@ const Profile = () => {
                                   <li style={{ cursor: "pointer" }}>
                                     <a
                                       target="_blank"
-                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails
-                                        ?.resumeFilePath}`} rel="noreferrer"
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.resumeFilePath}`}
+                                      rel="noreferrer"
                                     >
                                       {
                                         studentData?.studentDetails
@@ -579,104 +575,98 @@ const Profile = () => {
                                     )
                                   )}
                                 </ul> */}
-                                 {extraCertificate?.map(
-                                    (certificate, i) => (
-                                      <>
-                                        <div key={i} className='div_edit_btn'>
-                                         
-                                           {
-                                            console.log('qwerrr',editCertificate[i])
-                                           }
+                                {extraCertificate?.map((certificate, i) => (
+                                  <>
+                                    <div key={i} className="div_edit_btn">
+                                      {console.log(
+                                        "qwerrr",
+                                        editCertificate[i]
+                                      )}
 
-                                            {
-                                              editCertificate[i] !==undefined ?<input
-                                              name="title"
-                                              className="edit-profile-file"
-                                              onChange={(e) =>
-                                                handleFormTitleChange(
-                                                  i,
-                                                  e
-                                                )
-                                              }
-                                              value={certificate.title}
-                                            />: <a
-                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                            target="_blank" rel="noreferrer"
-                                          > {certificate.title}
-                                          </a>
-                                            }
-                                          
-
-                                          {
-                                            editCertificate[i]?
-                                            <>
-                                            
-                                            <button className="btn p-0 ms-3">
-                                                   
-                                                    <span className="btn btn-edit p-0 ps-3">
-                                                      <i
-                                                        className="fa fa-edit"
-                                                        aria-hidden="true"
-                                                        style={{
-                                                          cursor: "pointer",
-                                                        }}
-                                                        onClick={() =>
-                                                         {
-                                                           editCertificates(
-                                                            certificate.certId,
-                                                            certificate.title,
-                                                            i
-                                                          )}
-                                                        }
-                                                      />
-                                                    </span>
-                                                  </button>
-                                            
-                                            </>:
-                                            <> <button
-                              type="button"
-                              className="icon_button"
-                              onClick={()=>{
-                                let arr =[...editCertificate]
-                                arr[i]=true
-                                setEditCertificate(arr)
-                              }}
-                            >
-                              <i className="fas fa-pen"></i>
-                            </button>
-
-                            <button
-                              type="button"
-                              className="icon_button"
-                            
-                              onClick={()=>{
-                                Swal.fire({
-                                  title: 'Are you sure?',
-                                  text: "You won't be able to revert this!",
-                                  icon: 'warning',
-                                  showCancelButton: true,
-                                  confirmButtonColor: '#3085d6',
-                                  cancelButtonColor: '#d33',
-                                  confirmButtonText: 'Yes, delete it!'
-                                }).then((result) => {
-                                  if (result.isConfirmed) {
-                                    handleExtraCertificateDelete(certificate.certId)
-                                  }
-                                })
-
-                              }}
-                            >
-                              <i className="fas fa-trash"></i>
-                            </button></>
+                                      {editCertificate[i] !== undefined ? (
+                                        <input
+                                          name="title"
+                                          className="edit-profile-file"
+                                          onChange={(e) =>
+                                            handleFormTitleChange(i, e)
                                           }
+                                          value={certificate.title}
+                                        />
+                                      ) : (
+                                        <a
+                                          href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                        >
+                                          {" "}
+                                          {certificate.title}
+                                        </a>
+                                      )}
 
-                                         
-                                         
-                                        </div>
-                                      </>
-                                    )
-                                  )}
-                               
+                                      {editCertificate[i] ? (
+                                        <>
+                                          <button className="btn p-0 ms-3">
+                                            <span className="btn btn-edit p-0 ps-3">
+                                              <i
+                                                className="fa fa-edit"
+                                                aria-hidden="true"
+                                                style={{
+                                                  cursor: "pointer",
+                                                }}
+                                                onClick={() => {
+                                                  editCertificates(
+                                                    certificate.certId,
+                                                    certificate.title,
+                                                    i
+                                                  );
+                                                }}
+                                              />
+                                            </span>
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {" "}
+                                          <button
+                                            type="button"
+                                            className="icon_button"
+                                            onClick={() => {
+                                              let arr = [...editCertificate];
+                                              arr[i] = true;
+                                              setEditCertificate(arr);
+                                            }}
+                                          >
+                                            <i className="fas fa-pen"></i>
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="icon_button"
+                                            onClick={() => {
+                                              Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText:
+                                                  "Yes, delete it!",
+                                              }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                  handleExtraCertificateDelete(
+                                                    certificate.certId
+                                                  );
+                                                }
+                                              });
+                                            }}
+                                          >
+                                            <i className="fas fa-trash"></i>
+                                          </button>
+                                        </>
+                                      )}
+                                    </div>
+                                  </>
+                                ))}
                               </span>
                             </li>
                           </ul>
@@ -708,18 +698,13 @@ const Profile = () => {
                               <li key={i}>
                                 <div className="designation-list-item">
                                   <div className="employer-sort-info">
-                                    {/* <h4>Front End - Team Lead </h4> */}
                                     <h4>{data?.designation?.title}</h4>
                                     <p>{data.employerName}</p>
                                     <p className="dateP">
                                       {data.startDate}
-                                      {!data?.isCurrentEmployer && " - "
-                                        }
-                                       
-                                        {
-                                          !data?.isCurrentEmployer && data.endDate
-                                        }
-                                      
+                                      {!data?.isCurrentEmployer && " - "}
+
+                                      {!data?.isCurrentEmployer && data.endDate}
                                     </p>
                                   </div>
                                 </div>
@@ -781,7 +766,9 @@ const Profile = () => {
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
                                   <div className="project-history-title-action mb-3">
-                                    <h2 className="prname mb-0">{project.title}</h2>
+                                    <h2 className="prname mb-0">
+                                      {project.title}
+                                    </h2>
                                     <div className="d-flex">
                                       <button
                                         type="button"
@@ -794,10 +781,10 @@ const Profile = () => {
                                       >
                                         <i className="fas fa-pen"></i>
                                       </button>
-                                        <UpdateProjectModal
-                                          editProjectData={editProjectData}
-                                          getProjectHistory={getProjectHistory}
-                                        />
+                                      <UpdateProjectModal
+                                        editProjectData={editProjectData}
+                                        getProjectHistory={getProjectHistory}
+                                      />
                                       <button
                                         type="button"
                                         className="icon_button_text"
@@ -808,7 +795,7 @@ const Profile = () => {
                                       </button>
                                     </div>
                                   </div>
-                                  
+
                                   <div className="prd-buget-column">
                                     <div className="project-tenure-skills">
                                       <span className="prdate">
@@ -821,7 +808,8 @@ const Profile = () => {
                                         )}
                                       </span>
                                       <p className="tech-links">
-                                      <b>Title: &nbsp;</b> {project.roleResponsiblity}
+                                        <b>Title: &nbsp;</b>{" "}
+                                        {project.roleResponsiblity}
                                       </p>
                                     </div>
                                   </div>
@@ -839,34 +827,37 @@ const Profile = () => {
                                   >
                                     View More
                                   </button>
-                                    <UpdateProjectModal
-                                      editProjectData={editProjectData}
-                                      getProjectHistory={getProjectHistory}
-                                    />
+                                  <UpdateProjectModal
+                                    editProjectData={editProjectData}
+                                    getProjectHistory={getProjectHistory}
+                                  />
                                   <div
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}
                                   >
-                                    <p><b className="d-block mt-1">Description: &nbsp;</b>{project.description}</p>
-                                    <p><b className="d-block mt-2">Roles & Responsibility: &nbsp;</b>{project.roleResponsiblity}</p>
-                                    <p className="mt-3"><b>Email: &nbsp;</b>{project.companyEmail}</p>
-                                    <p><b>Team Size: &nbsp;</b>{project.totalTeamSize}</p>
+                                    <p>
+                                      <b className="d-block mt-1">
+                                        Description: &nbsp;
+                                      </b>
+                                      {project.description}
+                                    </p>
+                                    <p>
+                                      <b className="d-block mt-2">
+                                        Roles & Responsibility: &nbsp;
+                                      </b>
+                                      {project.roleResponsiblity}
+                                    </p>
+                                    <p className="mt-3">
+                                      <b>Email: &nbsp;</b>
+                                      {project.companyEmail}
+                                    </p>
+                                    <p>
+                                      <b>Team Size: &nbsp;</b>
+                                      {project.totalTeamSize}
+                                    </p>
                                     <p>
                                       <b>Link:</b> {project.projectUrl}
                                     </p>
-                                    {/* <p>
-                                  <b>Attachment:</b>
-                                </p>
-                                <p className="attachment">
-                                  <i className="fas fa-file"></i>
-                                  <Link
-                                    to="https://blog.undraw.co/static/76e3dd339b3bcf646b0cb79ecec6a04c/tailwindcss_sketch_ui.png"
-                                    target="_blank"
-                                    download
-                                  >
-                                    Home (5).jpg (1 KB)
-                                  </Link>
-                                </p> */}
                                   </div>
                                 </div>
                               ))}
@@ -879,45 +870,7 @@ const Profile = () => {
                                 onChange={handlePageChange}
                               />
                             )}
-                            <div className="project-pagination">
-                              {/* <ul className="pagination">
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                Prev
-                              </Link>
-                            </li>
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                1
-                              </Link>
-                            </li>
-                            <li className="page-item active">
-                              <Link className="page-link" to="/">
-                                2
-                              </Link>
-                            </li>
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                3
-                              </Link>
-                            </li>
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                4
-                              </Link>
-                            </li>
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                5
-                              </Link>
-                            </li>
-                            <li className="page-item">
-                              <Link className="page-link" to="/">
-                                Next
-                              </Link>
-                            </li>
-                          </ul> */}
-                            </div>
+                            <div className="project-pagination"></div>
                           </div>
                         </div>
                       </div>

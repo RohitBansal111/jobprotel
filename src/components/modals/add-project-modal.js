@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import toast from "toastr";
 import moment from "moment";
 
-const AddProjectModal = ({ getProjectHistory, activePage}) => {
+const AddProjectModal = ({ getProjectHistory, activePage }) => {
   const authData = useSelector((state) => state.auth.user);
   const [id, setId] = useState("");
   const [errors, setErrors] = useState({});
@@ -22,7 +22,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
   const validation = (values) => {
     let isValid = true;
     let error = {};
-    const {startDate,endDate} = values
+    const { startDate, endDate } = values;
     const startDate1 = moment(startDate).format("MM/DD/YYYY");
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
@@ -31,41 +31,39 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
     const endDOnly = endDate1 + " " + "00:00:00";
     const endDateOnly = moment(endDOnly).format("X");
 
-    if(endDOnly < startDOnly)
-    {
+    if (endDOnly < startDOnly) {
       error.endDate = "End Date should be greater than start date";
       isValid = false;
     }
-    
+
     setErrors(error);
     return isValid;
   };
 
   const saveProjectHistory = async (values) => {
-    if(validation(values))
-    {
-    let data = { userId: id, ...values };
-    if (data.userId) {
-      const resp = await projectServices.postProjectHistoryData(data);
-      // console.log(resp);
-      if (resp.status === 200) {
-        document.getElementById("addProjectModal").click();
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-        getProjectHistory(id, activePage);
+    if (validation(values)) {
+      let data = { userId: id, ...values };
+      if (data.userId) {
+        const resp = await projectServices.postProjectHistoryData(data);
+        // console.log(resp);
+        if (resp.status === 200) {
+          document.getElementById("addProjectModal").click();
+          toast.success(
+            resp.data.message ? resp.data.message : "Something went wrong"
+          );
+          getProjectHistory(id, activePage);
 
-        values.title="";
-        values.description="";
-        values.roleResponsiblity="";
-        values.projectUrl="";
-        values.startDate="";
-        values.endDate="";
-        values.totalTeamSize="";
-        // values.companyEmail="";
+          values.title = "";
+          values.description = "";
+          values.roleResponsiblity = "";
+          values.projectUrl = "";
+          values.startDate = "";
+          values.endDate = "";
+          values.totalTeamSize = "";
+          // values.companyEmail="";
+        }
       }
     }
-  }
   };
 
   useEffect(() => {
@@ -97,7 +95,7 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
           </div>
           <div className="modal-body p-4">
             <div className="kyc-detail-form">
-              <Form onSubmit={saveProjectHistory} validate={validate} >
+              <Form onSubmit={saveProjectHistory} validate={validate}>
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
@@ -151,8 +149,8 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           component={renderField}
                           type="date"
                           min={values.startDate && values.startDate}
-                          />
-                          <p style={{ color: "red" }}>{errors?.endDate}</p>
+                        />
+                        <p style={{ color: "red" }}>{errors?.endDate}</p>
                       </div>
                       <div className="form-field flex100">
                         {/* <label htmlFor="certificate"> Status </label>
@@ -186,15 +184,6 @@ const AddProjectModal = ({ getProjectHistory, activePage}) => {
                           pattern="[0-9]*"
                         />
                       </div>
-                      {/* <div className="form-field flex100">
-                        <Field
-                          label="Company Email"
-                          name="companyEmail"
-                          component={renderField}
-                          placeholder="Enter company email address"
-                          type="text"
-                        />
-                      </div> */}
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
                           type="submit"
