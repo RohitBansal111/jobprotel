@@ -73,9 +73,6 @@ const Profile = () => {
       interests = response?.studentDetails?.interests.split(",");
       setInterests(interests);
     }
-    else{
-      setStudentProfilePic(UserAvtar)
-    }
   };
 
   const getProjectHistory = async (id, activePage = activePage) => {
@@ -294,7 +291,7 @@ const Profile = () => {
                     >
                       <span className="profile-img">
                         <img 
-                          src={studentProfilePic} 
+                          src={studentProfilePic ? studentProfilePic : UserAvtar} 
                           alt="user profile" 
                         />
                       </span>

@@ -1,6 +1,6 @@
 import { Field, Form } from "react-final-form";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/profile-img.jpg";
+import DefaultProfile from "./../../assets/images/demo.png";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import badgeCrossIcon from "./../../assets/icons/badge-closeicon.png";
 import validate from "./validator/profileValidate";
@@ -754,8 +754,8 @@ const EditProfile = () => {
                                         </div>
                                       </div>
                                       <div className="aws-placeholder image4">
-                                        <img
-                                          src={img.personalInfoImg}
+                                        <img 
+                                          src={img.personalInfoImg ? img.personalInfoImg : DefaultProfile}
                                           className="img-aws"
                                           alt="avtar"
                                           width={100}

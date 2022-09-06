@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PostedJobCard from "../../components/PostedJobCard";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/user.webp";
+import UserAvtar from "./../../assets/images/demo.png";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import Filtericon from "./../../assets/icons/filter-ico.png";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
