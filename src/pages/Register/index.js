@@ -160,14 +160,8 @@ const Register = () => {
                     }
                   >
                     <div className="register-steps">
-                      <h5>Personal Information</h5>
-                      <p>Please provide address, qualification etc</p>
-                    </div>
-                  </li>
-                  <li className={currentPage === 3 ? "active" : ""}>
-                    <div className="register-steps">
-                      <h5>Professional Information</h5>
-                      <p>Please provide vour experience colleae details etc</p>
+                      <h5>Account Verification</h5>
+                      <p>Please verify your account via mail</p>
                     </div>
                   </li>
                 </ul>

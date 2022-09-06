@@ -156,7 +156,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                   type="submit"
                   className="btn btn-primary next-btn text-white text-center"
                 >
-                  {" "}
+                  {" "} 
                   {titleStrings.submit}{" "}
                 </button>
               </div>
