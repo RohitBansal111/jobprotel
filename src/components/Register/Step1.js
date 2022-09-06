@@ -99,7 +99,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                       )}
                     </span>
                   </Field>
-                </div>
+                </div> 
                 <div className="form-field flex100 withoutLabel">
                   <Field
                     name="confirmPassword"
@@ -134,6 +134,14 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                   />
                   <p style={{ color: "red" }}>{err && err.captcha}</p>
                 </div>
+              </div>
+              <div className="form-field flex100 mb-5 d-flex align-items-center">
+                <input
+                  type="checkbox"
+                  name="termsPrivacy"
+                  className="me-2"
+                /> I declare myself as a student or been passed in less than 6 months.
+                <span className="checkmarks"></span>
               </div>
               <div className="form-action">
                 <button

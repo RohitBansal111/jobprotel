@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/profile-img.jpg";
+import UserAvtar from "./../../assets/images/user-img.jpg";
 import ConnectIcon from "./../../assets/icons/connect.png";
-import EditIcon from "./../../assets/icons/editicon.png";
-import AddColeagueModal from "../../components/modals/addColleaguesModal";
-import CompanyLogo from "../../assets/images/company-logo2.jpeg";
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal";
 import AddProjectModal from "../../components/modals/add-project-modal";
 import UpdateProjectModal from "../../components/modals/UpdateProjectModal";
@@ -12,7 +9,7 @@ import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal
 import * as studentServices from "../../services/studentServices";
 import * as studentExtraCertificate from "../../services/studentExtraCertificates";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import * as projectServices from "../../services/projectHistorySevices";
 import moment from "moment";
@@ -75,6 +72,9 @@ const Profile = () => {
       let interests = response.interests;
       interests = response?.studentDetails?.interests.split(",");
       setInterests(interests);
+    }
+    else{
+      setStudentProfilePic(UserAvtar)
     }
   };
 
@@ -293,7 +293,10 @@ const Profile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic} alt="user profile" />
+                        <img 
+                          src={studentProfilePic} 
+                          alt="user profile" 
+                        />
                       </span>
                     </div>
                     <h3>
@@ -379,34 +382,6 @@ const Profile = () => {
                       {studentData?.email}
                     </p>
                   </div>
-                  {/* <div className="profile-strength">
-                    <div className="profile-strength-inner">
-                      <h3>
-                        Profile strength:{" "}
-                        <span className="profile-completed">60% Completed</span>
-                      </h3>
-                      <div className="profile-strength-bar">
-                        <p
-                          className="profile-progress"
-                          style={{ width: "60%" }}
-                        ></p>
-                        <div className="profile-complete-bar">
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "25%" }}
-                          ></span>
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "50%" }}
-                          ></span>
-                          <span
-                            className="complete-bar"
-                            style={{ left: "75%" }}
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
                 {loading ? (
                   <div className="fullpage-loader">
@@ -423,14 +398,6 @@ const Profile = () => {
                         <div className="profile-info-list">
                           <ul className="info-list-li">
                             <li>
-                              <span className="plabel">Age</span>{" "}
-                              <span className="result">
-                                {studentData?.studentDetails?.age}{" "}
-                                {studentData?.studentDetails?.age &&
-                                  "Years old"}
-                              </span>
-                            </li>
-                            <li>
                               <span className="plabel">Gender </span>
                               <span className="result">
                                 {
@@ -440,6 +407,74 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
+                              <span className="plabel">Address </span>
+                              <span className="result">
+                                {studentData?.studentDetails?.address}
+                                {studentData?.studentDetails?.cityName}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Address Line 1 </span>
+                              <span className="result">
+                                {studentData?.studentDetails?.addressLine1}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Address Line 2 </span>
+                              <span className="result">
+                                {studentData?.studentDetails?.addressLine2}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Age</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.age}{" "}
+                                {studentData?.studentDetails?.age &&
+                                  "Years old"}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Country</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">State</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">City</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">Phone Number</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">Pincode</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              {console.log("qwer", studentData)}
+                              <span className="plabel">Time zone </span>
+                              <span className="result">
+                                {getTimeZone(
+                                  studentData?.studentDetails?.timezone
+                                )}
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="profile-information-view">
+                      <div className="profile-information-coll">
+                        <div className="profile-card-head">
+                          <h3>Professional information</h3>
+                        </div>
+                        <div className="profile-info-list">
+                          <ul className="info-list-li">
+                          <li>
                               <span className="plabel">Qualification</span>{" "}
                               <span className="result">
                                 {
@@ -463,69 +498,43 @@ const Profile = () => {
                               </div>
                             </li>
                             <li>
-                              {console.log("qwer", studentData)}
-                              <span className="plabel">Time zone </span>
-                              <span className="result">
-                                {getTimeZone(
-                                  studentData?.studentDetails?.timezone
-                                )}
-                              </span>
+                              <span className="plabel">College</span>{" "}
+                              <span className="result"></span>
                             </li>
                             <li>
-                              <span className="plabel">Address </span>
-                              <span className="result">
-                                {studentData?.studentDetails?.address}
-                                {", "}
-                                {studentData?.studentDetails?.addressLine1}
-                                {", "}
-                                {studentData?.studentDetails?.addressLine2}
-                                {studentData?.studentDetails?.cityName}
-                              </span>
-                            </li>
-
-                            <li>
-                              <span className="plabel">KYC Status</span>{" "}
-                              <span className="result">
-                                {authData?.studentDetails?.kycStatus === "true"
-                                  ? "KYC Completed"
-                                  : "Not Completed"}
-                              </span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </section>
-
-                    <section className="profile-information-view">
-                      <div className="profile-information-coll">
-                        <div className="profile-card-head">
-                          <h3>Professional information</h3>
-                        </div>
-                        <div className="profile-info-list">
-                          <ul className="info-list-li">
-                            <li>
-                              <span className="plabel">Hours / day</span>{" "}
-                              <span className="result">
-                                {studentData?.studentDetails?.workHoursPerDay}
-                              </span>
-                            </li>
-                            <li>
-                              <span className="plabel">Days / week</span>{" "}
-                              <span className="result">
-                                {studentData?.studentDetails?.workDaysPerWeek}
-                              </span>
-                            </li>
-                            <li>
-                              <span className="plabel">Total Experience</span>{" "}
+                              <span className="plabel"> Experience In Year</span>{" "}
                               <span className="result">
                                 {studentData?.studentDetails?.experienceInYears}{" "}
                                 Years{" "}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel"> Experience In Months</span>{" "}
+                              <span className="result">
                                 {
                                   studentData?.studentDetails
                                     ?.experienceInMonths
                                 }{" "}
                                 months
                               </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Expected Salary</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">Hours / Week</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.workHoursPerDay}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Catagory of Job</span>{" "}
+                              <span className="result"></span>
+                            </li>
+                            <li>
+                              <span className="plabel">Skills</span>{" "}
+                              <span className="result"></span>
                             </li>
                             <li>
                               <span className="plabel">Working Type</span>{" "}
@@ -668,6 +677,10 @@ const Profile = () => {
                                   </>
                                 ))}
                               </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Cover Letter</span>{" "}
+                              <span className="result"></span>
                             </li>
                           </ul>
                         </div>

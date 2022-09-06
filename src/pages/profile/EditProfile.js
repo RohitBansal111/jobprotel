@@ -10,6 +10,7 @@ import {
   RenderFileUploadField,
   renderSelect,
   renderNumberField,
+  renderTextareaField,
 } from "./../../components/renderField";
 import { RenderImageField } from "../../components/file-input";
 import { RenderTagField } from "../../components/renderTagField";
@@ -698,6 +699,7 @@ const EditProfile = () => {
                                       label="First name"
                                       placeholder="Enter first name"
                                       component={renderField}
+                                      disabled
                                     />
                                   </div>
                                   <div className="form-field flex50">
@@ -706,15 +708,16 @@ const EditProfile = () => {
                                       label="Last name"
                                       placeholder="Enter last name"
                                       component={renderField}
+                                      disabled
                                     />
                                   </div>
                                   <div className="form-field flex50">
                                     <Field
-                                      name="age"
-                                      label="Age"
-                                      placeholder="Enter age"
-                                      component={renderNumberField}
-                                      pattern="[0-9]*"
+                                      name="email"
+                                      placeholder="Enter email Address"
+                                      label="Email Address"
+                                      component={renderField}
+                                      disabled
                                     />
                                   </div>
                                   <div className="form-field flex50">
@@ -736,41 +739,31 @@ const EditProfile = () => {
                                         ))}
                                     </div>
                                   </div>
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="email"
-                                      placeholder="Enter email Address"
-                                      label="Email Address"
-                                      component={renderField}
-                                      disabled
-                                    />
-                                  </div>
-                                  <div className="form-field flex50">
-                                    <div className="timezone--wrapper">
-                                      <label>Time Zone</label>
-                                      <TimezoneSelect
-                                        name="timezone"
-                                        value={timezone}
-                                        onChange={handleTimeZone}
-                                        labelStyle="Time Zone"
-                                        timezones={{
-                                          ...allTimezones,
-                                          "America/Lima": "Pittsburgh",
-                                          "Europe/Berlin": "Frankfurt",
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
                                   <div className="form-field flex100">
-                                    <Field
-                                      name="intrestedArea"
-                                      label="Interested Area"
-                                      placeholder="Enter interested area"
-                                      suggestions={skillslist}
-                                      component={RenderTagField}
-                                      value={interests}
-                                      dvalue={interests}
-                                    />
+                                    <div className="uploadImageSection mb-2">
+                                      <div className="file-label-image">
+                                        <label>Upload Profile Picture</label>
+                                        <div className="file-upload">
+                                          <input
+                                            name="profileImage"
+                                            id="profileImage"
+                                            accept=".jpg, .jpeg, .png"
+                                            type="file"
+                                            onChange={handleImageChange}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="aws-placeholder image4">
+                                        <img
+                                          src={img.personalInfoImg}
+                                          className="img-aws"
+                                          alt="avtar"
+                                          width={100}
+                                          height={100}
+                                          layout="fill"
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
                                   <div className="form-field flex100 mb-2">
                                     <Field
@@ -797,6 +790,15 @@ const EditProfile = () => {
                                       component={renderField}
                                       placeholder="Enter Address Line 2"
                                       type="text"
+                                    />
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="age"
+                                      label="Age"
+                                      placeholder="Enter age"
+                                      component={renderNumberField}
+                                      pattern="[0-9]*"
                                     />
                                   </div>
                                   <div className="form-field flex50">
@@ -844,114 +846,37 @@ const EditProfile = () => {
                                   </div>
                                   <div className="form-field flex50">
                                     <Field
-                                      name="pin"
-                                      placeholder="Enter pin"
-                                      label="PIN"
+                                      name="phone"
+                                      placeholder="phone"
+                                      label="Phone Number"
+                                      component={renderField}
+                                    ></Field>
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="zipCode"
+                                      placeholder="Enter zip code"
+                                      label="Zip Code"
                                       component={renderNumberField}
                                       pattern="[0-9]*"
                                     />
                                   </div>
                                   <div className="form-field flex50">
-                                    <Field
-                                      name="collegeId"
-                                      label="College"
-                                      component={renderSelect}
-                                      placeholder="Enter college / university name"
-                                      onChange={handleCollege}
-                                    >
-                                      <option value="" disabled>
-                                        Select College
-                                      </option>
-                                      {collegeList &&
-                                        collegeList.length > 0 &&
-                                        collegeList.map((college, i) => (
-                                          <option
-                                            value={college.collegeId}
-                                            key={i}
-                                          >
-                                            {college.name}
-                                          </option>
-                                        ))}
-                                    </Field>
-                                  </div>
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="designation"
-                                      label="Categories of Job"
-                                      component={renderSelect}
-                                      onChange={handleDesignation}
-                                    >
-                                      {designationlist &&
-                                        designationlist.map(
-                                          (designation, i) => (
-                                            <option
-                                              value={designation.id}
-                                              key={i}
-                                            >
-                                              {designation.title}
-                                            </option>
-                                          )
-                                        )}
-                                    </Field>
-                                  </div>
-                                  <div className="form-field flex100">
-                                    <Field
-                                      name="qualificationId"
-                                      label="Qualification"
-                                      component={renderSelect}
-                                      onChange={handleQualification}
-                                    >
-                                      <option value="" disabled>
-                                        Select
-                                      </option>
-                                      {qualificationList &&
-                                        qualificationList.map(
-                                          (qualification, i) => (
-                                            <option
-                                              value={qualification.id}
-                                              key={i}
-                                            >
-                                              {qualification.name}
-                                            </option>
-                                          )
-                                        )}
-                                    </Field>
-                                  </div>
-                                  {inputField && (
-                                    <div className="form-field flex100">
-                                      <Field
-                                        name="qualification"
-                                        // label="Qualification"
-                                        component={renderField}
+                                    <div className="timezone--wrapper">
+                                      <label>Time Zone</label>
+                                      <TimezoneSelect
+                                        name="timezone"
+                                        value={timezone}
+                                        onChange={handleTimeZone}
+                                        labelStyle="Time Zone"
+                                        timezones={{
+                                          ...allTimezones,
+                                          "America/Lima": "Pittsburgh",
+                                          "Europe/Berlin": "Frankfurt",
+                                        }}
                                       />
                                     </div>
-                                  )}
-                                  <div className="form-field flex100">
-                                    <div className="uploadImageSection mb-2">
-                                      <div className="file-label-image">
-                                        <label>Upload Profile</label>
-                                        <div className="file-upload">
-                                          <input
-                                            name="profileImage"
-                                            id="profileImage"
-                                            accept=".jpg, .jpeg, .png"
-                                            type="file"
-                                            onChange={handleImageChange}
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="aws-placeholder image4">
-                                        <img
-                                          src={img.personalInfoImg}
-                                          className="img-aws"
-                                          alt="avtar"
-                                          width={100}
-                                          height={100}
-                                          layout="fill"
-                                        />
-                                      </div>
-                                    </div>
-                                  </div>
+                                  </div> 
                                 </div>
                               </div>
                             </div>
@@ -961,225 +886,305 @@ const EditProfile = () => {
                               <h3>Professional information</h3>
                               <div className="profile-edit-info-list">
                                 <div className="form-field-group">
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="hours"
-                                      placeholder="Hours"
-                                      label="Hours / day"
-                                      component={renderSelect}
-                                    >
-                                      <option value="">Select hours</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                      <option value="6">6</option>
-                                      <option value="7">7</option>
-                                      <option value="8">8</option>
-                                      <option value="9">9</option>
-                                    </Field>
-                                  </div>
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="days"
-                                      label="Days / Week"
-                                      component={renderSelect}
-                                      type="text"
-                                    >
-                                      <option value="">Select days</option>
-                                      <option value="1">1 day</option>
-                                      <option value="2">2 days</option>
-                                      <option value="3">3 days</option>
-                                      <option value="4">4 days</option>
-                                      <option value="5">5 days</option>
-                                    </Field>
-                                  </div>
                                   <div className="form-field flex100">
-                                    <div className="d-flex justify-content-between">
-                                      <div className="form-field flex50">
+                                      <Field
+                                        name="qualificationId"
+                                        label="Qualification"
+                                        component={renderSelect}
+                                        onChange={handleQualification}
+                                      >
+                                        <option value="" disabled>
+                                          Select
+                                        </option>
+                                        {qualificationList &&
+                                          qualificationList.map(
+                                            (qualification, i) => (
+                                              <option
+                                                value={qualification.id}
+                                                key={i}
+                                              >
+                                                {qualification.name}
+                                              </option>
+                                            )
+                                          )}
+                                      </Field>
+                                    </div>
+                                    {/* {inputField && (
+                                      <div className="form-field flex100">
                                         <Field
-                                          name="salary"
-                                          placeholder="Enter expected salary"
-                                          label="Expected Salary"
-                                          component={renderNumberField}
-                                          pattern="[0-9]*"
+                                          name="qualification"
+                                          component={renderField}
                                         />
                                       </div>
-                                      <div className="form-field flex50 inner-multi-field-2">
+                                    )} */}
+                                    <div className="form-field flex100">
+                                      <Field
+                                        name="intrestedArea"
+                                        label="Interested Area"
+                                        placeholder="Enter interested area"
+                                        suggestions={skillslist}
+                                        component={RenderTagField}
+                                        value={interests}
+                                        dvalue={interests}
+                                      />
+                                    </div>
+                                    <div className="form-field flex50">
+                                      <Field
+                                        name="collegeId"
+                                        label="College"
+                                        component={renderSelect}
+                                        placeholder="Enter college / university name"
+                                        onChange={handleCollege}
+                                      >
+                                        <option value="" disabled>
+                                          Select College
+                                        </option>
+                                        {collegeList &&
+                                          collegeList.length > 0 &&
+                                          collegeList.map((college, i) => (
+                                            <option
+                                              value={college.collegeId}
+                                              key={i}
+                                            >
+                                              {college.name}
+                                            </option>
+                                          ))}
+                                      </Field>
+                                    </div>
+                                    <div className="form-field flex50 inner-multi-field-2">
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="experienceInYears"
+                                          component={renderSelect}
+                                          label="Experience in Year"
+                                        >
+                                          <option value="0">0 year</option>
+                                          {[...Array.from(Array(51).keys())]
+                                            .slice(1)
+                                            .map((num, i) => (
+                                              <option key={i} value={num}>
+                                                {num ? num + " year's" : ""}
+                                              </option>
+                                            ))}
+                                        </Field>
+                                      </div>
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="experienceInMonths"
+                                          component={renderSelect}
+                                          label="Experience in Month"
+                                        >
+                                          <option value="0">0 month</option>
+                                          {[...Array.from(Array(12).keys())]
+                                            .slice(1)
+                                            .map((num, i) => (
+                                              <option key={i} value={num}>
+                                                {num ? num + " month's" : ""}
+                                              </option>
+                                            ))}
+                                        </Field>
+                                      </div>
+                                    </div>
+                                    <div className="form-field flex100">
+                                      <div className="d-flex justify-content-between">
                                         <div className="form-field flex50">
                                           <Field
-                                            name="experienceInYears"
-                                            component={renderSelect}
-                                            label="Experience in Year's"
-                                          >
-                                            <option value="0">0 year</option>
-                                            {[...Array.from(Array(51).keys())]
-                                              .slice(1)
-                                              .map((num, i) => (
-                                                <option key={i} value={num}>
-                                                  {num ? num + " year's" : ""}
-                                                </option>
-                                              ))}
-                                          </Field>
+                                            name="salary"
+                                            placeholder="Enter expected salary"
+                                            label="Expected Salary"
+                                            component={renderNumberField}
+                                            pattern="[0-9]*"
+                                          />
                                         </div>
                                         <div className="form-field flex50">
                                           <Field
-                                            name="experienceInMonths"
+                                            name="hours"
+                                            placeholder="Hours"
+                                            label="Hours / week"
                                             component={renderSelect}
-                                            label="Experience in Month's"
                                           >
-                                            <option value="0">0 month</option>
-                                            {[...Array.from(Array(12).keys())]
-                                              .slice(1)
-                                              .map((num, i) => (
-                                                <option key={i} value={num}>
-                                                  {num ? num + " month's" : ""}
-                                                </option>
-                                              ))}
+                                            <option value="">Select hours</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
                                           </Field>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="form-field flex50">
-                                    <label>Working Type</label>
-                                    <div className="radio-button-groupss absolute-error">
+                                    <div className="form-field flex100">
                                       <Field
-                                        name="working"
-                                        value="1"
-                                        component={RenderRadioButtonField}
-                                        type="radio"
-                                        onChange={handleWorkingChange}
-                                        dvalue={working}
-                                        currentIndex="0"
+                                        name="designation"
+                                        label="Categories of Job"
+                                        component={renderField}
+                                        onChange={handleDesignation}
                                       >
-                                        Onsite
-                                      </Field>
-                                      <Field
-                                        name="working"
-                                        value="2"
-                                        component={RenderRadioButtonField}
-                                        type="radio"
-                                        onChange={handleWorkingChange}
-                                        dvalue={working}
-                                        currentIndex="1"
-                                      >
-                                        OffSite
+                                        {/* {designationlist &&
+                                          designationlist.map(
+                                            (designation, i) => (
+                                              <option
+                                                value={designation.id}
+                                                key={i}
+                                              >
+                                                {designation.title}
+                                              </option>
+                                            )
+                                          )} */}
                                       </Field>
                                     </div>
-                                  </div>
-                                  <div className="form-field flex100">
-                                    <label className="d-block">Resume</label>
-                                    <div className="file-upload-placehlder">
-                                      <input
-                                        name="resume"
-                                        uploadlabel="Browse resume file"
-                                        type="file"
-                                        onChange={resumeHandler}
+                                    <div className="form-field flex100">
+                                      <Field
+                                        name="skills"
+                                        label="Skills"
+                                        suggestions={skillslist}
+                                        placeholder="Enter skills"
+                                        component={RenderTagField}
+                                        value={skills}
+                                        dvalue={skills}
                                       />
-                                      <span>Upload Resume</span>
                                     </div>
-                                    <ul className="uploaded-documents">
-                                      <li>
-                                        {resumeName}
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div className="form-field flex100">
-                                    <label className="d-block">
-                                      Extra Certificates
-                                    </label>
-                                    <div className="file-upload-placehlder">
-                                      <input
-                                        name="documents"
-                                        uploadlabel="Browse documents"
-                                        type="file"
-                                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                                        onChange={extraCertificateHandler}
-                                        multiple
-                                      />
-                                      <span>Add Extra Certificates</span>
+                                    <div className="form-field flex50">
+                                      <label>Working Type</label>
+                                      <div className="radio-button-groupss absolute-error">
+                                        <Field
+                                          name="working"
+                                          value="1"
+                                          component={RenderRadioButtonField}
+                                          type="radio"
+                                          onChange={handleWorkingChange}
+                                          dvalue={working}
+                                          currentIndex="0"
+                                        >
+                                          Onsite
+                                        </Field>
+                                        <Field
+                                          name="working"
+                                          value="2"
+                                          component={RenderRadioButtonField}
+                                          type="radio"
+                                          onChange={handleWorkingChange}
+                                          dvalue={working}
+                                          currentIndex="1"
+                                        >
+                                          OffSite
+                                        </Field>
+                                      </div>
                                     </div>
-                                    <ul className="uploaded-documents">
-                                      {previewImg &&
-                                        previewImg.length > 0 &&
-                                        previewImg.map((img, index) => (
-                                          <>
-                                            <li key={index}>
-                                              <div className="change-title">
-                                                <label>
-                                                  {index + 1}. File Title
-                                                </label>
-                                                <div className="d-flex">
-                                                  <input
-                                                    name="title"
-                                                    className="edit-profile-file"
-                                                    onChange={(e) =>
-                                                      handleFormTitleChange(
-                                                        index,
-                                                        e
-                                                      )
-                                                    }
-                                                    value={img.title}
-                                                  />
-                                                  <button className="btn p-0 ms-3">
-                                                    <i
-                                                      className="fa fa-times-circle"
-                                                      aria-hidden="true"
-                                                      style={{
-                                                        cursor: "pointer",
-                                                      }}
-                                                      onClick={() =>
-                                                        manageCertificates(
-                                                          img.id
+                                    <div className="form-field flex100">
+                                      <label className="d-block">Resume</label>
+                                      <div className="file-upload-placehlder">
+                                        <input
+                                          name="resume"
+                                          uploadlabel="Browse resume file"
+                                          type="file"
+                                          onChange={resumeHandler}
+                                        />
+                                        <span>Upload Resume</span>
+                                      </div>
+                                      <ul className="uploaded-documents">
+                                        <li>
+                                          {resumeName}
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    <div className="form-field flex100">
+                                      <label className="d-block">
+                                        Extra Certificates
+                                      </label>
+                                      <div className="file-upload-placehlder">
+                                        <input
+                                          name="documents"
+                                          uploadlabel="Browse documents"
+                                          type="file"
+                                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                          onChange={extraCertificateHandler}
+                                          multiple
+                                        />
+                                        <span>Add Extra Certificates</span>
+                                      </div>
+                                      <ul className="uploaded-documents">
+                                        {previewImg &&
+                                          previewImg.length > 0 &&
+                                          previewImg.map((img, index) => (
+                                            <>
+                                              <li key={index}>
+                                                <div className="change-title">
+                                                  <label>
+                                                    {index + 1}. File Title
+                                                  </label>
+                                                  <div className="d-flex">
+                                                    <input
+                                                      name="title"
+                                                      className="edit-profile-file"
+                                                      onChange={(e) =>
+                                                        handleFormTitleChange(
+                                                          index,
+                                                          e
                                                         )
                                                       }
+                                                      value={img.title}
                                                     />
-                                                    <span className="btn btn-edit p-0 ps-3">
+                                                    <button className="btn p-0 ms-3">
                                                       <i
-                                                        className="fa fa-edit"
+                                                        className="fa fa-times-circle"
                                                         aria-hidden="true"
                                                         style={{
                                                           cursor: "pointer",
                                                         }}
                                                         onClick={() =>
-                                                          editCertificates(
-                                                            img.id,
-                                                            img.title
+                                                          manageCertificates(
+                                                            img.id
                                                           )
                                                         }
                                                       />
-                                                    </span>
-                                                  </button>
+                                                      <span className="btn btn-edit p-0 ps-3">
+                                                        <i
+                                                          className="fa fa-edit"
+                                                          aria-hidden="true"
+                                                          style={{
+                                                            cursor: "pointer",
+                                                          }}
+                                                          onClick={() =>
+                                                            editCertificates(
+                                                              img.id,
+                                                              img.title
+                                                            )
+                                                          }
+                                                        />
+                                                      </span>
+                                                    </button>
+                                                  </div>
                                                 </div>
-                                              </div>
-                                              <div className="uploaded-file-name py-1">
-                                                <span>{img.certificates}</span>
-                                              </div>
-                                            </li>
-                                          </>
-                                        ))}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                          <section className="profile-information-view">
-                            <div className="profile-information-coll">
-                              <h3>Skill</h3>
-                              <div className="form-field-group">
-                                <div className="form-field flex100">
-                                  <Field
-                                    name="skills"
-                                    label="Skills"
-                                    suggestions={skillslist}
-                                    placeholder="Enter skills"
-                                    component={RenderTagField}
-                                    value={skills}
-                                    dvalue={skills}
-                                  />
+                                                <div className="uploaded-file-name py-1">
+                                                  <span>{img.certificates}</span>
+                                                </div>
+                                              </li>
+                                            </>
+                                          ))}
+                                      </ul>
+                                    </div>
+                                    <div className="form-field flex100">
+                                      <label className="d-block">Cover Letter</label>
+                                      <div className="file-upload-placehlder">
+                                        <input
+                                          name="coverLetter"
+                                          uploadlabel="Browse Cover Letter file"
+                                          type="file"
+                                          onChange={resumeHandler}
+                                        />
+                                        <span>Upload Cover Letter</span>
+                                      </div>
+                                      {/* <ul className="uploaded-documents">
+                                        <li>
+                                          {resumeName}
+                                        </li>
+                                      </ul> */}
+                                    </div>
                                 </div>
                               </div>
                             </div>
