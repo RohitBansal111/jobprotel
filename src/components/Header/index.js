@@ -384,6 +384,9 @@ const Header = () => {
                 {userData && userData.fullName && userData.fullName}
                 <img
                   src={profilePic ? profilePic : companyLogo}
+                  onError={event => {
+                    event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                  }}
                   alt="User Profile"
                 />
               </button>

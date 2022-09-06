@@ -141,6 +141,9 @@ const FindWork = () => {
                           src={
                             studentProfilePic ? studentProfilePic : UserAvtar
                           }
+                          onError={event => {
+                            event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                          }}
                           alt="user profile"
                         />
                       </span>
@@ -339,26 +342,92 @@ const FindWork = () => {
                       </p>
                     )}
                   </div>
-                  <div className="default-feeds-search">
-                    {loading ? (
-                      <div className="search-data-loader mb-4">
-                        <Loader />
+                  <div
+                      className="nav nav-tabs"
+                      id="nav-tab"
+                      role="tablist"
+                    >
+                      <button
+                        className="nav-link active"
+                        id="nav-all-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#nav-all"
+                        type="button"
+                        role="tab"
+                        aria-controls="nav-all"
+                        aria-selected="true"
+                      >
+                        All
+                      </button>
+                      <button
+                        className="nav-link"
+                        id="nav-recommended-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#nav-recommended"
+                        type="button"
+                        role="tab"
+                        aria-controls="nav-recommended"
+                        aria-selected="false"
+                      >
+                        Recommended
+                      </button>
+                    </div>
+                    <div className="tab-content" id="nav-tabContent">
+                      <div
+                        className="tab-pane fade show active"
+                        id="nav-all"
+                        role="tabpanel"
+                        aria-labelledby="nav-all-tab"
+                      >
+                        <div className="default-feeds-search">
+                          {loading ? (
+                            <div className="search-data-loader mb-4">
+                              <Loader />
+                            </div>
+                          ) : jobList?.length === 0 ? (
+                            <h4>No jobs found</h4>
+                          ) : (
+                            jobList?.length > 0 &&
+                            jobList.map((jobs, index) => (
+                              <PostedJobCard
+                                jobs={jobs}
+                                key={index}
+                                getJobList={getJobList}
+                                activePage={activePage}
+                                type="find"
+                              />
+                            ))
+                          )}
+                        </div>
                       </div>
-                    ) : jobList?.length === 0 ? (
-                      <h4>No jobs found</h4>
-                    ) : (
-                      jobList?.length > 0 &&
-                      jobList.map((jobs, index) => (
-                        <PostedJobCard
-                          jobs={jobs}
-                          key={index}
-                          getJobList={getJobList}
-                          activePage={activePage}
-                          type="find"
-                        />
-                      ))
-                    )}
-                  </div>
+                      <div
+                        className="tab-pane fade"
+                        id="nav-recommended"
+                        role="tabpanel"
+                        aria-labelledby="nav-recommended-tab"
+                      >
+                        <div className="default-feeds-search">
+                          {loading ? (
+                            <div className="search-data-loader mb-4">
+                              <Loader />
+                            </div>
+                          ) : jobList?.length === 0 ? (
+                            <h4>No jobs found</h4>
+                          ) : (
+                            jobList?.length > 0 &&
+                            jobList.map((jobs, index) => (
+                              <PostedJobCard
+                                jobs={jobs}
+                                key={index}
+                                getJobList={getJobList}
+                                activePage={activePage}
+                                type="find"
+                              />
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   {totalRecords > 5 && (
                     <Pagination
                       activePage={activePage}

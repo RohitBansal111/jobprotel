@@ -119,6 +119,7 @@ section.complete-kyc {
               height: 128px;
               display: block;
               margin: auto;
+              padding: 0px;
               img {
                 display: block;
                 width: 128px;
@@ -360,6 +361,26 @@ section.complete-kyc {
 }
 .search-feeds-section {
   margin-top: 30px;
+  .nav-tabs{
+    margin-bottom: 15px;
+    .nav-link{
+      font-size: 14px;
+      color: #576967;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      margin-bottom: 0px !important;
+      &:hover{
+        border-color: transparent;
+        margin-bottom: 0px !important;
+      }
+      &.active{
+        color: $Theme-primary;
+        border: none;
+        background-color: transparent;
+        border-bottom: 2px solid $Theme-primary;
+      }
+    }
+  }
   .feed-title {
     display: flex;
     align-items: center;
