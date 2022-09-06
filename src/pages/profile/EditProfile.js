@@ -1179,11 +1179,6 @@ const EditProfile = () => {
                                         />
                                         <span>Upload Cover Letter</span>
                                       </div>
-                                      {/* <ul className="uploaded-documents">
-                                        <li>
-                                          {resumeName}
-                                        </li>
-                                      </ul> */}
                                     </div>
                                 </div>
                               </div>
