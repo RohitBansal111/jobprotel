@@ -4,22 +4,21 @@ import toast from "toastr";
 
 export const login = (user, navigate) => {
   let data = {
-    userName: user?.userName,
-    password: user?.password.trim(),
+    userName: user.userName,
+    password: user.password.trim(),
   };
   toast.options = { preventDuplicates: true };
   return async (dispatch) => {
     try {
       let resp = await loginUser(data);
-
-      if (resp.status === 200) {
+      if (resp.status == 200) {
         const response = resp.data.data.result;
         if (resp.data.userToken) {
           localStorage.setItem("jobPortalUserToken", resp.data.userToken);
           localStorage.setItem("jobPortalUser", JSON.stringify(response));
         }
 
-        if (resp.status === 200 && response.roles === "Student") {
+        if (resp.status == 200 && response.roles == "Student") {
           toast.success("Login Successfully");
           let item = localStorage.getItem("jobInvitation");
           let inviteData = JSON.parse(item);
