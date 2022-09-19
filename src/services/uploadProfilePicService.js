@@ -1,12 +1,12 @@
 import axios from "axios";
 
-export const uploadPicture = async (Image) => {
+export const uploadPicture = async (data) => {
   try {
     let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.post(
       `${process.env.REACT_APP_PUBLIC_API_URL}/Image/AddEditImage`,
-      {Image:Image},
+      data,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

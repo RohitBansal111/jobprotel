@@ -25,11 +25,14 @@ const Profile = () => {
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
   const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
+  const [callCertificate, setCallCertificate] = useState(false);
+  const [certificateName, setCertificateName] = useState("");
 
   const handleBuyConnect = () => setShowBuyConnectModal(true);
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
+  const [skills, setSkills] = useState([]);
 
   const [empDetails, setEmpDetails] = useState([]);
 
@@ -46,6 +49,7 @@ const Profile = () => {
   const [extraCertificate, setExtraCertificateData] = useState([]);
   const [editCertificate, setEditCertificate] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
+
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
@@ -56,7 +60,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::");
+      console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -69,9 +73,13 @@ const Profile = () => {
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
       );
 
-      let interests = response.interests;
+      let interests = response?.interests;
       interests = response?.studentDetails?.interests.split(",");
       setInterests(interests);
+
+      let skill = response?.skills;
+      skill = response?.studentDetails?.skills.split(",");
+      setSkills(skill);
     }
   };
 
@@ -107,6 +115,7 @@ const Profile = () => {
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
       setId(authData.id);
+      getExtraCertificate(authData.id);
     }
   }, [authData]);
 
@@ -235,7 +244,93 @@ const Profile = () => {
     let data = [...extraCertificate];
     data[index][event.target.name] = event.target.value;
     setExtraCertificateData(data);
+    setPreviewImg(data);
   };
+
+  const extraCertificateHandler = async (event) => {
+    let files = event.target.files[0];
+
+    // if (files?.length > 0) {
+    let obj = {
+      title: files.name.split(".").slice(0, -1).join("."),
+      certificates: files,
+    };
+    setCertificateName(obj.title);
+    let formData = new FormData();
+    formData.append("studentId", authData.id);
+    formData.append(`title`, obj.title);
+    formData.append(`file`, obj.certificates);
+
+    if (authData) {
+      const resp = await studentExtraCertificate.postExtraCertificates(
+        formData
+      );
+      if (resp.status == 200) {
+        setCallCertificate(true);
+        toast.success(resp.data.message && resp.data.message);
+      }
+    }
+    // }
+    // let arr = [];
+    // if (files?.length > 0) {
+    //   for (let i = 0; i < files.length; i++) {
+    //     let obj = {
+    //       title: files[i].name.split(".").slice(0, -1).join("."),
+    //       certificates: files[i],
+    //     };
+
+    //     arr.push(obj);
+    //   }
+    // }
+    // console.log(arr, "::arr");
+
+    // if (arr?.length > 0) {
+    //   let formData = new FormData();
+    //   formData.append("studentId", authData.id);
+    //   for (let i = 0; i < arr.length; i++) {
+    //     formData.append(`title [${i}]`, arr[i].title);
+    //     formData.append(`file [${i}]`, arr[i].certificates);
+    //   }
+    //   if (authData) {
+    //     const resp = await studentExtraCertificate.postExtraCertificates(
+    //       formData
+    //     );
+    //     if (resp.status == 200) {
+    //       setCallCertificate(true);
+    //     }
+    //   }
+    // }
+  };
+
+  const manageCertificates = async (id) => {
+    const resp = await studentExtraCertificate.deleteExtraCertificates(id);
+    if (resp.status === 200) {
+      let arr = [];
+      previewImg
+        .filter((image) => image.id !== id)
+        .map((image) => arr.push(image));
+      setPreviewImg(arr);
+      getExtraCertificate(authData.id);
+    }
+  };
+
+  const getExtraCertificate = async (id) => {
+    const resp = await studentExtraCertificate.getExtraCertificates(id);
+    let response = resp.data?.data?.result;
+    if (resp.status === 200 && response.length > 0) {
+      let arr = [];
+      response.map((resp) => {
+        let obj = {
+          title: resp.title.split(".").slice(0, 1).join("."),
+          certificates: resp.filePath,
+          id: resp.id,
+        };
+        arr.push(obj);
+      });
+      setPreviewImg(arr);
+    }
+  };
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -290,9 +385,11 @@ const Profile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img 
-                          src={studentProfilePic ? studentProfilePic : UserAvtar} 
-                          alt="user profile" 
+                        <img
+                          src={
+                            studentProfilePic ? studentProfilePic : UserAvtar
+                          }
+                          alt="user profile"
                         />
                       </span>
                     </div>
@@ -407,7 +504,6 @@ const Profile = () => {
                               <span className="plabel">Address </span>
                               <span className="result">
                                 {studentData?.studentDetails?.address}
-                                {studentData?.studentDetails?.cityName}
                               </span>
                             </li>
                             <li>
@@ -432,23 +528,39 @@ const Profile = () => {
                             </li>
                             <li>
                               <span className="plabel">Country</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails?.countryResponse
+                                    ?.countryName
+                                }
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">State</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails?.stateResponse
+                                    ?.stateName
+                                }
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">City</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.cityName}
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">Phone Number</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.phoneNumber}
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">Pincode</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.postalCode}
+                              </span>
                             </li>
                             <li>
                               {console.log("qwer", studentData)}
@@ -471,13 +583,18 @@ const Profile = () => {
                         </div>
                         <div className="profile-info-list">
                           <ul className="info-list-li">
-                          <li>
+                            <li>
                               <span className="plabel">Qualification</span>{" "}
                               <span className="result">
                                 {
                                   studentData?.studentDetails
                                     ?.qualificationResponse?.qualificationName
                                 }
+
+                                {studentData?.studentDetails
+                                  ?.qualificationResponse?.qualificationName ==
+                                  "Other" &&
+                                  ` ( ${studentData?.studentDetails?.qualificationName} ) `}
                               </span>
                             </li>
                             <li>
@@ -496,17 +613,28 @@ const Profile = () => {
                             </li>
                             <li>
                               <span className="plabel">College</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {
+                                  studentData?.studentDetails?.collegeResponse
+                                    ?.collegeName
+                                }
+                              </span>
                             </li>
                             <li>
-                              <span className="plabel"> Experience In Year</span>{" "}
+                              <span className="plabel">
+                                {" "}
+                                Experience In Year
+                              </span>{" "}
                               <span className="result">
                                 {studentData?.studentDetails?.experienceInYears}{" "}
                                 Years{" "}
                               </span>
                             </li>
                             <li>
-                              <span className="plabel"> Experience In Months</span>{" "}
+                              <span className="plabel">
+                                {" "}
+                                Experience In Months
+                              </span>{" "}
                               <span className="result">
                                 {
                                   studentData?.studentDetails
@@ -517,21 +645,32 @@ const Profile = () => {
                             </li>
                             <li>
                               <span className="plabel">Expected Salary</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.expectedSalary}
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">Hours / Week</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workHoursPerDay}
+                                {studentData?.studentDetails?.workHoursPerWeek}
                               </span>
                             </li>
                             <li>
                               <span className="plabel">Catagory of Job</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.categoryOfJob}
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">Skills</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {skills?.length > 0 &&
+                                  skills.map((skill, index) => (
+                                    <li key={index}>
+                                      <Link to="#">{skill}</Link>
+                                    </li>
+                                  ))}
+                              </span>
                             </li>
                             <li>
                               <span className="plabel">Working Type</span>{" "}
@@ -677,7 +816,9 @@ const Profile = () => {
                             </li>
                             <li>
                               <span className="plabel">Cover Letter</span>{" "}
-                              <span className="result"></span>
+                              <span className="result">
+                                {studentData?.studentDetails?.coverLetter}
+                              </span>
                             </li>
                           </ul>
                         </div>
@@ -883,6 +1024,78 @@ const Profile = () => {
                             <div className="project-pagination"></div>
                           </div>
                         </div>
+                      </div>
+                    </section>
+
+                    <section className="profile-information-view">
+                      <div className="form-field flex100">
+                        <label className="d-block">Extra Certificates</label>
+                        <div className="file-upload-placehlder">
+                          <input
+                            name="documents"
+                            uploadlabel="Browse documents"
+                            type="file"
+                            accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                            onChange={extraCertificateHandler}
+                            // multiple
+                          />
+                          <span>Add Extra Certificates</span>
+                        </div>
+                        <ul>
+                          <li>{certificateName}</li>
+                        </ul>
+                        <ul className="uploaded-documents">
+                          {/* {extraCertificate?.length > 0 &&
+                            extraCertificate.map((img, index) => (
+                              <>
+                                <li key={index}>
+                                  <div className="change-title">
+                                    <label>{index + 1}. File Title</label>
+                                    <div className="d-flex">
+                                      <input
+                                        name="title"
+                                        className="edit-profile-file"
+                                        onChange={(e) =>
+                                          handleFormTitleChange(index, e)
+                                        }
+                                        value={img.title}
+                                      />
+                                      <button className="btn p-0 ms-3">
+                                        <i
+                                          className="fa fa-times-circle"
+                                          aria-hidden="true"
+                                          style={{
+                                            cursor: "pointer",
+                                          }}
+                                          onClick={() =>
+                                            manageCertificates(img.id)
+                                          }
+                                        />
+                                        <span className="btn btn-edit p-0 ps-3">
+                                          <i
+                                            className="fa fa-edit"
+                                            aria-hidden="true"
+                                            style={{
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() =>
+                                              editCertificates(
+                                                img.id,
+                                                img.title, index
+                                              )
+                                            }
+                                          />
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div className="uploaded-file-name py-1">
+                                    <span>{img.certificates}</span>
+                                  </div>
+                                </li>
+                              </>
+                            ))} */}
+                        </ul>
                       </div>
                     </section>
                   </>

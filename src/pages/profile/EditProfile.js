@@ -225,7 +225,7 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      console.log(resp, ":::");
+      // console.log(resp, ":::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
@@ -391,9 +391,9 @@ const EditProfile = () => {
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
 
-    if (img?.personalInfoImg?.length > 1000) {
-      formData.append("profileImage", img.personalInfoImg);
-    }
+    // if (img?.personalInfoImg?.length > 1000) {
+    //   formData.append("profileImage", img.personalInfoImg);
+    // }
 
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
@@ -454,12 +454,13 @@ const EditProfile = () => {
     formData.append("expectedSalary", values.salary);
     formData.append("phoneNumber", values.phone);
     formData.append("workHoursPerWeek", values.hours);
-    formData.append("timezone", JSON.stringify(timezone));
+    // formData.append("timezone", JSON.stringify(timezone));
     if (values.working == 1) {
       formData.append("workingTypes", values.working);
       formData.append("location", values.location);
     } else {
       formData.append("workingTypes", values.working);
+      formData.append("timezone", JSON.stringify(timezone));
     }
     if (!updatedResumeName) {
       formData.append("resumeFile", resumeFile);
@@ -569,11 +570,25 @@ const EditProfile = () => {
   };
 
   const postPicture = async () => {
-    let Image = img.personalInfoImg;
-    console.log(Image, ":::::")
-    const resp = await uploadPicture(Image);
-    console.log(resp, ":::");
+    let image = img.personalInfoImg;
+    let imageData = {
+      userId: authData.id,
+      image,
+    };
+    const resp = await uploadPicture(imageData);
+    if (resp.status == 200) {
+      const resp2 = await studentServices.getStudentDetails(id);
+      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
+      if (resp2.status == 200) {
+        dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: resp2.data.data,
+          token: localStorage.getItem("jobPortalUserToken"),
+        });
+      }
+    }
   };
+
   useEffect(() => {
     if (img?.personalInfoImg?.includes("base64")) {
       postPicture();
@@ -785,36 +800,34 @@ const EditProfile = () => {
                       {studentData?.email}
                     </p>
                   </div>
-                  {/* <div className="profile-strength">
-                      <div className="profile-strength-inner">
-                        <h3>
-                          Profile strength:{" "}
-                          <span className="profile-completed">
-                            60% Completed
-                          </span>
-                        </h3>
-                        <div className="profile-strength-bar">
-                          <p
-                            className="profile-progress"
-                            style={{ width: "60%" }}
-                          ></p>
-                          <div className="profile-complete-bar">
-                            <span
-                              className="complete-bar completed"
-                              style={{ left: "25%" }}
-                            ></span>
-                            <span
-                              className="complete-bar completed"
-                              style={{ left: "50%" }}
-                            ></span>
-                            <span
-                              className="complete-bar"
-                              style={{ left: "75%" }}
-                            ></span>
-                          </div>
+                  <div className="profile-strength">
+                    {/* <div className="profile-strength-inner">
+                      <h3>
+                        Profile strength:{" "}
+                        <span className="profile-completed">60% Completed</span>
+                      </h3>
+                      <div className="profile-strength-bar">
+                        <p
+                          className="profile-progress"
+                          style={{ width: "60%" }}
+                        ></p>
+                        <div className="profile-complete-bar">
+                          <span
+                            className="complete-bar completed"
+                            style={{ left: "25%" }}
+                          ></span>
+                          <span
+                            className="complete-bar completed"
+                            style={{ left: "50%" }}
+                          ></span>
+                          <span
+                            className="complete-bar"
+                            style={{ left: "75%" }}
+                          ></span>
                         </div>
                       </div>
                     </div> */}
+                  </div>
                 </div>
                 <ImageCropperModal
                   closeModal={closeModal}
@@ -891,7 +904,7 @@ const EditProfile = () => {
                                     </div>
                                   </div>
                                   <div className="form-field flex100">
-                                    <div className="uploadImageSection mb-2">
+                                    {/* <div className="uploadImageSection mb-2">
                                       <div className="file-label-image">
                                         <label>Upload Profile Picture</label>
                                         <div className="file-upload">
@@ -918,7 +931,7 @@ const EditProfile = () => {
                                           layout="fill"
                                         />
                                       </div>
-                                    </div>
+                                    </div> */}
                                   </div>
                                   <div className="form-field flex100 mb-2">
                                     <Field
@@ -1017,7 +1030,7 @@ const EditProfile = () => {
                                     />
                                   </div>
                                   <div className="form-field flex50">
-                                    <div className="timezone--wrapper">
+                                    {/* <div className="timezone--wrapper">
                                       <label>Time Zone</label>
                                       <TimezoneSelect
                                         name="timezone"
@@ -1030,7 +1043,7 @@ const EditProfile = () => {
                                           "Europe/Berlin": "Frankfurt",
                                         }}
                                       />
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>
@@ -1072,6 +1085,28 @@ const EditProfile = () => {
                                       />
                                     </div>
                                   )}
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="startDate"
+                                      label="Start Date"
+                                      placeholder="Enter start date"
+                                      component={renderField}
+                                      type="date"
+                                    />
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="endDate"
+                                      label="End Date"
+                                      placeholder="Enter end date"
+                                      component={renderField}
+                                      type="date"
+                                      min={values?.startDate}
+                                      disabled={
+                                        !values.startDate ? true : false
+                                      }
+                                    />
+                                  </div>
                                   <div className="form-field flex100">
                                     <Field
                                       name="intrestedArea"
@@ -1113,28 +1148,6 @@ const EditProfile = () => {
                                       />
                                     </div>
                                   )}
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="startDate"
-                                      label="Start Date"
-                                      placeholder="Enter start date"
-                                      component={renderField}
-                                      type="date"
-                                    />
-                                  </div>
-                                  <div className="form-field flex50">
-                                    <Field
-                                      name="endDate"
-                                      label="End Date"
-                                      placeholder="Enter end date"
-                                      component={renderField}
-                                      type="date"
-                                      min={values?.startDate}
-                                      disabled={
-                                        !values.startDate ? true : false
-                                      }
-                                    />
-                                  </div>
                                   {/* <div className="form-field flex50 inner-multi-field-2"> */}
                                   <div className="form-field flex50">
                                     <Field
@@ -1211,7 +1224,7 @@ const EditProfile = () => {
                                   <div className="form-field flex100">
                                     <Field
                                       name="categoryOfJob"
-                                      label="Categories of Job"
+                                      label="Category of Job"
                                       component={renderField}
                                       onChange={handleDesignation}
                                     />
@@ -1254,7 +1267,7 @@ const EditProfile = () => {
                                       </Field>
                                     </div>
                                   </div>
-                                  {locationCheck && (
+                                  {locationCheck ? (
                                     <div className="form-field flex100">
                                       <Field
                                         name="location"
@@ -1262,6 +1275,23 @@ const EditProfile = () => {
                                         placeholder="Enter job location"
                                         component={renderField}
                                       />
+                                    </div>
+                                  ) : (
+                                    <div className="form-field flex100">
+                                      <div className="timezone--wrapper">
+                                        <label>Time Zone</label>
+                                        <TimezoneSelect
+                                          name="timezone"
+                                          value={timezone}
+                                          onChange={handleTimeZone}
+                                          labelStyle="Time Zone"
+                                          timezones={{
+                                            ...allTimezones,
+                                            "America/Lima": "Pittsburgh",
+                                            "Europe/Berlin": "Frankfurt",
+                                          }}
+                                        />
+                                      </div>{" "}
                                     </div>
                                   )}
                                   <div className="form-field flex100">
@@ -1284,7 +1314,7 @@ const EditProfile = () => {
                                     </ul>
                                   </div>
                                   <div className="form-field flex100">
-                                    <label className="d-block">
+                                    {/* <label className="d-block">
                                       Extra Certificates
                                     </label>
                                     <div className="file-upload-placehlder">
@@ -1357,7 +1387,7 @@ const EditProfile = () => {
                                             </li>
                                           </>
                                         ))}
-                                    </ul>
+                                    </ul> */}
                                   </div>
                                   <div className="form-field flex100">
                                     <label className="d-block">
