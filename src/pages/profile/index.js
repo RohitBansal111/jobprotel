@@ -110,7 +110,7 @@ const Profile = () => {
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData);
+      console.log(authData, "::::");
       getStudentData(authData.id);
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
@@ -156,6 +156,7 @@ const Profile = () => {
     }, 1000);
     // }
   }, []);
+
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
@@ -170,6 +171,7 @@ const Profile = () => {
       return "N/A";
     }
   };
+
   const viewTextChange = (id) => {
     const btn = document.getElementById(id);
     btn.innerHTML = btn.textContent == "View More" ? "View Less" : "View More";
