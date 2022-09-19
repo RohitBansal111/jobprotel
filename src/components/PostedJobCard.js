@@ -19,7 +19,7 @@ import * as studentServices from "../services/studentServices";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
+const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
@@ -182,7 +182,14 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => applyJob()}
+                  onClick={() => {
+                    if(userdata?.studentDetails?.isProfileCompleted){
+                      applyJob()
+                    }else{
+                      toast.error("Profile is not Completed");
+                    }
+                    
+                  }}
                 >
                   Apply Now
                 </button>

@@ -144,6 +144,7 @@ const PostedJobModal = ({ id }) => {
       navigate(`/suggestion/${resp.data.data.jobId}`);
     } else if (resp.status == 400) {
       setLoading(false);
+
       toast.error("Something went wrong");
     }
   };

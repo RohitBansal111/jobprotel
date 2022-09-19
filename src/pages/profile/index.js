@@ -342,7 +342,9 @@ const Profile = () => {
                   <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
                   is pending, please click on button and complete your KYC{" "}
                 </p>
-                <button
+                {authData?.studentDetails?.isProfileCompleted ? (
+                  <>
+                       <button
                   type="button"
                   className="btn submit-kyc"
                   data-bs-toggle="modal"
@@ -351,6 +353,15 @@ const Profile = () => {
                   Complete KYC
                 </button>
                 <CompleteKycModal studentData={studentData} />
+                  </>
+                ) : (
+                  <button type="button" className="btn submit-kyc" onClick={()=>{
+                    toast.error("Profile is not Completed");
+                  }}>
+                    Complete KYC
+                  </button>
+                )}
+            
               </div>
             )}
             {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
