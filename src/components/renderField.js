@@ -266,13 +266,21 @@ export const rendercheckbox = ({
   checked,
   meta: { touched, error, warning },
   onError,
+  onChange
 }) => {
+  const inputProps = {
+    ...input,
+    onChange: (e) => {
+      input.onChange(e);
+      onChange && onChange(e);
+    },
+  };
   return (
     <div className="field-render-main">
       <label className="cursor-pointer">
         <input
           type="checkbox"
-          {...input}
+          {...inputProps}
           name={name}
           className="checkboxInput"
         />

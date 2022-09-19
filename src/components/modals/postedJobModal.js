@@ -10,6 +10,7 @@ import {
   renderNumberField,
   RenderRadioButtonField,
   renderRangeField,
+  rendercheckbox,
 } from "./../renderField";
 import validate from "./validators/postedJobValidator";
 import * as dropdownServices from "../../services/dropDownServices";
@@ -64,6 +65,7 @@ const PostedJobModal = ({ id }) => {
   };
 
   const [showTimeZone, setShowTimeZone] = useState(false);
+  const [checkinvites, setCheckInvites] = useState(false);
   useMemo(() => {
     const timezoneValue = timezone.value ?? timezone;
     setDatetime(datetime.goto(timezoneValue));
@@ -120,6 +122,7 @@ const PostedJobModal = ({ id }) => {
         timeZone: showTimeZone ? timezone : timezone2,
         employerId: id,
         salary: sal,
+        checkinvites:checkinvites,
         // timing: "2-4",
         experienceInYears: values.experienceInYears
           ? values.experienceInYears
@@ -136,7 +139,6 @@ const PostedJobModal = ({ id }) => {
   const postJob = async (data) => {
     // debugger
     const resp = await jobServies.jobPost(data);
-    console.log(resp);
     // redirect on success
     if (resp.status == 200) {
       setLoading(false);
@@ -144,8 +146,8 @@ const PostedJobModal = ({ id }) => {
       navigate(`/suggestion/${resp.data.data.jobId}`);
     } else if (resp.status == 400) {
       setLoading(false);
-
-      toast.error("Something went wrong");
+      toast.error(resp.error || "Something went wrong");
+      document.getElementById("postedJob").click();
     }
   };
 
@@ -187,6 +189,9 @@ const PostedJobModal = ({ id }) => {
       setShowTimeZone(false);
       setTimezone2(value);
     }
+  };
+  const handleCheckBoxInvites = (e) => {
+    setCheckInvites(e.target.checked)
   };
 
   return (
@@ -425,6 +430,16 @@ const PostedJobModal = ({ id }) => {
                           value={sal}
                         />
                         <p>$ {sal && sal}</p>
+                      </div>
+                      <div className="form-field flex100">
+                        <Field
+                          label="Make This Job Available for invites"
+                          name="checkinvites"
+                          component={rendercheckbox}
+                          onChange={handleCheckBoxInvites}
+                          checked={checkinvites}
+                        />
+                         
                       </div>
                       <div className="form-field flex100">
                         <Field
