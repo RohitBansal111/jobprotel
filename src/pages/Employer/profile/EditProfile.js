@@ -296,21 +296,21 @@ const EmployerEditProfile = () => {
                                 />
                               </div>
                               <div className="form-field flex100">
-                                <div className="form-field flex100">
+                                {/* <div className="form-field flex100">
                                   <Field
                                     name="uploadPhoto2"
                                     label="Photo"
                                     component={RenderImageField}
                                     type="file"
                                   />
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
                         </div>
                       </section>
                       <section className="profile-information-view">
-                        <div className="profile-information-coll">
+                        {/* <div className="profile-information-coll">
                           <h3>Professional information</h3>
                           <div className="profile-edit-info-list">
                             <div className="form-field-group">
@@ -371,9 +371,9 @@ const EmployerEditProfile = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </section>
-                      <section className="profile-information-view">
+                      {/* <section className="profile-information-view">
                         <div className="profile-information-coll">
                           <h3>Skill</h3>
                           <div className="profile-edit-info-list">
@@ -443,7 +443,7 @@ const EmployerEditProfile = () => {
                             </div>
                           </div>
                         </div>
-                      </section>
+                      </section> */}
                       <div className="form-field flex100 mb-5 d-flex justify-content-end">
                         <button
                           type="button"
