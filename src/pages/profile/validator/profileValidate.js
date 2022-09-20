@@ -52,13 +52,29 @@ const ProfileValidate = (values) => {
   // if(!values.experienceInYears){
   //      error.experienceInYears = "Required experience in years"
   // }
-  if (values.working == 0) {
+  if (!values.working) {
     error.working = "Required Working Type";
   }
   if (values.working == 1) {
     if (!values.location) {
       error.location = "Required Working Location";
     }
+  } else if (values.working == 2) {
+    if (!values.timezone) {
+      error.timezone = "Required Time-Zone";
+    }
+  }
+  if (!values.courseStatus) {
+    error.courseStatus = "Required Status";
+  }
+  if (values.courseStatus == "ongoing" && !values.startDate) {
+    error.startDate = "Required  College start-date";
+  }
+  if (values.courseStatus == "completed" && !values.endDate) {
+    error.endDate = "Required College end-date";
+  }
+  if (values.courseStatus == "completed" && !values.startDate) {
+    error.startDate = "Required College start-date";
   }
   if (!values.categoryOfJob) {
     error.categoryOfJob = "Required Category Of Job";
@@ -67,15 +83,19 @@ const ProfileValidate = (values) => {
     error.collegeId = "Required college/university";
   }
   if (
-     values.collegeId == "d5436e27-34e0-11ed-984a-068f5cec9f16" && !values.collegeOthers ||
-     values.collegeId == "be1ef22b-34e0-11ed-984a-068f5cec9f16"&& !values.collegeOthers||
-     values.collegeId == "b0b26c3a-34e0-11ed-984a-068f5cec9f16"&& !values.collegeOthers ||
-     values.collegeId == "cab1eccd-34e0-11ed-984a-068f5cec9f16"&& !values.collegeOthers||
-     values.collegeId == "a6032bdf-34e0-11ed-984a-068f5cec9f16" &&
-     !values.collegeOthers
-   ) {
+    (values.collegeId == "d5436e27-34e0-11ed-984a-068f5cec9f16" &&
+      !values.collegeOthers) ||
+    (values.collegeId == "be1ef22b-34e0-11ed-984a-068f5cec9f16" &&
+      !values.collegeOthers) ||
+    (values.collegeId == "b0b26c3a-34e0-11ed-984a-068f5cec9f16" &&
+      !values.collegeOthers) ||
+    (values.collegeId == "cab1eccd-34e0-11ed-984a-068f5cec9f16" &&
+      !values.collegeOthers) ||
+    (values.collegeId == "a6032bdf-34e0-11ed-984a-068f5cec9f16" &&
+      !values.collegeOthers)
+  ) {
     error.collegeOthers = "Required college/university";
-   }
+  }
   if (!values.qualificationId) {
     error.qualificationId = "Required qualification";
   }
@@ -90,13 +110,6 @@ const ProfileValidate = (values) => {
     error.skills = "Required Skills";
   }
 
-  if (!values.startDate) {
-     error.startDate = "Required College Start Date";
-   }
-
-   if (!values.endDate) {
-     error.endDate = "Required College End Date";
-   }
   return error;
 };
 

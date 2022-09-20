@@ -92,6 +92,7 @@ const EditProfile = () => {
   const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
   const [locationCheck, setLocationCheck] = useState(false);
+  const [courseStatus, setCourseStatus] = useState(false);
 
   const resumeHandler = (e) => {
     const files = e.target.files[0];
@@ -404,8 +405,12 @@ const EditProfile = () => {
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
-    formData.append("startDate", values.startDate);
-    formData.append("endDate", values.endDate);
+    if(values.courseStatus == "ongoing") {
+      formData.append("startDate", values.startDate);
+    }else if(values.courseStatus == "completed") {
+      formData.append("startDate", values.startDate);
+      formData.append("endDate", values.endDate);
+    }
 
     if (values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       formData.append("qualification", values.qualification);
@@ -640,6 +645,11 @@ const EditProfile = () => {
     setCollegelist2(arr);
   };
 
+  const handleCourseStatus = (e)=> {
+    console.log(e.target.value, ':::::')
+    setCourseStatus(true);
+}
+
   useEffect(() => {
     handleCollegeList();
   }, [collegeList]);
@@ -701,8 +711,6 @@ const EditProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        {/* <img src={studentProfilePic} alt="user profile" /> */}
-
                         <img
                           src={
                             img.personalInfoImg
@@ -1085,7 +1093,32 @@ const EditProfile = () => {
                                       />
                                     </div>
                                   )}
-                                  <div className="form-field flex50">
+                                  <div className="form-field flex100">
+                                    <label>Course Status</label>
+                                    <div className="radio-button-groupss absolute-error">
+                                      <Field
+                                        name="courseStatus"
+                                        value="ongoing"
+                                        component={RenderRadioButtonField}
+                                        type="radio"
+                                        onChange={handleCourseStatus}
+                                        currentIndex="0"
+                                      >
+                                        On-Going
+                                      </Field>
+                                      <Field
+                                        name="courseStatus"
+                                        value="completed"
+                                        component={RenderRadioButtonField}
+                                        type="radio"
+                                        onChange={handleCourseStatus}
+                                        currentIndex="1"
+                                      >
+                                        Completed
+                                      </Field>
+                                    </div>
+                                  </div>
+                                 {courseStatus && <div className="form-field flex50">
                                     <Field
                                       name="startDate"
                                       label="Start Date"
@@ -1093,8 +1126,8 @@ const EditProfile = () => {
                                       component={renderField}
                                       type="date"
                                     />
-                                  </div>
-                                  <div className="form-field flex50">
+                                  </div>}
+                                  {courseStatus && values.courseStatus == "completed" && <div className="form-field flex50">
                                     <Field
                                       name="endDate"
                                       label="End Date"
@@ -1106,7 +1139,7 @@ const EditProfile = () => {
                                         !values.startDate ? true : false
                                       }
                                     />
-                                  </div>
+                                  </div>}
                                   <div className="form-field flex100">
                                     <Field
                                       name="intrestedArea"

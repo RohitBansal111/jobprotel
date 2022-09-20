@@ -124,7 +124,11 @@ const EmployerProfile = () => {
         <section className="topbg-banner">
           <div className="container">
             <div className="innerbg-banner">
-              <div className="banner-edit"></div>
+              <div className="banner-edit">
+                <Link to="/employer/edit-profile" className="btn edit-btn">
+                  Edit Profile
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -167,12 +171,6 @@ const EmployerProfile = () => {
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
-                        Recruiting Manager{" "}
-                        <span className="result">
-                          {authData?.comapanyDetail?.recruitingManagerName}
-                        </span>
-                      </li>
-                      <li>
                         Contact Details{" "}
                         <span className="result">
                           {authData?.comapanyDetail?.companyEmail}
@@ -196,7 +194,11 @@ const EmployerProfile = () => {
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
-                  <div className="profile-update"></div>
+                  <div className="profile-update">
+                    <p className="mailto:michael-taylor028@gmail.com">
+                      {employerData?.email}
+                    </p>
+                  </div>
                   {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>
