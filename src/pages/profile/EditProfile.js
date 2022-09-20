@@ -39,6 +39,7 @@ import {
   update,
   remove,
 } from "@firebase/database";
+import { uploadPicture } from "../../services/uploadProfilePicService";
 
 const EditProfile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -61,13 +62,20 @@ const EditProfile = () => {
   const [stateValue, setStateValue] = useState();
   const [designationlist, setDesignationlist] = useState([]);
   const [resumeName, setResumeName] = useState("");
+  const [updatedResumeName, setUpdatedResumeName] = useState("");
+
   const [resumeFile, setResumeFile] = useState([]);
+  const [coverName, setCoverName] = useState("");
+  const [updatedCoverName, setUpdatedCoverName] = useState("");
+
+  const [coverLetter, setCoverLetter] = useState([]);
 
   const [collegeList, setCollegelist] = useState([]);
+  const [collegeList2, setCollegelist2] = useState([]);
+
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
   const [modal, setModal] = useState(false);
-  const [profileImage, setProfileImage] = useState("");
   const [id, setId] = useState("");
   const [img, setImg] = useState({
     personalInfoImg: "",
@@ -77,10 +85,13 @@ const EditProfile = () => {
   const [collegeId, setCollegeId] = useState("");
   const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
+  const [inputField2, setInputField2] = useState(false);
+
   const [previewImg, setPreviewImg] = useState([]);
   const [working, setWorking] = useState("");
   const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
+  const [locationCheck, setLocationCheck] = useState(false);
 
   const resumeHandler = (e) => {
     const files = e.target.files[0];
@@ -88,37 +99,65 @@ const EditProfile = () => {
     setResumeName(files.name);
   };
 
+  const coverLetterHandler = (e) => {
+    const files = e.target.files[0];
+    console.log(files, "::");
+    setCoverLetter(files);
+    setCoverName(files.name);
+  };
+
   const extraCertificateHandler = async (event) => {
     let files = event.target.files[0];
+
+    // if (files?.length > 0) {
     let obj = {
       title: files.name.split(".").slice(0, -1).join("."),
       certificates: files,
     };
+
     let formData = new FormData();
     formData.append("studentId", authData.id);
+    formData.append(`title`, obj.title);
+    formData.append(`file`, obj.certificates);
 
-    formData.append("AddMorecertificates", obj.title);
-    formData.append("AddMorecertificates", obj.certificates);
     if (authData) {
       const resp = await extraCertificateServices.postExtraCertificates(
         formData
       );
-      if (resp.status === 200) {
+      if (resp.status == 200) {
         setCallCertificate(true);
       }
     }
+    // }
+    // let arr = [];
+    // if (files?.length > 0) {
+    //   for (let i = 0; i < files.length; i++) {
+    //     let obj = {
+    //       title: files[i].name.split(".").slice(0, -1).join("."),
+    //       certificates: files[i],
+    //     };
 
-    // let image = [...event.target.files];
+    //     arr.push(obj);
+    //   }
+    // }
+    // console.log(arr, "::arr");
 
-    // let imageArray = [];
-    // image.map((data) => {
-    //   let obj = {
-    //     title: data.name.split(".").slice(0, -1).join("."),
-    //     certificates: data,
-    //   };
-    //   imageArray.push(obj);
-    // });
-    // setPreviewImg(imageArray);
+    // if (arr?.length > 0) {
+    //   let formData = new FormData();
+    //   formData.append("studentId", authData.id);
+    //   for (let i = 0; i < arr.length; i++) {
+    //     formData.append(`title [${i}]`, arr[i].title);
+    //     formData.append(`file [${i}]`, arr[i].certificates);
+    //   }
+    //   if (authData) {
+    //     const resp = await extraCertificateServices.postExtraCertificates(
+    //       formData
+    //     );
+    //     if (resp.status == 200) {
+    //       setCallCertificate(true);
+    //     }
+    //   }
+    // }
   };
 
   const getExtraCertificate = async (id) => {
@@ -139,21 +178,13 @@ const EditProfile = () => {
   };
 
   useEffect(async () => {
-   
     if (authData) {
-     
       getStudentData(authData.id);
       getExtraCertificate(authData.id);
 
       setId(authData.id);
-     
     }
-   
   }, [authData, callCertificate]);
-
-
-
-
 
   const handleFormTitleChange = (index, event) => {
     let data = [...previewImg];
@@ -193,17 +224,11 @@ const EditProfile = () => {
 
   const getStudentData = async (id = authData.id) => {
     try {
-      // setStudentProfilePic(UserAvtar);
-      // setImg({
-      //   // ...img,
-      //   personalInfoImg: UserAvtar,
-      // });
-     
       const resp = await studentServices.getStudentDetails(id);
+      // console.log(resp, ":::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
-
         setStudentData(response);
         if (response?.studentDetails?.pictureUrl) {
           setStudentProfilePic(
@@ -214,15 +239,18 @@ const EditProfile = () => {
             personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
           });
         }
-        if(response?.studentDetails?.resumeFilePath !==undefined){
+        if (response?.studentDetails?.resumeFilePath !== undefined) {
           setStudentResume(
             `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.resumeFilePath}`
           );
         }
 
-        
         if (response?.studentDetails?.resumeFilePath) {
-          setResumeName(response?.studentDetails?.resumeFilePath);
+          setUpdatedResumeName(response?.studentDetails?.resumeFilePath);
+        }
+
+        if (response?.studentDetails?.coverLetter) {
+          setUpdatedCoverName(response?.studentDetails?.coverLetter);
         }
         let finalInterest = [];
         if (response?.studentDetails?.interests) {
@@ -255,14 +283,8 @@ const EditProfile = () => {
         if (response?.studentDetails?.countryResponse) {
           CountryValue(response.studentDetails.countryResponse.id);
         }
-        if (response?.studentDetails?.qualificationName !== null) {
-          setInputField(true);
-        }
-        
-        if (response?.studentDetails?.qualificationResponse == null) {
-          setInputField(true);
-        }
-        if(response?.studentDetails?.timezone) {
+
+        if (response?.studentDetails?.timezone) {
           setTimezone(JSON.parse(response?.studentDetails?.timezone));
         }
 
@@ -280,32 +302,54 @@ const EditProfile = () => {
             Country: response?.studentDetails?.countryResponse?.id,
             state: response?.studentDetails?.stateResponse.id,
             city: response?.studentDetails?.cityName,
-            pin: response?.studentDetails?.postalCode,
+            zipCode: response?.studentDetails?.postalCode,
             age: response?.studentDetails?.age,
             genderName: response?.studentDetails?.genderResponse?.id,
-            collegeId: response?.studentDetails?.collegeResponse?.id,
+            collegeId: response?.studentDetails?.collegeResponse.id,
+            collegeOthers: response?.studentDetails?.collegeOthers,
+
             designation: response?.studentDetails?.designationResponse?.id,
             qualificationId:
               response?.studentDetails?.qualificationResponse?.id,
             qualification: response?.studentDetails?.qualificationName,
-            hours: response?.studentDetails?.workHoursPerDay,
-            days: response?.studentDetails?.workDaysPerWeek,
+            hours: response?.studentDetails?.workHoursPerWeek,
+            categoryOfJob: response?.studentDetails?.categoryOfJob,
             salary: response?.studentDetails?.expectedSalary,
             working: response?.studentDetails?.workingType.toString(),
             experienceInYears: response?.studentDetails?.experienceInYears,
             experienceInMonths: response?.studentDetails?.experienceInMonths,
-            timezone: response?.studentDetails?.timezone !==undefined ?JSON.parse(response?.studentDetails?.timezone):'',
+            timezone:
+              response?.studentDetails?.timezone !== undefined
+                ? JSON.parse(response?.studentDetails?.timezone)
+                : "",
             intrestedArea: finalInterest && finalInterest,
-            skills:finalSkill&& finalSkill,
+            skills: finalSkill && finalSkill,
+            phone: response?.studentDetails?.phoneNumber,
+            location: response?.studentDetails?.location,
+            startDate: response?.studentDetails?.startDate.split("T00")[0],
+            endDate: response?.studentDetails?.endDate.split("T00")[0],
+            isProfileCompleted: response?.studentDetails?.isProfileCompleted,
           };
           setEditData(data);
+          if (data.Country) {
+            handleCollegeName(data.Country);
+          }
+          if (data.location) {
+            setLocationCheck(true);
+          }
+          if (data.qualification) {
+            setInputField(true);
+          }
+          if (data.collegeOthers) {
+            setInputField2(true);
+          }
         }
-      }else if (resp.status !== 200) {
-        setLoading(false)
-        toast.error(resp?.error ? resp.error : "someething went wrong")
+      } else if (resp.status !== 200) {
+        setLoading(false);
+        toast.error(resp?.error ? resp.error : "someething went wrong");
       }
 
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     } catch (err) {
       console.log(err, ":::");
     }
@@ -323,11 +367,19 @@ const EditProfile = () => {
     }
   };
 
+  const handleCollegeName = async (value) => {
+    const collegeList = await dropdownServices.collegeList(value);
+    if (collegeList.status == 200) {
+      setCollegelist(collegeList.data);
+    }
+  };
+
   const handleChangeCountry = async (e) => {
     const resp = await dropdownServices.stateList(e.target.value);
     if (resp.status === 200) {
       setStateList(resp.data);
     }
+    handleCollegeName(e.target.value);
   };
 
   const saveProfile = async (values) => {
@@ -339,24 +391,21 @@ const EditProfile = () => {
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
 
-    if (img?.personalInfoImg?.length > 1000) {
-      formData.append("profileImage", img.personalInfoImg);
-    }
+    // if (img?.personalInfoImg?.length > 1000) {
+    //   formData.append("profileImage", img.personalInfoImg);
+    // }
 
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
     formData.append("stateId", values.state);
-    formData.append(
-      "designationId",
-      designationId
-        ? designationId
-        : studentData.studentDetails.designationResponse.id
-    );
+    formData.append("categoryOfJob", values.categoryOfJob);
     formData.append("city", values.city);
-    formData.append("postalCode", values.pin);
+    formData.append("postalCode", values.zipCode);
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
+    formData.append("startDate", values.startDate);
+    formData.append("endDate", values.endDate);
 
     if (values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16") {
       formData.append("qualification", values.qualification);
@@ -380,23 +429,49 @@ const EditProfile = () => {
     for (var i = 0; i < skillsArr.length; i++) {
       formData.append(`skills[${i}]`, skillsArr[i]);
     }
+
+    if (
+      values.collegeId == "d5436e27-34e0-11ed-984a-068f5cec9f16" ||
+      values.collegeId == "be1ef22b-34e0-11ed-984a-068f5cec9f16" ||
+      values.collegeId == "b0b26c3a-34e0-11ed-984a-068f5cec9f16" ||
+      values.collegeId == "cab1eccd-34e0-11ed-984a-068f5cec9f16" ||
+      values.collegeId == "a6032bdf-34e0-11ed-984a-068f5cec9f16"
+    ) {
+      formData.append("collegeOthers", values.collegeOthers);
+    }
     formData.append(
       "collegeId",
-      collegeId ? collegeId : studentData.studentDetails.collegeResponse.id
+      collegeId ? collegeId : studentData?.studentDetails?.collegeResponse?.id
     );
-    formData.append("experienceInYears", values.experienceInYears);
-    formData.append("experienceInMonths", values.experienceInMonths);
+    formData.append(
+      "experienceInYears",
+      values.experienceInYears == undefined ? 0 : values.experienceInYears
+    );
+    formData.append(
+      "experienceInMonths",
+      values.experienceInMonths == undefined ? 0 : values.experienceInMonths
+    );
     formData.append("expectedSalary", values.salary);
-    formData.append("workHoursPerDay", values.hours);
-    formData.append("workDaysPerWeek", values.days);
-    formData.append("timezone", JSON.stringify(timezone));
-    formData.append("workingType", values.working);
-    if (resumeFile) {
-      formData.append("resumeFile", resumeFile);
+    formData.append("phoneNumber", values.phone);
+    formData.append("workHoursPerWeek", values.hours);
+    // formData.append("timezone", JSON.stringify(timezone));
+    if (values.working == 1) {
+      formData.append("workingTypes", values.working);
+      formData.append("location", values.location);
     } else {
-      formData.append("resumeFile", null);
+      formData.append("workingTypes", values.working);
+      formData.append("timezone", JSON.stringify(timezone));
     }
-
+    if (!updatedResumeName) {
+      formData.append("resumeFile", resumeFile);
+      formData.append("operationType", 1);
+    } else {
+      formData.append("resumeFile", resumeFile);
+      formData.append("operationType", 2);
+    }
+    if (coverLetter) {
+      formData.append("coverLetter", coverLetter);
+    }
     // if (previewImg?.length > 0) {
     //   for (var i = 0; i < previewImg.length; i++) {
     //     formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
@@ -427,7 +502,7 @@ const EditProfile = () => {
       );
 
       setTimeout(() => {
-        window.location.reload();
+        // window.location.reload();
       }, 300);
       if (authData) {
         getStudentData(authData.id);
@@ -445,6 +520,8 @@ const EditProfile = () => {
     } else if (resp.error) {
       setLoading(false);
       toast.error(resp.error ? resp.error : "Something went wrong");
+    } else {
+      setLoadingUpdate(false);
     }
   };
 
@@ -492,6 +569,32 @@ const EditProfile = () => {
     }
   };
 
+  const postPicture = async () => {
+    let image = img.personalInfoImg;
+    let imageData = {
+      userId: authData.id,
+      image,
+    };
+    const resp = await uploadPicture(imageData);
+    if (resp.status == 200) {
+      const resp2 = await studentServices.getStudentDetails(id);
+      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
+      if (resp2.status == 200) {
+        dispatch({
+          type: types.LOGIN_USER_SUCCESS,
+          payload: resp2.data.data,
+          token: localStorage.getItem("jobPortalUserToken"),
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (img?.personalInfoImg?.includes("base64")) {
+      postPicture();
+    }
+  }, [img]);
+
   const handleQualification = (e) => {
     let value = e.target.value;
     setQualificationId(value);
@@ -504,8 +607,42 @@ const EditProfile = () => {
 
   const handleCollege = (e) => {
     let value = e.target.value;
+    console.log(value, "::::");
     setCollegeId(value);
+    if (
+      value == "d5436e27-34e0-11ed-984a-068f5cec9f16" ||
+      value == "be1ef22b-34e0-11ed-984a-068f5cec9f16" ||
+      value == "b0b26c3a-34e0-11ed-984a-068f5cec9f16" ||
+      value == "cab1eccd-34e0-11ed-984a-068f5cec9f16" ||
+      value == "a6032bdf-34e0-11ed-984a-068f5cec9f16"
+    ) {
+      setInputField2(true);
+    } else {
+      setInputField2(false);
+    }
   };
+
+  const handleCollegeList = () => {
+    let arr = [];
+    {
+      collegeList?.length > 0 &&
+        collegeList
+          .filter((college) => college.name !== "Other")
+          .map((college) => arr.push(college));
+    }
+    {
+      collegeList?.length > 0 &&
+        collegeList
+          .filter((college) => college.name == "Other")
+          .map((college) => arr.push(college));
+    }
+
+    setCollegelist2(arr);
+  };
+
+  useEffect(() => {
+    handleCollegeList();
+  }, [collegeList]);
 
   const handleDesignation = (e) => {
     let value = e.target.value;
@@ -513,12 +650,17 @@ const EditProfile = () => {
   };
 
   const handleWorkingChange = (e) => {
-    setWorking(e.target.value);
+    let value = e.target.value;
+    setWorking(value);
+    if (value == 1) {
+      setLocationCheck(true);
+    } else {
+      setLocationCheck(false);
+    }
   };
 
   useEffect(async () => {
     const countryList = await dropdownServices.countryList();
-    const collegeList = await dropdownServices.collegeList();
     const genderList = await dropdownServices.genderList();
     const skillsList = await dropdownServices.skillsList();
     const designationList = await dropdownServices.designationList();
@@ -528,13 +670,13 @@ const EditProfile = () => {
       let obj = { id: data.id, text: data.name };
       skillListData.push(obj);
     });
-    setCollegelist(collegeList.data);
     setCountrylist(countryList.data);
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
     setDesignationlist(designationList.data);
     setQualificationList(qualificationList.data);
   }, []);
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -559,7 +701,29 @@ const EditProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic} alt="user profile" />
+                        {/* <img src={studentProfilePic} alt="user profile" /> */}
+
+                        <img
+                          src={
+                            img.personalInfoImg
+                              ? img.personalInfoImg
+                              : studentProfilePic
+                              ? studentProfilePic
+                              : DefaultProfile
+                          }
+                          className="img-aws"
+                          alt="avtar"
+                          width={100}
+                          height={100}
+                          layout="fill"
+                        />
+                        <input
+                          name="profileImage"
+                          id="profileImage"
+                          accept=".jpg, .jpeg, .png"
+                          type="file"
+                          onChange={handleImageChange}
+                        />
                       </span>
                     </div>
                     <h3>
@@ -567,12 +731,11 @@ const EditProfile = () => {
                     </h3>
                     <p>
                       {studentData?.studentDetails?.address}
-                      {", "}
+                      {studentData?.studentDetails?.addressLine1 && ", "}
                       {studentData?.studentDetails?.addressLine1}
-                      {", "}
-                      {studentData?.studentDetails?.addressLine2 !=
-                        "undefined" &&
-                      studentData?.studentDetails?.addressLine2 != "null"
+                      {studentData?.studentDetails?.addressLine2 && ", "}
+                      {studentData?.studentDetails?.addressLine2 != undefined &&
+                      studentData?.studentDetails?.addressLine2 != null
                         ? studentData?.studentDetails?.addressLine2
                         : ""}
                     </p>
@@ -593,9 +756,13 @@ const EditProfile = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          Year{", "}
+                          {studentData?.studentDetails?.experienceInYears &&
+                            "Year"}
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            ", "}
                           {studentData?.studentDetails?.experienceInMonths}{" "}
-                          Month
+                          {studentData?.studentDetails?.experienceInMonths &&
+                            "Month"}
                         </span>
                       </li>
                       <li>
@@ -619,7 +786,7 @@ const EditProfile = () => {
                       <li>
                         Hours / day{" "}
                         <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerWeek}
                         </span>
                       </li>
                     </ul>
@@ -633,43 +800,40 @@ const EditProfile = () => {
                       {studentData?.email}
                     </p>
                   </div>
-                  {/* <div className="profile-strength">
-                      <div className="profile-strength-inner">
-                        <h3>
-                          Profile strength:{" "}
-                          <span className="profile-completed">
-                            60% Completed
-                          </span>
-                        </h3>
-                        <div className="profile-strength-bar">
-                          <p
-                            className="profile-progress"
-                            style={{ width: "60%" }}
-                          ></p>
-                          <div className="profile-complete-bar">
-                            <span
-                              className="complete-bar completed"
-                              style={{ left: "25%" }}
-                            ></span>
-                            <span
-                              className="complete-bar completed"
-                              style={{ left: "50%" }}
-                            ></span>
-                            <span
-                              className="complete-bar"
-                              style={{ left: "75%" }}
-                            ></span>
-                          </div>
+                  <div className="profile-strength">
+                    {/* <div className="profile-strength-inner">
+                      <h3>
+                        Profile strength:{" "}
+                        <span className="profile-completed">60% Completed</span>
+                      </h3>
+                      <div className="profile-strength-bar">
+                        <p
+                          className="profile-progress"
+                          style={{ width: "60%" }}
+                        ></p>
+                        <div className="profile-complete-bar">
+                          <span
+                            className="complete-bar completed"
+                            style={{ left: "25%" }}
+                          ></span>
+                          <span
+                            className="complete-bar completed"
+                            style={{ left: "50%" }}
+                          ></span>
+                          <span
+                            className="complete-bar"
+                            style={{ left: "75%" }}
+                          ></span>
                         </div>
                       </div>
                     </div> */}
+                  </div>
                 </div>
                 <ImageCropperModal
                   closeModal={closeModal}
                   showImageCropModal={modal}
                   readFile={readFile}
                   imageSrc={img.personalInfoImg}
-                  setProfileImage={setProfileImage}
                   setImg={setImg}
                 />
                 <Form
@@ -740,7 +904,7 @@ const EditProfile = () => {
                                     </div>
                                   </div>
                                   <div className="form-field flex100">
-                                    <div className="uploadImageSection mb-2">
+                                    {/* <div className="uploadImageSection mb-2">
                                       <div className="file-label-image">
                                         <label>Upload Profile Picture</label>
                                         <div className="file-upload">
@@ -754,8 +918,12 @@ const EditProfile = () => {
                                         </div>
                                       </div>
                                       <div className="aws-placeholder image4">
-                                        <img 
-                                          src={img.personalInfoImg ? img.personalInfoImg : DefaultProfile}
+                                        <img
+                                          src={
+                                            img.personalInfoImg
+                                              ? img.personalInfoImg
+                                              : DefaultProfile
+                                          }
                                           className="img-aws"
                                           alt="avtar"
                                           width={100}
@@ -763,7 +931,7 @@ const EditProfile = () => {
                                           layout="fill"
                                         />
                                       </div>
-                                    </div>
+                                    </div> */}
                                   </div>
                                   <div className="form-field flex100 mb-2">
                                     <Field
@@ -862,7 +1030,7 @@ const EditProfile = () => {
                                     />
                                   </div>
                                   <div className="form-field flex50">
-                                    <div className="timezone--wrapper">
+                                    {/* <div className="timezone--wrapper">
                                       <label>Time Zone</label>
                                       <TimezoneSelect
                                         name="timezone"
@@ -875,8 +1043,8 @@ const EditProfile = () => {
                                           "Europe/Berlin": "Frankfurt",
                                         }}
                                       />
-                                    </div>
-                                  </div> 
+                                    </div> */}
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -887,318 +1055,384 @@ const EditProfile = () => {
                               <div className="profile-edit-info-list">
                                 <div className="form-field-group">
                                   <div className="form-field flex100">
-                                      <Field
-                                        name="qualificationId"
-                                        label="Qualification"
-                                        component={renderSelect}
-                                        onChange={handleQualification}
-                                      >
-                                        <option value="" disabled>
-                                          Select
-                                        </option>
-                                        {qualificationList &&
-                                          qualificationList.map(
-                                            (qualification, i) => (
-                                              <option
-                                                value={qualification.id}
-                                                key={i}
-                                              >
-                                                {qualification.name}
-                                              </option>
-                                            )
-                                          )}
-                                      </Field>
-                                    </div>
-                                    {/* {inputField && (
-                                      <div className="form-field flex100">
-                                        <Field
-                                          name="qualification"
-                                          component={renderField}
-                                        />
-                                      </div>
-                                    )} */}
-                                    <div className="form-field flex100">
-                                      <Field
-                                        name="intrestedArea"
-                                        label="Interested Area"
-                                        placeholder="Enter interested area"
-                                        suggestions={skillslist}
-                                        component={RenderTagField}
-                                        value={interests}
-                                        dvalue={interests}
-                                      />
-                                    </div>
-                                    <div className="form-field flex50">
-                                      <Field
-                                        name="collegeId"
-                                        label="College"
-                                        component={renderSelect}
-                                        placeholder="Enter college / university name"
-                                        onChange={handleCollege}
-                                      >
-                                        <option value="" disabled>
-                                          Select College
-                                        </option>
-                                        {collegeList &&
-                                          collegeList.length > 0 &&
-                                          collegeList.map((college, i) => (
+                                    <Field
+                                      name="qualificationId"
+                                      label="Education course"
+                                      component={renderSelect}
+                                      onChange={handleQualification}
+                                    >
+                                      <option value="" disabled>
+                                        Select
+                                      </option>
+                                      {qualificationList &&
+                                        qualificationList.map(
+                                          (qualification, i) => (
                                             <option
-                                              value={college.collegeId}
+                                              value={qualification.id}
                                               key={i}
                                             >
-                                              {college.name}
+                                              {qualification.name}
                                             </option>
-                                          ))}
-                                      </Field>
+                                          )
+                                        )}
+                                    </Field>
+                                  </div>
+                                  {inputField && (
+                                    <div className="form-field flex100">
+                                      <Field
+                                        name="qualification"
+                                        component={renderField}
+                                      />
                                     </div>
-                                    <div className="form-field flex50 inner-multi-field-2">
+                                  )}
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="startDate"
+                                      label="Start Date"
+                                      placeholder="Enter start date"
+                                      component={renderField}
+                                      type="date"
+                                    />
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="endDate"
+                                      label="End Date"
+                                      placeholder="Enter end date"
+                                      component={renderField}
+                                      type="date"
+                                      min={values?.startDate}
+                                      disabled={
+                                        !values.startDate ? true : false
+                                      }
+                                    />
+                                  </div>
+                                  <div className="form-field flex100">
+                                    <Field
+                                      name="intrestedArea"
+                                      label="Interested Area"
+                                      placeholder="Enter interested area"
+                                      suggestions={skillslist}
+                                      component={RenderTagField}
+                                      value={interests}
+                                      dvalue={interests}
+                                    />
+                                  </div>
+                                  <div className="form-field flex100">
+                                    <Field
+                                      name="collegeId"
+                                      label="College"
+                                      component={renderSelect}
+                                      placeholder="Enter college / university name"
+                                      onChange={handleCollege}
+                                    >
+                                      <option value="" disabled>
+                                        Select College
+                                      </option>
+                                      {collegeList2.length > 0 &&
+                                        collegeList2.map((college, i) => (
+                                          <option
+                                            value={college.collegeId}
+                                            key={i}
+                                          >
+                                            {college.name}
+                                          </option>
+                                        ))}
+                                    </Field>
+                                  </div>
+                                  {inputField2 && (
+                                    <div className="form-field flex100">
+                                      <Field
+                                        name="collegeOthers"
+                                        component={renderField}
+                                      />
+                                    </div>
+                                  )}
+                                  {/* <div className="form-field flex50 inner-multi-field-2"> */}
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="experienceInYears"
+                                      component={renderSelect}
+                                      label="Experience in Year"
+                                    >
+                                      {/* <option value="0">0 year</option> */}
+                                      {[...Array.from(Array(51).keys())]
+                                        // .slice(1)
+                                        .map((num, i) => (
+                                          <option key={i} value={num}>
+                                            {/* {num ? num + " year" : ""} */}
+                                            {(num && num < 10) || num == 0
+                                              ? `0${num} year`
+                                              : `${num} year`}
+                                          </option>
+                                        ))}
+                                    </Field>
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <Field
+                                      name="experienceInMonths"
+                                      component={renderSelect}
+                                      label="Experience in Month"
+                                    >
+                                      {/* <option value="0">0 month</option> */}
+                                      {[...Array.from(Array(12).keys())]
+                                        // .slice(1)
+                                        .map((num, i) => (
+                                          <option key={i} value={num}>
+                                            {(num && num < 10) || num == 0
+                                              ? `0${num} month`
+                                              : `${num} month`}
+                                          </option>
+                                        ))}
+                                    </Field>
+                                  </div>
+                                  {/* </div> */}
+                                  <div className="form-field flex100">
+                                    <div className="d-flex justify-content-between">
                                       <div className="form-field flex50">
                                         <Field
-                                          name="experienceInYears"
+                                          name="salary"
+                                          placeholder="Enter expected salary"
+                                          label="Expected Salary"
+                                          component={renderNumberField}
+                                          pattern="[0-9]*"
+                                        />
+                                      </div>
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="hours"
+                                          placeholder="Hours"
+                                          label="Hours / week (Available)"
                                           component={renderSelect}
-                                          label="Experience in Year"
                                         >
-                                          <option value="0">0 year</option>
+                                          <option value="" disabled>
+                                            Select hours
+                                          </option>
                                           {[...Array.from(Array(51).keys())]
                                             .slice(1)
                                             .map((num, i) => (
                                               <option key={i} value={num}>
-                                                {num ? num + " year's" : ""}
-                                              </option>
-                                            ))}
-                                        </Field>
-                                      </div>
-                                      <div className="form-field flex50">
-                                        <Field
-                                          name="experienceInMonths"
-                                          component={renderSelect}
-                                          label="Experience in Month"
-                                        >
-                                          <option value="0">0 month</option>
-                                          {[...Array.from(Array(12).keys())]
-                                            .slice(1)
-                                            .map((num, i) => (
-                                              <option key={i} value={num}>
-                                                {num ? num + " month's" : ""}
+                                                {num && num < 10
+                                                  ? `0${num} hour`
+                                                  : `${num} hour`}
                                               </option>
                                             ))}
                                         </Field>
                                       </div>
                                     </div>
-                                    <div className="form-field flex100">
-                                      <div className="d-flex justify-content-between">
-                                        <div className="form-field flex50">
-                                          <Field
-                                            name="salary"
-                                            placeholder="Enter expected salary"
-                                            label="Expected Salary"
-                                            component={renderNumberField}
-                                            pattern="[0-9]*"
-                                          />
-                                        </div>
-                                        <div className="form-field flex50">
-                                          <Field
-                                            name="hours"
-                                            placeholder="Hours"
-                                            label="Hours / week"
-                                            component={renderSelect}
-                                          >
-                                            <option value="">Select hours</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                          </Field>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="form-field flex100">
+                                  </div>
+                                  <div className="form-field flex100">
+                                    <Field
+                                      name="categoryOfJob"
+                                      label="Category of Job"
+                                      component={renderField}
+                                      onChange={handleDesignation}
+                                    />
+                                  </div>
+                                  <div className="form-field flex100">
+                                    <Field
+                                      name="skills"
+                                      label="Skills"
+                                      suggestions={skillslist}
+                                      placeholder="Enter skills"
+                                      component={RenderTagField}
+                                      value={skills}
+                                      dvalue={skills}
+                                    />
+                                  </div>
+                                  <div className="form-field flex50">
+                                    <label>Working Type</label>
+                                    <div className="radio-button-groupss absolute-error">
                                       <Field
-                                        name="designation"
-                                        label="Categories of Job"
-                                        component={renderField}
-                                        onChange={handleDesignation}
+                                        name="working"
+                                        value="1"
+                                        component={RenderRadioButtonField}
+                                        type="radio"
+                                        onChange={handleWorkingChange}
+                                        // dvalue={working}
+                                        currentIndex="0"
                                       >
-                                        {/* {designationlist &&
-                                          designationlist.map(
-                                            (designation, i) => (
-                                              <option
-                                                value={designation.id}
-                                                key={i}
-                                              >
-                                                {designation.title}
-                                              </option>
-                                            )
-                                          )} */}
+                                        Onsite
+                                      </Field>
+                                      <Field
+                                        name="working"
+                                        value="2"
+                                        component={RenderRadioButtonField}
+                                        type="radio"
+                                        onChange={handleWorkingChange}
+                                        // dvalue={working}
+                                        currentIndex="1"
+                                      >
+                                        OffSite
                                       </Field>
                                     </div>
+                                  </div>
+                                  {locationCheck ? (
                                     <div className="form-field flex100">
                                       <Field
-                                        name="skills"
-                                        label="Skills"
-                                        suggestions={skillslist}
-                                        placeholder="Enter skills"
-                                        component={RenderTagField}
-                                        value={skills}
-                                        dvalue={skills}
+                                        name="location"
+                                        label="Location"
+                                        placeholder="Enter job location"
+                                        component={renderField}
                                       />
                                     </div>
-                                    <div className="form-field flex50">
-                                      <label>Working Type</label>
-                                      <div className="radio-button-groupss absolute-error">
-                                        <Field
-                                          name="working"
-                                          value="1"
-                                          component={RenderRadioButtonField}
-                                          type="radio"
-                                          onChange={handleWorkingChange}
-                                          dvalue={working}
-                                          currentIndex="0"
-                                        >
-                                          Onsite
-                                        </Field>
-                                        <Field
-                                          name="working"
-                                          value="2"
-                                          component={RenderRadioButtonField}
-                                          type="radio"
-                                          onChange={handleWorkingChange}
-                                          dvalue={working}
-                                          currentIndex="1"
-                                        >
-                                          OffSite
-                                        </Field>
-                                      </div>
-                                    </div>
+                                  ) : (
                                     <div className="form-field flex100">
-                                      <label className="d-block">Resume</label>
-                                      <div className="file-upload-placehlder">
-                                        <input
-                                          name="resume"
-                                          uploadlabel="Browse resume file"
-                                          type="file"
-                                          onChange={resumeHandler}
+                                      <div className="timezone--wrapper">
+                                        <label>Time Zone</label>
+                                        <TimezoneSelect
+                                          name="timezone"
+                                          value={timezone}
+                                          onChange={handleTimeZone}
+                                          labelStyle="Time Zone"
+                                          timezones={{
+                                            ...allTimezones,
+                                            "America/Lima": "Pittsburgh",
+                                            "Europe/Berlin": "Frankfurt",
+                                          }}
                                         />
-                                        <span>Upload Resume</span>
-                                      </div>
-                                      <ul className="uploaded-documents">
-                                        <li>
-                                          {resumeName}
-                                        </li>
-                                      </ul>
+                                      </div>{" "}
                                     </div>
-                                    <div className="form-field flex100">
-                                      <label className="d-block">
-                                        Extra Certificates
-                                      </label>
-                                      <div className="file-upload-placehlder">
-                                        <input
-                                          name="documents"
-                                          uploadlabel="Browse documents"
-                                          type="file"
-                                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                                          onChange={extraCertificateHandler}
-                                          multiple
-                                        />
-                                        <span>Add Extra Certificates</span>
-                                      </div>
-                                      <ul className="uploaded-documents">
-                                        {previewImg &&
-                                          previewImg.length > 0 &&
-                                          previewImg.map((img, index) => (
-                                            <>
-                                              <li key={index}>
-                                                <div className="change-title">
-                                                  <label>
-                                                    {index + 1}. File Title
-                                                  </label>
-                                                  <div className="d-flex">
-                                                    <input
-                                                      name="title"
-                                                      className="edit-profile-file"
-                                                      onChange={(e) =>
-                                                        handleFormTitleChange(
-                                                          index,
-                                                          e
+                                  )}
+                                  <div className="form-field flex100">
+                                    <label className="d-block">Resume</label>
+                                    <div className="file-upload-placehlder">
+                                      <input
+                                        name="resume"
+                                        uploadlabel="Browse resume file"
+                                        type="file"
+                                        onChange={resumeHandler}
+                                      />
+                                      <span>Upload Resume</span>
+                                    </div>
+                                    <ul className="uploaded-documents">
+                                      <li>
+                                        {updatedResumeName
+                                          ? updatedResumeName
+                                          : resumeName}
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <div className="form-field flex100">
+                                    {/* <label className="d-block">
+                                      Extra Certificates
+                                    </label>
+                                    <div className="file-upload-placehlder">
+                                      <input
+                                        name="documents"
+                                        uploadlabel="Browse documents"
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                        onChange={extraCertificateHandler}
+                                        multiple
+                                      />
+                                      <span>Add Extra Certificates</span>
+                                    </div>
+                                    <ul className="uploaded-documents">
+                                      {previewImg &&
+                                        previewImg.length > 0 &&
+                                        previewImg.map((img, index) => (
+                                          <>
+                                            <li key={index}>
+                                              <div className="change-title">
+                                                <label>
+                                                  {index + 1}. File Title
+                                                </label>
+                                                <div className="d-flex">
+                                                  <input
+                                                    name="title"
+                                                    className="edit-profile-file"
+                                                    onChange={(e) =>
+                                                      handleFormTitleChange(
+                                                        index,
+                                                        e
+                                                      )
+                                                    }
+                                                    value={img.title}
+                                                  />
+                                                  <button className="btn p-0 ms-3">
+                                                    <i
+                                                      className="fa fa-times-circle"
+                                                      aria-hidden="true"
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        manageCertificates(
+                                                          img.id
                                                         )
                                                       }
-                                                      value={img.title}
                                                     />
-                                                    <button className="btn p-0 ms-3">
+                                                    <span className="btn btn-edit p-0 ps-3">
                                                       <i
-                                                        className="fa fa-times-circle"
+                                                        className="fa fa-edit"
                                                         aria-hidden="true"
                                                         style={{
                                                           cursor: "pointer",
                                                         }}
                                                         onClick={() =>
-                                                          manageCertificates(
-                                                            img.id
+                                                          editCertificates(
+                                                            img.id,
+                                                            img.title
                                                           )
                                                         }
                                                       />
-                                                      <span className="btn btn-edit p-0 ps-3">
-                                                        <i
-                                                          className="fa fa-edit"
-                                                          aria-hidden="true"
-                                                          style={{
-                                                            cursor: "pointer",
-                                                          }}
-                                                          onClick={() =>
-                                                            editCertificates(
-                                                              img.id,
-                                                              img.title
-                                                            )
-                                                          }
-                                                        />
-                                                      </span>
-                                                    </button>
-                                                  </div>
+                                                    </span>
+                                                  </button>
                                                 </div>
-                                                <div className="uploaded-file-name py-1">
-                                                  <span>{img.certificates}</span>
-                                                </div>
-                                              </li>
-                                            </>
-                                          ))}
-                                      </ul>
+                                              </div>
+                                              <div className="uploaded-file-name py-1">
+                                                <span>{img.certificates}</span>
+                                              </div>
+                                            </li>
+                                          </>
+                                        ))}
+                                    </ul> */}
+                                  </div>
+                                  <div className="form-field flex100">
+                                    <label className="d-block">
+                                      Cover Letter
+                                    </label>
+                                    <div className="file-upload-placehlder">
+                                      <input
+                                        name="coverLetter"
+                                        uploadlabel="Browse Cover Letter file"
+                                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                                        type="file"
+                                        onChange={coverLetterHandler}
+                                      />
+                                      <span>Upload Cover Letter</span>
                                     </div>
-                                    <div className="form-field flex100">
-                                      <label className="d-block">Cover Letter</label>
-                                      <div className="file-upload-placehlder">
-                                        <input
-                                          name="coverLetter"
-                                          uploadlabel="Browse Cover Letter file"
-                                          type="file"
-                                          onChange={resumeHandler}
-                                        />
-                                        <span>Upload Cover Letter</span>
-                                      </div>
-                                    </div>
+                                    <ul className="uploaded-documents">
+                                      <li>
+                                        {updatedCoverName
+                                          ? updatedCoverName
+                                          : coverName}
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </section>
+                          <div className="form-field flex100 mb-5 d-flex justify-content-end">
+                            <button
+                              type="submit"
+                              className="btn btn-save btn-primary"
+                              disabled={loadingUpdate ? true : false}
+                            >
+                              {loadingUpdate && (
+                                <div className="button-submit-loader">
+                                  <Loader />
+                                </div>
+                              )}{" "}
+                              {editData.isProfileCompleted
+                                ? "Update"
+                                : "Submit"}
+                            </button>
+                          </div>
                         </>
                       )}
-                      <div className="form-field flex100 mb-5 d-flex justify-content-end">
-                        <button
-                          type="submit"
-                          className="btn btn-save btn-primary"
-                        >
-                          {loadingUpdate && (
-                            <div className="button-submit-loader">
-                              <Loader />
-                            </div>
-                          )}{" "}
-                          Update Info
-                        </button>
-                      </div>
                     </form>
                   )}
                 </Form>

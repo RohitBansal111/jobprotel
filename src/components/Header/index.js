@@ -25,6 +25,7 @@ import {
 } from "@firebase/database";
 import { Navigate, useParams } from "react-router";
 import ReactTimeAgo from "react-time-ago";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const connection = new HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_IMAGE_API_URL}chatHub`)
@@ -150,11 +151,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (authData && authData.studentDetails) {
+    if (authData?.studentDetails) {
       setProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.studentDetails.pictureUrl}`
       );
-    } else if (authData && authData.comapanyDetail) {
+    } else if (authData?.comapanyDetail) {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
       );
@@ -275,16 +276,16 @@ const Header = () => {
                       Applications
                     </NavLink>
                   </li>
-                  {/* <li>
-                    <NavLink
+                  <li>
+                    {/* <NavLink
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link inactive"
                       }
                       to="/roles"
                     >
                       Roles
-                    </NavLink>
-                  </li> */}
+                    </NavLink> */}
+                  </li>
                   <li>
                     <NavLink
                       className={({ isActive }) =>

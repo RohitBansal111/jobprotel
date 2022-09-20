@@ -136,15 +136,15 @@ const PostedJobModal = ({ id }) => {
   const postJob = async (data) => {
     // debugger
     const resp = await jobServies.jobPost(data);
-    console.log(resp);
+    // console.log(resp, "::::");
     // redirect on success
     if (resp.status == 200) {
       setLoading(false);
       toast.success(resp.data.message);
       navigate(`/suggestion/${resp.data.data.jobId}`);
-    } else if (resp.status == 400) {
+    } else {
       setLoading(false);
-      toast.error("Something went wrong");
+      toast.error("Sorry ! Your Profile is not completed");
     }
   };
 

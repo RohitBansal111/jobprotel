@@ -2,9 +2,12 @@ import axios from "axios";
 
 export const getStudentDetails = async (id) => {
   try {
-    
+    let token = localStorage.getItem("jobPortalUserToken");
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/StudentProfileDetails/userId?userId=${id}`
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/StudentProfileDetails/userId?userId=${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (resp.status == 200) {
       return resp;
@@ -26,8 +29,8 @@ export const getStudentDetails = async (id) => {
 export const updateStudentDetails = async (data) => {
   try {
     let token = localStorage.getItem("jobPortalUserToken");
-    const resp = await axios.put(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/UpdateStudentProfile/userId`,
+    const resp = await axios.post(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/Account/StudentProfileEditor`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },
