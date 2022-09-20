@@ -416,13 +416,18 @@ const Header = () => {
                     <i className="fas fa-tachometer-alt"></i> Dashboard
                   </Link>
                 </li>
-                {role === "Employer" ? null : (
-                  <li>
-                    <Link className="dropdown-item" to="/student/edit-profile">
-                      <i className="fas fa-user-cog"></i> Edit Profile
-                    </Link>
-                  </li>
-                )}
+                <li>
+                  <Link
+                    className="dropdown-item"
+                    to={
+                      role === "Employer"
+                        ? "/employer/edit-profile"
+                        : "/student/edit-profile"
+                    }
+                  >
+                    <i className="fas fa-user-cog"></i> Edit Profile
+                  </Link>
+                </li>
                 <li>
                   <Link className="dropdown-item" to="/" onClick={handleLogout}>
                     <i className="fas fa-sign-out-alt"></i> Logout

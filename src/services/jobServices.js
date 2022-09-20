@@ -19,7 +19,7 @@ export const jobPost = async (data) => {
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.error
+      err.response?.data?.message ? err.response?.data?.message : err.response && err.response.data && err.response.data.error
           ? err.response.data.error
           : err.message,
       status: 400,

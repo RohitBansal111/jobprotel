@@ -30,8 +30,8 @@ const FindWork = () => {
 
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
+    console.log("qq", authData);
     if (authData) {
-      // console.log(authData)
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
@@ -100,15 +100,25 @@ const FindWork = () => {
                   <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
                   is pending, please click on button and complete your KYC{" "}
                 </p>
-                <button
-                  type="button"
-                  className="btn submit-kyc"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kycpopup"
-                >
-                  Complete KYC
-                </button>
-                <CompleteKycModal jobList={jobList} />
+                {authData?.studentDetails?.isProfileCompleted ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn submit-kyc"
+                      data-bs-toggle="modal"
+                      data-bs-target="#kycpopup"
+                    >
+                      Complete KYC
+                    </button>
+                    <CompleteKycModal jobList={jobList} />
+                  </>
+                ) : (
+                  <button type="button" className="btn submit-kyc" onClick={()=>{
+                    toast.error("Profile is not Completed");
+                  }}>
+                    Complete KYC
+                  </button>
+                )}
               </div>
             )}
             {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
