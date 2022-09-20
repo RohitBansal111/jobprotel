@@ -5,8 +5,10 @@ import titles from "./register.json";
 import validate from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useState } from "react";
+import EmailVerificationModal from "../modals/email-verification-modal";
 
 const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
+  const [emailVerifyModal, setEmailVerifyModal] = useState(false);
   let titleStrings = new LocalizedStrings(titles);
   const [err, setErr] = useState([]);
   const [captcha, setCaptcha] = useState({ captchaCode: "" });
@@ -33,6 +35,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
   const SaveStep1 = (values) => {
     if (validation()) {
       handleSubmit(values);
+      setEmailVerifyModal(true)
     }
   };
 
@@ -163,6 +166,10 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
             </form>
           )}
         </Form>
+        <EmailVerificationModal
+          emailVerifyModal={emailVerifyModal}
+          setEmailVerifyModal={setEmailVerifyModal}
+        />
       </div>
     </div>
   );
