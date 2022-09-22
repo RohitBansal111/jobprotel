@@ -22,8 +22,9 @@ const PostedJob = () => {
   const [loading, setLoading] = useState(true);
 
   const authData = useSelector((state) => state.auth.user);
-  useEffect(async () => {
+  useEffect(() => {
     if (authData) {
+      console.log(authData, "::::");
       setId(authData.id);
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
@@ -39,14 +40,12 @@ const PostedJob = () => {
   ) => {
     let data = {
       serachItem: search,
-      //employerId: id,
       pageNumber: activePage,
       pageSize: pageSize,
     };
     const response = await jobServices.getJobList(data);
     if (response.status == 200) {
       setLoading(false);
-      // console.log(response.data.data, "::::");
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -116,16 +115,8 @@ const PostedJob = () => {
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
-                        Recruiting Manager{" "}
-                        <span className="result">
-                          {authData?.comapanyDetail?.recruitingManagerName}
-                        </span>
-                      </li>
-                      <li>
                         Contact Details{" "}
-                        <span className="result">
-                          {authData?.comapanyDetail?.companyEmail}
-                        </span>
+                        <span className="result">{authData?.email}</span>
                       </li>
                     </ul>
                   </div>
@@ -219,7 +210,9 @@ const PostedJob = () => {
                   </div>
                   <div className="default-feeds-search">
                     {loading ? (
-                      <div className="search-data-loader mb-4"><Loader /></div>
+                      <div className="search-data-loader mb-4">
+                        <Loader />
+                      </div>
                     ) : jobList?.length === 0 ? (
                       <h4>No jobs found</h4>
                     ) : (

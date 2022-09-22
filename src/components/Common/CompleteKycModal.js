@@ -7,7 +7,7 @@ import toast from "toastr";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "../../types/auth";
 
-const CompleteKycModal = ({ jobList, studentData }) => {
+const CompleteKycModal = () => {
   const authData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
     formData.append("mainFile", mainfile);
     formData.append("backSideFile", backfile);
     formData.append("remarks", values.remarks);
-    formData.append("offerLetter", values.offerLetter);
+    formData.append("offerLetter", offerLetter);
 
     if (studentId) {
       if (validations()) {
@@ -149,7 +149,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
                       <div className="form-field flex100">
                         <input
                           name="offerLetter"
-                          // onChange={handleOfferLetter}
+                          onChange={handleOfferLetter}
                           type="file"
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />

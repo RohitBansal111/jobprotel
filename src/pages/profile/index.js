@@ -60,7 +60,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      console.log(response, "::::")
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -103,14 +103,12 @@ const Profile = () => {
   const handleDatarefresh = () => {
     if (authData) {
       getEmploymentDetails(authData);
-
       return true;
     }
   };
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData, "::::");
       getStudentData(authData.id);
       getEmploymentDetails(authData);
       getProjectHistory(authData.id, activePage);
@@ -346,24 +344,27 @@ const Profile = () => {
                 </p>
                 {authData?.studentDetails?.isProfileCompleted ? (
                   <>
-                       <button
-                  type="button"
-                  className="btn submit-kyc"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kycpopup"
-                >
-                  Complete KYC
-                </button>
-                <CompleteKycModal studentData={studentData} />
+                    <button
+                      type="button"
+                      className="btn submit-kyc"
+                      data-bs-toggle="modal"
+                      data-bs-target="#kycpopup"
+                    >
+                      Complete KYC
+                    </button>
+                    <CompleteKycModal />
                   </>
                 ) : (
-                  <button type="button" className="btn submit-kyc" onClick={()=>{
-                    toast.error("Profile is not Completed");
-                  }}>
+                  <button
+                    type="button"
+                    className="btn submit-kyc"
+                    onClick={() => {
+                      toast.error("Profile is not Completed");
+                    }}
+                  >
                     Complete KYC
                   </button>
                 )}
-            
               </div>
             )}
             {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
@@ -461,9 +462,10 @@ const Profile = () => {
                         </span>
                       </li>
                       <li>
-                        Hours / day{" "}
+                        hour / week{" "}
                         <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerWeek}
+                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
                         </span>
                       </li>
                     </ul>
@@ -646,7 +648,7 @@ const Profile = () => {
                             <li>
                               <span className="plabel">
                                 {" "}
-                                Experience In Months
+                                Experience In Month
                               </span>{" "}
                               <span className="result">
                                 {
@@ -663,7 +665,7 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              <span className="plabel">Hours / Week</span>{" "}
+                              <span className="plabel">Hours / Week (Available)</span>{" "}
                               <span className="result">
                                 {studentData?.studentDetails?.workHoursPerWeek}
                               </span>

@@ -108,7 +108,6 @@ const EmployerProfile = () => {
     if (data) {
       const resp = await jobServices.getArchiveJobByEmployer(data);
       let response = resp.data.data;
-      console.log(response);
       if (resp.status === 200) {
         setLoading(false);
         // setTotalRecordsArchive(resp.data.totalCount);
@@ -173,7 +172,7 @@ const EmployerProfile = () => {
                       <li>
                         Contact Details{" "}
                         <span className="result">
-                          {authData?.comapanyDetail?.companyEmail}
+                          {authData?.email}
                         </span>
                       </li>
                     </ul>

@@ -18,11 +18,14 @@ const ProfileValidate = (values) => {
   // if(!values.stateId){
   //      error.stateId = "Required state"
   // }
+  if (!values.companyName) {
+     error.companyName = "Required Company Name";
+   }
   if (!values.companyPhone) {
-    error.companyPhone = "Required Phone";
+    error.companyPhone = "Required Company Phone";
   }
-  if (!values.companyAddress) {
-    error.companyAddress = "Required Address";
+  if (!values.address) {
+    error.address = "Required Company Address";
   }
   return error;
 };

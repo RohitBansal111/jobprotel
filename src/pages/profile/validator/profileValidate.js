@@ -9,13 +9,15 @@ const ProfileValidate = (values) => {
   if (!values.age) {
     error.age = "Required Age";
   }
+  if (!values.genderName) {
+    error.genderName = "Required Gender";
+  }
   if (!values.email) {
     error.email = "Required Email Address";
   }
-  if (!values.intrestedArea) {
+  if (values.intrestedArea?.length == 0) {
     error.intrestedArea = "Required Interests";
   }
-
   if (!values.houseno) {
     error.houseno = "Required Address.";
   }
@@ -59,11 +61,12 @@ const ProfileValidate = (values) => {
     if (!values.location) {
       error.location = "Required Working Location";
     }
-  } else if (values.working == 2) {
-    if (!values.timezone) {
-      error.timezone = "Required Time-Zone";
-    }
   }
+  //  else if (values.working == 2) {
+  //   if (!values.timezone) {
+  //     error.timezone = "Required Time-Zone";
+  //   }
+  // }
   if (!values.courseStatus) {
     error.courseStatus = "Required Status";
   }
@@ -105,8 +108,7 @@ const ProfileValidate = (values) => {
   ) {
     error.qualification = "Required qualification";
   }
-
-  if (!values.skills) {
+  if (values.skills?.length == 0) {
     error.skills = "Required Skills";
   }
 

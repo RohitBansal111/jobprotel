@@ -6,12 +6,13 @@ import validate from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useState } from "react";
 
-const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
+const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
   let titleStrings = new LocalizedStrings(titles);
   const [err, setErr] = useState([]);
   const [captcha, setCaptcha] = useState({ captchaCode: "" });
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
+  const [declaration, setDeclaration] = useState(false);
 
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleConfirmPassword = () =>
@@ -20,6 +21,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const validation = () => {
     let isValid = true;
     let error = {};
@@ -27,9 +29,14 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
       error.captcha = "Please verify captcha";
       isValid = false;
     }
+    if (role == "Student" && !declaration) {
+      error.declaration = "Please check";
+      isValid = false;
+    }
     setErr(error);
     return isValid;
   };
+
   const SaveStep1 = (values) => {
     if (validation()) {
       handleSubmit(values);
@@ -38,6 +45,10 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
 
   const handleCaptcha = (value) => {
     setCaptcha({ captchaCode: value });
+  };
+
+  const handleDeclaration = () => {
+    setDeclaration(!declaration);
   };
 
   return (
@@ -99,7 +110,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                       )}
                     </span>
                   </Field>
-                </div> 
+                </div>
                 <div className="form-field flex100 withoutLabel">
                   <Field
                     name="confirmPassword"
@@ -135,14 +146,21 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                   <p style={{ color: "red" }}>{err && err.captcha}</p>
                 </div>
               </div>
-              <div className="form-field flex100 mb-5 d-flex align-items-center">
-                <input
-                  type="checkbox"
-                  name="termsPrivacy"
-                  className="me-2"
-                /> I declare myself as a student or been passed in less than 6 months.
-                <span className="checkmarks"></span>
-              </div>
+              {role == "Student" && (
+                <>
+                  <div className="form-field flex100 mb-5 d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      name="declaration"
+                      className="me-2"
+                      onChange={handleDeclaration}
+                    />{" "}
+                    I declare myself as a student or been passed in less than 6
+                    months.
+                  </div>
+                  <p style={{ color: "red" }}>{err?.declaration}</p>
+                </>
+              )}
               <div className="form-action">
                 <button
                   type="button"
@@ -156,7 +174,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data }) => {
                   type="submit"
                   className="btn btn-primary next-btn text-white text-center"
                 >
-                  {" "} 
+                  {" "}
                   {titleStrings.submit}{" "}
                 </button>
               </div>

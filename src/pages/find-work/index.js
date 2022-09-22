@@ -30,7 +30,6 @@ const FindWork = () => {
 
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
-    console.log("qq", authData);
     if (authData) {
       setId(authData.id);
       getStudentDetails(authData.id);
@@ -46,9 +45,7 @@ const FindWork = () => {
   }, []);
 
   const getStudentDetails = async (id = authData.id) => {
-    console.log(id, ":::");
     const resp = await studentServices.getStudentDetails(id);
-
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
@@ -110,7 +107,7 @@ const FindWork = () => {
                     >
                       Complete KYC
                     </button>
-                    <CompleteKycModal jobList={jobList} />
+                    <CompleteKycModal />
                   </>
                 ) : (
                   <button type="button" className="btn submit-kyc" onClick={()=>{
@@ -181,12 +178,6 @@ const FindWork = () => {
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
-                        Hour's per/day{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
-                        </span>
-                      </li>
-                      <li>
                         Skills{" "}
                         <span className="result">
                           {studentData?.studentDetails?.skills}
@@ -221,6 +212,13 @@ const FindWork = () => {
                             studentData?.studentDetails?.qualificationResponse
                               ?.qualificationName
                           }
+                        </span>
+                      </li>
+                      <li>
+                        Hour / week{" "}
+                        <span className="result">
+                          {studentData?.studentDetails?.workHoursPerWeek}
+                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
                         </span>
                       </li>
                     </ul>

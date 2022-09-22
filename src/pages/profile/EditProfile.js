@@ -48,7 +48,6 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-
   const [studentData, setStudentData] = useState([]);
   const [studentProfilePic, setStudentProfilePic] = useState("");
   const [studentResume, setStudentResume] = useState("");
@@ -63,16 +62,12 @@ const EditProfile = () => {
   const [designationlist, setDesignationlist] = useState([]);
   const [resumeName, setResumeName] = useState("");
   const [updatedResumeName, setUpdatedResumeName] = useState("");
-
   const [resumeFile, setResumeFile] = useState([]);
   const [coverName, setCoverName] = useState("");
   const [updatedCoverName, setUpdatedCoverName] = useState("");
-
   const [coverLetter, setCoverLetter] = useState([]);
-
   const [collegeList, setCollegelist] = useState([]);
   const [collegeList2, setCollegelist2] = useState([]);
-
   const [genderList, setGenderlist] = useState([]);
   const [skillslist, setSkillslist] = useState([]);
   const [modal, setModal] = useState(false);
@@ -86,13 +81,14 @@ const EditProfile = () => {
   const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
   const [inputField2, setInputField2] = useState(false);
-
   const [previewImg, setPreviewImg] = useState([]);
   const [working, setWorking] = useState("");
   const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
   const [locationCheck, setLocationCheck] = useState(false);
+  const [timezoneCheck, setTimezoneCheck] = useState(false);
   const [courseStatus, setCourseStatus] = useState(false);
+  const [err, setErr] = useState([]);
 
   const resumeHandler = (e) => {
     const files = e.target.files[0];
@@ -226,7 +222,7 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      // console.log(resp, ":::");
+      console.log(resp, "::::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
@@ -246,12 +242,15 @@ const EditProfile = () => {
           );
         }
 
-        if (response?.studentDetails?.resumeFilePath) {
+        if (response?.studentDetails?.resumeFilePath !== null) {
           setUpdatedResumeName(response?.studentDetails?.resumeFilePath);
+          setResumeFile(response?.studentDetails?.resumeFilePath);
         }
-
-        if (response?.studentDetails?.coverLetter) {
+        if (response?.studentDetails?.coverLetter !== null) {
           setUpdatedCoverName(response?.studentDetails?.coverLetter);
+          setCoverLetter(response?.studentDetails?.coverLetter);
+        }
+        if (response?.studentDetails?.coverLetter) {
         }
         let finalInterest = [];
         if (response?.studentDetails?.interests) {
@@ -335,8 +334,14 @@ const EditProfile = () => {
           if (data.Country) {
             handleCollegeName(data.Country);
           }
+          if (response?.studentDetails?.workingType) {
+            setWorking(response.studentDetails.workingType);
+          }
           if (data.location) {
             setLocationCheck(true);
+          }
+          if (data.timezone) {
+            setTimezoneCheck(true);
           }
           if (data.qualification) {
             setInputField(true);
@@ -384,18 +389,12 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
-    setLoadingUpdate(true);
     let formData = new FormData();
 
     formData.append("userId", id);
     formData.append("firstName", values.firstname);
     formData.append("lastName", values.lastname);
     formData.append("email", values.email);
-
-    // if (img?.personalInfoImg?.length > 1000) {
-    //   formData.append("profileImage", img.personalInfoImg);
-    // }
-
     formData.append("addressLine1", values.addressLine1);
     formData.append("addressLine2", values.addressLine2);
     formData.append("stateId", values.state);
@@ -405,9 +404,9 @@ const EditProfile = () => {
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
-    if(values.courseStatus == "ongoing") {
+    if (values.courseStatus == "ongoing") {
       formData.append("startDate", values.startDate);
-    }else if(values.courseStatus == "completed") {
+    } else if (values.courseStatus == "completed") {
       formData.append("startDate", values.startDate);
       formData.append("endDate", values.endDate);
     }
@@ -419,7 +418,7 @@ const EditProfile = () => {
       "qualificationId",
       qualificationId
         ? qualificationId
-        : studentData.studentDetails.qualificationResponse.id
+        : studentData?.studentDetails?.qualificationResponse?.id
     );
 
     let interestsArr = [];
@@ -459,12 +458,11 @@ const EditProfile = () => {
     formData.append("expectedSalary", values.salary);
     formData.append("phoneNumber", values.phone);
     formData.append("workHoursPerWeek", values.hours);
-    // formData.append("timezone", JSON.stringify(timezone));
-    if (values.working == 1) {
-      formData.append("workingTypes", values.working);
+    if (working == 1) {
+      formData.append("workingTypes", working);
       formData.append("location", values.location);
-    } else {
-      formData.append("workingTypes", values.working);
+    } else if (working == 2) {
+      formData.append("workingTypes", working);
       formData.append("timezone", JSON.stringify(timezone));
     }
     if (!updatedResumeName) {
@@ -474,9 +472,10 @@ const EditProfile = () => {
       formData.append("resumeFile", resumeFile);
       formData.append("operationType", 2);
     }
-    if (coverLetter) {
+    if (coverLetter.length > 1000) {
       formData.append("coverLetter", coverLetter);
     }
+
     // if (previewImg?.length > 0) {
     //   for (var i = 0; i < previewImg.length; i++) {
     //     formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
@@ -486,48 +485,69 @@ const EditProfile = () => {
     //     );
     //   }
     // }
+    if (validation()) {
+      const resp = await studentServices.updateStudentDetails(formData);
+      setLoadingUpdate(true);
 
-    const resp = await studentServices.updateStudentDetails(formData);
-    if (resp.status === 200) {
-      setLoadingUpdate(false);
-      //call firebase
-      readUsers(authData.id, values.firstname, values.lastname);
+      if (resp.status === 200) {
+        setLoadingUpdate(false);
+        //call firebase
+        readUsers(authData.id, values.firstname, values.lastname);
 
-      const resp2 = await studentServices.getStudentDetails(id);
-      localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
-      if (resp2.status == 200) {
-        dispatch({
-          type: types.LOGIN_USER_SUCCESS,
-          payload: resp2.data.data,
-          token: localStorage.getItem("jobPortalUserToken"),
+        const resp2 = await studentServices.getStudentDetails(id);
+        localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
+        if (resp2.status == 200) {
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+        }
+        toast.success(
+          resp.data.message ? resp.data.message : "Something went wrong"
+        );
+
+        setTimeout(() => {
+          // window.location.reload();
+        }, 300);
+        if (authData) {
+          getStudentData(authData.id);
+        }
+      } else if (resp.errors && typeof resp.errors === "object") {
+        setLoadingUpdate(false);
+        setLoading(false);
+        let errors = "";
+        let keys = Object.keys(resp.errors);
+        keys.forEach((key) => {
+          errors = key + "," + errors;
         });
-      }
-      toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
-      );
 
-      setTimeout(() => {
-        // window.location.reload();
-      }, 300);
-      if (authData) {
-        getStudentData(authData.id);
+        errors = errors.replace(/,\s*$/, "");
+        toast.error(errors + "is Required");
+      } else if (resp.error) {
+        setLoadingUpdate(false);
+        setLoading(false);
+        toast.error(resp.error ? resp.error : "Something went wrong");
+      } else {
+        setLoadingUpdate(false);
       }
-    } else if (resp.errors && typeof resp.errors === "object") {
-      setLoading(false);
-      let errors = "";
-      let keys = Object.keys(resp.errors);
-      keys.forEach((key) => {
-        errors = key + "," + errors;
-      });
-
-      errors = errors.replace(/,\s*$/, "");
-      toast.error(errors + "is Required");
-    } else if (resp.error) {
-      setLoading(false);
-      toast.error(resp.error ? resp.error : "Something went wrong");
-    } else {
-      setLoadingUpdate(false);
     }
+  };
+
+  const validation = () => {
+    let isValid = true;
+    let error = {};
+    console.log(resumeFile, "::::");
+    if (resumeFile?.length == 0) {
+      isValid = false;
+      error["resumeFile"] = "Required resume";
+    }
+    if (coverLetter?.length == 0) {
+      isValid = false;
+      error["coverLetter"] = "Required coverLetter";
+    }
+    setErr(error);
+    return isValid;
   };
 
   const readUsers = (userId, firstName, lastName) => {
@@ -645,10 +665,9 @@ const EditProfile = () => {
     setCollegelist2(arr);
   };
 
-  const handleCourseStatus = (e)=> {
-    console.log(e.target.value, ':::::')
+  const handleCourseStatus = (e) => {
     setCourseStatus(true);
-}
+  };
 
   useEffect(() => {
     handleCollegeList();
@@ -663,9 +682,11 @@ const EditProfile = () => {
     let value = e.target.value;
     setWorking(value);
     if (value == 1) {
+      setTimezoneCheck(false);
       setLocationCheck(true);
-    } else {
+    } else if (value == 2) {
       setLocationCheck(false);
+      setTimezoneCheck(true);
     }
   };
 
@@ -792,9 +813,11 @@ const EditProfile = () => {
                         </span>
                       </li>
                       <li>
-                        Hours / day{" "}
+                        Hour / week{" "}
                         <span className="result">
                           {studentData?.studentDetails?.workHoursPerWeek}
+                          {studentData?.studentDetails?.workHoursPerWeek &&
+                            " hour"}
                         </span>
                       </li>
                     </ul>
@@ -868,7 +891,7 @@ const EditProfile = () => {
                                   <div className="form-field flex50">
                                     <Field
                                       name="firstname"
-                                      label="First name"
+                                      label="First Name"
                                       placeholder="Enter first name"
                                       component={renderField}
                                       disabled
@@ -877,7 +900,7 @@ const EditProfile = () => {
                                   <div className="form-field flex50">
                                     <Field
                                       name="lastname"
-                                      label="Last name"
+                                      label="Last Name"
                                       placeholder="Enter last name"
                                       component={renderField}
                                       disabled
@@ -1023,10 +1046,11 @@ const EditProfile = () => {
                                   <div className="form-field flex50">
                                     <Field
                                       name="phone"
-                                      placeholder="phone"
+                                      placeholder="Phone"
                                       label="Phone Number"
-                                      component={renderField}
-                                    ></Field>
+                                      component={renderNumberField}
+                                      pattern="[0-9]*"
+                                    />
                                   </div>
                                   <div className="form-field flex50">
                                     <Field
@@ -1118,28 +1142,33 @@ const EditProfile = () => {
                                       </Field>
                                     </div>
                                   </div>
-                                 {courseStatus && <div className="form-field flex50">
-                                    <Field
-                                      name="startDate"
-                                      label="Start Date"
-                                      placeholder="Enter start date"
-                                      component={renderField}
-                                      type="date"
-                                    />
-                                  </div>}
-                                  {courseStatus && values.courseStatus == "completed" && <div className="form-field flex50">
-                                    <Field
-                                      name="endDate"
-                                      label="End Date"
-                                      placeholder="Enter end date"
-                                      component={renderField}
-                                      type="date"
-                                      min={values?.startDate}
-                                      disabled={
-                                        !values.startDate ? true : false
-                                      }
-                                    />
-                                  </div>}
+                                  {courseStatus && (
+                                    <div className="form-field flex50">
+                                      <Field
+                                        name="startDate"
+                                        label="Start Date"
+                                        placeholder="Enter start date"
+                                        component={renderField}
+                                        type="date"
+                                      />
+                                    </div>
+                                  )}
+                                  {courseStatus &&
+                                    values.courseStatus == "completed" && (
+                                      <div className="form-field flex50">
+                                        <Field
+                                          name="endDate"
+                                          label="End Date"
+                                          placeholder="Enter end date"
+                                          component={renderField}
+                                          type="date"
+                                          min={values?.startDate}
+                                          disabled={
+                                            !values.startDate ? true : false
+                                          }
+                                        />
+                                      </div>
+                                    )}
                                   <div className="form-field flex100">
                                     <Field
                                       name="intrestedArea"
@@ -1282,7 +1311,7 @@ const EditProfile = () => {
                                         component={RenderRadioButtonField}
                                         type="radio"
                                         onChange={handleWorkingChange}
-                                        // dvalue={working}
+                                        dvalue={working}
                                         currentIndex="0"
                                       >
                                         Onsite
@@ -1293,14 +1322,14 @@ const EditProfile = () => {
                                         component={RenderRadioButtonField}
                                         type="radio"
                                         onChange={handleWorkingChange}
-                                        // dvalue={working}
+                                        dvalue={working}
                                         currentIndex="1"
                                       >
                                         OffSite
                                       </Field>
                                     </div>
                                   </div>
-                                  {locationCheck ? (
+                                  {locationCheck && (
                                     <div className="form-field flex100">
                                       <Field
                                         name="location"
@@ -1309,7 +1338,8 @@ const EditProfile = () => {
                                         component={renderField}
                                       />
                                     </div>
-                                  ) : (
+                                  )}
+                                  {timezoneCheck && (
                                     <div className="form-field flex100">
                                       <div className="timezone--wrapper">
                                         <label>Time Zone</label>
@@ -1338,6 +1368,9 @@ const EditProfile = () => {
                                       />
                                       <span>Upload Resume</span>
                                     </div>
+                                    <p style={{ color: "red" }}>
+                                      {err?.resumeFile}
+                                    </p>
                                     <ul className="uploaded-documents">
                                       <li>
                                         {updatedResumeName
@@ -1436,6 +1469,9 @@ const EditProfile = () => {
                                       />
                                       <span>Upload Cover Letter</span>
                                     </div>
+                                    <p style={{ color: "red" }}>
+                                      {err?.coverLetter}
+                                    </p>
                                     <ul className="uploaded-documents">
                                       <li>
                                         {updatedCoverName

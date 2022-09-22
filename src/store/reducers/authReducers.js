@@ -1,6 +1,4 @@
 import * as types from "../../types/auth";
-import { login } from "../action/authActions";
-
 const initState = {
   isAuthenticated: false,
   token: "",
@@ -15,6 +13,13 @@ const authReducers = (state = initState, action) => {
         ...state,
         isLoading: true,
       };
+
+    case types.UPDATE_DATA:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     case types.LOGIN_USER_SUCCESS:
       return {
         ...state,
@@ -31,6 +36,7 @@ const authReducers = (state = initState, action) => {
         isLoading: false,
         message: action.payload,
       };
+      
     case types.LOGOUT_USER:
       return {
         isAuthenticated: false,
