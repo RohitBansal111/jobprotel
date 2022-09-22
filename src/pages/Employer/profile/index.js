@@ -1,9 +1,8 @@
 import Layout from "../../../components/Layout";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import EditIcon from "./../../../assets/icons/editicon.png";
-import ClockIcon from "./../../../assets/icons/clock-ico.png";
-import CompanyProfile from "./../../../assets/images/company-logo.png";
 import CompanyInfoModal from "../../../components/modals/companyInfoModal";
+import UserAvtar from "./../../../assets/images/demo.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
@@ -14,11 +13,9 @@ import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
 import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
-import LocationIcon from "../../../assets/icons/loc-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 
 const EmployerProfile = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   const [employerData, setEmployerData] = useState([]);
@@ -146,7 +143,7 @@ const EmployerProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={companyLogo} alt="Company profile" />
+                        <img src={!companyLogo ? companyLogo : UserAvtar} alt="Company profile" />
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>

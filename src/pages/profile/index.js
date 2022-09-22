@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/user-img.jpg";
+import UserAvtar from "./../../assets/images/demo.png";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal";
 import AddProjectModal from "../../components/modals/add-project-modal";
@@ -397,14 +397,16 @@ const Profile = () => {
                       aria-valuemin="0"
                       aria-valuemax="100"
                     >
-                      <span className="profile-img">
+                      <div className="profile-img">
                         <img
-                          src={
-                            studentProfilePic ? studentProfilePic : UserAvtar
-                          }
+                          src={studentProfilePic ? studentProfilePic : UserAvtar}
                           alt="user profile"
                         />
-                      </span>
+                        <button type="button" className="update-profile">
+                          <i className="fa fa-edit"></i> 
+                          <input type="file" />
+                        </button>
+                      </div>
                     </div>
                     <h3>
                       {studentData?.firstName} {studentData?.lastName}{" "}
@@ -762,7 +764,7 @@ const Profile = () => {
                                       )}
 
                                       {editCertificate[i] ? (
-                                        <>
+                                        <div className="d-flex align-items-center">
                                           <button className="btn p-0 ms-3">
                                             <span className="btn btn-edit p-0 ps-3">
                                               <i
@@ -781,9 +783,9 @@ const Profile = () => {
                                               />
                                             </span>
                                           </button>
-                                        </>
+                                        </div>
                                       ) : (
-                                        <>
+                                        <div className="d-flex align-items-center">
                                           {" "}
                                           <button
                                             type="button"
@@ -820,7 +822,7 @@ const Profile = () => {
                                           >
                                             <i className="fas fa-trash"></i>
                                           </button>
-                                        </>
+                                        </div>
                                       )}
                                     </div>
                                   </>

@@ -120,6 +120,7 @@ section.complete-kyc {
               display: block;
               margin: auto;
               padding: 0px;
+              position: relative;
               img {
                 display: block;
                 width: 128px;
@@ -127,6 +128,34 @@ section.complete-kyc {
                 border-radius: 50%;
                 height: 128px;
                 background-color: #c2c3c5;
+              }
+              .update-profile{
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                bottom: 10px;
+                right: 1px;
+                background-color: #0e6d62;
+                border: 2px solid transparent;
+                border-radius: 50%;
+                padding: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                i{
+                  font-size: 12px;
+                  color: #fff;
+                }
+                input{
+                  width: 30px;
+                  height: 30px;
+                  opacity: 0;
+                  cursor: pointer;
+                  position: absolute;
+                  left: 0px;
+                  top: 0px;
+                  z-index: 9999;
+                }
               }
             }
           }
