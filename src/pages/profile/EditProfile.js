@@ -465,14 +465,15 @@ const EditProfile = () => {
       formData.append("workingTypes", working);
       formData.append("timezone", JSON.stringify(timezone));
     }
-    if (!updatedResumeName) {
+    if (!updatedResumeName || updatedResumeName == undefined) {
       formData.append("resumeFile", resumeFile);
       formData.append("operationType", 1);
     } else {
       formData.append("resumeFile", resumeFile);
       formData.append("operationType", 2);
     }
-    if (coverLetter.length > 1000) {
+    console.log(coverLetter, ":::::");
+    if (coverLetter) {
       formData.append("coverLetter", coverLetter);
     }
 
@@ -485,6 +486,7 @@ const EditProfile = () => {
     //     );
     //   }
     // }
+
     if (validation()) {
       const resp = await studentServices.updateStudentDetails(formData);
       setLoadingUpdate(true);
@@ -538,11 +540,11 @@ const EditProfile = () => {
     let isValid = true;
     let error = {};
     console.log(resumeFile, "::::");
-    if (resumeFile?.length == 0) {
+    if (resumeFile?.length == 0 || resumeFile == undefined) {
       isValid = false;
       error["resumeFile"] = "Required resume";
     }
-    if (coverLetter?.length == 0) {
+    if (coverLetter?.length == 0 || coverLetter == undefined) {
       isValid = false;
       error["coverLetter"] = "Required coverLetter";
     }
@@ -632,7 +634,6 @@ const EditProfile = () => {
 
   const handleCollege = (e) => {
     let value = e.target.value;
-    console.log(value, "::::");
     setCollegeId(value);
     if (
       value == "d5436e27-34e0-11ed-984a-068f5cec9f16" ||
