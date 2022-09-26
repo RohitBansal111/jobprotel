@@ -33,7 +33,6 @@ export const login = (user, navigate) => {
           toast.success("Login Success");
           navigate("/posted-jobs");
         }
-
         dispatch({
           type: types.LOGIN_USER_SUCCESS,
           payload: response,

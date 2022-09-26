@@ -18,29 +18,78 @@ import titles from "../../../components/EmployerRegister/register.json";
 import { RenderPhoneInput } from "../../../components/renderPhoneInput";
 import * as employerDetails from "../../../services/employerServices";
 import { async } from "@firebase/util";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "toastr";
 import { Loader } from "../../../components/Loader/Loader";
+import ImageCropperModal from "../../../components/Image-cropper";
+import * as types from "../../../types/auth";
 
 const EmployerEditProfile = () => {
   let titleStrings = new LocalizedStrings(titles);
+  const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [countrylist, setCountrylist] = useState([]);
   const [phoneNumberFlag, setphoneNumberFlag] = useState();
   const [stateList, setStateList] = useState([]);
   const [employerData, setEmployerData] = useState([]);
+  const [companyDetails, setCompanyDetails] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [companyLogo, setCompanyLogo] = useState("");
+  const [modal, setModal] = useState(false);
+  const [error, setError] = useState([]);
+  const [id, setId] = useState("");
+  const [img, setImg] = useState({
+    personalInfoImg: "",
+  });
 
-  const saveProfile = (values) => {
-    console.log(values, "::::");
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  const readFile = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(reader.result), false);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const saveProfile = async (values) => {
     let formData = new FormData();
+
     formData.append("userId", authData?.id);
     formData.append("firstName", values.firstName);
     formData.append("lastName", values.lastName);
     formData.append("email", values.email);
     formData.append("companyPhone", values.companyPhone);
     formData.append("companyName", values.companyName);
+    formData.append("address", values.address);
+
+    if (companyDetails?.isProfileCompleted) {
+      formData.append("operationType", 2);
+      formData.append("logoUrl", img.personalInfoImg);
+    } else {
+      formData.append("logoUrl", img.personalInfoImg);
+      formData.append("operationType", 1);
+    }
+
+    if (validation()) {
+      const resp = await employerDetails.updateEmployerDetails(formData);
+      if (resp.status == 200) {
+        const resp2 = await employerDetails.getEmployerDetails(id);
+        if (resp2.status == 200) {
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+        }
+        toast.success(resp.data.message);
+      } else {
+        toast.error(
+          resp?.data?.message ? resp.data.message : "Something went wrong"
+        );
+      }
+    }
   };
 
   const handleChangeCountry = async (e) => {
@@ -55,17 +104,34 @@ const EmployerEditProfile = () => {
       const response = resp.data.data;
       console.log(response, "::::");
       setEmployerData(response);
+      setCompanyDetails(response?.comapanyDetail);
+      setImg({
+        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`,
+      });
     } else if (resp.status == 400) {
       setLoading(false);
-      // toast.error(
-      //   resp?.data?.message ? resp.data.message : "Something went wrong"
-      // );
+      toast.error(
+        resp?.data?.message ? resp.data.message : "Something went wrong"
+      );
     }
   };
 
-  const handleLogoChange = (e) => {
-    let file = e.target.files[0];
-    setCompanyLogo(file);
+  const validation = () => {
+    let isValid = true;
+    let err = {};
+    if (!img.personalInfoImg) {
+      isValid = false;
+      err["companyLogo"] = "Required Company Logo";
+    }
+    setError(err);
+    return isValid;
+  };
+
+  const handleLogoChange = (event) => {
+    setModal(true);
+    if (event.target.files && event.target.files.length > 0) {
+      setImg({ personalInfoImg: URL.createObjectURL(event.target.files[0]) });
+    }
   };
 
   useEffect(async () => {
@@ -74,7 +140,11 @@ const EmployerEditProfile = () => {
   }, []);
 
   useEffect(() => {
-    getEmployerDetails(authData?.id);
+    if (authData) {
+      // console.log(authData, "::::")
+      setId(authData?.id);
+      getEmployerDetails(authData?.id);
+    }
   }, [authData]);
 
   return (
@@ -104,7 +174,10 @@ const EmployerEditProfile = () => {
                         aria-valuemax="100"
                       >
                         <span className="profile-img">
-                          <img src={companyLogo} alt="Company profile" />
+                          <img
+                            src={img.personalInfoImg}
+                            alt="Company profile"
+                          />
                         </span>
                       </div>
                       <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -131,7 +204,7 @@ const EmployerEditProfile = () => {
                         <li>
                           Contact Details{" "}
                           <span className="result">
-                            {authData?.comapanyDetail?.companyEmail}
+                            {authData?.email}
                           </span>
                         </li>
                       </ul>
@@ -174,10 +247,19 @@ const EmployerEditProfile = () => {
                     </div> */}
                     </div>
                   </div>
+                  <ImageCropperModal
+                    closeModal={closeModal}
+                    showImageCropModal={modal}
+                    readFile={readFile}
+                    imageSrc={img.personalInfoImg}
+                    setImg={setImg}
+                  />
                   <Form
                     onSubmit={saveProfile}
                     validate={validate}
-                    initialValues={employerData}
+                    initialValues={
+                      companyDetails ? companyDetails : employerData
+                    }
                   >
                     {({ handleSubmit, submitting, values }) => (
                       <form onSubmit={handleSubmit}>
@@ -210,7 +292,7 @@ const EmployerEditProfile = () => {
                                     placeholder="Enter email Address"
                                     label="Email Address"
                                     component={renderField}
-                                    disabled
+                                    // disabled
                                   />
                                 </div>
                                 <div>
@@ -291,7 +373,7 @@ const EmployerEditProfile = () => {
                                 </div>
                                 <div className="form-field flex50">
                                   <Field
-                                    name="companyAddress"
+                                    name="address"
                                     placeholder="Enter Company Address"
                                     label="Company Address"
                                     component={renderField}
@@ -309,17 +391,20 @@ const EmployerEditProfile = () => {
                                           onChange={handleLogoChange}
                                         />
                                       </div>
+                                      <p style={{ color: "red" }}>
+                                        {error?.companyLogo}
+                                      </p>
                                     </div>
-                                    {/* <div className="aws-placeholder image4">
+                                    <div className="aws-placeholder image4">
                                       <img
-                                        src={companyLogo}
+                                        src={img.personalInfoImg}
                                         className="img-aws"
                                         alt="avtar"
                                         width={100}
                                         height={100}
                                         layout="fill"
                                       />
-                                    </div> */}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -328,10 +413,10 @@ const EmployerEditProfile = () => {
                         </section>
                         <div className="form-field flex100 mb-5 d-flex justify-content-end">
                           <button
-                            type="button"
+                            type="submit"
                             className="btn btn-save btn-primary"
                           >
-                            Save
+                            {employerData?.comapanyDetail?.isProfileCompleted ? "Update" : "Save"}
                           </button>
                         </div>
                       </form>

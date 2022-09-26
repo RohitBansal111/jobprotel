@@ -34,8 +34,8 @@ const ImageCropperModal = ({
       setCroppedImage(croppedImage);
       setImg({ personalInfoImg: croppedImage });
       closeModal();
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
     }
   }, [imageSrc, croppedAreaPixels, rotation, closeModal, setImg]);
 

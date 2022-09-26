@@ -47,6 +47,7 @@ const Register = () => {
   const handleRole = (role) => {
     setActiveRole(role);
   };
+  
   const handleSubmit = async (data) => {
     if (activeRole == "Employer") {
       data.roles = 2;
@@ -240,6 +241,7 @@ const Register = () => {
                   handleSubmit={handleSubmit}
                   userBasicInfo={userBasicInfo}
                   data={userData}
+                  role={activeRole}
                 />
               )}
             </div>
