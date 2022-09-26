@@ -1,9 +1,7 @@
 import React from "react";
-import Layout from "../components/Layout";
 
 const TermsConditions = () => {
   return (
-    <Layout>
       <h6>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl
         eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a
@@ -175,7 +173,6 @@ const TermsConditions = () => {
         metus, non dictum mauris. Nulla at tellus sagittis, viverra est a,
         bibendum metus.
       </h6>
-    </Layout>
   );
 };
 

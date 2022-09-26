@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
-import UserAvtar from "./../../assets/images/user-img.jpg";
 import ConnectIcon from "./../../assets/icons/connect.png";
 import EmploymentDetailsModal from "../../components/modals/employmentDetailsModal";
 import AddProjectModal from "../../components/modals/add-project-modal";
@@ -18,6 +17,7 @@ import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
 import Swal from "sweetalert2";
+import DefaultProfile from "./../../assets/images/demo.png";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -55,6 +55,7 @@ const Profile = () => {
     setLoading(true);
     getProjectHistory(id, pageNumber);
   };
+
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
@@ -147,12 +148,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    // debugger
-    // if(authData?.studentDetails?.kycStatus === "true"){
     setTimeout(() => {
       setKycStatus(false);
     }, 1000);
-    // }
   }, []);
 
   const getTimeZone = (timezone) => {
@@ -401,7 +399,7 @@ const Profile = () => {
                       <span className="profile-img">
                         <img
                           src={
-                            studentProfilePic ? studentProfilePic : UserAvtar
+                            studentProfilePic ? studentProfilePic : DefaultProfile
                           }
                           alt="user profile"
                         />

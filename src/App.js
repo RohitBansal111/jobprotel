@@ -37,19 +37,30 @@ import InvitationRoutes from "./HOC/InvitationRoutes";
 import InvitationAccepted from "./pages/Employer/posted-job/invitation-accepted";
 import Verify from "./email-verification/Verify";
 import * as studentServices from "./services/studentServices";
+import * as employerServices from "./services/employerServices";
 import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(async () => {
-    let id = JSON.parse(localStorage.getItem("jobPortalUser")).id;
-    if (id) {
+    let data = JSON.parse(localStorage.getItem("jobPortalUser"));
+    console.log(data, ":::::");
+    let id = data.id;
+    if (data.roles == "Student") {
       const resp = await studentServices.getStudentDetails(id);
       if (resp.status == 200) {
         const response = resp.data.data;
         dispatch({
           type: types.UPDATE_DATA,
           payload: response,
+        });
+      }
+    } else if (data.roles == "Employer") {
+      const resp = await employerServices.getEmployerDetails(id);
+      if (resp.status == 200) {
+        dispatch({
+          type: types.UPDATE_DATA,
+          payload: resp.data.data,
         });
       }
     }

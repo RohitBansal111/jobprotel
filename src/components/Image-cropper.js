@@ -8,7 +8,6 @@ import { getCroppedImg } from "./canvasUtils";
 const ImageCropperModal = ({
   closeModal,
   showImageCropModal,
-  readFile,
   imageSrc,
   setImg,
 }) => {
@@ -16,39 +15,24 @@ const ImageCropperModal = ({
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+  const onCropComplete = useCallback((croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   const showCroppedImage = useCallback(async () => {
-    // closeModal();
     try {
       const croppedImage = await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
         rotation
       );
-      // convertToBlob(croppedImage)
-      setCroppedImage(croppedImage);
       setImg({ personalInfoImg: croppedImage });
       closeModal();
     } catch (err) {
       console.error(err);
     }
   }, [imageSrc, croppedAreaPixels, rotation, closeModal, setImg]);
-
-  const convertToBlob = async (base64) => {
-    try {
-      const base64Response = await fetch(`${base64}`);
-      const blob = await base64Response.blob();
-      console.log(blob);
-      return blob;
-    } catch (error) {
-      return null;
-    }
-  };
 
   return (
     <Modal

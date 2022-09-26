@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import Layout from "../components/Layout";
 
 const PrivacyPolicy = () => {
   return (
-    <Layout>
       <h6>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl
         eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a
@@ -127,7 +125,6 @@ const PrivacyPolicy = () => {
         metus, non dictum mauris. Nulla at tellus sagittis, viverra est a,
         bibendum metus.
       </h6>
-    </Layout>
   );
 };
 

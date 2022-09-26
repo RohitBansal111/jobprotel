@@ -22,6 +22,7 @@ const PostedJob = () => {
   const [loading, setLoading] = useState(true);
 
   const authData = useSelector((state) => state.auth.user);
+  
   useEffect(() => {
     if (authData) {
       console.log(authData, "::::");
@@ -145,8 +146,8 @@ const PostedJob = () => {
                       </li>
                     </ul>
                   </div>
-                  {/* <div className="profile-strength">
-                    <div className="profile-strength-inner">
+                  <div className="profile-strength">
+                    {/* <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
                         <span className="profile-completed">60% Completed</span>
@@ -171,8 +172,8 @@ const PostedJob = () => {
                           ></span>
                         </div>
                       </div>
-                    </div>
-                  </div> */}
+                    </div> */}
+                  </div>
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">

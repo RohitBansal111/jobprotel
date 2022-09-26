@@ -25,47 +25,30 @@ import toast from "toastr";
 import { Loader } from "../../components/Loader/Loader";
 
 const PostedJobModal = ({ id }) => {
-  let titleStrings = new LocalizedStrings(titles);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const [qualificationList, setQualificationList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [qualificationList, setQualificationList] = useState(null);
   const [skillslist, setSkillslist] = useState([]);
   const [tagslist, setTagslist] = useState([]);
-  const [designationlist, setDesignationlist] = useState([]);
   const [sal, setSal] = useState("10,000");
   const [datetime, setDatetime] = useState(spacetime.now());
-  const [timezone2, setTimezone2] = useState("");
   const [timezone, setTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
+  const [qualificationId, setQualificationId] = useState("");
+  const [inputField, setInputField] = useState(false);
+  const [working, setWorking] = useState("");
+  const [timezoneCheck, setTimezoneCheck] = useState(false);
+  const [locationCheck, setLocationCheck] = useState(false);
+  const [checkinvites, setCheckInvites] = useState(false);
 
-  // const [postJobData, setPostJobData] = useState({
-  //   employerId: "",
-  //   title: "",
-  //   description: "",
-  //   designationId: "",
-  //   experienceInYears: "",
-  //   experienceInMonth: "",
-  //   hoursPerDay: "",
-  //   daysPerWeek: "",
-  //   salary: sal,
-  //   location: "",
-  //   timing: "",
-  //   qualification: "",
-  //   skills: "",
-  //   timeZone: "",
-  //   tags: "",
-  // });
-
-  const navigate = useNavigate();
   const handleTimeZone = (data) => {
-    console.log("data", JSON.stringify(data));
-    let d = JSON.stringify(data);
-    setTimezone(d);
+    console.log(data, "::::")
+    // let d = JSON.stringify(data);
+    setTimezone(data);
   };
 
-  const [showTimeZone, setShowTimeZone] = useState(false);
-  const [checkinvites, setCheckInvites] = useState(false);
   useMemo(() => {
     const timezoneValue = timezone.value ?? timezone;
     setDatetime(datetime.goto(timezoneValue));
@@ -83,63 +66,48 @@ const PostedJobModal = ({ id }) => {
   };
 
   const handleJobPost = (values) => {
-    setLoading(true);
-    console.log(values);
     let tagsArr = [];
-    values &&
-      values.tags.length > 0 &&
+    values?.tags?.length > 0 &&
       values.tags.map((tag) => tagsArr.push(tag.text));
 
     let skillsArr = [];
-    values &&
-      values.skills.length > 0 &&
+    values?.skills?.length > 0 &&
       values.skills.map((skill) => skillsArr.push(skill.text));
 
     let qualifictionsArr = [];
-    values &&
-      values.qualification.length > 0 &&
+    values?.qualification?.length > 0 &&
       values.qualification.map((qual) => qualifictionsArr.push(qual.id));
 
-    // setPostJobData({
-    //   ...values,
-    //   hoursPerDay: values.hoursDays,
-    //   daysPerWeek: values.days,
-    //   skills: skillsArr,
-    //   tags: tagsArr,
-    //   qualification: qualifictionsArr,
-    //   timeZone: showTimeZone ? timezone : timezone2,
-    //   employerId: id,
-    // });
-    if (values.skills.length > 0 && values.tags.length > 0) {
-      console.log(values, "::");
-      postJob({
-        ...values,
-        hoursPerDay: values.hoursDays,
-        daysPerWeek: values.days,
-        skills: skillsArr,
-        tags: tagsArr,
-        qualification: qualifictionsArr,
-        timeZone: showTimeZone ? timezone : timezone2,
-        employerId: id,
-        salary: sal,
-        checkinvites:checkinvites,
-        // timing: "2-4",
-        experienceInYears: values.experienceInYears
-          ? values.experienceInYears
-          : 0,
-        experienceInMonth: values.experienceInMonth
-          ? values.experienceInMonth
-          : 0,
-        hoursDays: values.hoursDays ? values.hoursDays : 1,
-        days: values.days ? values.days : 1,
-      });
-    }
+    let arr = [];
+    arr.push(qualificationId);
+    postJob({
+      userId: id,
+      title: values.title,
+      description: values.description,
+      designation: values.designation,
+      experienceInYears: values.experienceInYears
+        ? values.experienceInYears
+        : 0,
+      experienceInMonth: values.experienceInMonth
+        ? values.experienceInMonth
+        : 0,
+      hoursPerDay: values.hoursDays,
+      daysPerWeek: values.days,
+      workingTypes: working,
+      salary: sal,
+      timezone: working == 2 && JSON.stringify(timezone),
+      location: working == 1 && values.location,
+
+      skills: skillsArr,
+      tags: tagsArr,
+      qualification: arr,
+      isPrivate: checkinvites,
+    });
   };
 
   const postJob = async (data) => {
-    // debugger
     const resp = await jobServies.jobPost(data);
-    // redirect on success
+    setLoading(true);
     if (resp.status == 200) {
       setLoading(false);
       toast.success(resp.data.message);
@@ -152,19 +120,11 @@ const PostedJobModal = ({ id }) => {
   };
 
   useEffect(async () => {
-    const resp = await dropdownServices.qualificationList();
-    let qualificationListData = [];
-    resp.data.map((data) => {
-      let obj = { id: data.id, text: data.name };
-      qualificationListData.push(obj);
-    });
-    setQualificationList(qualificationListData);
+    const qualification = await dropdownServices.qualificationList();
+    setQualificationList(qualification.data);
 
     const skillList = await dropdownServices.skillsList();
     const tagsList = await dropdownServices.tagsList();
-    const designationList = await dropdownServices.designationList();
-
-    setDesignationlist(designationList.data);
 
     let tagListData = [];
     tagsList.data.map((data) => {
@@ -181,17 +141,30 @@ const PostedJobModal = ({ id }) => {
     setSkillslist(skillListData);
   }, []);
 
-  const handleTimeZonePick = (e) => {
+  const handleCheckBoxInvites = (e) => {
+    setCheckInvites(e.target.checked);
+  };
+
+  const handleQualification = (e) => {
     let value = e.target.value;
-    if (value == "Yes") {
-      setShowTimeZone(true);
+    setQualificationId(value);
+    if (value == "879f9960-14ba-11ed-984a-068f5cec9f16") {
+      setInputField(true);
     } else {
-      setShowTimeZone(false);
-      setTimezone2(value);
+      setInputField(false);
     }
   };
-  const handleCheckBoxInvites = (e) => {
-    setCheckInvites(e.target.checked)
+
+  const handleWorkingChange = (e) => {
+    let value = e.target.value;
+    setWorking(value);
+    if (value == 1) {
+      setTimezoneCheck(false);
+      setLocationCheck(true);
+    } else if (value == 2) {
+      setLocationCheck(false);
+      setTimezoneCheck(true);
+    }
   };
 
   return (
@@ -234,24 +207,10 @@ const PostedJobModal = ({ id }) => {
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="designationId"
+                          name="designation"
                           label="Designation"
-                          placeholder="Enter Designation"
-                          component={renderSelect}
-                        >
-                          <option value="" disabled>
-                            Select
-                          </option>
-                          {designationlist &&
-                            designationlist.map((designation) => (
-                              <option
-                                value={designation.id}
-                                key={designation.id}
-                              >
-                                {designation.title}
-                              </option>
-                            ))}
-                        </Field>
+                          component={renderField}
+                        />
                       </div>
                       <div className="form-field flex50">
                         <label>Experience</label>
@@ -296,13 +255,27 @@ const PostedJobModal = ({ id }) => {
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="qualification"
-                          label="Education"
-                          placeholder="Select Education"
-                          component={RenderTagFieldOnlySuggestions}
-                          suggestions={qualificationList}
-                        />
+                          name="qualificationId"
+                          label="Education course"
+                          component={renderSelect}
+                          onChange={handleQualification}
+                        >
+                          <option value="" disabled>
+                            Select
+                          </option>
+                          {qualificationList &&
+                            qualificationList.map((qualification, i) => (
+                              <option value={qualification.id} key={i}>
+                                {qualification.name}
+                              </option>
+                            ))}
+                        </Field>
                       </div>
+                      {inputField && (
+                        <div className="form-field flex100">
+                          <Field name="qualification" component={renderField} />
+                        </div>
+                      )}
                       <div className="form-field flex100">
                         <Field
                           name="skills"
@@ -314,24 +287,15 @@ const PostedJobModal = ({ id }) => {
                       </div>
                       <div className="form-field flex50">
                         <Field
-                          name="location"
-                          label="Job location (if applicable)"
-                          placeholder="Enter jobLocation"
-                          component={renderField}
-                          type="text"
-                        />
-                      </div>
-                      <div className="form-field flex50">
-                        <Field
                           name="hoursDays"
-                          label="Hours / Days"
+                          label="Hour / Day"
                           component={renderSelect}
                         >
                           {[...Array.from(Array(16).keys())]
                             .slice(1)
                             .map((num, i) => (
                               <option key={i} value={num}>
-                                {num ? num + " hour's" : ""}
+                                {num ? num + " hour" : ""}
                               </option>
                             ))}
                         </Field>
@@ -339,7 +303,7 @@ const PostedJobModal = ({ id }) => {
                       <div className="form-field flex50">
                         <Field
                           name="days"
-                          label="Days / Week"
+                          label="Day / Week"
                           component={renderSelect}
                           type="text"
                         >
@@ -348,39 +312,50 @@ const PostedJobModal = ({ id }) => {
                             .slice(2)
                             .map((num, i) => (
                               <option key={i} value={num}>
-                                {num ? num + " day's" : ""}
+                                {num ? num + " day" : ""}
                               </option>
                             ))}
                         </Field>
                       </div>
                       <div className="form-field flex50">
-                        <label htmlFor="working">Select Time Zone</label>
+                        <label>Working Type</label>
                         <div className="radio-button-groupss absolute-error">
                           <Field
-                            name="timeZonePick"
-                            value="Yes"
+                            name="working"
+                            value="1"
                             component={RenderRadioButtonField}
                             type="radio"
-                            onChange={handleTimeZonePick}
+                            onChange={handleWorkingChange}
+                            dvalue={working}
                             currentIndex="0"
                           >
-                            Yes
+                            Onsite
                           </Field>
                           <Field
-                            name="timeZonePick"
-                            value="Doesn't Matter"
+                            name="working"
+                            value="2"
                             component={RenderRadioButtonField}
                             type="radio"
-                            onChange={handleTimeZonePick}
+                            onChange={handleWorkingChange}
+                            dvalue={working}
                             currentIndex="1"
                           >
-                            No
+                            OffSite
                           </Field>
                         </div>
                       </div>
-
-                      {showTimeZone && (
-                        <div className="form-field flex50">
+                      {locationCheck && (
+                        <div className="form-field flex100">
+                          <Field
+                            name="location"
+                            label="Location"
+                            placeholder="Enter job location"
+                            component={renderField}
+                          />
+                        </div>
+                      )}
+                      {timezoneCheck && (
+                        <div className="form-field flex100">
                           <div className="timezone--wrapper">
                             <label>Time Zone</label>
                             <TimezoneSelect
@@ -394,7 +369,7 @@ const PostedJobModal = ({ id }) => {
                                 "Europe/Berlin": "Frankfurt",
                               }}
                             />
-                          </div>
+                          </div>{" "}
                         </div>
                       )}
                       <div className="form-field flex50">
@@ -432,14 +407,13 @@ const PostedJobModal = ({ id }) => {
                         <p>$ {sal && sal}</p>
                       </div>
                       <div className="form-field flex100">
-                        <Field
-                          label="Make This Job Available for invites"
+                        <input
                           name="checkinvites"
-                          component={rendercheckbox}
+                          type="checkbox"
                           onChange={handleCheckBoxInvites}
                           checked={checkinvites}
                         />
-                         
+                        <label>Make This Job Available for invites</label>
                       </div>
                       <div className="form-field flex100">
                         <Field
@@ -463,8 +437,7 @@ const PostedJobModal = ({ id }) => {
                         <button
                           type="submit"
                           className="btn btn-primary button-submit"
-                          // onClick={() => handleJobPost(values)}
-                          disabled={loading ? true : false}
+                          disabled={loading}
                         >
                           {loading && (
                             <div className="button-submit-loader">

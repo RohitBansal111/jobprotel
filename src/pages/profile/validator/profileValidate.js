@@ -47,13 +47,6 @@ const ProfileValidate = (values) => {
   } else if (values.salary == 0) {
     error.salary = "Expected Salary must be greater than 0";
   }
-  // if(!values.experienceInMonths){
-  //      error.experienceInMonths = "Required experience in months"
-  // }
-
-  // if(!values.experienceInYears){
-  //      error.experienceInYears = "Required experience in years"
-  // }
   if (!values.working) {
     error.working = "Required Working Type";
   }
@@ -62,22 +55,18 @@ const ProfileValidate = (values) => {
       error.location = "Required Working Location";
     }
   }
-  //  else if (values.working == 2) {
-  //   if (!values.timezone) {
-  //     error.timezone = "Required Time-Zone";
-  //   }
-  // }
   if (!values.courseStatus) {
-    error.courseStatus = "Required Status";
+    error.courseStatus = "Required Course Status";
   }
   if (values.courseStatus == "ongoing" && !values.startDate) {
-    error.startDate = "Required  College start-date";
-  }
-  if (values.courseStatus == "completed" && !values.endDate) {
-    error.endDate = "Required College end-date";
-  }
-  if (values.courseStatus == "completed" && !values.startDate) {
     error.startDate = "Required College start-date";
+  }else if (values.courseStatus == "completed" && !values.endDate) {
+    error.endDate = "Required College end-date";
+  }else if (values.courseStatus == "completed" && !values.startDate) {
+    error.startDate = "Required College start-date";
+  }
+  if (values.startDate > values.endDate) {
+    error.endDate = "end-date must be greater than start-date";
   }
   if (!values.categoryOfJob) {
     error.categoryOfJob = "Required Category Of Job";
