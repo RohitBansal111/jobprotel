@@ -66,9 +66,11 @@ const Profile = () => {
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
       );
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if (response?.studentDetails?.pictureUrl !== null) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
 
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
@@ -583,7 +585,6 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              {console.log("qwer", studentData)}
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {getTimeZone(
@@ -839,15 +840,15 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Cover Letter</span>{" "}
                               <span className="result">
-                              <a
-                                          href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
-                                          target="_blank"
-                                          rel="noreferrer"
-                                        >
-                                          {" "}
-                                          {/* {certificate.title} */}
-                                {studentData?.studentDetails?.coverLetter}
-                                        </a>
+                                <a
+                                  href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {" "}
+                                  {/* {certificate.title} */}
+                                  {studentData?.studentDetails?.coverLetter}
+                                </a>
                               </span>
                             </li>
                           </ul>

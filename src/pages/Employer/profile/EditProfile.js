@@ -1,6 +1,5 @@
 import { Field, Form } from "react-final-form";
 import Layout from "../../../components/Layout";
-import UserAvtar from "./../../../assets/images/profile-img.jpg";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import badgeCrossIcon from "./../../../assets/icons/badge-closeicon.png";
 import validate from "./validator/profileValidate";
@@ -23,6 +22,7 @@ import toast from "toastr";
 import { Loader } from "../../../components/Loader/Loader";
 import ImageCropperModal from "../../../components/Image-cropper";
 import * as types from "../../../types/auth";
+import DefaultProfile from "./../../../assets/images/demo.png";
 
 const EmployerEditProfile = () => {
   let titleStrings = new LocalizedStrings(titles);
@@ -105,9 +105,14 @@ const EmployerEditProfile = () => {
       console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
-      setImg({
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`,
-      });
+      if (
+        response.comapanyDetail !== null &&
+        response.comapanyDetail.logoPath !== null
+      ) {
+        setImg({
+          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`,
+        });
+      }
     } else if (resp.status == 400) {
       setLoading(false);
       toast.error(
@@ -175,7 +180,11 @@ const EmployerEditProfile = () => {
                       >
                         <span className="profile-img">
                           <img
-                            src={img.personalInfoImg}
+                            src={
+                              img.personalInfoImg
+                                ? img.personalInfoImg
+                                : DefaultProfile
+                            }
                             alt="Company profile"
                           />
                         </span>

@@ -49,9 +49,11 @@ const FindWork = () => {
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if (response?.studentDetails?.pictureUrl !== null) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
     }
   };
 
