@@ -24,7 +24,6 @@ const EmployerJobDetailsPage = () => {
 
   const [jobDetails, setJobDetails] = useState([]);
   const [qualifications, setQualifications] = useState([]);
-  const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
   const [skills, setSkills] = useState([]);
   const [connects, setConnects] = useState("");
@@ -170,9 +169,9 @@ const EmployerJobDetailsPage = () => {
                       <p>
                         Required Connects to submit a proposal: <b>2</b>{" "}
                       </p>
-                      <p>
+                      {selector?.comapanyDetail && <p>
                         Available Connects: <b>{connects}</b>
-                      </p>
+                      </p>}
                     </div>
                   </div>
                 </div>

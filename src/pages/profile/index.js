@@ -61,14 +61,16 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::")
+      console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
       );
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if (response?.studentDetails?.pictureUrl !== null) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
 
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
@@ -399,7 +401,9 @@ const Profile = () => {
                       <span className="profile-img">
                         <img
                           src={
-                            studentProfilePic ? studentProfilePic : DefaultProfile
+                            studentProfilePic
+                              ? studentProfilePic
+                              : DefaultProfile
                           }
                           alt="user profile"
                         />
@@ -418,13 +422,17 @@ const Profile = () => {
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {studentData?.studentDetails?.availableConnects && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {studentData?.studentDetails?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -463,7 +471,8 @@ const Profile = () => {
                         hour / week{" "}
                         <span className="result">
                           {studentData?.studentDetails?.workHoursPerWeek}
-                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
+                          {studentData?.studentDetails?.workHoursPerWeek &&
+                            " hour"}
                         </span>
                       </li>
                     </ul>
@@ -576,7 +585,6 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              {console.log("qwer", studentData)}
                               <span className="plabel">Time zone </span>
                               <span className="result">
                                 {getTimeZone(
@@ -663,7 +671,9 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              <span className="plabel">Hours / Week (Available)</span>{" "}
+                              <span className="plabel">
+                                Hours / Week (Available)
+                              </span>{" "}
                               <span className="result">
                                 {studentData?.studentDetails?.workHoursPerWeek}
                               </span>
@@ -830,7 +840,15 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Cover Letter</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.coverLetter}
+                                <a
+                                  href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {" "}
+                                  {/* {certificate.title} */}
+                                  {studentData?.studentDetails?.coverLetter}
+                                </a>
                               </span>
                             </li>
                           </ul>

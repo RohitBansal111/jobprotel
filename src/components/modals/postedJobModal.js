@@ -318,7 +318,7 @@ const PostedJobModal = ({ id }) => {
                         </Field>
                       </div>
                       <div className="form-field flex50">
-                        <label>Working Type</label>
+                        <label>Job Type</label>
                         <div className="radio-button-groupss absolute-error">
                           <Field
                             name="working"

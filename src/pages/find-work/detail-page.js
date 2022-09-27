@@ -40,7 +40,7 @@ const DetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::")
+      console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -118,7 +118,7 @@ const DetailsPage = () => {
     } else if (timezone) {
       // const zone = JSON.parse(timezone);
       // return zone.value;
-      return timezone
+      return timezone;
     } else {
       return "N/A";
     }
@@ -253,10 +253,12 @@ const DetailsPage = () => {
                   </div>
                   <div className="connects-info">
                     <p>Required Connects to submit a proposal: 2 </p>
-                    <p>
-                      Available Connects:{" "}
-                      {authData?.studentDetails?.availableConnects}
-                    </p>
+                    {authData?.studentDetails && (
+                      <p>
+                        Available Connects:{" "}
+                        {authData?.studentDetails?.availableConnects}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

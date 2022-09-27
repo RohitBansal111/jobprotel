@@ -16,6 +16,7 @@ import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
 import LocationIcon from "../../../assets/icons/loc-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
+import DefaultProfile from "./../../../assets/images/demo.png";
 
 const EmployerProfile = () => {
   const dispatch = useDispatch();
@@ -54,9 +55,12 @@ const EmployerProfile = () => {
 
   useEffect(async () => {
     if (authData) {
-      setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
-      );
+      console.log(authData, ":::::");
+      if (authData.comapanyDetail !== null && authData.comapanyDetail.logoPath !== null) {
+        setCompanyLogo(
+          `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
+        );
+      }
       setId(authData?.id);
       getEmployerDetails(authData?.id);
       getArchiveJobs(authData?.id, activePage);
@@ -70,10 +74,12 @@ const EmployerProfile = () => {
       setLoading(false);
       const response = resp.data.data;
       setEmployerData(response);
-
-      setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`
-      );
+      if (response.comapanyDetail !== null && response.comapanyDetail.logoPath !== null) {
+        setCompanyLogo(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`
+        );
+      }
+      
     } else if (resp.status !== 200) {
       setLoading(false);
       toast.error("Something went wrong");
@@ -145,7 +151,7 @@ const EmployerProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={companyLogo} alt="Company profile" />
+                        <img src={companyLogo ? companyLogo : DefaultProfile} alt="Company profile" />
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -159,21 +165,23 @@ const EmployerProfile = () => {
                     </div>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {authData?.comapanyDetail?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {authData?.comapanyDetail && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {authData?.comapanyDetail?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
                         Contact Details{" "}
-                        <span className="result">
-                          {authData?.email}
-                        </span>
+                        <span className="result">{authData?.email}</span>
                       </li>
                     </ul>
                   </div>
