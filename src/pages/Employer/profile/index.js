@@ -159,21 +159,23 @@ const EmployerProfile = () => {
                     </div>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {authData?.comapanyDetail?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {authData?.comapanyDetail && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {authData?.comapanyDetail?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
                         Contact Details{" "}
-                        <span className="result">
-                          {authData?.email}
-                        </span>
+                        <span className="result">{authData?.email}</span>
                       </li>
                     </ul>
                   </div>

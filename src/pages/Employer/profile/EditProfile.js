@@ -191,21 +191,23 @@ const EmployerEditProfile = () => {
                       </div>
                     </div>
                     <div className="profile-connect">
-                      <div className="profile-con">
-                        <img src={ConnectIcon} alt="Connect" />
-                        <span className="conn-count">
-                          {authData?.comapanyDetail?.availableConnects}
-                        </span>
-                      </div>
-                      <h4>Available Connects</h4>
+                      {authData?.comapanyDetail?.availableConnects && (
+                        <>
+                          <div className="profile-con">
+                            <img src={ConnectIcon} alt="Connect" />
+                            <span className="conn-count">
+                              {authData?.comapanyDetail?.availableConnects}
+                            </span>
+                          </div>
+                          <h4>Available Connects</h4>
+                        </>
+                      )}
                     </div>
                     <div className="user-prof-info">
                       <ul className="prof-info-ul">
                         <li>
                           Contact Details{" "}
-                          <span className="result">
-                            {authData?.email}
-                          </span>
+                          <span className="result">{authData?.email}</span>
                         </li>
                       </ul>
                     </div>
@@ -416,7 +418,9 @@ const EmployerEditProfile = () => {
                             type="submit"
                             className="btn btn-save btn-primary"
                           >
-                            {employerData?.comapanyDetail?.isProfileCompleted ? "Update" : "Save"}
+                            {employerData?.comapanyDetail?.isProfileCompleted
+                              ? "Update"
+                              : "Save"}
                           </button>
                         </div>
                       </form>

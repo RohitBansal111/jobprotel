@@ -84,6 +84,7 @@ const EditProfile = () => {
   const [timezoneCheck, setTimezoneCheck] = useState(false);
   const [courseStatus, setCourseStatus] = useState(false);
   const [err, setErr] = useState([]);
+  const [date, setDate] = useState("");
 
   const resumeHandler = (e) => {
     const files = e.target.files[0];
@@ -93,7 +94,7 @@ const EditProfile = () => {
 
   const coverLetterHandler = (e) => {
     const files = e.target.files[0];
-    console.log(files, "::");
+    console.log(files, "::::");
     setCoverLetter(files);
     setCoverName(files.name);
   };
@@ -299,6 +300,7 @@ const EditProfile = () => {
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
+
     if (values.courseStatus == "ongoing") {
       formData.append("courseStatus", 1);
       formData.append("startDate", values.startDate);
@@ -369,7 +371,6 @@ const EditProfile = () => {
       formData.append("resumeFile", resumeFile);
       formData.append("operationType", 2);
     }
-    console.log(coverLetter, ":::::");
     if (coverLetter) {
       formData.append("coverLetter", coverLetter);
     }
@@ -579,6 +580,19 @@ const EditProfile = () => {
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
     setQualificationList(qualificationList.data);
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    today = yyyy + "-" + mm + "-" + dd;
+    setDate(today);
   }, []);
 
   return (
@@ -644,13 +658,17 @@ const EditProfile = () => {
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {studentData?.studentDetails && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {studentData?.studentDetails?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -992,6 +1010,7 @@ const EditProfile = () => {
                                         placeholder="Enter start date"
                                         component={renderField}
                                         type="date"
+                                        max={date}
                                       />
                                     </div>
                                   )}
@@ -1008,6 +1027,7 @@ const EditProfile = () => {
                                           disabled={
                                             !values.startDate ? true : false
                                           }
+                                          max={date}
                                         />
                                       </div>
                                     )}
@@ -1236,9 +1256,9 @@ const EditProfile = () => {
                                     </p>
                                     <ul className="uploaded-documents">
                                       <li>
-                                        {updatedCoverName
-                                          ? updatedCoverName
-                                          : coverName}
+                                        {coverName
+                                          ? coverName
+                                          : updatedCoverName}
                                       </li>
                                     </ul>
                                   </div>

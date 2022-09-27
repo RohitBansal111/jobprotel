@@ -64,8 +64,7 @@ const ProfileValidate = (values) => {
     error.endDate = "Required College end-date";
   }else if (values.courseStatus == "completed" && !values.startDate) {
     error.startDate = "Required College start-date";
-  }
-  if (values.startDate > values.endDate) {
+  }else if (values.courseStatus == "completed" && values.startDate > values.endDate) {
     error.endDate = "end-date must be greater than start-date";
   }
   if (!values.categoryOfJob) {
@@ -100,7 +99,7 @@ const ProfileValidate = (values) => {
   if (values.skills?.length == 0) {
     error.skills = "Required Skills";
   }
-
+console.log(error, ":::::")
   return error;
 };
 

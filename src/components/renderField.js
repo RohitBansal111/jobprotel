@@ -139,11 +139,7 @@ export const renderField = ({
           className="form-control"
           disabled={disabled}
           min={min}
-          max={
-            placeholder == "Enter end date"
-              ? moment(new Date()).format("YYYY-MM-DD")
-              : ""
-          }
+          max={moment(new Date()).format("YYYY-MM-DD")}
         />
         {children}
         {touched && error && <span className="error">{error}</span>}
@@ -266,7 +262,7 @@ export const rendercheckbox = ({
   checked,
   meta: { touched, error, warning },
   onError,
-  onChange
+  onChange,
 }) => {
   const inputProps = {
     ...input,

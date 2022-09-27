@@ -31,7 +31,7 @@ const PostedJobValidator = (values) => {
     error.days = "Required Job DayWeek";
   }
   if (!values.working) {
-    error.working = "Required Working Type";
+    error.working = "Required Job Type";
   }
   if (values.working == 1) {
     if (!values.location) {
