@@ -143,7 +143,6 @@ const App = () => {
           }
           exact
         />
-
         <Route path="/student/profile" element={<Profile />} />
         <Route path="/employer/profile" element={<EmployerProfile />} />
         <Route

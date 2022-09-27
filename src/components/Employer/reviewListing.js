@@ -30,7 +30,7 @@ const EmployerReviewCard = ({
       appiledJobStatusByEmployer: status,
     };
     const resp = await appliedJobServices.updateAppliedJobs(data);
-    console.log(resp);
+    // console.log(resp);
 
     if (resp.status == 200) {
       toast.success(

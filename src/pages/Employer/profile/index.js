@@ -55,8 +55,11 @@ const EmployerProfile = () => {
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData, ":::::");
-      if (authData.comapanyDetail !== null && authData.comapanyDetail.logoPath !== null) {
+      // console.log(authData, ":::::");
+      if (
+        authData.comapanyDetail !== null &&
+        authData.comapanyDetail.logoPath !== null
+      ) {
         setCompanyLogo(
           `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
         );
@@ -74,12 +77,14 @@ const EmployerProfile = () => {
       setLoading(false);
       const response = resp.data.data;
       setEmployerData(response);
-      if (response.comapanyDetail !== null && response.comapanyDetail.logoPath !== null) {
+      if (
+        response.comapanyDetail !== null &&
+        response.comapanyDetail.logoPath !== null
+      ) {
         setCompanyLogo(
           `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`
         );
       }
-      
     } else if (resp.status !== 200) {
       setLoading(false);
       toast.error("Something went wrong");
@@ -151,7 +156,10 @@ const EmployerProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={companyLogo ? companyLogo : DefaultProfile} alt="Company profile" />
+                        <img
+                          src={companyLogo ? companyLogo : DefaultProfile}
+                          alt="Company profile"
+                        />
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>

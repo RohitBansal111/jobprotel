@@ -86,7 +86,7 @@ const Profile = () => {
     }
   };
 
-  const getProjectHistory = async (id, activePage = activePage) => {
+  const getProjectHistory = async (id, activePage) => {
     let data = {
       userId: id,
       pageNumber: activePage,
@@ -137,6 +137,7 @@ const Profile = () => {
   const handleDeleteData = async (d) => {
     const resp = await studentServices.deleteStudentEmploymentData(d);
     if (resp.status === 200) {
+      getStudentData()
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
@@ -158,8 +159,6 @@ const Profile = () => {
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
-      console.log("qwer", zone);
-
       if (zone?.value == undefined) {
         return zone.altName;
       } else {
@@ -176,7 +175,6 @@ const Profile = () => {
   };
 
   const handleEditProjectHistory = (data) => {
-    console.log(data, ":::");
     setEditProjectData(data);
   };
 
@@ -282,7 +280,6 @@ const Profile = () => {
     //     arr.push(obj);
     //   }
     // }
-    // console.log(arr, "::arr");
 
     // if (arr?.length > 0) {
     //   let formData = new FormData();
@@ -746,11 +743,6 @@ const Profile = () => {
                                 {extraCertificate?.map((certificate, i) => (
                                   <>
                                     <div key={i} className="div_edit_btn">
-                                      {console.log(
-                                        "qwerrr",
-                                        editCertificate[i]
-                                      )}
-
                                       {editCertificate[i] !== undefined ? (
                                         <input
                                           name="title"
@@ -971,7 +963,7 @@ const Profile = () => {
                                         type="button"
                                         className="icon_button_text"
                                         data-bs-toggle="modal"
-                                        // onClick={() => handleDeleteData(data.id)}
+                                        onClick={() => handleDeleteData(project.id)}
                                       >
                                         <i className="fas fa-trash"></i>
                                       </button>
@@ -989,10 +981,6 @@ const Profile = () => {
                                           "MMM Do YYYY"
                                         )}
                                       </span>
-                                      <p className="tech-links">
-                                        <b>Title: &nbsp;</b>{" "}
-                                        {project.roleResponsiblity}
-                                      </p>
                                     </div>
                                   </div>
                                   <button
@@ -1028,10 +1016,6 @@ const Profile = () => {
                                         Roles & Responsibility: &nbsp;
                                       </b>
                                       {project.roleResponsiblity}
-                                    </p>
-                                    <p className="mt-3">
-                                      <b>Email: &nbsp;</b>
-                                      {project.companyEmail}
                                     </p>
                                     <p>
                                       <b>Team Size: &nbsp;</b>

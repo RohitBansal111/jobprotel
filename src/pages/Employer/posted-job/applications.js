@@ -31,7 +31,7 @@ const Applications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp, "data");
+    // console.log(resp, "::::");
     if (resp.status == 200) {
       setUsers(resp.data?.data[0]?.users);
       setLoading(false);
@@ -40,7 +40,6 @@ const Applications = () => {
     }
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`active page is ${pageNumber}`);
     setPageNumber(pageNumber);
     setLoading(true);
     getUsers(pageNumber);

@@ -79,7 +79,6 @@ const Header = () => {
       message: "test",
       connectionId: connection.connection.connectionId,
     };
-    console.log("connection", connection);
     if (connection._connectionStarted) {
       try {
         const send = await connection.send(
@@ -87,7 +86,6 @@ const Header = () => {
           authData?.email,
           connection.connection.connectionId
         );
-        console.log(send, "send");
         getJobDetails();
       } catch (e) {
         console.log(e);

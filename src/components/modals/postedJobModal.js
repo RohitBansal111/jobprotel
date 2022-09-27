@@ -44,7 +44,6 @@ const PostedJobModal = ({ id }) => {
   const [checkinvites, setCheckInvites] = useState(false);
 
   const handleTimeZone = (data) => {
-    console.log(data, "::::")
     // let d = JSON.stringify(data);
     setTimezone(data);
   };

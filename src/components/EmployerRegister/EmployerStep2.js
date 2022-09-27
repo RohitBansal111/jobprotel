@@ -217,7 +217,7 @@ const EmployerStep2 = ({
                     type="text"
                   />
                 </div>
-                <div className="form-field flex100">
+                {/* <div className="form-field flex100">
                   <Field
                     name="recruitingManagerName"
                     label={titleStrings.managerNameTitle}
@@ -225,7 +225,7 @@ const EmployerStep2 = ({
                     placeholder="Enter recuriting manager name"
                     type="text"
                   />
-                </div>
+                </div> */}
               </div>
               <div className="form-action">
                 <button

@@ -118,7 +118,6 @@ const Step3 = ({
   };
 
   let file = "";
-  console.log(data, "values");
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -344,7 +343,6 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => {
-                        console.log(e.target.value);
                         setCertificate(e.target.value);
                       }}
                       currentIndex="1"

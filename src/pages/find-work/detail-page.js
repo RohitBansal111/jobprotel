@@ -40,7 +40,7 @@ const DetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -67,7 +67,6 @@ const DetailsPage = () => {
         resp.data.message ? resp.data.message : "Job Aplied successful"
       );
     } else {
-      console.log(resp, "apll");
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -78,7 +77,6 @@ const DetailsPage = () => {
         errors = errors.replace(/,\s*$/, "");
         toast.error(errors + "is Required");
       } else if (resp.error) {
-        console.log(resp.error, "ap2");
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }

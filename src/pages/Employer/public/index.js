@@ -42,7 +42,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response);
+      // console.log(response);
       setStudentData(response);
       setStudentProfilePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
@@ -107,7 +107,6 @@ const Profile = () => {
     // }
   }, []);
   const getTimeZone = (timezone) => {
-    console.log(timezone, "timezone");
     if (timezone) {
       const zone = JSON.parse(timezone);
       return zone.value;

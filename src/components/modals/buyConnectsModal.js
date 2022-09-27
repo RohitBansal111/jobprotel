@@ -54,8 +54,6 @@ const ButtonWrapper = ({
               ],
             })
             .then((orderId) => {
-              console.log(orderId);
-
               // Your code here after create the order
               return orderId;
             });
@@ -92,7 +90,6 @@ const ButtonWrapper = ({
               payer_Phoneno: national_number,
               status: status,
             };
-            console.log(data_payload);
             const res = await postPaymentdetails(data_payload);
             if (res.status == 200) {
               const response = res.data.data;
