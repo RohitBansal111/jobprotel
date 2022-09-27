@@ -91,6 +91,7 @@ const App = () => {
               <Verify />
             </ProtectedRouteToVerify>
           }
+          
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
