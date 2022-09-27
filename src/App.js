@@ -44,7 +44,6 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(async () => {
     let data = JSON.parse(localStorage.getItem("jobPortalUser"));
-    console.log(data, ":::::");
     let id = data.id;
     if (data.roles == "Student") {
       const resp = await studentServices.getStudentDetails(id);
