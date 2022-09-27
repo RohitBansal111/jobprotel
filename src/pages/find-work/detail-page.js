@@ -62,10 +62,9 @@ const DetailsPage = () => {
       remarks: "test",
     };
     const resp = await jobServices.applyJob(payload);
-    console.log(resp, "ap");
     if (resp.status == 200) {
       toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
+        resp.data.message ? resp.data.message : "Job Aplied successful"
       );
     } else {
       console.log(resp, "apll");
@@ -128,8 +127,7 @@ const DetailsPage = () => {
       {loading ? (
         <div className="inner-page-wrapper page-wrapper-loader">
           <div className="fullpage-loader py-5">
-            {" "}
-            <Loader />{" "}
+            <Loader />
           </div>
         </div>
       ) : (
