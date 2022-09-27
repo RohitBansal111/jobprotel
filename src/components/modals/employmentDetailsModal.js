@@ -58,10 +58,9 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
         startDate,
         salary,
       };
-      console.log("sdffsda");
       if (data.userId) {
         const resp = await studentServices.sendStudentEmploymentData(data);
-        console.log(resp, "resp");
+        // console.log(resp, "resp");
         if (resp.status == 200) {
           values.employerName = "";
           values.designationId = "";
@@ -177,7 +176,7 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
                           </Field>
                         </div>
                       </div>
-                      <div className="form-field flex100">
+                     {values.isCurrentEmployer && <div className="form-field flex100">
                         <Field
                           name="startDate"
                           label="Start Date"
@@ -185,9 +184,9 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
                           component={renderField}
                           type="date"
                         />
-                      </div>
+                      </div>}
 
-                      {!checkEnd && (
+                      {values.isCurrentEmployer == "false" && !checkEnd && (
                         <div className="form-field flex100">
                           <Field
                             name="endDate"

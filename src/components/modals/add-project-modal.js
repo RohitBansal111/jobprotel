@@ -47,12 +47,11 @@ const AddProjectModal = ({ getProjectHistory, activePage }) => {
         const resp = await projectServices.postProjectHistoryData(data);
         // console.log(resp);
         if (resp.status === 200) {
+          getProjectHistory(id, activePage);
           document.getElementById("addProjectModal").click();
           toast.success(
             resp.data.message ? resp.data.message : "Something went wrong"
           );
-          getProjectHistory(id, activePage);
-
           values.title = "";
           values.description = "";
           values.roleResponsiblity = "";
@@ -61,6 +60,9 @@ const AddProjectModal = ({ getProjectHistory, activePage }) => {
           values.endDate = "";
           values.totalTeamSize = "";
           // values.companyEmail="";
+          
+          window.location.reload();
+
         }
       }
     }

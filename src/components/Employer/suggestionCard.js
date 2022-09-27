@@ -14,7 +14,9 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
   const jobInvite = async () => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userIdd);
     if (resp.status === 200) {
-      toast.success(resp.data.data.message  ? resp.data.data.message : "Something went wrong")
+      toast.success(
+        resp.data.data.message ? resp.data.data.message : "Something went wrong"
+      );
       setInvitation(!invitation);
     }
   };
@@ -44,7 +46,9 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
                 {" "}
                 {userData?.user?.firstName} {userData?.user?.lastName}
               </Link>{" "}
-              <span className="desgination">({userData?.designation?.title})</span>{" "}
+              {/* <span className="desgination">
+                ({userData?.designation?.title})
+              </span>{" "} */}
             </h2>
             <ul className="feeds-s-ul">
               <li>
@@ -59,25 +63,26 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           </div>
         </div>
         <div className="review-listing-action">
-          {invitation ?
-
+          {invitation ? (
             <button
               type="button"
               className={
                 invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
               }
-            >Invited</button> :
-
+            >
+              Invited
+            </button>
+          ) : (
             <button
               type="button"
               className={
                 invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
               }
               onClick={jobInvite}
-            >Invite</button>}
-
-
-
+            >
+              Invite
+            </button>
+          )}
         </div>
       </div>
       <div className="feeds-search-detail">

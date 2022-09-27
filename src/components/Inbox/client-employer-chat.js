@@ -5,7 +5,6 @@ import { timeAgo } from '../../helpers/timeFunction'
 import ScrollToBottom from "react-scroll-to-bottom";
 
 const ClientEmployerChat = ({messages,user,receiverDisplayName}) => {
-  console.log(messages,"messages")
   return (
     <ScrollToBottom>
       <ul>

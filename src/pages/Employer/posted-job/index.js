@@ -26,7 +26,7 @@ const PostedJob = () => {
 
   useEffect(() => {
     if (authData) {
-      console.log(authData, "::::");
+      // console.log(authData, "::::");
       setId(authData.id);
       if (authData.comapanyDetail !== null) {
       setCompanyLogo(

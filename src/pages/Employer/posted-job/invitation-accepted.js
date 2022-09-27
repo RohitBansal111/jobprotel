@@ -26,7 +26,7 @@ const InvitationAccepted = () => {
       pageSize: pageSize,
     };
     const resp = await invitationService.getJobInvitationlist(payload);
-    console.log(resp, "::");
+    // console.log(resp, "::");
     if (resp.status == 200) {
       setTotalRecords(resp.data?.totalCount);
       setInvitationDats(resp.data?.data);

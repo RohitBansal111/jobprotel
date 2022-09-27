@@ -10,7 +10,7 @@ export const getInstance = () => {
   instance.interceptors.response.use(
     function (response) {
       // Do something with response data
-      console.log(response, "working")
+      // console.log(response, "::::")
       return response;
     },
     function (error) {

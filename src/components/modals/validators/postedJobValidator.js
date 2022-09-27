@@ -4,13 +4,13 @@ const PostedJobValidator = (values) => {
     error.designation = "Required designation";
   }
   if (!values.qualificationId) {
-     error.qualificationId = "Required qualification";
+     error.qualificationId = "Required education course";
    }
    if (
      values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16" &&
      !values.qualification
    ) {
-     error.qualification = "Required qualification";
+     error.qualification = "Required education course";
    }
   if (!values.skills) {
     error.skills = "Required skills";

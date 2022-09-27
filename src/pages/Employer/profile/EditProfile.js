@@ -66,10 +66,18 @@ const EmployerEditProfile = () => {
 
     if (companyDetails?.isProfileCompleted) {
       formData.append("operationType", 2);
-      formData.append("logoUrl", img.personalInfoImg);
+      if(img.personalInfoImg.includes("base64")) {
+        formData.append("logoUrl", img.personalInfoImg);
+      }else{
+        formData.append("logoUrl", null);
+      }
     } else {
-      formData.append("logoUrl", img.personalInfoImg);
       formData.append("operationType", 1);
+      if(img.personalInfoImg.includes("base64")) {
+        formData.append("logoUrl", img.personalInfoImg);
+      }else{
+        formData.append("logoUrl", null);
+      }
     }
 
     if (validation()) {
@@ -102,7 +110,7 @@ const EmployerEditProfile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
       if (
@@ -303,7 +311,7 @@ const EmployerEditProfile = () => {
                                     placeholder="Enter email Address"
                                     label="Email Address"
                                     component={renderField}
-                                    // disabled
+                                    disabled
                                   />
                                 </div>
                                 <div>

@@ -31,7 +31,7 @@ const Notification = () => {
       setLoading(false);
       setTotalCount(resp.data.totalCount);
       let response = resp.data.data;
-      console.log(response, "resp");
+      // console.log(response, "resp");
       setNotifications(response);
     } else {
       setLoading(false);

@@ -44,10 +44,10 @@ const Applications = () => {
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
-                      <li>
+                      {/* <li>
                         Recruiting Manager{" "}
                         <span className="result">Akshika Singh</span>
-                      </li>
+                      </li> */}
                       <li>
                         Contact Details{" "}
                         <span className="result">

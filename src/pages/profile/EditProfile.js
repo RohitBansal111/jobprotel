@@ -94,7 +94,6 @@ const EditProfile = () => {
 
   const coverLetterHandler = (e) => {
     const files = e.target.files[0];
-    console.log(files, "::::");
     setCoverLetter(files);
     setCoverName(files.name);
   };
@@ -109,7 +108,7 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      console.log(resp.data.data, "::::");
+      // console.log(resp.data.data, "::::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
@@ -427,7 +426,6 @@ const EditProfile = () => {
   const validation = () => {
     let isValid = true;
     let error = {};
-    console.log(resumeFile, "::::");
     if (resumeFile?.length == 0 || resumeFile == undefined) {
       isValid = false;
       error["resumeFile"] = "Required resume";

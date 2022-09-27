@@ -123,14 +123,12 @@ const Step2 = ({
   }, [data.countryId]);
 
   const handleChangeCountry = async (e) => {
-    // console.log(e.target.value, ":::");
     const resp = await dropdownServices.stateList(e.target.value);
     setStateList(resp.data);
     handlechangeCollege(e.target.value);
   };
 
   const handleTimeZone = (data) => {
-    console.log(JSON.stringify(data));
     setTimezone(data);
   };
 
@@ -139,13 +137,13 @@ const Step2 = ({
     setDatetime(datetime.goto(timezoneValue));
   }, [timezone]);
 
-  function readFile(file) {
+  const readFile = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.addEventListener("load", () => resolve(reader.result), false);
       reader.readAsDataURL(file);
     });
-  }
+  };
 
   const closeModal = () => {
     setModal(false);

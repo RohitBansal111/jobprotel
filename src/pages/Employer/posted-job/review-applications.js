@@ -26,7 +26,7 @@ const ReviewApplications = () => {
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp, "::")
+    // console.log(resp, "::")
     if (resp.status == 200) {
       setTotalRecords(resp.data?.totalCount);
       setUsers(resp.data?.data[0]?.users);

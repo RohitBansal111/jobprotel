@@ -27,7 +27,7 @@ const EmployerJobSuggestion = () => {
     const resp = await jobServices.getStudentListSuggestions(data);
     if (resp.status == 200) {
       setSuggestions(resp.data.data);
-      console.log(resp.data.data)
+      // console.log(resp.data.data, "::::")
       setLoading(false);
     } else if (resp.status == 400) {
       setLoading(false);
