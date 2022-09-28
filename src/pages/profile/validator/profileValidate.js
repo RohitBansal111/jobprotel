@@ -1,5 +1,16 @@
 const ProfileValidate = (values) => {
   const error = {};
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  today = yyyy + "-" + mm + "-" + dd;
   if (!values.firstname) {
     error.firstname = "Required First Name";
   }
@@ -60,11 +71,26 @@ const ProfileValidate = (values) => {
   }
   if (values.courseStatus == "ongoing" && !values.startDate) {
     error.startDate = "Required College start-date";
-  }else if (values.courseStatus == "completed" && !values.endDate) {
+  } else if (values.courseStatus && values.startDate > today) {
+    error.startDate = "start-date must be lower than today or should be today";
+  } else if (values.courseStatus == "completed" && !values.endDate) {
     error.endDate = "Required College end-date";
-  }else if (values.courseStatus == "completed" && !values.startDate) {
+  } else if (values.courseStatus == "completed" && !values.startDate) {
     error.startDate = "Required College start-date";
-  }else if (values.courseStatus == "completed" && values.startDate > values.endDate) {
+  } else if (
+    values.courseStatus == "completed" &&
+    values.startDate > values.endDate
+  ) {
+    error.endDate = "end-date must be greater than start-date";
+  }  else if (
+    values.courseStatus == "completed" &&
+    values.endDate > today
+  ) {
+    error.endDate = "end-date must be less than today";
+  }else if (
+    values.courseStatus == "completed" &&
+    values.startDate == values.endDate
+  ) {
     error.endDate = "end-date must be greater than start-date";
   }
   if (!values.categoryOfJob) {

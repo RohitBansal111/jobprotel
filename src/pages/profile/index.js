@@ -61,7 +61,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -137,7 +137,7 @@ const Profile = () => {
   const handleDeleteData = async (d) => {
     const resp = await studentServices.deleteStudentEmploymentData(d);
     if (resp.status === 200) {
-      getStudentData()
+      getStudentData();
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
@@ -724,22 +724,6 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                                {/* <ul className="tags">
-                                  {studentData?.studentDetails?.studentExtraCertificate.map(
-                                    (certificate, i) => (
-                                      <>
-                                        <li key={i}>
-                                          <a
-                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                            target="_blank" rel="noreferrer"
-                                          >
-                                            {certificate.title.slice(0,3)}
-                                          </a>
-                                        </li>
-                                      </>
-                                    )
-                                  )}
-                                </ul> */}
                                 {extraCertificate?.map((certificate, i) => (
                                   <>
                                     <div key={i} className="div_edit_btn">
@@ -963,7 +947,9 @@ const Profile = () => {
                                         type="button"
                                         className="icon_button_text"
                                         data-bs-toggle="modal"
-                                        onClick={() => handleDeleteData(project.id)}
+                                        onClick={() =>
+                                          handleDeleteData(project.id)
+                                        }
                                       >
                                         <i className="fas fa-trash"></i>
                                       </button>

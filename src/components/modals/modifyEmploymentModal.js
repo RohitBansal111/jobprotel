@@ -42,16 +42,20 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
   };
 
   const handleJobPost = async (values) => {
+    console.log(values.isCurrentEmployer, "::::");
     if (validation(values)) {
       let data = {
         designationId: values.designationId,
         employerName: values.employerName,
-        endDate: values.endDate,
         isCurrentEmployer: values.isCurrentEmployer == "1" ? true : false,
         salary: values.salary,
         startDate: values.startDate,
         userId,
       };
+      if (values.isCurrentEmployer == "2") {
+        data["endDate"] = values.endDate;
+      }
+
       if (id && userId) {
         const resp = await studentServices.updateStudentEmploymentData(
           id,
@@ -76,6 +80,11 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
       endDate: empData.endDate,
       salary: empData.salary,
     };
+    if (data.endDate !== null) {
+      setEndDate(false);
+    } else {
+      setEndDate(true);
+    }
     setData(data);
     setId(empData.id);
     setUserId(empData.userId);
@@ -178,7 +187,6 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
                             No
                           </Field>
                         </div>
-                        {}
                       </div>
                       <div className="form-field flex100">
                         <Field
