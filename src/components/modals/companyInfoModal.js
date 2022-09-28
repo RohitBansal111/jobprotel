@@ -24,6 +24,7 @@ import {
   update,
   remove,
 } from "@firebase/database";
+import DefaultProfile from "./../../assets/images/demo.png";
 
 const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const db = getDatabase(app);
@@ -35,6 +36,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const [modal, setModal] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [edit, setEdit] = useState(false);
+  const [img, setImg] = useState({
+    personalInfoImg: "",
+  });
   toast.options = { preventDuplicates: true };
 
   const authData = useSelector((state) => state.auth.user);
@@ -53,9 +57,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
 
     if (edit) {
       formData.append("operationType", 2);
-      if(profileImage){
+      if (profileImage) {
         formData.append("logoUrl", profileImage);
-      }else{
+      } else {
         formData.append("logoUrl", null);
       }
     } else {
@@ -146,19 +150,20 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     });
   };
 
-  const [img, setImg] = useState({
-    personalInfoImg: "",
-  });
-
   useEffect(() => {
     if (employerData) {
       if (employerData?.comapanyDetail?.logoPath) {
         setEdit(true);
       }
       console.log(employerData, ":::::");
-      setImg({
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
-      });
+      if (
+        employerData?.comapanyDetail !== null &&
+        employerData?.comapanyDetail?.logoPath !== null
+      ) {
+        setImg({
+          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
+        });
+      }
       getCountryList();
       const data = {
         firstName: employerData?.firstName,
@@ -207,13 +212,13 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     }
   };
 
-  function readFile(file) {
+  const readFile = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.addEventListener("load", () => resolve(reader.result), false);
       reader.readAsDataURL(file);
     });
-  }
+  };
 
   const closeModal = () => {
     setModal(false);
@@ -275,7 +280,11 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                           </div>
                           <div className="aws-placeholder image4">
                             <img
-                              src={img.personalInfoImg}
+                              src={
+                                img.personalInfoImg
+                                  ? img.personalInfoImg
+                                  : DefaultProfile
+                              }
                               className="img-aws"
                               alt="user"
                               layout="fill"

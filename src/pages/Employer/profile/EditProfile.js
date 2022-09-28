@@ -66,16 +66,16 @@ const EmployerEditProfile = () => {
 
     if (companyDetails?.isProfileCompleted) {
       formData.append("operationType", 2);
-      if(img.personalInfoImg.includes("base64")) {
+      if (img.personalInfoImg.includes("base64")) {
         formData.append("logoUrl", img.personalInfoImg);
-      }else{
-        formData.append("logoUrl", null);
+      } else {
+        formData.append("logoUrl", "");
       }
     } else {
       formData.append("operationType", 1);
-      if(img.personalInfoImg.includes("base64")) {
+      if (img.personalInfoImg.includes("base64")) {
         formData.append("logoUrl", img.personalInfoImg);
-      }else{
+      } else {
         formData.append("logoUrl", null);
       }
     }
@@ -107,10 +107,11 @@ const EmployerEditProfile = () => {
 
   const getEmployerDetails = async (id) => {
     const resp = await employerDetails.getEmployerDetails(id);
+
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      // console.log(response, "::::");
+      console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
       if (
@@ -154,7 +155,6 @@ const EmployerEditProfile = () => {
 
   useEffect(() => {
     if (authData) {
-      // console.log(authData, "::::")
       setId(authData?.id);
       getEmployerDetails(authData?.id);
     }
@@ -416,7 +416,11 @@ const EmployerEditProfile = () => {
                                     </div>
                                     <div className="aws-placeholder image4">
                                       <img
-                                        src={img.personalInfoImg}
+                                        src={
+                                          img.personalInfoImg
+                                            ? img.personalInfoImg
+                                            : DefaultProfile
+                                        }
                                         className="img-aws"
                                         alt="avtar"
                                         width={100}
