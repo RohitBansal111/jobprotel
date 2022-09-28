@@ -46,6 +46,7 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
   };
 
   const handleSubmit = async (values) => {
+    console.log(values, "::::")
     let { employerName, designationId, isCurrentEmployer, salary, startDate } =
       values;
 
@@ -62,6 +63,7 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
         const resp = await studentServices.sendStudentEmploymentData(data);
         // console.log(resp, "resp");
         if (resp.status == 200) {
+          window.location.reload()
           values.employerName = "";
           values.designationId = "";
           values.isCurrentEmployer = "";

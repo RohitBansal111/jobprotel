@@ -76,7 +76,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
       }
     }
   };
-  console.log(jobs.description.length, "::::")
   return (
     <>
       <div className="feeds-search-coll">

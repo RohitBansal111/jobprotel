@@ -61,7 +61,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      // console.log(response, "::::");
+      console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -96,6 +96,7 @@ const Profile = () => {
       const resp = await projectServices.getProjectHistoryData(data);
       let response = resp.data.data;
       if (resp.status === 200) {
+        getProjectHistory(authData.id, activePage);
         setLoading(false);
         setProjectHistory(response);
         setTotalRecords(resp.data.totalCount);
@@ -135,7 +136,7 @@ const Profile = () => {
   };
 
   const handleDeleteData = async (d) => {
-    const resp = await studentServices.deleteStudentEmploymentData(d);
+    const resp = await projectServices.removeProjectHistoryData(d);
     if (resp.status === 200) {
       getStudentData();
       toast.success(
@@ -158,6 +159,7 @@ const Profile = () => {
 
   const getTimeZone = (timezone) => {
     if (timezone) {
+      console.log(timezone, ":::");
       const zone = JSON.parse(timezone);
       if (zone?.value == undefined) {
         return zone.altName;
@@ -581,14 +583,19 @@ const Profile = () => {
                                 {studentData?.studentDetails?.postalCode}
                               </span>
                             </li>
-                            <li>
-                              <span className="plabel">Time zone </span>
-                              <span className="result">
-                                {getTimeZone(
-                                  studentData?.studentDetails?.timezone
-                                )}
-                              </span>
-                            </li>
+                            {studentData?.studentDetails && (
+                              <>
+                                {" "}
+                                <li>
+                                  <span className="plabel">Time zone </span>
+                                  <span className="result">
+                                    {getTimeZone(
+                                      studentData?.studentDetails?.timezone
+                                    )}
+                                  </span>
+                                </li>
+                              </>
+                            )}
                           </ul>
                         </div>
                       </div>

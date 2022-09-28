@@ -208,6 +208,7 @@ const PostedJobModal = ({ id }) => {
                         <Field
                           name="designation"
                           label="Designation"
+                          placeholder="Enter Designation"
                           component={renderField}
                         />
                       </div>
@@ -412,7 +413,7 @@ const PostedJobModal = ({ id }) => {
                           onChange={handleCheckBoxInvites}
                           checked={checkinvites}
                         />
-                        <label>Make This Job Available for invites</label>
+                        <label style={{marginLeft:"10px"}}>Make This Job Available for invites</label>
                       </div>
                       <div className="form-field flex100">
                         <Field
