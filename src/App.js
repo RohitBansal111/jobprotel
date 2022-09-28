@@ -154,6 +154,7 @@ const App = () => {
           path="/employer/applications"
           element={<EmployerApplication />}
         />
+        
         <Route
           path="/review-applications/:jobid"
           element={<ReviewApplications />}
