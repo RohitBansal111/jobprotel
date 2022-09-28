@@ -158,7 +158,6 @@ const App = () => {
         <Route
           path="/review-applications/:jobid"
           element={<ReviewApplications />}
-          
         />
         <Route
           path="/invitation-accepted/:invitationid"
