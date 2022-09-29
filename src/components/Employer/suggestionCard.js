@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CompanyLogo from "./../../assets/images/feed-logo.png";
+import UserAvatar from "./../../assets/images/demo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import * as jobSevices from "../../services/jobServices";
@@ -13,7 +13,10 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
 
   const jobInvite = async () => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userIdd);
+    console.log(resp, "::::")
+
     if (resp.status === 200) {
+      console.log(resp, "::::")
       toast.success(
         resp.data.data.message ? resp.data.data.message : "Something went wrong"
       );
@@ -22,6 +25,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
   };
 
   useEffect(() => {
+    console.log(userData, ":::::")
     setJobId(jobId);
     setUserId(userId);
   }, [userData]);
@@ -33,7 +37,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           <div className="feeds-s-logo">
             <Link to={`/public/${userIdd}`}>
               <img
-                src={process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl}
+                src={userData?.pictureUrl && userData?.pictureUrl !== null ? process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl : UserAvatar}
                 alt="Company Logo"
                 width="100px"
                 height="100px"
@@ -42,7 +46,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           </div>
           <div className="feeds-s-name">
             <h2>
-              <Link to="/public">
+              <Link to="/public/${userIdd}">
                 {" "}
                 {userData?.user?.firstName} {userData?.user?.lastName}
               </Link>{" "}
@@ -51,10 +55,10 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
               </span>{" "} */}
             </h2>
             <ul className="feeds-s-ul">
-              <li>
+             {userData?.state && <li>
                 <img src={LocationIcon} alt="Location" />
-                {userData?.state?.country?.countryName}
-              </li>
+                {userData?.state?.stateName}
+              </li>}
               {/* <li>
                 <img src={VerifiedIcon} alt="Company Verified" />
                 Verified post

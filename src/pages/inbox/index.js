@@ -53,12 +53,14 @@ const Inbox = () => {
   const navigate = useNavigate();
 
   useEffect(async () => {
+    console.log(user, "user");
     if (user && userId && jobId && liveRefresh) {
       setReceiverId(userId);
       getJobDetails(jobId);
       if (user.userRoles[0] === "Student") {
         const rid = user.id + "_" + userId + "_" + jobId;
         setRoomId(rid);
+        console.log("aman12");
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);
@@ -237,8 +239,10 @@ const Inbox = () => {
     let rid = id ? id : roomId;
     let deleteData = true;
     const starCountRef = ref(db, "ChatRoom/" + rid);
+    console.log(starCountRef, "helloo");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data, "hello02");
       if (data) {
         const convertedData = Object.keys(data).map((d) => {
           return data[d];
@@ -254,13 +258,13 @@ const Inbox = () => {
   };
 
   const readUsers = async (roomId) => {
+    console.warn('jdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffs')
     //get user roomes
     // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
     const starUserRef = query(ref(db, "User"), orderByChild("dateTime"));
     //const refData= ref.order().equalTo(user.id, 'studentId');
     onValue(starUserRef, (snapshot) => {
       const data = snapshot.val();
-
       if (data) {
         updateUsers(data, roomId);
       
@@ -325,9 +329,11 @@ const Inbox = () => {
         finalData.sort(sorter);
       };
       sortByDate(finalData);
+      console.log("finalData", finalData, user);
       if (!roomId && !roomStatus) {
         setRoomStatus(true);
         setRoomId(finalData[0]?.chatRoomID);
+        console.log("aman17");
         setJobIdd(finalData[0]?.jobId);
         setStudentDisplayName(finalData[0]?.studentDisplayName);
         setEmployerDisplayName(finalData[0]?.employerDisplayName);
@@ -406,6 +412,7 @@ const Inbox = () => {
     const updates = {};
     updates["/block/"] = true;
     updates["/dateTime/"] = d1;
+    console.log(updates, ":::");
     await update(ref(db, "User/" + roomId), updates);
     readUsers();
   };
@@ -423,6 +430,7 @@ const Inbox = () => {
   };
 
   useEffect(() => {
+    console.log('qwer',users);
     setChatDisabled(users[0]?.block);
   }, [users]);
 

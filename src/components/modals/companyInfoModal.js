@@ -155,9 +155,9 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       if (employerData?.comapanyDetail?.logoPath) {
         setEdit(true);
       }
-      console.log(employerData, ":::::");
+      // console.log(employerData, ":::::");
       if (
-        employerData?.comapanyDetail !== null &&
+        employerData?.comapanyDetail !== undefined && employerData?.comapanyDetail !== null &&
         employerData?.comapanyDetail?.logoPath !== null
       ) {
         setImg({

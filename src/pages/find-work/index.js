@@ -49,7 +49,7 @@ const FindWork = () => {
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
-      if (response?.studentDetails?.pictureUrl !== null) {
+      if (response?.studentDetails !== null && response?.studentDetails?.pictureUrl !== null) {
         setStudentProfilePic(
           `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
         );

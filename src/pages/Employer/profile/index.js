@@ -38,6 +38,7 @@ const EmployerProfile = () => {
 
   const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
   const handleBuyConnect = () => setShowBuyConnectModal(true);
+  const [connects, setConnects] = useState();
 
   const authData = useSelector((state) => state.auth.user);
 
@@ -64,6 +65,13 @@ const EmployerProfile = () => {
           `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
         );
       }
+      if (
+        authData?.comapanyDetail !== null &&
+        authData?.comapanyDetail?.availableConnects
+      ) {
+        setConnects(authData?.comapanyDetail?.availableConnects);
+      }
+
       setId(authData?.id);
       getEmployerDetails(authData?.id);
       getArchiveJobs(authData?.id, activePage);
@@ -205,6 +213,7 @@ const EmployerProfile = () => {
                 <BuyConnectsModal
                   showBuyConnectModal={showBuyConnectModal}
                   setShowBuyConnectModal={setShowBuyConnectModal}
+                  connects={connects}
                 />
               </div>
               <div className="jobs-feeds-sec">
