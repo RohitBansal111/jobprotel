@@ -440,9 +440,11 @@ const Inbox = () => {
           </div>
         </section>
         <section className="job-feeds-wrapper">
-
+{
+  console.log('qqq',users)
+}
           {
-            users?.length>0?
+            !users?.length>0?
              <div className="container">
             <ChatInbox
               users={users}
