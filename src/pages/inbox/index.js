@@ -476,7 +476,6 @@ const Inbox = () => {
             
           </div>
           }
-
         </section>
       </div>
     </Layout>
