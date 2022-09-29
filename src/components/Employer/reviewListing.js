@@ -41,7 +41,10 @@ const EmployerReviewCard = ({
   };
 
   const handleRejected = () => setshowRejectedView(false);
-  const handleChatNow = () => navigate("/employer-inbox");
+  const handleChatNow = (userId,jobId) => {
+    navigate(`/inbox/${userId}/${jobId}`);
+
+  }
 
   useEffect(() => {
     if (user) {
@@ -105,7 +108,9 @@ const EmployerReviewCard = ({
             {user?.appliedJobStatus == 1 && (
               <button
                 type="button"
-                onClick={handleChatNow}
+                onClick={()=>{
+                  handleChatNow(user?.id, user?.reviewApplicationId)
+                }}
                 className="btn btn-primary mr-2"
               >
                 <i className="fa fa-comments mr-2"></i> Chat Now

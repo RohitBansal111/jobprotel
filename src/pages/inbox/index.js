@@ -88,21 +88,21 @@ const Inbox = () => {
         console.log("aman13");
         const resp = await getStudentDetails(user.id);
         if (resp.status == 200) {
-          setStudentDisplayName(resp.data.data.fullName);
-          setStudentUserImage(resp.data.data.studentDetails.pictureUrl);
-          setEmployerDisplayName(user.fullName);
-          setEmployerUserImage(user.comapanyDetail.logoPath);
-          setStudentId(resp.data.data.id);
-          setEmployerId(user.id);
+          setStudentDisplayName(resp?.data?.data?.fullName);
+          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||'');
+          setEmployerDisplayName(user?.fullName);
+          setEmployerUserImage(user?.comapanyDetail?.logoPath);
+          setStudentId(resp?.data?.data?.id);
+          setEmployerId(user?.id);
           addUser(
             rid,
-            resp.data.data.fullName,
-            resp.data.data.studentDetails.pictureUrl,
-            user.fullName,
-            user.comapanyDetail.logoPath,
+            resp?.data?.data?.fullName,
+            resp?.data?.data?.studentDetails?.pictureUrl ||'',
+            user?.fullName,
+            user?.comapanyDetail?.logoPath,
             userId,
-            user.id,
-            user.userRoles[0]
+            user?.id,
+            user?.userRoles[0]
           );
           navigate("/inbox");
         }
@@ -150,7 +150,8 @@ const Inbox = () => {
     employerId,
     userRole
   ) => {
-    console.log(
+    
+    console.log('ww',
       studentDisplayName,
       studentUserImage,
       employerDisplayName,
