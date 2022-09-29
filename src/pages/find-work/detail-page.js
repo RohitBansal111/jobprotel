@@ -40,7 +40,7 @@ const DetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      // console.log(response, "::::");
+      console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -170,22 +170,22 @@ const DetailsPage = () => {
                     <p>
                       <b>SKills: </b> {jobDetails?.skills}
                     </p>
+                    {jobDetails?.location !== "false" && <p>
+                      <b>Job Location: </b> {jobDetails?.location}
+                    </p>}
                     <p>
-                      <b>Job Location: </b> {jobDetails?.hoursPerDay}
-                    </p>
-                    <p>
-                      <b>Hour/day: </b> {jobDetails?.location}
+                      <b>Hour/day: </b> {jobDetails?.hoursPerDay}
                     </p>
                     <p>
                       <b>Days / Week: </b> {jobDetails?.daysPerWeek}
                     </p>
-                    <p>
+                   {jobDetails?.timing !== null && <p>
                       <b>Job Timings/days: </b>
                       {jobDetails?.timing}
-                    </p>
-                    <p>
+                    </p>}
+                    {jobDetails?.timeZone !== "false" && <p>
                       <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
-                    </p>
+                    </p>}
                     <p>
                       <b>Salary: </b> ${" "}
                       {jobDetails && jobDetails.salary && jobDetails.salary}

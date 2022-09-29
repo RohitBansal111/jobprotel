@@ -9,6 +9,7 @@ import * as projectServices from "../../../services/projectHistorySevices";
 import moment from "moment";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../../components/Loader/Loader";
+import UserAvatar from "./../../../assets/images/demo.png";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -42,11 +43,13 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      // console.log(response);
+      console.log(response, "::::");
       setStudentData(response);
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if(response?.studentDetails !== null && response?.studentDetails?.pictureUrl !== null){
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
 
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.resumeFilePath}`
@@ -144,7 +147,7 @@ const Profile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic} alt="user profile" />
+                        <img src={studentProfilePic ? studentProfilePic : UserAvatar} alt="user profile" />
                       </span>
                     </div>
                     <h3>
@@ -190,9 +193,9 @@ const Profile = () => {
                         </span>
                       </li>
                       <li>
-                        Hours / day{" "}
+                        Hour / week{" "}
                         <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
+                          {studentData?.studentDetails?.workHoursPerWeek}
                         </span>
                       </li>
                     </ul>
@@ -302,9 +305,9 @@ const Profile = () => {
                         <div className="profile-info-list">
                           <ul className="info-list-li">
                             <li>
-                              <span className="plabel">Hours / day</span>{" "}
+                              <span className="plabel">Hour / week</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workHoursPerDay}
+                                {studentData?.studentDetails?.workHoursPerWeek}
                               </span>
                             </li>
                             <li>
