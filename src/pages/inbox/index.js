@@ -53,12 +53,14 @@ const Inbox = () => {
   const navigate = useNavigate();
 
   useEffect(async () => {
+    console.log(user, "user");
     if (user && userId && jobId && liveRefresh) {
       setReceiverId(userId);
       getJobDetails(jobId);
       if (user.userRoles[0] === "Student") {
         const rid = user.id + "_" + userId + "_" + jobId;
         setRoomId(rid);
+        console.log("aman12");
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);
@@ -83,6 +85,7 @@ const Inbox = () => {
       } else {
         const rid = userId + "_" + user.id + "_" + jobId;
         setRoomId(rid);
+        console.log("aman13");
         const resp = await getStudentDetails(user.id);
         if (resp.status == 200) {
           setStudentDisplayName(resp.data.data.fullName);
@@ -128,7 +131,7 @@ const Inbox = () => {
   const getJobDetails = async (jobId) => {
     const resp = await jobServices.getJobByJobId(jobId);
     if (resp.status == 200) {
-      // console.log(resp.data.data, "::::");
+      console.log(resp.data.data, "jobdetails");
       setJobTitle(resp?.data?.data?.title);
     }
   };
@@ -147,12 +150,12 @@ const Inbox = () => {
     employerId,
     userRole
   ) => {
-    // console.log(
-    //   studentDisplayName,
-    //   studentUserImage,
-    //   employerDisplayName,
-    //   employerUserImage
-    // );
+    console.log(
+      studentDisplayName,
+      studentUserImage,
+      employerDisplayName,
+      employerUserImage
+    );
     const date = new Date().getTime();
     var d1 = new Date().toISOString();
     set(ref(db, "User/" + roomId), {
@@ -243,8 +246,10 @@ const Inbox = () => {
     let rid = id ? id : roomId;
     let deleteData = true;
     const starCountRef = ref(db, "ChatRoom/" + rid);
+    console.log(starCountRef, "helloo");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data, "hello02");
       if (data) {
         const convertedData = Object.keys(data).map((d) => {
           return data[d];
@@ -260,13 +265,16 @@ const Inbox = () => {
   };
 
   const readUsers = async (roomId) => {
+    console.warn('jdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffs')
     //get user roomes
     // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
     const starUserRef = query(ref(db, "User"), orderByChild("dateTime"));
     //const refData= ref.order().equalTo(user.id, 'studentId');
     onValue(starUserRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data, "data24");
       if (data) {
+        console.log(roomId, "aman67");
         updateUsers(data, roomId);
       
       } else {
@@ -329,9 +337,11 @@ const Inbox = () => {
         finalData.sort(sorter);
       };
       sortByDate(finalData);
+      console.log("finalData", finalData, user);
       if (!roomId && !roomStatus) {
         setRoomStatus(true);
         setRoomId(finalData[0]?.chatRoomID);
+        console.log("aman17");
         setJobIdd(finalData[0]?.jobId);
         setStudentDisplayName(finalData[0]?.studentDisplayName);
         setEmployerDisplayName(finalData[0]?.employerDisplayName);
@@ -411,6 +421,7 @@ const Inbox = () => {
     const updates = {};
     updates["/block/"] = true;
     updates["/dateTime/"] = d1;
+    console.log(updates, ":::");
     await update(ref(db, "User/" + roomId), updates);
     readUsers();
   };
@@ -428,6 +439,7 @@ const Inbox = () => {
   };
 
   useEffect(() => {
+    console.log('qwer',users);
     setChatDisabled(users[0]?.block);
   }, [users]);
 
@@ -440,11 +452,9 @@ const Inbox = () => {
           </div>
         </section>
         <section className="job-feeds-wrapper">
-{
-  console.log('qqq',users)
-}
+
           {
-            !users?.length>0?
+            users?.length>0?
              <div className="container">
             <ChatInbox
               users={users}
