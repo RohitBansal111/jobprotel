@@ -485,10 +485,6 @@ const Inbox = () => {
             
           </div>
           }
-         
-
-
-         
 
         </section>
       </div>
