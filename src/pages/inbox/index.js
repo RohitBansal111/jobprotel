@@ -89,17 +89,17 @@ const Inbox = () => {
         const resp = await getStudentDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(resp?.data?.data?.fullName);
-          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||"https://cdn.vectorstock.com/i/1000x1000/54/17/person-gray-photo-placeholder-man-vector-24005417.webp");
+          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||UserAvtar);
           setEmployerDisplayName(user?.fullName);
-          setEmployerUserImage(user?.comapanyDetail?.logoPath);
+          setEmployerUserImage(user?.comapanyDetail?.logoPath || UserAvtar);
           setStudentId(resp?.data?.data?.id);
           setEmployerId(user?.id);
           addUser(
             rid,
             resp?.data?.data?.fullName,
-            resp?.data?.data?.studentDetails?.pictureUrl ||"https://cdn.vectorstock.com/i/1000x1000/54/17/person-gray-photo-placeholder-man-vector-24005417.webp",
+            resp?.data?.data?.studentDetails?.pictureUrl ||UserAvtar,
             user?.fullName,
-            user?.comapanyDetail?.logoPath,
+            user?.comapanyDetail?.logoPath ||UserAvtar,
             userId,
             user?.id,
             user?.userRoles[0]
