@@ -103,7 +103,7 @@ const Inbox = () => {
             user?.id,
             user?.userRoles[0]
           );
-         // navigate("/inbox");
+          navigate("/inbox");
         }
       }
     }
