@@ -49,6 +49,7 @@ const Profile = () => {
   const [extraCertificate, setExtraCertificateData] = useState([]);
   const [editCertificate, setEditCertificate] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
+  const [connects, setConnects] = useState();
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -61,12 +62,15 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
       );
-      if (response?.studentDetails !== null && response?.studentDetails?.pictureUrl !== null) {
+      if (
+        response?.studentDetails !== null &&
+        response?.studentDetails?.pictureUrl !== null
+      ) {
         setStudentProfilePic(
           `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
         );
@@ -96,7 +100,7 @@ const Profile = () => {
       const resp = await projectServices.getProjectHistoryData(data);
       let response = resp.data.data;
       if (resp.status === 200) {
-        getProjectHistory(authData.id, activePage);
+        // getProjectHistory(authData.id, activePage);
         setLoading(false);
         setProjectHistory(response);
         setTotalRecords(resp.data.totalCount);
@@ -119,6 +123,14 @@ const Profile = () => {
       setId(authData.id);
       getExtraCertificate(authData.id);
     }
+    if (
+      authData?.studentDetails !== null &&
+      authData?.studentDetails?.availableConnects
+    ) {
+      setConnects(authData?.studentDetails?.availableConnects);
+    } else {
+      setConnects(0);
+    }
   }, [authData]);
 
   const getEmploymentDetails = async (authData) => {
@@ -138,16 +150,24 @@ const Profile = () => {
   const handleDeleteData = async (d) => {
     const resp = await projectServices.removeProjectHistoryData(d);
     if (resp.status === 200) {
-      getStudentData();
+      window.location.reload()
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      employmentDetails
-        .filter((data) => data.id !== d)
-        .map((data) => setEmpDetails(data));
+    }
+  };
+
+  const handleDeleteEmploymentData = async (d) => {
+    const resp = await studentServices.deleteStudentEmploymentData(d);
+    if (resp.status === 200) {
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
       if (authData) {
         getEmploymentDetails(authData);
       }
+    }else{
+      setLoading(false)
     }
   };
 
@@ -159,7 +179,6 @@ const Profile = () => {
 
   const getTimeZone = (timezone) => {
     if (timezone) {
-      console.log(timezone, ":::");
       const zone = JSON.parse(timezone);
       if (zone?.value == undefined) {
         return zone.altName;
@@ -190,7 +209,7 @@ const Profile = () => {
     }
   };
 
-  const handlePopUp = (id) => {
+  const handlePopUp = (id, text) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -200,8 +219,10 @@ const Profile = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && text == "project") {
         handleDeleteData(id);
+      } else if (result.isConfirmed && text == "employment") {
+        handleDeleteEmploymentData(id);
       }
     });
   };
@@ -488,6 +509,7 @@ const Profile = () => {
                 <BuyConnectsModal
                   showBuyConnectModal={showBuyConnectModal}
                   setShowBuyConnectModal={setShowBuyConnectModal}
+                  connects={connects}
                 />
               </div>
               <div className="jobs-feeds-sec">
@@ -583,19 +605,6 @@ const Profile = () => {
                                 {studentData?.studentDetails?.postalCode}
                               </span>
                             </li>
-                            {studentData?.studentDetails && (
-                              <>
-                                {" "}
-                                <li>
-                                  <span className="plabel">Time zone </span>
-                                  <span className="result">
-                                    {getTimeZone(
-                                      studentData?.studentDetails?.timezone
-                                    )}
-                                  </span>
-                                </li>
-                              </>
-                            )}
                           </ul>
                         </div>
                       </div>
@@ -704,9 +713,33 @@ const Profile = () => {
                               <span className="result">
                                 {studentData?.studentDetails?.workingType == 1
                                   ? "Onsite"
-                                  : "Offsite"}
+                                  : studentData?.studentDetails?.workingType ==
+                                    2
+                                  ? "Offsite"
+                                  : "N/A"}
                               </span>
                             </li>
+                            <li>
+                              <span className="plabel">Job Location</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.location
+                                  ? studentData?.studentDetails?.location
+                                  : "N / A"}
+                              </span>
+                            </li>
+                            {studentData?.studentDetails && (
+                              <>
+                                {" "}
+                                <li>
+                                  <span className="plabel">Time zone </span>
+                                  <span className="result">
+                                    {getTimeZone(
+                                      studentData?.studentDetails?.timezone
+                                    )}
+                                  </span>
+                                </li>
+                              </>
+                            )}
                             <li>
                               <span className="plabel">Resume </span>
                               <span className="result">
@@ -888,8 +921,9 @@ const Profile = () => {
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
                                     // data-bs-target="#modifyEmploymentModal"
-                                    //  onClick={() => }
-                                    onClick={() => handlePopUp(data.id)}
+                                    onClick={() =>
+                                      handlePopUp(data.id, "employment")
+                                    }
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>
@@ -955,7 +989,7 @@ const Profile = () => {
                                         className="icon_button_text"
                                         data-bs-toggle="modal"
                                         onClick={() =>
-                                          handleDeleteData(project.id)
+                                          handlePopUp(project.id, "project")
                                         }
                                       >
                                         <i className="fas fa-trash"></i>

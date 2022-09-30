@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../../../components/Layout";
-import CompanyProfile from "./../../../assets/images/company-logo.png";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 import PostedJobModal from "../../../components/modals/postedJobModal";

@@ -43,9 +43,12 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setStudentData(response);
-      if(response?.studentDetails !== null && response?.studentDetails?.pictureUrl !== null){
+      if (
+        response?.studentDetails !== null &&
+        response?.studentDetails?.pictureUrl !== null
+      ) {
         setStudentProfilePic(
           `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
         );
@@ -102,12 +105,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    // debugger
-    // if(authData?.studentDetails?.kycStatus === "true"){
     setTimeout(() => {
       setKycStatus(false);
     }, 1000);
-    // }
   }, []);
   const getTimeZone = (timezone) => {
     if (timezone) {
@@ -147,7 +147,12 @@ const Profile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={studentProfilePic ? studentProfilePic : UserAvatar} alt="user profile" />
+                        <img
+                          src={
+                            studentProfilePic ? studentProfilePic : UserAvatar
+                          }
+                          alt="user profile"
+                        />
                       </span>
                     </div>
                     <h3>
@@ -263,14 +268,7 @@ const Profile = () => {
                                 </ul>
                               </div>
                             </li>
-                            <li>
-                              <span className="plabel">Time zone </span>
-                              <span className="result">
-                                {getTimeZone(
-                                  studentData?.studentDetails?.timezone
-                                )}
-                              </span>
-                            </li>
+
                             <li>
                               <span className="plabel">Address </span>
                               <span className="result">
@@ -331,7 +329,28 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Working</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.workingType} days
+                                {studentData?.studentDetails?.workingType == 1
+                                  ? "Onsite"
+                                  : studentData?.studentDetails?.workingType ==
+                                    2
+                                  ? "Offsite"
+                                  : "N/A"}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Time zone </span>
+                              <span className="result">
+                                {getTimeZone(
+                                  studentData?.studentDetails?.timezone
+                                )}
+                              </span>
+                            </li>
+                            <li>
+                              <span className="plabel">Location </span>
+                              <span className="result">
+                                {studentData?.studentDetails?.location
+                                  ? studentData?.studentDetails?.location
+                                  : "N/A"}
                               </span>
                             </li>
                             <li>

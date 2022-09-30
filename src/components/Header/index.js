@@ -329,20 +329,54 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
-                                {notification?.employerResponseDto?.lastName}{" "}
-                                has invited you on job{" "}
-                                {notification?.notificationJobResponse?.title}
+                                {notification?.employerResponseDto?.lastName}{":- "}
+                                {notification?.message}
                               </b>
                             </p>
                           )}
-
-                          {notification.notificationType == 4 && (
+                          
+                          {notification.notificationType == 3 && (
                             <p>
                               <b>
-                                {notification?.employerResponseDto?.firstName}{" "}
-                                {notification?.employerResponseDto?.lastName}
-                                have invited you on job{" "}
-                                {notification?.notificationJobResponse?.title}
+                                {/* {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName} */}{" "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 1 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 2 && (
+                            <p>
+                              <b>
+                                {/* {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName} */}{":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 5 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 9 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.message}
                               </b>
                             </p>
                           )}

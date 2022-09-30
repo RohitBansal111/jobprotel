@@ -60,7 +60,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
       if (profileImage) {
         formData.append("logoUrl", profileImage);
       } else {
-        formData.append("logoUrl", null);
+        formData.append("logoUrl", "");
       }
     } else {
       formData.append("operationType", 1);
