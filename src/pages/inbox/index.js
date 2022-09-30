@@ -21,6 +21,7 @@ import {
   remove,
 } from "@firebase/database";
 import { Navigate, useParams } from "react-router";
+import UserAvtar from "../../assets/images/demo.png";
 
 const Inbox = () => {
   const db = getDatabase(app);
@@ -64,21 +65,21 @@ const Inbox = () => {
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);
-          setStudentUserImage(user.studentDetails.pictureUrl);
+          setStudentUserImage(user?.studentDetails?.pictureUrl ||UserAvtar);
           setEmployerDisplayName(resp.data.data.fullName);
-          setEmployerUserImage(resp.data.data.comapanyDetail.logoPath);
-          setStudentId(user.id);
-          setEmployerId(resp.data.data.id);
+          setEmployerUserImage(resp?.data?.data?.comapanyDetail?.logoPath || UserAvtar);
+          setStudentId(user?.id);
+          setEmployerId(resp?.data?.data?.id);
           //call function
           addUser(
             rid,
-            user.fullName,
-            user.studentDetails.pictureUrl,
+            user?.fullName,
+            user?.studentDetails?.pictureUrl ||UserAvtar,
             resp.data.data.fullName,
-            resp.data.data.comapanyDetail.logoPath,
+            resp?.data?.data?.comapanyDetail?.logoPath ||UserAvtar,
             user.id,
-            resp.data.data.id,
-            user.userRoles[0]
+            resp?.data?.data?.id,
+            user?.userRoles[0]
           );
           navigate("/inbox");
         }
@@ -88,7 +89,7 @@ const Inbox = () => {
         const resp = await getStudentDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(resp?.data?.data?.fullName);
-          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||'');
+          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||"https://cdn.vectorstock.com/i/1000x1000/54/17/person-gray-photo-placeholder-man-vector-24005417.webp");
           setEmployerDisplayName(user?.fullName);
           setEmployerUserImage(user?.comapanyDetail?.logoPath);
           setStudentId(resp?.data?.data?.id);
@@ -96,7 +97,7 @@ const Inbox = () => {
           addUser(
             rid,
             resp?.data?.data?.fullName,
-            resp?.data?.data?.studentDetails?.pictureUrl ||'',
+            resp?.data?.data?.studentDetails?.pictureUrl ||"https://cdn.vectorstock.com/i/1000x1000/54/17/person-gray-photo-placeholder-man-vector-24005417.webp",
             user?.fullName,
             user?.comapanyDetail?.logoPath,
             userId,
