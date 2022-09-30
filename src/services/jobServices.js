@@ -151,6 +151,8 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
     );
     if (resp.status == 200) {
       return resp;
+    } else if(resp.status == 400){
+      return resp;
     } else {
       throw new Error(resp);
     }
@@ -158,8 +160,8 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
     return {
       data: "",
       error:
-        err.response && err.response.data && err.response.data.error
-          ? err.response.data.error
+        err?.response?.data?.data
+          ? err.response.data.data
           : err.message,
       status: 400,
     };

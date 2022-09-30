@@ -39,7 +39,7 @@ const EmployerJobSuggestion = () => {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
-    if(jobid) {
+    if (jobid) {
       getSuggestions(jobid, pageNumber);
     }
   };

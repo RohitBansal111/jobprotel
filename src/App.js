@@ -29,6 +29,7 @@ import PrivateRoutes from "./HOC/PrivateRoutes";
 import ProtectedRouteToVerify from "./HOC/ProtectedRouteToVerify";
 import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
+import EmployerPublicProfile from "./pages/Employer/public/EmployerDetails";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
 import ResetPassword from "./pages/resetPassword";
 import PaymentSuccess from "./pages/payments/PaymentSuccess";
@@ -115,6 +116,8 @@ const App = () => {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/public/:userId" element={<PublicProfile />} />
+        <Route path="/publicEmployer/:userId" element={<EmployerPublicProfile />} />
+
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />

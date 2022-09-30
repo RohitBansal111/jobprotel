@@ -13,7 +13,7 @@ const EmployerDetailsValidator = (values) => {
   if (!values.startDate) {
     error.startDate = "Required start-date";
   }
-  if (!values.endDate) {
+  if (values.isCurrentEmployer == "false" && !values.endDate) {
     error.endDate = "Required end-date";
   }
   // if (!values.salary) {

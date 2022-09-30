@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CompanyLogo from "./../../assets/images/feed-logo.png";
+import UserAvatar from "./../../assets/images/demo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import { useState, useEffect } from "react";
@@ -57,7 +57,12 @@ const EmployerReviewCard = ({
             <div className="feeds-s-logo">
               <Link to={`/public/${user?.id}`}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
+                  src={
+                    user?.studentDetails !== null &&
+                    user?.studentDetails?.pictureUrl !== null
+                      ? `${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`
+                      : UserAvatar
+                  }
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
                   alt="profile image"
                 />

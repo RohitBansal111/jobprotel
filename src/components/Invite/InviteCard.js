@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CompanyLogo from "./../../assets/images/feed-logo.png";
+import UserAvatar from "./../../assets/images/demo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import ClockIcon from "./../../assets/icons/clock-ico.png";
@@ -38,7 +38,6 @@ const InviteCard = ({
     }
   };
   const handleChatNow = (id, jobId) => navigate(`/inbox/${id}/${jobId}`);
-
   return (
     <>
       {jobInvitations?.map((invites, i) => (
@@ -47,7 +46,12 @@ const InviteCard = ({
             <div className="feeds-head-left">
               <div className="feeds-s-logo">
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_API_URL}${invites?.company?.logoUrl}`}
+                  src={
+                    invites?.company !== null &&
+                    invites?.company?.logoUrl !== null
+                      ? `${process.env.REACT_APP_IMAGE_API_URL}${invites?.company?.logoUrl}`
+                      : UserAvatar
+                  }
                   alt="Company Logo"
                   height="50"
                   width="50"

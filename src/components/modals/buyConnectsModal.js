@@ -125,7 +125,6 @@ const BuyConnectsModal = ({
   connects,
 }) => {
   const onCloseModal = () => setShowBuyConnectModal(false);
-  // const [connect, setConnect] = useState(23);
   const [data, setData] = useState({
     available_connects: 0,
     buy_connects: 0,
@@ -170,7 +169,6 @@ const BuyConnectsModal = ({
   };
 
   useEffect(() => {
-    console.log(connects, "::::");
     setData({
       ...data,
       available_connects: connects,

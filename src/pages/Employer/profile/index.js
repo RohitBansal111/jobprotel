@@ -56,7 +56,7 @@ const EmployerProfile = () => {
 
   useEffect(async () => {
     if (authData) {
-      // console.log(authData, ":::::");
+      console.log(authData, ":::::");
       if (
         authData.comapanyDetail !== null &&
         authData.comapanyDetail.logoPath !== null
@@ -70,6 +70,8 @@ const EmployerProfile = () => {
         authData?.comapanyDetail?.availableConnects
       ) {
         setConnects(authData?.comapanyDetail?.availableConnects);
+      }else{
+        setConnects(0);
       }
 
       setId(authData?.id);
