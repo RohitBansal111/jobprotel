@@ -65,18 +65,18 @@ const Inbox = () => {
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);
-          setStudentUserImage(user?.studentDetails?.pictureUrl ||UserAvtar);
+          setStudentUserImage(user?.studentDetails?.pictureUrl ||'');
           setEmployerDisplayName(resp.data.data.fullName);
-          setEmployerUserImage(resp?.data?.data?.comapanyDetail?.logoPath || UserAvtar);
+          setEmployerUserImage(resp?.data?.data?.comapanyDetail?.logoPath || '');
           setStudentId(user?.id);
           setEmployerId(resp?.data?.data?.id);
           //call function
           addUser(
             rid,
             user?.fullName,
-            user?.studentDetails?.pictureUrl ||UserAvtar,
+            user?.studentDetails?.pictureUrl ||'',
             resp.data.data.fullName,
-            resp?.data?.data?.comapanyDetail?.logoPath ||UserAvtar,
+            resp?.data?.data?.comapanyDetail?.logoPath ||'',
             user.id,
             resp?.data?.data?.id,
             user?.userRoles[0]
@@ -89,17 +89,17 @@ const Inbox = () => {
         const resp = await getStudentDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(resp?.data?.data?.fullName);
-          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||UserAvtar);
+          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||'');
           setEmployerDisplayName(user?.fullName);
-          setEmployerUserImage(user?.comapanyDetail?.logoPath || UserAvtar);
+          setEmployerUserImage(user?.comapanyDetail?.logoPath || '');
           setStudentId(resp?.data?.data?.id);
           setEmployerId(user?.id);
           addUser(
             rid,
             resp?.data?.data?.fullName,
-            resp?.data?.data?.studentDetails?.pictureUrl ||UserAvtar,
+            resp?.data?.data?.studentDetails?.pictureUrl ||'',
             user?.fullName,
-            user?.comapanyDetail?.logoPath ||UserAvtar,
+            user?.comapanyDetail?.logoPath ||'',
             userId,
             user?.id,
             user?.userRoles[0]
