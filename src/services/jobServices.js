@@ -18,10 +18,11 @@ export const jobPost = async (data) => {
   } catch (err) {
     return {
       data: "",
-      error:
-      err.response?.data?.message ? err.response?.data?.message : err.response && err.response.data && err.response.data.error
-          ? err.response.data.error
-          : err.message,
+      error: err.response?.data?.message
+        ? err.response?.data?.message
+        : err.response && err.response.data && err.response.data.error
+        ? err.response.data.error
+        : err.message,
       status: 400,
     };
   }
@@ -151,7 +152,7 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
     );
     if (resp.status == 200) {
       return resp;
-    } else if(resp.status == 400){
+    } else if (resp.status == 400) {
       return resp;
     } else {
       throw new Error(resp);
@@ -159,10 +160,7 @@ export const sendStudentJobInvitations = async (jobId, userId) => {
   } catch (err) {
     return {
       data: "",
-      error:
-        err?.response?.data?.data
-          ? err.response.data.data
-          : err.message,
+      error: err?.response?.data?.data ? err.response.data.data : err.message,
       status: 400,
     };
   }

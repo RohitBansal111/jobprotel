@@ -75,7 +75,9 @@ const Notification = () => {
                           <div className="feeds-head-left">
                             <div className="feeds-s-name pe-4">
                               <h2>
-                                <Link to={`/publicEmployer/${notification?.employerResponseDto?.userId}`}>
+                                <Link
+                                  to={`/publicEmployer/${notification?.employerResponseDto?.userId}`}
+                                >
                                   {notification?.employerResponseDto?.firstName}{" "}
                                   {notification?.employerResponseDto?.lastName}
                                 </Link>{" "}
@@ -102,7 +104,9 @@ const Notification = () => {
                         <li key={i}>
                           <div className="feeds-s-name pe-4">
                             <h2>
-                              <Link to={`/public/${notification?.studentResponseDto?.userId}`}>
+                              <Link
+                                to={`/public/${notification?.studentResponseDto?.userId}`}
+                              >
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
                               </Link>{" "}
@@ -126,14 +130,6 @@ const Notification = () => {
                         </li>
                       )
                     )}
-                </div>
-                <div className="review-listing-action">
-                  {/* <button type="button" className="btn btn-primary me-2">
-                      Accepted
-                    </button>
-                    <button type="button" className="btn btn-reject">
-                      Rejected
-                    </button> */}
                 </div>
               </div>
               <div>

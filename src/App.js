@@ -92,7 +92,6 @@ const App = () => {
               <Verify />
             </ProtectedRouteToVerify>
           }
-          
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
@@ -117,7 +116,10 @@ const App = () => {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/public/:userId" element={<PublicProfile />} />
-        <Route path="/publicEmployer/:userId" element={<EmployerPublicProfile />} />
+        <Route
+          path="/publicEmployer/:userId"
+          element={<EmployerPublicProfile />}
+        />
 
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
@@ -157,7 +159,7 @@ const App = () => {
           path="/employer/applications"
           element={<EmployerApplication />}
         />
-        
+
         <Route
           path="/review-applications/:jobid"
           element={<ReviewApplications />}

@@ -18,6 +18,7 @@ import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
 import Swal from "sweetalert2";
 import DefaultProfile from "./../../assets/images/demo.png";
+import { viewUploadedFiles } from "../../services/viewUploadFileService";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -27,7 +28,6 @@ const Profile = () => {
   const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
   const [callCertificate, setCallCertificate] = useState(false);
   const [certificateName, setCertificateName] = useState("");
-
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
@@ -51,19 +51,12 @@ const Profile = () => {
   const [connects, setConnects] = useState();
 
   const handleBuyConnect = () => {
-    
-
-    if(authData?.studentDetails !==null){
- setShowBuyConnectModal(true)
-    }else{
-      toast.error(
-       "Please Complete Your Profile to buy connects"
-      );
+    if (authData?.studentDetails !== null) {
+      setShowBuyConnectModal(true);
+    } else {
+      toast.error("Please Complete Your Profile to buy connects");
     }
-    
-  
   };
-
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -76,7 +69,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      // console.log(response, "::::");
+      console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -164,7 +157,7 @@ const Profile = () => {
   const handleDeleteData = async (d) => {
     const resp = await projectServices.removeProjectHistoryData(d);
     if (resp.status === 200) {
-      window.location.reload()
+      window.location.reload();
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
@@ -180,8 +173,8 @@ const Profile = () => {
       if (authData) {
         getEmploymentDetails(authData);
       }
-    }else{
-      setLoading(false)
+    } else {
+      setLoading(false);
     }
   };
 
@@ -365,6 +358,16 @@ const Profile = () => {
     }
   };
 
+  const handleViewFiles = async (filePath) => {
+    console.log(filePath, ":::::");
+    const resp = await viewUploadedFiles(filePath);
+    if (resp.status == 200) {
+      console.log(resp, ":::::");
+    } else {
+      console.log(resp, ":::::");
+    }
+  };
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -474,13 +477,13 @@ const Profile = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears &&
-                            " Year"}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            ", "}
+                          {studentData?.studentDetails?.experienceInYears >=
+                            0 && " Year"}
+                          {studentData?.studentDetails?.experienceInMonths >=
+                            0 && ", "}
                           {studentData?.studentDetails?.experienceInMonths}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            " Month"}
+                          {studentData?.studentDetails?.experienceInMonths >=
+                            0 && " Month"}
                         </span>
                       </li>
                       <li>
@@ -758,7 +761,15 @@ const Profile = () => {
                               <span className="plabel">Resume </span>
                               <span className="result">
                                 <ul className="tags">
-                                  <li style={{ cursor: "pointer" }}>
+                                  <li
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      handleViewFiles(
+                                        studentData?.studentDetails
+                                          ?.resumeFilePath
+                                      )
+                                    }
+                                  >
                                     <a
                                       target="_blank"
                                       href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.resumeFilePath}`}
@@ -800,7 +811,6 @@ const Profile = () => {
                                           {certificate.title}
                                         </a>
                                       )}
-
                                       {editCertificate[i] ? (
                                         <>
                                           <button className="btn p-0 ms-3">
@@ -934,7 +944,6 @@ const Profile = () => {
                                     type="button"
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
-                                    // data-bs-target="#modifyEmploymentModal"
                                     onClick={() =>
                                       handlePopUp(data.id, "employment")
                                     }

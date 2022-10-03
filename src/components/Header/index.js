@@ -329,17 +329,44 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
-                                {notification?.employerResponseDto?.lastName}{":- "}
+                                {notification?.employerResponseDto?.lastName}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>
                           )}
-                          
                           {notification.notificationType == 3 && (
                             <p>
                               <b>
-                                {/* {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName} */}{" "}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.firstName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.firstName
+                                  : null}{" "}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.lastName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.lastName
+                                  : null}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 4 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.firstName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.firstName
+                                  : null}{" "}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.lastName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.lastName
+                                  : null}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>
@@ -348,7 +375,8 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>
@@ -357,7 +385,8 @@ const Header = () => {
                             <p>
                               <b>
                                 {/* {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName} */}{":- "}
+                                {notification?.studentResponseDto?.lastName} */}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>
@@ -366,7 +395,8 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>
@@ -375,7 +405,8 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName}{":- "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
                                 {notification?.message}
                               </b>
                             </p>

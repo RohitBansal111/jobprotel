@@ -38,6 +38,7 @@ const Profile = () => {
     setLoading(true);
     getProjectHistory(id, pageNumber);
   };
+
   const getStudentData = async (id = userId) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
@@ -109,6 +110,7 @@ const Profile = () => {
       setKycStatus(false);
     }, 1000);
   }, []);
+
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
@@ -132,96 +134,100 @@ const Profile = () => {
             </div>
           </div>
         </section>
+        {loading ? (
+          <div className="fullpage-loader">
+            {" "}
+            <Loader />{" "}
+          </div>
+        ) : (
+          <>
+            <section className="job-feeds-wrapper">
+              <div className="container">
+                <div className="profile-feed-inner">
+                  <div className="user-profile-left">
+                    <div className="user-profile-coll">
+                      <div className="user-profile-detail">
+                        <div
+                          className="profile-pic-progress"
+                          role="progressbar"
+                          aria-valuenow="60"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          <span className="profile-img">
+                            <img
+                              src={
+                                studentProfilePic
+                                  ? studentProfilePic
+                                  : UserAvatar
+                              }
+                              alt="user profile"
+                            />
+                          </span>
+                        </div>
+                        <h3>
+                          {studentData?.firstName} {studentData?.lastName}{" "}
+                        </h3>
+                        <p>
+                          {studentData?.studentDetails?.address}
+                          {", "}
+                          {studentData?.studentDetails?.addressLine1}
+                          {", "}
+                          {studentData?.studentDetails?.addressLine2}
+                        </p>
+                        <p>{studentData?.studentDetails?.cityName}</p>
+                      </div>
 
-        <section className="job-feeds-wrapper">
-          <div className="container">
-            <div className="profile-feed-inner">
-              <div className="user-profile-left">
-                <div className="user-profile-coll">
-                  <div className="user-profile-detail">
-                    <div
-                      className="profile-pic-progress"
-                      role="progressbar"
-                      aria-valuenow="60"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    >
-                      <span className="profile-img">
-                        <img
-                          src={
-                            studentProfilePic ? studentProfilePic : UserAvatar
-                          }
-                          alt="user profile"
-                        />
-                      </span>
+                      <div className="user-prof-info">
+                        <ul className="prof-info-ul">
+                          <li>
+                            Experience{" "}
+                            <span className="result">
+                              {studentData?.studentDetails?.experienceInYears}
+                              Year{", "}
+                              {
+                                studentData?.studentDetails?.experienceInMonths
+                              }{" "}
+                              Month
+                            </span>
+                          </li>
+                          <li>
+                            College / University{" "}
+                            <span className="result">
+                              {
+                                studentData?.studentDetails?.collegeResponse
+                                  ?.collegeName
+                              }
+                            </span>
+                          </li>
+                          <li>
+                            Education{" "}
+                            <span className="result">
+                              {
+                                studentData?.studentDetails
+                                  ?.qualificationResponse?.qualificationName
+                              }
+                            </span>
+                          </li>
+                          <li>
+                            Hour / week{" "}
+                            <span className="result">
+                              {studentData?.studentDetails?.workHoursPerWeek}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <h3>
-                      {studentData?.firstName} {studentData?.lastName}{" "}
-                    </h3>
-                    <p>
-                      {studentData?.studentDetails?.address}
-                      {", "}
-                      {studentData?.studentDetails?.addressLine1}
-                      {", "}
-                      {studentData?.studentDetails?.addressLine2}
-                    </p>
-                    <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
+                  <div className="jobs-feeds-sec">
+                    <div className="jobs-com-profile">
+                      <div className="profile-update">
+                        <p className="mailto:michael-taylor028@gmail.com">
+                          {studentData?.email}
+                        </p>
+                      </div>
+                    </div>
 
-                  <div className="user-prof-info">
-                    <ul className="prof-info-ul">
-                      <li>
-                        Experience{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.experienceInYears}
-                          Year{", "}
-                          {studentData?.studentDetails?.experienceInMonths}{" "}
-                          Month
-                        </span>
-                      </li>
-                      <li>
-                        College / University{" "}
-                        <span className="result">
-                          {
-                            studentData?.studentDetails?.collegeResponse
-                              ?.collegeName
-                          }
-                        </span>
-                      </li>
-                      <li>
-                        Education{" "}
-                        <span className="result">
-                          {
-                            studentData?.studentDetails?.qualificationResponse
-                              ?.qualificationName
-                          }
-                        </span>
-                      </li>
-                      <li>
-                        Hour / week{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.workHoursPerWeek}
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="jobs-feeds-sec">
-                <div className="jobs-com-profile">
-                  <div className="profile-update">
-                    <p className="mailto:michael-taylor028@gmail.com">
-                      {studentData?.email}
-                    </p>
-                  </div>
-                </div>
-                {loading ? (
-                  <div className="fullpage-loader">
-                    {" "}
-                    <Loader />{" "}
-                  </div>
-                ) : (
-                  <>
                     <section className="profile-information-view">
                       <div className="profile-information-coll">
                         <div className="profile-card-head">
@@ -495,12 +501,12 @@ const Profile = () => {
                         </div>
                       </div>
                     </section>
-                  </>
-                )}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          </>
+        )}
       </div>
     </Layout>
   );
