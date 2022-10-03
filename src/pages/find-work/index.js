@@ -49,7 +49,10 @@ const FindWork = () => {
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
-      if (response?.studentDetails !== null && response?.studentDetails?.pictureUrl !== null) {
+      if (
+        response?.studentDetails !== null &&
+        response?.studentDetails?.pictureUrl !== null
+      ) {
         setStudentProfilePic(
           `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
         );
@@ -172,18 +175,17 @@ const FindWork = () => {
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
+
                   <div className="profile-connect">
-                    {authData?.studentDetails && (
-                      <>
-                        <div className="profile-con">
-                          <img src={ConnectIcon} alt="Connect" />
-                          <span className="conn-count">
-                            {authData?.studentDetails?.availableConnects}
-                          </span>
-                        </div>
-                        <h4>Available Connects</h4>
-                      </>
-                    )}
+                    <>
+                      <div className="profile-con">
+                        <img src={ConnectIcon} alt="Connect" />
+                        <span className="conn-count">
+                          {authData?.studentDetails?.availableConnects || 0}
+                        </span>
+                      </div>
+                      <h4>Available Connects</h4>
+                    </>
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">

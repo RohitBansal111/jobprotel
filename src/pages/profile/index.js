@@ -28,7 +28,6 @@ const Profile = () => {
   const [callCertificate, setCallCertificate] = useState(false);
   const [certificateName, setCertificateName] = useState("");
 
-  const handleBuyConnect = () => setShowBuyConnectModal(true);
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
@@ -50,6 +49,21 @@ const Profile = () => {
   const [editCertificate, setEditCertificate] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
   const [connects, setConnects] = useState();
+
+  const handleBuyConnect = () => {
+    
+
+    if(authData?.studentDetails !==null){
+ setShowBuyConnectModal(true)
+    }else{
+      toast.error(
+       "Please Complete Your Profile to buy connects"
+      );
+    }
+    
+  
+  };
+
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
