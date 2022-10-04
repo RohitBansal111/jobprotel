@@ -25,7 +25,7 @@ import {
 } from "@firebase/database";
 import { Navigate, useParams } from "react-router";
 import ReactTimeAgo from "react-time-ago";
-import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils"
 
 const connection = new HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_IMAGE_API_URL}chatHub`)
