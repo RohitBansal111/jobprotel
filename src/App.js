@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import * as types from "./types/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import EmployerApplication from "./pages/Employer/applications";
 import EmployerInbox from "./pages/Employer/Inbox";
@@ -35,8 +36,24 @@ import PaymentFailure from "./pages/payments/PaymentFailure";
 import InvitationRoutes from "./HOC/InvitationRoutes";
 import InvitationAccepted from "./pages/Employer/posted-job/invitation-accepted";
 import Verify from "./email-verification/Verify";
+import * as studentServices from "./services/studentServices";
+import { useDispatch } from "react-redux";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  useEffect(async () => {
+    let id = JSON.parse(localStorage.getItem("jobPortalUser")).id;
+    if (id) {
+      const resp = await studentServices.getStudentDetails(id);
+      if (resp.status == 200) {
+        const response = resp.data.data;
+        dispatch({
+          type: types.UPDATE_DATA,
+          payload: response,
+        });
+      }
+    }
+  }, []);
   return (
     <Router>
       <Routes>
@@ -145,6 +162,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

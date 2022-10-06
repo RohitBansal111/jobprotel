@@ -40,6 +40,7 @@ const DetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
+      console.log(response, "::::")
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -115,8 +116,9 @@ const DetailsPage = () => {
     if (timezone && timezone == "Doesn't Matter") {
       return timezone;
     } else if (timezone) {
-      const zone = JSON.parse(timezone);
-      return zone.value;
+      // const zone = JSON.parse(timezone);
+      // return zone.value;
+      return timezone
     } else {
       return "N/A";
     }

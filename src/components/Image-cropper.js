@@ -1,5 +1,5 @@
 import { Modal } from "react-responsive-modal";
-import 'react-responsive-modal/styles.css';
+import "react-responsive-modal/styles.css";
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@mui/material/Slider";
@@ -10,8 +10,7 @@ const ImageCropperModal = ({
   showImageCropModal,
   readFile,
   imageSrc,
-  setProfileImage,
-  setImg
+  setImg,
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
@@ -23,7 +22,6 @@ const ImageCropperModal = ({
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-
   const showCroppedImage = useCallback(async () => {
     // closeModal();
     try {
@@ -32,16 +30,14 @@ const ImageCropperModal = ({
         croppedAreaPixels,
         rotation
       );
-      console.log("donee", { croppedImage });
       // convertToBlob(croppedImage)
       setCroppedImage(croppedImage);
-      setProfileImage(croppedImage);
-      setImg({personalInfoImg: croppedImage})
-      closeModal()
-    } catch (e) {
-      console.error(e);
+      setImg({ personalInfoImg: croppedImage });
+      closeModal();
+    } catch (err) {
+      console.error(err);
     }
-  }, [imageSrc, croppedAreaPixels, rotation,closeModal,setProfileImage,setImg]);
+  }, [imageSrc, croppedAreaPixels, rotation, closeModal, setImg]);
 
   const convertToBlob = async (base64) => {
     try {
@@ -53,7 +49,7 @@ const ImageCropperModal = ({
       return null;
     }
   };
-  
+
   return (
     <Modal
       open={showImageCropModal}
@@ -62,10 +58,10 @@ const ImageCropperModal = ({
       classNames={{ modal: "medium-size theme-modal" }}
     >
       <div className="normal-react-modal modal-content">
-          <div className="modal-header modal-multi-heading">
-            <h5 className="modal-title">Crop Profile Image</h5>
-          </div>
-          <div className="modal-body">
+        <div className="modal-header modal-multi-heading">
+          <h5 className="modal-title">Crop Profile Image</h5>
+        </div>
+        <div className="modal-body">
           <div className="image-cropper-wrapper">
             <Cropper
               image={imageSrc}

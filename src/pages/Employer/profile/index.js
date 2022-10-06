@@ -1,9 +1,8 @@
 import Layout from "../../../components/Layout";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import EditIcon from "./../../../assets/icons/editicon.png";
-import ClockIcon from "./../../../assets/icons/clock-ico.png";
-import CompanyProfile from "./../../../assets/images/company-logo.png";
 import CompanyInfoModal from "../../../components/modals/companyInfoModal";
+import UserAvtar from "./../../../assets/images/demo.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
@@ -14,11 +13,9 @@ import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
 import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
-import LocationIcon from "../../../assets/icons/loc-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 
 const EmployerProfile = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   const [employerData, setEmployerData] = useState([]);
@@ -108,7 +105,6 @@ const EmployerProfile = () => {
     if (data) {
       const resp = await jobServices.getArchiveJobByEmployer(data);
       let response = resp.data.data;
-      console.log(response);
       if (resp.status === 200) {
         setLoading(false);
         // setTotalRecordsArchive(resp.data.totalCount);
@@ -124,7 +120,11 @@ const EmployerProfile = () => {
         <section className="topbg-banner">
           <div className="container">
             <div className="innerbg-banner">
-              <div className="banner-edit"></div>
+              <div className="banner-edit">
+                <Link to="/employer/edit-profile" className="btn edit-btn">
+                  Edit Profile
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -142,7 +142,7 @@ const EmployerProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={companyLogo} alt="Company profile" />
+                        <img src={!companyLogo ? companyLogo : UserAvtar} alt="Company profile" />
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -167,15 +167,9 @@ const EmployerProfile = () => {
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
                       <li>
-                        Recruiting Manager{" "}
-                        <span className="result">
-                          {authData?.comapanyDetail?.recruitingManagerName}
-                        </span>
-                      </li>
-                      <li>
                         Contact Details{" "}
                         <span className="result">
-                          {authData?.comapanyDetail?.companyEmail}
+                          {authData?.email}
                         </span>
                       </li>
                     </ul>
@@ -196,7 +190,11 @@ const EmployerProfile = () => {
               </div>
               <div className="jobs-feeds-sec">
                 <div className="jobs-com-profile">
-                  <div className="profile-update"></div>
+                  <div className="profile-update">
+                    <p className="mailto:michael-taylor028@gmail.com">
+                      {employerData?.email}
+                    </p>
+                  </div>
                   {/* <div className="profile-strength">
                     <div className="profile-strength-inner">
                       <h3>

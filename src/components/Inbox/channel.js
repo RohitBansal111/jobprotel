@@ -55,7 +55,6 @@ const ClientChannel = ({
   roomId,
   chatDisabled,
 }) => {
-  console.log("aman900", roomId);
   return (
     <div className="channel-list-wrapper">
       <div className="client-search-box">

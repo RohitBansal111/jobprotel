@@ -31,7 +31,6 @@ const FindWork = () => {
   const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
-      // console.log(authData)
       setId(authData.id);
       getStudentDetails(authData.id);
       getJobList(activePage);
@@ -46,9 +45,7 @@ const FindWork = () => {
   }, []);
 
   const getStudentDetails = async (id = authData.id) => {
-    console.log(id, ":::");
     const resp = await studentServices.getStudentDetails(id);
-
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
@@ -100,15 +97,25 @@ const FindWork = () => {
                   <i className="fa fa-info-circle" aria-hidden="true"></i> KYC
                   is pending, please click on button and complete your KYC{" "}
                 </p>
-                <button
-                  type="button"
-                  className="btn submit-kyc"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kycpopup"
-                >
-                  Complete KYC
-                </button>
-                <CompleteKycModal jobList={jobList} />
+                {authData?.studentDetails?.isProfileCompleted ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn submit-kyc"
+                      data-bs-toggle="modal"
+                      data-bs-target="#kycpopup"
+                    >
+                      Complete KYC
+                    </button>
+                    <CompleteKycModal />
+                  </>
+                ) : (
+                  <button type="button" className="btn submit-kyc" onClick={()=>{
+                    toast.error("Profile is not Completed");
+                  }}>
+                    Complete KYC
+                  </button>
+                )}
               </div>
             )}
             {authData?.studentDetails?.kycStatus === "true" && kycStatus ? (
@@ -141,9 +148,6 @@ const FindWork = () => {
                           src={
                             studentProfilePic ? studentProfilePic : UserAvtar
                           }
-                          onError={event => {
-                            event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
-                          }}
                           alt="user profile"
                         />
                       </span>
@@ -173,12 +177,6 @@ const FindWork = () => {
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
-                      <li>
-                        Hour's per/day{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.workHoursPerDay}
-                        </span>
-                      </li>
                       <li>
                         Skills{" "}
                         <span className="result">
@@ -214,6 +212,13 @@ const FindWork = () => {
                             studentData?.studentDetails?.qualificationResponse
                               ?.qualificationName
                           }
+                        </span>
+                      </li>
+                      <li>
+                        Hour / week{" "}
+                        <span className="result">
+                          {studentData?.studentDetails?.workHoursPerWeek}
+                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
                         </span>
                       </li>
                     </ul>

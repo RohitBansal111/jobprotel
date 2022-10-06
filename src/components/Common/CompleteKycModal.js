@@ -7,13 +7,14 @@ import toast from "toastr";
 import { useDispatch, useSelector } from "react-redux";
 import * as types from "../../types/auth";
 
-const CompleteKycModal = ({ jobList, studentData }) => {
+const CompleteKycModal = () => {
   const authData = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const [studentId, setStudentId] = useState("");
   const [mainfile, setMainfile] = useState();
   const [backfile, setBackfile] = useState();
+  const [offerLetter, setOfferLetter] = useState();
   const [err, setErr] = useState([]);
 
   const handleFrontSide = (e) => {
@@ -26,6 +27,10 @@ const CompleteKycModal = ({ jobList, studentData }) => {
     setBackfile(files);
   };
 
+  const handleOfferLetter = (e) =>{
+    let files = e.target.files[0];
+    setOfferLetter(files);
+  }
   const validations = () => {
     let error = {};
     let isValid = true;
@@ -48,6 +53,7 @@ const CompleteKycModal = ({ jobList, studentData }) => {
     formData.append("mainFile", mainfile);
     formData.append("backSideFile", backfile);
     formData.append("remarks", values.remarks);
+    formData.append("offerLetter", offerLetter);
 
     if (studentId) {
       if (validations()) {
@@ -138,6 +144,15 @@ const CompleteKycModal = ({ jobList, studentData }) => {
                           accept=".jpg, .jpeg, .png, application/pdf, .doc"
                         />
                         <p>{err?.backSideFile}</p>
+                      </div>
+                      <label>Offer Letter</label>
+                      <div className="form-field flex100">
+                        <input
+                          name="offerLetter"
+                          onChange={handleOfferLetter}
+                          type="file"
+                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                        />
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button
