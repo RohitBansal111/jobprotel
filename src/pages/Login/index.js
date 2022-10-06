@@ -7,7 +7,7 @@ import { renderField } from "../../components/renderField";
 import toast from "toastr";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as authActions from "../../store/action/authActions";
 
 const Login = () => {
@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const handleInputChange = (event) => {
-      setLogin({termsPrivacy: event.target.checked})
+    setLogin({ termsPrivacy: event.target.checked });
     // const target = event.target;
     // const value = target.type === "checkbox" ? target.checked : target.value;
     // const name = target.name;

@@ -46,7 +46,7 @@ const App = () => {
   useEffect(async () => {
     let data = JSON.parse(localStorage.getItem("jobPortalUser"));
     let id = data.id;
-    if (data.roles == "Student") {
+    if (data?.roles == "Student") {
       const resp = await studentServices.getStudentDetails(id);
       if (resp.status == 200) {
         const response = resp.data.data;
@@ -55,7 +55,7 @@ const App = () => {
           payload: response,
         });
       }
-    } else if (data.roles == "Employer") {
+    } else if (data?.roles == "Employer") {
       const resp = await employerServices.getEmployerDetails(id);
       if (resp.status == 200) {
         dispatch({

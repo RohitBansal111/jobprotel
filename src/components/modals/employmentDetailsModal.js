@@ -31,16 +31,6 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
 
-    // const endDate1 = moment(endDate).format("MM/DD/YYYY");
-    // const endDOnly = endDate1 + " " + "00:00:00";
-    // const endDateOnly = moment(endDOnly).format("X");
-
-    // if(endDOnly < startDOnly)
-    // {
-    //   error.endDate = "End Date should be greater than start date";
-    //   isValid = false;
-    // }
-
     setErrors(error);
     return isValid;
   };
@@ -197,7 +187,6 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
                           />
                         </div>
                       )}
-
                       {values.isCurrentEmployer == "false" && !checkEnd && (
                         <div className="form-field flex100">
                           <Field
