@@ -11,44 +11,68 @@ import toast from "toastr";
 import * as types from "../../types/auth";
 import { Loader } from "../Loader/Loader";
 import app from "../../helpers/firebase";
-import { getDatabase, ref, set, onValue, child, query, equalTo, orderByChild, get, update ,remove} from "@firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  child,
+  query,
+  equalTo,
+  orderByChild,
+  get,
+  update,
+  remove,
+} from "@firebase/database";
+import DefaultProfile from "./../../assets/images/demo.png";
 
 const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   const db = getDatabase(app);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  // const { employerData } = props;
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [initialData, setInitialData] = useState([]);
   const [modal, setModal] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [img, setImg] = useState({
+    personalInfoImg: "",
+  });
   toast.options = { preventDuplicates: true };
 
   const authData = useSelector((state) => state.auth.user);
 
   const handleCompanyInfo = async (values) => {
-    setLoading(true);
     let formData = new FormData();
-    let keys = Object.keys(values);
+    // let keys = Object.keys(values);
 
-    keys.forEach((key) => {
-      formData.append(key, values[key]);
-    });
-    if (img.personalInfoImg != "") {
-      formData.append("logoUrl", profileImage);
+    // keys.forEach((key) => {
+    //   formData.append(key, values[key]);
+    // });
+    formData.append("address", values.address);
+    formData.append("companyPhone", values.companyPhone);
+    formData.append("companyName", values.companyName);
+    formData.append("userId", authData.id);
+
+    if (edit) {
+      formData.append("operationType", 2);
+      if (profileImage) {
+        formData.append("logoUrl", profileImage);
+      } else {
+        formData.append("logoUrl", "");
+      }
     } else {
-      formData.append("logoUrl", null);
+      formData.append("operationType", 1);
+      formData.append("logoUrl", profileImage);
     }
-    
+
     if (authData.id) {
-      const resp = await employerServices.updateEmployerDetails(
-        authData.id,
-        formData
-      );
+      setLoading(true);
+      const resp = await employerServices.updateEmployerDetails(formData);
       if (resp.status == 200) {
         setLoading(false);
-        readUsers(authData.id,values.firstName,values.lastName);
+        readUsers(authData.id, values.firstName, values.lastName);
         const resp2 = await employerServices.getEmployerDetails(authData.id);
         localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
 
@@ -63,11 +87,8 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-     //    setTimeout(() => {
-     //      window.location.reload();
-     //    }, 300);
 
-        if(authData){
+        if (authData) {
           getEmployerDetails(authData.id);
         }
         document.getElementById("modelClose").click();
@@ -104,56 +125,68 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     }
   };
 
-  const readUsers =  (userId,firstName,lastName) => {
-     const starUserRef = ref(db, "User");
-     onValue(starUserRef, (snapshot) => {
-          const data = snapshot.val();
-          if (data) { 
-           const convertedData = Object.keys(data).map(d => {
-             return data[d];
-        })
-        let finalData = convertedData.filter((data) => data.employerId == userId)
-            finalData.map((data)=>{
-               console.log(data,"data1")
-               const updates = {};
-               updates['/employerDisplayName/'] = firstName.charAt(0).toUpperCase() + firstName.slice(1)+" "+lastName;
- 
-                update(ref(db, "User/" + data.chatRoomID), updates);
-              
-            })
- 
-          }
-     });
- 
-   };
+  const readUsers = (userId, firstName, lastName) => {
+    const starUserRef = ref(db, "User");
+    onValue(starUserRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const convertedData = Object.keys(data).map((d) => {
+          return data[d];
+        });
+        let finalData = convertedData.filter(
+          (data) => data.employerId == userId
+        );
+        finalData.map((data) => {
+          const updates = {};
+          updates["/employerDisplayName/"] =
+            firstName.charAt(0).toUpperCase() +
+            firstName.slice(1) +
+            " " +
+            lastName;
 
-  const [img, setImg] = useState({
-    personalInfoImg: "",
-  });
+          update(ref(db, "User/" + data.chatRoomID), updates);
+        });
+      }
+    });
+  };
 
   useEffect(() => {
     if (employerData) {
-      setImg({
-        ...img,
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
-      });
+      if (employerData?.comapanyDetail?.logoPath) {
+        setEdit(true);
+      }
+      // console.log(employerData, ":::::");
+      if (
+        employerData?.comapanyDetail !== undefined && employerData?.comapanyDetail !== null &&
+        employerData?.comapanyDetail?.logoPath !== null
+      ) {
+        setImg({
+          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${employerData?.comapanyDetail?.logoPath}`,
+        });
+      }
       getCountryList();
       const data = {
         firstName: employerData?.firstName,
         lastName: employerData?.lastName,
         companyName: employerData?.comapanyDetail?.companyName,
         companyPhone: employerData?.comapanyDetail?.companyPhone,
-        countryId: employerData?.comapanyDetail?.countryResponse?.id,
-        stateId: employerData?.comapanyDetail?.stateResponse?.id,
-        cityName: employerData?.comapanyDetail?.cityName,
-        recruitingManagerName:
-          employerData?.comapanyDetail?.recruitingManagerName,
+        // countryId: employerData?.comapanyDetail?.countryResponse?.id,
+        // stateId: employerData?.comapanyDetail?.stateResponse?.id,
+        // cityName: employerData?.comapanyDetail?.cityName,
+        // recruitingManagerName:
+        //   employerData?.comapanyDetail?.recruitingManagerName,
+        email: employerData?.email,
         address: employerData?.comapanyDetail?.address,
-        Email: employerData?.comapanyDetail?.companyEmail,
       };
-      if (data.countryId) {
-        getStateList(employerData?.comapanyDetail?.countryResponse?.id);
-      }
+      // if (
+      //   employerData?.comapanyDetail !== null &&
+      //   employerData?.comapanyDetail?.logoPath !== null
+      // ) {
+      //   setProfileImage(employerData?.comapanyDetail?.logoPath);
+      // }
+      // if (data.countryId) {
+      //   getStateList(employerData?.comapanyDetail?.countryResponse?.id);
+      // }
       setInitialData(data);
     }
   }, [employerData]);
@@ -179,13 +212,13 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     }
   };
 
-  function readFile(file) {
+  const readFile = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.addEventListener("load", () => resolve(reader.result), false);
       reader.readAsDataURL(file);
     });
-  }
+  };
 
   const closeModal = () => {
     setModal(false);
@@ -247,7 +280,11 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                           </div>
                           <div className="aws-placeholder image4">
                             <img
-                              src={img.personalInfoImg}
+                              src={
+                                img.personalInfoImg
+                                  ? img.personalInfoImg
+                                  : DefaultProfile
+                              }
                               className="img-aws"
                               alt="user"
                               layout="fill"
@@ -285,7 +322,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
 
                       <div className="form-field flex50">
                         <Field
-                          name="Email"
+                          name="email"
                           label="Company Email Address"
                           component={renderField}
                           disabled={true}
@@ -301,7 +338,7 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                         />
                       </div>
                       <div className="form-field flex50">
-                        <Field
+                        {/* <Field
                           name="countryId"
                           label="Country"
                           component={renderSelect}
@@ -317,10 +354,10 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                                 {country.countryName}
                               </option>
                             ))}
-                        </Field>
+                        </Field> */}
                       </div>
                       <div className="form-field flex50">
-                        <Field
+                        {/* <Field
                           name="stateId"
                           label="State"
                           component={renderSelect}
@@ -335,25 +372,25 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                                 {state.stateName}
                               </option>
                             ))}
-                        </Field>
+                        </Field> */}
                       </div>
                       <div className="form-field flex50">
-                        <Field
+                        {/* <Field
                           name="cityName"
                           label="City"
                           component={renderField}
                           placeholder="Enter City"
                           type="text"
-                        ></Field>
+                        ></Field> */}
                       </div>
                       <div className="form-field flex50">
-                        <Field
+                        {/* <Field
                           name="recruitingManagerName"
                           label="Recuriting Manager Name"
                           component={renderField}
                           placeholder="Enter recuriting manager name"
                           type="text"
-                        />
+                        /> */}
                       </div>
                       <div className="form-field flex100">
                         <Field
@@ -369,7 +406,12 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
                           type="submit"
                           className="btn btn-primary button-submit"
                         >
-                          {loading &&  <div className="button-submit-loader"><Loader /></div>} Update Info
+                          {loading && (
+                            <div className="button-submit-loader">
+                              <Loader />
+                            </div>
+                          )}{" "}
+                          Update Info
                         </button>
                       </div>
                     </div>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CompanyLogo from "./../../assets/images/feed-logo.png";
+import UserAvatar from "./../../assets/images/demo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import { useState, useEffect } from "react";
@@ -30,7 +30,7 @@ const EmployerReviewCard = ({
       appiledJobStatusByEmployer: status,
     };
     const resp = await appliedJobServices.updateAppliedJobs(data);
-    console.log(resp);
+    // console.log(resp);
 
     if (resp.status == 200) {
       toast.success(
@@ -41,7 +41,10 @@ const EmployerReviewCard = ({
   };
 
   const handleRejected = () => setshowRejectedView(false);
-  const handleChatNow = () => navigate("/employer-inbox");
+  const handleChatNow = (userId,jobId) => {
+    navigate(`/inbox/${userId}/${jobId}`);
+
+  }
 
   useEffect(() => {
     if (user) {
@@ -57,7 +60,12 @@ const EmployerReviewCard = ({
             <div className="feeds-s-logo">
               <Link to={`/public/${user?.id}`}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`}
+                  src={
+                    user?.studentDetails !== null &&
+                    user?.studentDetails?.pictureUrl !== null
+                      ? `${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`
+                      : UserAvatar
+                  }
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
                   alt="profile image"
                 />
@@ -105,7 +113,9 @@ const EmployerReviewCard = ({
             {user?.appliedJobStatus == 1 && (
               <button
                 type="button"
-                onClick={handleChatNow}
+                onClick={()=>{
+                  handleChatNow(user?.id, user?.reviewApplicationId)
+                }}
                 className="btn btn-primary mr-2"
               >
                 <i className="fa fa-comments mr-2"></i> Chat Now

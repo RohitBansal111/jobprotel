@@ -21,6 +21,7 @@ import {
   remove,
 } from "@firebase/database";
 import { Navigate, useParams } from "react-router";
+import UserAvtar from "../../assets/images/demo.png";
 
 const Inbox = () => {
   const db = getDatabase(app);
@@ -64,45 +65,44 @@ const Inbox = () => {
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);
-          setStudentUserImage(user.studentDetails.pictureUrl);
+          setStudentUserImage(user?.studentDetails?.pictureUrl ||'');
           setEmployerDisplayName(resp.data.data.fullName);
-          setEmployerUserImage(resp.data.data.comapanyDetail.logoPath);
-          setStudentId(user.id);
-          setEmployerId(resp.data.data.id);
+          setEmployerUserImage(resp?.data?.data?.comapanyDetail?.logoPath || '');
+          setStudentId(user?.id);
+          setEmployerId(resp?.data?.data?.id);
           //call function
           addUser(
             rid,
-            user.fullName,
-            user.studentDetails.pictureUrl,
+            user?.fullName,
+            user?.studentDetails?.pictureUrl ||'',
             resp.data.data.fullName,
-            resp.data.data.comapanyDetail.logoPath,
+            resp?.data?.data?.comapanyDetail?.logoPath ||'',
             user.id,
-            resp.data.data.id,
-            user.userRoles[0]
+            resp?.data?.data?.id,
+            user?.userRoles[0]
           );
           navigate("/inbox");
         }
       } else {
         const rid = userId + "_" + user.id + "_" + jobId;
         setRoomId(rid);
-        console.log("aman13");
-        const resp = await getStudentDetails(user.id);
+        const resp = await getStudentDetails(userId);
         if (resp.status == 200) {
-          setStudentDisplayName(resp.data.data.fullName);
-          setStudentUserImage(resp.data.data.studentDetails.pictureUrl);
-          setEmployerDisplayName(user.fullName);
-          setEmployerUserImage(user.comapanyDetail.logoPath);
-          setStudentId(resp.data.data.id);
-          setEmployerId(user.id);
+          setStudentDisplayName(resp?.data?.data?.fullName);
+          setStudentUserImage(resp?.data?.data?.studentDetails?.pictureUrl||'');
+          setEmployerDisplayName(user?.fullName);
+          setEmployerUserImage(user?.comapanyDetail?.logoPath || '');
+          setStudentId(resp?.data?.data?.id);
+          setEmployerId(user?.id);
           addUser(
             rid,
-            resp.data.data.fullName,
-            resp.data.data.studentDetails.pictureUrl,
-            user.fullName,
-            user.comapanyDetail.logoPath,
+            resp?.data?.data?.fullName,
+            resp?.data?.data?.studentDetails?.pictureUrl ||'',
+            user?.fullName,
+            user?.comapanyDetail?.logoPath ||'',
             userId,
-            user.id,
-            user.userRoles[0]
+            user?.id,
+            user?.userRoles[0]
           );
           navigate("/inbox");
         }
@@ -131,7 +131,6 @@ const Inbox = () => {
   const getJobDetails = async (jobId) => {
     const resp = await jobServices.getJobByJobId(jobId);
     if (resp.status == 200) {
-      console.log(resp.data.data, "jobdetails");
       setJobTitle(resp?.data?.data?.title);
     }
   };
@@ -150,12 +149,7 @@ const Inbox = () => {
     employerId,
     userRole
   ) => {
-    console.log(
-      studentDisplayName,
-      studentUserImage,
-      employerDisplayName,
-      employerUserImage
-    );
+   
     const date = new Date().getTime();
     var d1 = new Date().toISOString();
     set(ref(db, "User/" + roomId), {
@@ -272,9 +266,7 @@ const Inbox = () => {
     //const refData= ref.order().equalTo(user.id, 'studentId');
     onValue(starUserRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data, "data24");
       if (data) {
-        console.log(roomId, "aman67");
         updateUsers(data, roomId);
       
       } else {
@@ -328,6 +320,7 @@ const Inbox = () => {
       const finalData = convertedData.filter(
         (data) => data.employerId == user.id
       );
+
       const sortByDate = (finalData) => {
         const sorter = (a, b) => {
           return (
@@ -355,7 +348,6 @@ const Inbox = () => {
   };
 
   useEffect(() => {
-    console.log('qwer',roomStatus)
     if (roomId ) {
      
       readMessage(roomId);
@@ -485,7 +477,6 @@ const Inbox = () => {
             
           </div>
           }
-         
         </section>
       </div>
     </Layout>

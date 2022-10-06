@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./../../assets/images/inner-logo.png";
 import Notification from "./../../assets/icons/notification-ico.png";
-import userAvtar from "./../../assets/images/user-img.jpg";
+import userAvtar from "./../../assets/images/demo.png";
 import { useSelector, useDispatch } from "react-redux";
 import * as types from "../../types/auth";
 import CompanyProfile from "./../../assets/images/company-logo.png";
@@ -79,7 +79,6 @@ const Header = () => {
       message: "test",
       connectionId: connection.connection.connectionId,
     };
-    console.log("connection", connection);
     if (connection._connectionStarted) {
       try {
         const send = await connection.send(
@@ -87,7 +86,6 @@ const Header = () => {
           authData?.email,
           connection.connection.connectionId
         );
-        console.log(send, "send");
         getJobDetails();
       } catch (e) {
         console.log(e);
@@ -151,13 +149,19 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (authData?.studentDetails) {
+    if (
+      authData?.studentDetails &&
+      authData?.studentDetails?.pictureUrl !== null
+    ) {
       setProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${authData.studentDetails.pictureUrl}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData?.studentDetails?.pictureUrl}`
       );
-    } else if (authData?.comapanyDetail) {
+    } else if (
+      authData?.comapanyDetail &&
+      authData?.comapanyDetail?.logoPath !== null
+    ) {
       setCompanyLogo(
-        `${process.env.REACT_APP_IMAGE_API_URL}${authData.comapanyDetail.logoPath}`
+        `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
       );
     }
     if (authData) {
@@ -196,6 +200,7 @@ const Header = () => {
       type: types.LOGOUT_USER,
     });
   };
+
   return (
     <header id="header" className="header header-scrolled">
       <div className="container d-flex align-items-center justify-content-between">
@@ -277,16 +282,6 @@ const Header = () => {
                     </NavLink>
                   </li>
                   <li>
-                    {/* <NavLink
-                      className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link inactive"
-                      }
-                      to="/roles"
-                    >
-                      Roles
-                    </NavLink> */}
-                  </li>
-                  <li>
                     <NavLink
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link inactive"
@@ -334,20 +329,85 @@ const Header = () => {
                             <p>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
-                                {notification?.employerResponseDto?.lastName}{" "}
-                                has invited you on job{" "}
-                                {notification?.notificationJobResponse?.title}
+                                {notification?.employerResponseDto?.lastName}
+                                {":- "}
+                                {notification?.message}
                               </b>
                             </p>
                           )}
-
+                          {notification.notificationType == 3 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.firstName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.firstName
+                                  : null}{" "}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.lastName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.lastName
+                                  : null}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
                           {notification.notificationType == 4 && (
                             <p>
                               <b>
-                                {notification?.employerResponseDto?.firstName}{" "}
-                                {notification?.employerResponseDto?.lastName}
-                                have invited you on job{" "}
-                                {notification?.notificationJobResponse?.title}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.firstName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.firstName
+                                  : null}{" "}
+                                {notification?.studentResponseDto !== null
+                                  ? notification?.studentResponseDto?.lastName
+                                  : notification?.employerResponseDto !== null
+                                  ? notification?.employerResponseDto?.lastName
+                                  : null}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 1 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 2 && (
+                            <p>
+                              <b>
+                                {/* {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName} */}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 5 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
+                                {notification?.message}
+                              </b>
+                            </p>
+                          )}
+                          {notification.notificationType == 9 && (
+                            <p>
+                              <b>
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                                {":- "}
+                                {notification?.message}
                               </b>
                             </p>
                           )}
@@ -384,10 +444,20 @@ const Header = () => {
               >
                 {userData && userData.fullName && userData.fullName}
                 <img
+<<<<<<< HEAD
                   src={profilePic ? profilePic : companyLogo}
                   onError={event => {
                     event.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
                   }}
+=======
+                  src={
+                    profilePic
+                      ? profilePic
+                      : companyLogo
+                      ? companyLogo
+                      : userAvtar
+                  }
+>>>>>>> d66ec1e739bd597d1b0aac62fefffb99d7de3aef
                   alt="User Profile"
                 />
               </button>

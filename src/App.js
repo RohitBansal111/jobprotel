@@ -29,6 +29,7 @@ import PrivateRoutes from "./HOC/PrivateRoutes";
 import ProtectedRouteToVerify from "./HOC/ProtectedRouteToVerify";
 import EmployerJobDetailsPage from "./pages/Employer/posted-job/detail-page";
 import PublicProfile from "./pages/Employer/public";
+import EmployerPublicProfile from "./pages/Employer/public/EmployerDetails";
 import EmployerJobSuggestion from "./pages/Employer/suggestions";
 import ResetPassword from "./pages/resetPassword";
 import PaymentSuccess from "./pages/payments/PaymentSuccess";
@@ -37,19 +38,29 @@ import InvitationRoutes from "./HOC/InvitationRoutes";
 import InvitationAccepted from "./pages/Employer/posted-job/invitation-accepted";
 import Verify from "./email-verification/Verify";
 import * as studentServices from "./services/studentServices";
+import * as employerServices from "./services/employerServices";
 import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(async () => {
-    let id = JSON.parse(localStorage.getItem("jobPortalUser")).id;
-    if (id) {
+    let data = JSON.parse(localStorage.getItem("jobPortalUser"));
+    let id = data.id;
+    if (data?.roles == "Student") {
       const resp = await studentServices.getStudentDetails(id);
       if (resp.status == 200) {
         const response = resp.data.data;
         dispatch({
           type: types.UPDATE_DATA,
           payload: response,
+        });
+      }
+    } else if (data?.roles == "Employer") {
+      const resp = await employerServices.getEmployerDetails(id);
+      if (resp.status == 200) {
+        dispatch({
+          type: types.UPDATE_DATA,
+          payload: resp.data.data,
         });
       }
     }
@@ -105,6 +116,11 @@ const App = () => {
         <Route path="/policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/public/:userId" element={<PublicProfile />} />
+        <Route
+          path="/publicEmployer/:userId"
+          element={<EmployerPublicProfile />}
+        />
+
         <Route path="/job-details/:id" element={<EmployerJobDetailsPage />} />
         <Route path="/suggestion/:jobid" element={<EmployerJobSuggestion />} />
         <Route path="/job-details" element={<EmployerJobDetailsPage />} />
@@ -132,7 +148,6 @@ const App = () => {
           }
           exact
         />
-
         <Route path="/student/profile" element={<Profile />} />
         <Route path="/employer/profile" element={<EmployerProfile />} />
         <Route
@@ -144,6 +159,7 @@ const App = () => {
           path="/employer/applications"
           element={<EmployerApplication />}
         />
+
         <Route
           path="/review-applications/:jobid"
           element={<ReviewApplications />}

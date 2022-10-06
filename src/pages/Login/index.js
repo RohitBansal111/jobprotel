@@ -7,7 +7,7 @@ import { renderField } from "../../components/renderField";
 import toast from "toastr";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as authActions from "../../store/action/authActions";
 
 const Login = () => {
@@ -34,14 +34,15 @@ const Login = () => {
   };
 
   const handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    setLogin({ termsPrivacy: event.target.checked });
+    // const target = event.target;
+    // const value = target.type === "checkbox" ? target.checked : target.value;
+    // const name = target.name;
 
-    setLogin({
-      ...login,
-      [name]: value,
-    });
+    // setLogin({
+    //   ...login,
+    //   [name]: value,
+    // });
   };
 
   return (
@@ -112,10 +113,6 @@ const Login = () => {
                           </Field>
                         </div>
                         <div className="form-field flex100">
-                          {/* <label
-                            id="termsPrivacy"
-                            className="checkbox-wrap checkbox-primary mb-0"
-                           > */}
                           <input
                             type="checkbox"
                             name="termsPrivacy"
@@ -132,7 +129,6 @@ const Login = () => {
                           </Link>{" "}
                           apply.
                           <span className="checkmarks"></span>
-                          {/* </label> */}
                         </div>
                         <div className="form-action w-100">
                           <button

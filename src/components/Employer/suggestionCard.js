@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CompanyLogo from "./../../assets/images/feed-logo.png";
+import UserAvatar from "./../../assets/images/demo.png";
 import VerifiedIcon from "./../../assets/icons/verify.png";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import * as jobSevices from "../../services/jobServices";
@@ -13,9 +13,16 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
 
   const jobInvite = async () => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userIdd);
+    console.log(resp,'::::')
     if (resp.status === 200) {
-      toast.success(resp.data.data.message  ? resp.data.data.message : "Something went wrong")
+      toast.success(
+        resp.data.data.message ? resp.data.data.message : "Something went wrong"
+      );
       setInvitation(!invitation);
+    }else if (resp.status === 400) {
+      toast.error(
+        resp?.error?.message ? resp.error.message : "Something went wrong"
+      );
     }
   };
 
@@ -31,7 +38,11 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           <div className="feeds-s-logo">
             <Link to={`/public/${userIdd}`}>
               <img
-                src={process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl}
+                src={
+                  userData?.pictureUrl && userData?.pictureUrl !== null
+                    ? process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl
+                    : UserAvatar
+                }
                 alt="Company Logo"
                 width="100px"
                 height="100px"
@@ -40,17 +51,21 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           </div>
           <div className="feeds-s-name">
             <h2>
-              <Link to="/public">
+              <Link to={`/public/${userIdd}`}>
                 {" "}
                 {userData?.user?.firstName} {userData?.user?.lastName}
               </Link>{" "}
-              <span className="desgination">({userData?.designation?.title})</span>{" "}
+              {/* <span className="desgination">
+                ({userData?.designation?.title})
+              </span>{" "} */}
             </h2>
             <ul className="feeds-s-ul">
-              <li>
-                <img src={LocationIcon} alt="Location" />
-                {userData?.state?.country?.countryName}
-              </li>
+              {userData?.state && (
+                <li>
+                  <img src={LocationIcon} alt="Location" />
+                  {userData?.state?.stateName}
+                </li>
+              )}
               {/* <li>
                 <img src={VerifiedIcon} alt="Company Verified" />
                 Verified post
@@ -59,25 +74,26 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
           </div>
         </div>
         <div className="review-listing-action">
-          {invitation ?
-
+          {invitation ? (
             <button
               type="button"
               className={
                 invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
               }
-            >Invited</button> :
-
+            >
+              Invited
+            </button>
+          ) : (
             <button
               type="button"
               className={
                 invitation ? "btn btn-info mr-2" : "btn btn-primary mr-2"
               }
               onClick={jobInvite}
-            >Invite</button>}
-
-
-
+            >
+              Invite
+            </button>
+          )}
         </div>
       </div>
       <div className="feeds-search-detail">

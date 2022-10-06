@@ -58,8 +58,6 @@ const EditProfile = () => {
   const [skills, setSkills] = useState([]);
   const [countrylist, setCountrylist] = useState([]);
   const [stateList, setStateList] = useState([]);
-  const [stateValue, setStateValue] = useState();
-  const [designationlist, setDesignationlist] = useState([]);
   const [resumeName, setResumeName] = useState("");
   const [updatedResumeName, setUpdatedResumeName] = useState("");
   const [resumeFile, setResumeFile] = useState([]);
@@ -78,17 +76,15 @@ const EditProfile = () => {
   const [qualificationList, setQualificationList] = useState(null);
   const [qualificationId, setQualificationId] = useState("");
   const [collegeId, setCollegeId] = useState("");
-  const [designationId, setDesignationId] = useState("");
   const [inputField, setInputField] = useState(false);
   const [inputField2, setInputField2] = useState(false);
-  const [previewImg, setPreviewImg] = useState([]);
   const [working, setWorking] = useState("");
-  const [callCertificate, setCallCertificate] = useState(false);
   const [editData, setEditData] = useState([]);
   const [locationCheck, setLocationCheck] = useState(false);
   const [timezoneCheck, setTimezoneCheck] = useState(false);
   const [courseStatus, setCourseStatus] = useState(false);
   const [err, setErr] = useState([]);
+  const [date, setDate] = useState("");
 
   const resumeHandler = (e) => {
     const files = e.target.files[0];
@@ -98,131 +94,21 @@ const EditProfile = () => {
 
   const coverLetterHandler = (e) => {
     const files = e.target.files[0];
-    console.log(files, "::");
     setCoverLetter(files);
     setCoverName(files.name);
-  };
-
-  const extraCertificateHandler = async (event) => {
-    let files = event.target.files[0];
-
-    // if (files?.length > 0) {
-    let obj = {
-      title: files.name.split(".").slice(0, -1).join("."),
-      certificates: files,
-    };
-
-    let formData = new FormData();
-    formData.append("studentId", authData.id);
-    formData.append(`title`, obj.title);
-    formData.append(`file`, obj.certificates);
-
-    if (authData) {
-      const resp = await extraCertificateServices.postExtraCertificates(
-        formData
-      );
-      if (resp.status == 200) {
-        setCallCertificate(true);
-      }
-    }
-    // }
-    // let arr = [];
-    // if (files?.length > 0) {
-    //   for (let i = 0; i < files.length; i++) {
-    //     let obj = {
-    //       title: files[i].name.split(".").slice(0, -1).join("."),
-    //       certificates: files[i],
-    //     };
-
-    //     arr.push(obj);
-    //   }
-    // }
-    // console.log(arr, "::arr");
-
-    // if (arr?.length > 0) {
-    //   let formData = new FormData();
-    //   formData.append("studentId", authData.id);
-    //   for (let i = 0; i < arr.length; i++) {
-    //     formData.append(`title [${i}]`, arr[i].title);
-    //     formData.append(`file [${i}]`, arr[i].certificates);
-    //   }
-    //   if (authData) {
-    //     const resp = await extraCertificateServices.postExtraCertificates(
-    //       formData
-    //     );
-    //     if (resp.status == 200) {
-    //       setCallCertificate(true);
-    //     }
-    //   }
-    // }
-  };
-
-  const getExtraCertificate = async (id) => {
-    const resp = await extraCertificateServices.getExtraCertificates(id);
-    let response = resp.data?.data?.result;
-    if (resp.status === 200 && response.length > 0) {
-      let arr = [];
-      response.map((resp) => {
-        let obj = {
-          title: resp.title.split(".").slice(0, 1).join("."),
-          certificates: resp.filePath,
-          id: resp.id,
-        };
-        arr.push(obj);
-      });
-      setPreviewImg(arr);
-    }
   };
 
   useEffect(async () => {
     if (authData) {
       getStudentData(authData.id);
-      getExtraCertificate(authData.id);
-
       setId(authData.id);
     }
-  }, [authData, callCertificate]);
-
-  const handleFormTitleChange = (index, event) => {
-    let data = [...previewImg];
-    data[index][event.target.name] = event.target.value;
-    setPreviewImg(data);
-  };
-
-  const manageCertificates = async (id) => {
-    const resp = await extraCertificateServices.deleteExtraCertificates(id);
-    if (resp.status === 200) {
-      let arr = [];
-      previewImg
-        .filter((image) => image.id !== id)
-        .map((image) => arr.push(image));
-      setPreviewImg(arr);
-      getExtraCertificate(authData.id);
-    }
-  };
-
-  const editCertificates = async (id, title) => {
-    if ((id, title)) {
-      let formData = new FormData();
-      formData.append("Title", title);
-      formData.append("CertId", id);
-
-      const resp = await extraCertificateServices.updateExtraCertificatesTitle(
-        formData
-      );
-      if (resp.status === 200) {
-        toast.success(
-          resp.data.message ? resp.data.message : "Something went wrong"
-        );
-        getExtraCertificate(authData.id);
-      }
-    }
-  };
+  }, [authData]);
 
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      console.log(resp, "::::");
+      // console.log(resp.data.data, "::::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
@@ -329,11 +215,23 @@ const EditProfile = () => {
             startDate: response?.studentDetails?.startDate.split("T00")[0],
             endDate: response?.studentDetails?.endDate.split("T00")[0],
             isProfileCompleted: response?.studentDetails?.isProfileCompleted,
+            courseStatus:
+              response?.studentDetails?.courseStatus == 1
+                ? "ongoing"
+                : response?.studentDetails?.courseStatus == 2 && "completed",
           };
           setEditData(data);
           if (data.Country) {
             handleCollegeName(data.Country);
           }
+
+          if (
+            response?.studentDetails?.courseStatus &&
+            response?.studentDetails?.courseStatus !== 0
+          ) {
+            setCourseStatus(true);
+          }
+
           if (response?.studentDetails?.workingType) {
             setWorking(response.studentDetails.workingType);
           }
@@ -368,9 +266,6 @@ const EditProfile = () => {
   const CountryValue = async (data) => {
     const resp = await dropdownServices.stateList(data);
     setStateList(resp.data);
-    if (resp.data.length > 0) {
-      setStateValue(resp, data[0]);
-    }
   };
 
   const handleCollegeName = async (value) => {
@@ -404,9 +299,12 @@ const EditProfile = () => {
     formData.append("genderId", values.genderName);
     formData.append("address", values.houseno);
     formData.append("age", values.age);
+
     if (values.courseStatus == "ongoing") {
+      formData.append("courseStatus", 1);
       formData.append("startDate", values.startDate);
     } else if (values.courseStatus == "completed") {
+      formData.append("courseStatus", 2);
       formData.append("startDate", values.startDate);
       formData.append("endDate", values.endDate);
     }
@@ -472,20 +370,9 @@ const EditProfile = () => {
       formData.append("resumeFile", resumeFile);
       formData.append("operationType", 2);
     }
-    console.log(coverLetter, ":::::");
     if (coverLetter) {
       formData.append("coverLetter", coverLetter);
     }
-
-    // if (previewImg?.length > 0) {
-    //   for (var i = 0; i < previewImg.length; i++) {
-    //     formData.append(`ExtraCertificates[${i}].Title`, previewImg[i].title);
-    //     formData.append(
-    //       `ExtraCertificates[${i}].Certificates`,
-    //       previewImg[i].certificates
-    //     );
-    //   }
-    // }
 
     if (validation()) {
       const resp = await studentServices.updateStudentDetails(formData);
@@ -539,7 +426,6 @@ const EditProfile = () => {
   const validation = () => {
     let isValid = true;
     let error = {};
-    console.log(resumeFile, "::::");
     if (resumeFile?.length == 0 || resumeFile == undefined) {
       isValid = false;
       error["resumeFile"] = "Required resume";
@@ -580,14 +466,6 @@ const EditProfile = () => {
   const closeModal = () => {
     setModal(false);
   };
-
-  function readFile(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => resolve(reader.result), false);
-      reader.readAsDataURL(file);
-    });
-  }
 
   const handleImageChange = (event) => {
     setModal(true);
@@ -670,15 +548,6 @@ const EditProfile = () => {
     setCourseStatus(true);
   };
 
-  useEffect(() => {
-    handleCollegeList();
-  }, [collegeList]);
-
-  const handleDesignation = (e) => {
-    let value = e.target.value;
-    setDesignationId(value);
-  };
-
   const handleWorkingChange = (e) => {
     let value = e.target.value;
     setWorking(value);
@@ -691,11 +560,14 @@ const EditProfile = () => {
     }
   };
 
+  useEffect(() => {
+    handleCollegeList();
+  }, [collegeList]);
+
   useEffect(async () => {
     const countryList = await dropdownServices.countryList();
     const genderList = await dropdownServices.genderList();
     const skillsList = await dropdownServices.skillsList();
-    const designationList = await dropdownServices.designationList();
     const qualificationList = await dropdownServices.qualificationList();
     let skillListData = [];
     skillsList.data.map((data) => {
@@ -705,8 +577,20 @@ const EditProfile = () => {
     setCountrylist(countryList.data);
     setGenderlist(genderList.data);
     setSkillslist(skillListData);
-    setDesignationlist(designationList.data);
     setQualificationList(qualificationList.data);
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    today = yyyy + "-" + mm + "-" + dd;
+    setDate(today);
   }, []);
 
   return (
@@ -772,13 +656,17 @@ const EditProfile = () => {
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {studentData?.studentDetails && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {studentData?.studentDetails?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -864,7 +752,6 @@ const EditProfile = () => {
                 <ImageCropperModal
                   closeModal={closeModal}
                   showImageCropModal={modal}
-                  readFile={readFile}
                   imageSrc={img.personalInfoImg}
                   setImg={setImg}
                 />
@@ -934,36 +821,6 @@ const EditProfile = () => {
                                           </Field>
                                         ))}
                                     </div>
-                                  </div>
-                                  <div className="form-field flex100">
-                                    {/* <div className="uploadImageSection mb-2">
-                                      <div className="file-label-image">
-                                        <label>Upload Profile Picture</label>
-                                        <div className="file-upload">
-                                          <input
-                                            name="profileImage"
-                                            id="profileImage"
-                                            accept=".jpg, .jpeg, .png"
-                                            type="file"
-                                            onChange={handleImageChange}
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="aws-placeholder image4">
-                                        <img
-                                          src={
-                                            img.personalInfoImg
-                                              ? img.personalInfoImg
-                                              : DefaultProfile
-                                          }
-                                          className="img-aws"
-                                          alt="avtar"
-                                          width={100}
-                                          height={100}
-                                          layout="fill"
-                                        />
-                                      </div>
-                                    </div> */}
                                   </div>
                                   <div className="form-field flex100 mb-2">
                                     <Field
@@ -1151,6 +1008,7 @@ const EditProfile = () => {
                                         placeholder="Enter start date"
                                         component={renderField}
                                         type="date"
+                                        max={date}
                                       />
                                     </div>
                                   )}
@@ -1167,6 +1025,7 @@ const EditProfile = () => {
                                           disabled={
                                             !values.startDate ? true : false
                                           }
+                                          max={date}
                                         />
                                       </div>
                                     )}
@@ -1211,7 +1070,6 @@ const EditProfile = () => {
                                       />
                                     </div>
                                   )}
-                                  {/* <div className="form-field flex50 inner-multi-field-2"> */}
                                   <div className="form-field flex50">
                                     <Field
                                       name="experienceInYears"
@@ -1237,19 +1095,17 @@ const EditProfile = () => {
                                       component={renderSelect}
                                       label="Experience in Month"
                                     >
-                                      {/* <option value="0">0 month</option> */}
-                                      {[...Array.from(Array(12).keys())]
-                                        // .slice(1)
-                                        .map((num, i) => (
+                                      {[...Array.from(Array(12).keys())].map(
+                                        (num, i) => (
                                           <option key={i} value={num}>
                                             {(num && num < 10) || num == 0
                                               ? `0${num} month`
                                               : `${num} month`}
                                           </option>
-                                        ))}
+                                        )
+                                      )}
                                     </Field>
                                   </div>
-                                  {/* </div> */}
                                   <div className="form-field flex100">
                                     <div className="d-flex justify-content-between">
                                       <div className="form-field flex50">
@@ -1289,7 +1145,6 @@ const EditProfile = () => {
                                       name="categoryOfJob"
                                       label="Category of Job"
                                       component={renderField}
-                                      onChange={handleDesignation}
                                     />
                                   </div>
                                   <div className="form-field flex100">
@@ -1381,82 +1236,6 @@ const EditProfile = () => {
                                     </ul>
                                   </div>
                                   <div className="form-field flex100">
-                                    {/* <label className="d-block">
-                                      Extra Certificates
-                                    </label>
-                                    <div className="file-upload-placehlder">
-                                      <input
-                                        name="documents"
-                                        uploadlabel="Browse documents"
-                                        type="file"
-                                        accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                                        onChange={extraCertificateHandler}
-                                        multiple
-                                      />
-                                      <span>Add Extra Certificates</span>
-                                    </div>
-                                    <ul className="uploaded-documents">
-                                      {previewImg &&
-                                        previewImg.length > 0 &&
-                                        previewImg.map((img, index) => (
-                                          <>
-                                            <li key={index}>
-                                              <div className="change-title">
-                                                <label>
-                                                  {index + 1}. File Title
-                                                </label>
-                                                <div className="d-flex">
-                                                  <input
-                                                    name="title"
-                                                    className="edit-profile-file"
-                                                    onChange={(e) =>
-                                                      handleFormTitleChange(
-                                                        index,
-                                                        e
-                                                      )
-                                                    }
-                                                    value={img.title}
-                                                  />
-                                                  <button className="btn p-0 ms-3">
-                                                    <i
-                                                      className="fa fa-times-circle"
-                                                      aria-hidden="true"
-                                                      style={{
-                                                        cursor: "pointer",
-                                                      }}
-                                                      onClick={() =>
-                                                        manageCertificates(
-                                                          img.id
-                                                        )
-                                                      }
-                                                    />
-                                                    <span className="btn btn-edit p-0 ps-3">
-                                                      <i
-                                                        className="fa fa-edit"
-                                                        aria-hidden="true"
-                                                        style={{
-                                                          cursor: "pointer",
-                                                        }}
-                                                        onClick={() =>
-                                                          editCertificates(
-                                                            img.id,
-                                                            img.title
-                                                          )
-                                                        }
-                                                      />
-                                                    </span>
-                                                  </button>
-                                                </div>
-                                              </div>
-                                              <div className="uploaded-file-name py-1">
-                                                <span>{img.certificates}</span>
-                                              </div>
-                                            </li>
-                                          </>
-                                        ))}
-                                    </ul> */}
-                                  </div>
-                                  <div className="form-field flex100">
                                     <label className="d-block">
                                       Cover Letter
                                     </label>
@@ -1475,9 +1254,9 @@ const EditProfile = () => {
                                     </p>
                                     <ul className="uploaded-documents">
                                       <li>
-                                        {updatedCoverName
-                                          ? updatedCoverName
-                                          : coverName}
+                                        {coverName
+                                          ? coverName
+                                          : updatedCoverName}
                                       </li>
                                     </ul>
                                   </div>

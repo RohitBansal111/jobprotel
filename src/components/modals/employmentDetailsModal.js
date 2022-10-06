@@ -31,23 +31,20 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
     const startDOnly = startDate1 + " " + "00:00:00";
     const startDateOnly = moment(startDOnly).format("X");
 
-    // const endDate1 = moment(endDate).format("MM/DD/YYYY");
-    // const endDOnly = endDate1 + " " + "00:00:00";
-    // const endDateOnly = moment(endDOnly).format("X");
-
-    // if(endDOnly < startDOnly)
-    // {
-    //   error.endDate = "End Date should be greater than start date";
-    //   isValid = false;
-    // }
-
     setErrors(error);
     return isValid;
   };
 
   const handleSubmit = async (values) => {
-    let { employerName, designationId, isCurrentEmployer, salary, startDate } =
-      values;
+    console.log(values, "::::");
+    let {
+      employerName,
+      designationId,
+      isCurrentEmployer,
+      salary,
+      startDate,
+      endDate,
+    } = values;
 
     if (validation(values)) {
       let data = {
@@ -58,11 +55,13 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
         startDate,
         salary,
       };
-      console.log("sdffsda");
+      if (data.isCurrentEmployer == "false") {
+        data["endDate"] = endDate;
+      }
       if (data.userId) {
         const resp = await studentServices.sendStudentEmploymentData(data);
-        console.log(resp, "resp");
         if (resp.status == 200) {
+          window.location.reload();
           values.employerName = "";
           values.designationId = "";
           values.isCurrentEmployer = "";
@@ -177,17 +176,18 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
                           </Field>
                         </div>
                       </div>
-                      <div className="form-field flex100">
-                        <Field
-                          name="startDate"
-                          label="Start Date"
-                          placeholder="Enter start date"
-                          component={renderField}
-                          type="date"
-                        />
-                      </div>
-
-                      {!checkEnd && (
+                      {values.isCurrentEmployer && (
+                        <div className="form-field flex100">
+                          <Field
+                            name="startDate"
+                            label="Start Date"
+                            placeholder="Enter start date"
+                            component={renderField}
+                            type="date"
+                          />
+                        </div>
+                      )}
+                      {values.isCurrentEmployer == "false" && !checkEnd && (
                         <div className="form-field flex100">
                           <Field
                             name="endDate"

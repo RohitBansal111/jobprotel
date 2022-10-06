@@ -1,51 +1,47 @@
-const PostedJobValidator = (values) => { 
-    const error = {}
-     if(!values.designationId){ 
-          error.designationId = "Required designation"
-     }
-     if(!values.qualification){ 
-          error.qualification = "Required education"
-     }
-     if(!values.skills){ 
-          error.skills = "Required skills"
-     }
-     if(!values.title){ 
-          error.title = "Required job-title"
-     }
-     // if(!values.experienceInYears){ 
-     //      error.experienceInYears = "Required experience in Years"
-     // }
-     // if(!values.experienceInMonth){ 
-     //      error.experienceInMonth = "Required experience in Months"
-     // }
-     // if(!values.timing){ 
-     //      error.timing = "Required Job Timing/Days"
-     // }
-     if(!values.salary){ 
-          error.salary = "Required salary"
-     }
-     if(!values.tags){ 
-          error.tags = "Required Tags"
-     }
-     if(!values.description){ 
-          error.description = "Required Job Description"
-     }
-     if(!values.location){ 
-          error.location = "Required Job Description"
-     }
-     // if(!values.hoursDays){ 
-     //      error.hoursDays = "Required Hours/Day"
-     // }
-     // if(!values.days){ 
-     //      error.days = "Required Job Days/Week"
-     // }
-     if(!values.timeZonePick){ 
-          error.timeZonePick = "Please select one"
-     }
-     if(!values.category){ 
-          error.category = "Required job category"
-     }
-    return error;
-}
-  
-export default PostedJobValidator
+const PostedJobValidator = (values) => {
+  const error = {};
+  if (!values.designation) {
+    error.designation = "Required designation";
+  }
+  if (!values.qualificationId) {
+     error.qualificationId = "Required education course";
+   }
+   if (
+     values.qualificationId == "879f9960-14ba-11ed-984a-068f5cec9f16" &&
+     !values.qualification
+   ) {
+     error.qualification = "Required education course";
+   }
+  if (!values.skills) {
+    error.skills = "Required skills";
+  }
+  if (!values.title) {
+    error.title = "Required job-title";
+  }
+  if (!values.tags) {
+    error.tags = "Required Tags";
+  }
+  if (!values.description) {
+    error.description = "Required Job Description";
+  }
+  if (!values.hoursDays) {
+    error.hoursDays = "Required Hour/Day";
+  }
+  if (!values.days) {
+    error.days = "Required Job DayWeek";
+  }
+  if (!values.working) {
+    error.working = "Required Job Type";
+  }
+  if (values.working == 1) {
+    if (!values.location) {
+      error.location = "Required Working Location";
+    }
+  }
+  if (!values.category) {
+    error.category = "Required job category";
+  }
+  return error;
+};
+
+export default PostedJobValidator;

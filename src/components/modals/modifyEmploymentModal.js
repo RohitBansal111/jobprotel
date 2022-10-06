@@ -42,16 +42,20 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
   };
 
   const handleJobPost = async (values) => {
+    console.log(values.isCurrentEmployer, "::::");
     if (validation(values)) {
       let data = {
         designationId: values.designationId,
         employerName: values.employerName,
-        endDate: values.endDate,
-        isCurrentEmployer: values.isCurrentEmployer == "1" ? true : false,
+        isCurrentEmployer: values.isCurrentEmployer,
         salary: values.salary,
         startDate: values.startDate,
         userId,
       };
+      if (values.isCurrentEmployer == "false") {
+        data["endDate"] = values.endDate;
+      }
+
       if (id && userId) {
         const resp = await studentServices.updateStudentEmploymentData(
           id,
@@ -70,12 +74,17 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
   const getEmpData = (empData) => {
     const data = {
       designationId: empData.designationId,
-      isCurrentEmployer: empData.isCurrentEmployer ? "1" : "2",
+      isCurrentEmployer: empData.isCurrentEmployer == true ? "true" : "false" ,
       employerName: empData.employerName,
       startDate: empData.startDate,
       endDate: empData.endDate,
       salary: empData.salary,
     };
+    if (data.endDate !== null) {
+      setEndDate(false);
+    } else {
+      setEndDate(true);
+    }
     setData(data);
     setId(empData.id);
     setUserId(empData.userId);
@@ -155,7 +164,7 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
                         <div className="radio-button-groupss absolute-error">
                           <Field
                             name="isCurrentEmployer"
-                            value="1"
+                            value="true"
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="0"
@@ -167,7 +176,7 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
                           </Field>
                           <Field
                             name="isCurrentEmployer"
-                            value="2"
+                            value="false"
                             component={RenderRadioButtonField}
                             type="radio"
                             currentIndex="1"
@@ -178,7 +187,6 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
                             No
                           </Field>
                         </div>
-                        {}
                       </div>
                       <div className="form-field flex100">
                         <Field

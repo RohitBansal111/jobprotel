@@ -64,13 +64,12 @@ const Register = () => {
     formData.append("userRoleType", data.roles);
 
     const resp = await authServices.registerUser(formData);
-    console.log(resp, ":::");
+    // console.log(resp, ":::");
 
     if (resp.status == 200) {
       toast.success(
         resp?.data?.message ? resp.data.message : "Something went wrong"
       );
-
       setTimeout(() => {
         navigate("/");
         toast.success("verification mail has been sent to your email");

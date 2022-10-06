@@ -18,6 +18,8 @@ import { Loader } from "../../components/Loader/Loader";
 import BuyConnectsModal from "../../components/modals/buyConnectsModal";
 import toast from "toastr";
 import Swal from "sweetalert2";
+import DefaultProfile from "./../../assets/images/demo.png";
+import { viewUploadedFiles } from "../../services/viewUploadFileService";
 
 const Profile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -27,8 +29,6 @@ const Profile = () => {
   const [showBuyConnectModal, setShowBuyConnectModal] = useState(false);
   const [callCertificate, setCallCertificate] = useState(false);
   const [certificateName, setCertificateName] = useState("");
-
-  const handleBuyConnect = () => setShowBuyConnectModal(true);
 
   const [employmentDetails, setEmploymentDetails] = useState([]);
   const [interests, setInterests] = useState([]);
@@ -49,25 +49,40 @@ const Profile = () => {
   const [extraCertificate, setExtraCertificateData] = useState([]);
   const [editCertificate, setEditCertificate] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
+  const [connects, setConnects] = useState();
+
+  const handleBuyConnect = () => {
+    if (authData?.studentDetails !== null) {
+      setShowBuyConnectModal(true);
+    } else {
+      toast.error("Please Complete Your Profile to buy connects");
+    }
+  };
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
     getProjectHistory(id, pageNumber);
   };
+
   const getStudentData = async (id = authData.id) => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::")
+      console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
       );
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if (
+        response?.studentDetails !== null &&
+        response?.studentDetails?.pictureUrl !== null
+      ) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
 
       setStudentResume(
         `${process.env.REACT_APP_IMAGE_API_URL}${response.resumeFilePath}`
@@ -83,7 +98,7 @@ const Profile = () => {
     }
   };
 
-  const getProjectHistory = async (id, activePage = activePage) => {
+  const getProjectHistory = async (id, activePage) => {
     let data = {
       userId: id,
       pageNumber: activePage,
@@ -93,6 +108,7 @@ const Profile = () => {
       const resp = await projectServices.getProjectHistoryData(data);
       let response = resp.data.data;
       if (resp.status === 200) {
+        // getProjectHistory(authData.id, activePage);
         setLoading(false);
         setProjectHistory(response);
         setTotalRecords(resp.data.totalCount);
@@ -115,6 +131,14 @@ const Profile = () => {
       setId(authData.id);
       getExtraCertificate(authData.id);
     }
+    if (
+      authData?.studentDetails !== null &&
+      authData?.studentDetails?.availableConnects
+    ) {
+      setConnects(authData?.studentDetails?.availableConnects);
+    } else {
+      setConnects(0);
+    }
   }, [authData]);
 
   const getEmploymentDetails = async (authData) => {
@@ -132,34 +156,38 @@ const Profile = () => {
   };
 
   const handleDeleteData = async (d) => {
+    const resp = await projectServices.removeProjectHistoryData(d);
+    if (resp.status === 200) {
+      window.location.reload();
+      toast.success(
+        resp.data.message ? resp.data.message : "Something went wrong"
+      );
+    }
+  };
+
+  const handleDeleteEmploymentData = async (d) => {
     const resp = await studentServices.deleteStudentEmploymentData(d);
     if (resp.status === 200) {
       toast.success(
         resp.data.message ? resp.data.message : "Something went wrong"
       );
-      employmentDetails
-        .filter((data) => data.id !== d)
-        .map((data) => setEmpDetails(data));
       if (authData) {
         getEmploymentDetails(authData);
       }
+    } else {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    // debugger
-    // if(authData?.studentDetails?.kycStatus === "true"){
     setTimeout(() => {
       setKycStatus(false);
     }, 1000);
-    // }
   }, []);
 
   const getTimeZone = (timezone) => {
     if (timezone) {
       const zone = JSON.parse(timezone);
-      console.log("qwer", zone);
-
       if (zone?.value == undefined) {
         return zone.altName;
       } else {
@@ -176,7 +204,6 @@ const Profile = () => {
   };
 
   const handleEditProjectHistory = (data) => {
-    console.log(data, ":::");
     setEditProjectData(data);
   };
 
@@ -190,7 +217,7 @@ const Profile = () => {
     }
   };
 
-  const handlePopUp = (id) => {
+  const handlePopUp = (id, text) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -200,8 +227,10 @@ const Profile = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && text == "project") {
         handleDeleteData(id);
+      } else if (result.isConfirmed && text == "employment") {
+        handleDeleteEmploymentData(id);
       }
     });
   };
@@ -282,7 +311,6 @@ const Profile = () => {
     //     arr.push(obj);
     //   }
     // }
-    // console.log(arr, "::arr");
 
     // if (arr?.length > 0) {
     //   let formData = new FormData();
@@ -328,6 +356,16 @@ const Profile = () => {
         arr.push(obj);
       });
       setPreviewImg(arr);
+    }
+  };
+
+  const handleViewFiles = async (filePath) => {
+    console.log(filePath, ":::::");
+    const resp = await viewUploadedFiles(filePath);
+    if (resp.status == 200) {
+      console.log(resp, ":::::");
+    } else {
+      console.log(resp, ":::::");
     }
   };
 
@@ -400,7 +438,15 @@ const Profile = () => {
                     >
                       <div className="profile-img">
                         <img
+<<<<<<< HEAD
                           src={studentProfilePic ? studentProfilePic : UserAvtar}
+=======
+                          src={
+                            studentProfilePic
+                              ? studentProfilePic
+                              : DefaultProfile
+                          }
+>>>>>>> d66ec1e739bd597d1b0aac62fefffb99d7de3aef
                           alt="user profile"
                         />
                         <button type="button" className="update-profile">
@@ -422,13 +468,17 @@ const Profile = () => {
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {studentData?.studentDetails?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {studentData?.studentDetails?.availableConnects && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {studentData?.studentDetails?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -436,13 +486,13 @@ const Profile = () => {
                         Experience{" "}
                         <span className="result">
                           {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears &&
-                            " Year"}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            ", "}
+                          {studentData?.studentDetails?.experienceInYears >=
+                            0 && " Year"}
+                          {studentData?.studentDetails?.experienceInMonths >=
+                            0 && ", "}
                           {studentData?.studentDetails?.experienceInMonths}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            " Month"}
+                          {studentData?.studentDetails?.experienceInMonths >=
+                            0 && " Month"}
                         </span>
                       </li>
                       <li>
@@ -467,7 +517,8 @@ const Profile = () => {
                         hour / week{" "}
                         <span className="result">
                           {studentData?.studentDetails?.workHoursPerWeek}
-                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
+                          {studentData?.studentDetails?.workHoursPerWeek &&
+                            " hour"}
                         </span>
                       </li>
                     </ul>
@@ -484,6 +535,7 @@ const Profile = () => {
                 <BuyConnectsModal
                   showBuyConnectModal={showBuyConnectModal}
                   setShowBuyConnectModal={setShowBuyConnectModal}
+                  connects={connects}
                 />
               </div>
               <div className="jobs-feeds-sec">
@@ -579,15 +631,6 @@ const Profile = () => {
                                 {studentData?.studentDetails?.postalCode}
                               </span>
                             </li>
-                            <li>
-                              {console.log("qwer", studentData)}
-                              <span className="plabel">Time zone </span>
-                              <span className="result">
-                                {getTimeZone(
-                                  studentData?.studentDetails?.timezone
-                                )}
-                              </span>
-                            </li>
                           </ul>
                         </div>
                       </div>
@@ -667,7 +710,9 @@ const Profile = () => {
                               </span>
                             </li>
                             <li>
-                              <span className="plabel">Hours / Week (Available)</span>{" "}
+                              <span className="plabel">
+                                Hours / Week (Available)
+                              </span>{" "}
                               <span className="result">
                                 {studentData?.studentDetails?.workHoursPerWeek}
                               </span>
@@ -694,14 +739,46 @@ const Profile = () => {
                               <span className="result">
                                 {studentData?.studentDetails?.workingType == 1
                                   ? "Onsite"
-                                  : "Offsite"}
+                                  : studentData?.studentDetails?.workingType ==
+                                    2
+                                  ? "Offsite"
+                                  : "N/A"}
                               </span>
                             </li>
+                            <li>
+                              <span className="plabel">Job Location</span>{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.location
+                                  ? studentData?.studentDetails?.location
+                                  : "N / A"}
+                              </span>
+                            </li>
+                            {studentData?.studentDetails && (
+                              <>
+                                {" "}
+                                <li>
+                                  <span className="plabel">Time zone </span>
+                                  <span className="result">
+                                    {getTimeZone(
+                                      studentData?.studentDetails?.timezone
+                                    )}
+                                  </span>
+                                </li>
+                              </>
+                            )}
                             <li>
                               <span className="plabel">Resume </span>
                               <span className="result">
                                 <ul className="tags">
-                                  <li style={{ cursor: "pointer" }}>
+                                  <li
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      handleViewFiles(
+                                        studentData?.studentDetails
+                                          ?.resumeFilePath
+                                      )
+                                    }
+                                  >
                                     <a
                                       target="_blank"
                                       href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.resumeFilePath}`}
@@ -721,30 +798,9 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                                {/* <ul className="tags">
-                                  {studentData?.studentDetails?.studentExtraCertificate.map(
-                                    (certificate, i) => (
-                                      <>
-                                        <li key={i}>
-                                          <a
-                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
-                                            target="_blank" rel="noreferrer"
-                                          >
-                                            {certificate.title.slice(0,3)}
-                                          </a>
-                                        </li>
-                                      </>
-                                    )
-                                  )}
-                                </ul> */}
                                 {extraCertificate?.map((certificate, i) => (
                                   <>
                                     <div key={i} className="div_edit_btn">
-                                      {console.log(
-                                        "qwerrr",
-                                        editCertificate[i]
-                                      )}
-
                                       {editCertificate[i] !== undefined ? (
                                         <input
                                           name="title"
@@ -764,7 +820,6 @@ const Profile = () => {
                                           {certificate.title}
                                         </a>
                                       )}
-
                                       {editCertificate[i] ? (
                                         <div className="d-flex align-items-center">
                                           <button className="btn p-0 ms-3">
@@ -834,7 +889,15 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Cover Letter</span>{" "}
                               <span className="result">
-                                {studentData?.studentDetails?.coverLetter}
+                                <a
+                                  href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {" "}
+                                  {/* {certificate.title} */}
+                                  {studentData?.studentDetails?.coverLetter}
+                                </a>
                               </span>
                             </li>
                           </ul>
@@ -890,9 +953,9 @@ const Profile = () => {
                                     type="button"
                                     className="icon_button_text"
                                     data-bs-toggle="modal"
-                                    // data-bs-target="#modifyEmploymentModal"
-                                    //  onClick={() => }
-                                    onClick={() => handlePopUp(data.id)}
+                                    onClick={() =>
+                                      handlePopUp(data.id, "employment")
+                                    }
                                   >
                                     <i className="fas fa-trash"></i>
                                   </button>
@@ -957,7 +1020,9 @@ const Profile = () => {
                                         type="button"
                                         className="icon_button_text"
                                         data-bs-toggle="modal"
-                                        // onClick={() => handleDeleteData(data.id)}
+                                        onClick={() =>
+                                          handlePopUp(project.id, "project")
+                                        }
                                       >
                                         <i className="fas fa-trash"></i>
                                       </button>
@@ -975,10 +1040,6 @@ const Profile = () => {
                                           "MMM Do YYYY"
                                         )}
                                       </span>
-                                      <p className="tech-links">
-                                        <b>Title: &nbsp;</b>{" "}
-                                        {project.roleResponsiblity}
-                                      </p>
                                     </div>
                                   </div>
                                   <button
@@ -1014,10 +1075,6 @@ const Profile = () => {
                                         Roles & Responsibility: &nbsp;
                                       </b>
                                       {project.roleResponsiblity}
-                                    </p>
-                                    <p className="mt-3">
-                                      <b>Email: &nbsp;</b>
-                                      {project.companyEmail}
                                     </p>
                                     <p>
                                       <b>Team Size: &nbsp;</b>

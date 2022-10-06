@@ -7,7 +7,6 @@ import ClockIcon from "./../assets/icons/clock-ico.png";
 import SendInvitationModal from "./Common/SendInvitationModal";
 import TimeAgo from "javascript-time-ago";
 import ReactTimeAgo from "react-time-ago";
-//import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
 import * as jobServices from "../services/jobServices";
@@ -35,7 +34,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
     const id = jobs.id;
     GetTags();
     setJobId(id);
-
     if (jobs?.company?.logoUrl) {
       let logo = jobs.company.logoUrl;
       setLogo(logo);
@@ -64,7 +62,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
         resp.data.data.message ? resp.data.data.message : "Something went wrong"
       );
     } else {
-      console.log(resp, "apll");
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -75,7 +72,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
         errors = errors.replace(/,\s*$/, "");
         toast.error(errors + "is Required");
       } else if (resp.error) {
-        console.log(resp.error, "ap2");
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }

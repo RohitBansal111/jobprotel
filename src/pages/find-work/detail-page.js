@@ -40,7 +40,7 @@ const DetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::")
+      console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -62,13 +62,11 @@ const DetailsPage = () => {
       remarks: "test",
     };
     const resp = await jobServices.applyJob(payload);
-    console.log(resp, "ap");
     if (resp.status == 200) {
       toast.success(
-        resp.data.message ? resp.data.message : "Something went wrong"
+        resp.data.message ? resp.data.message : "Job Aplied successful"
       );
     } else {
-      console.log(resp, "apll");
       if (resp.errors && typeof resp.errors === "object") {
         let errors = "";
         let keys = Object.keys(resp.errors);
@@ -79,7 +77,6 @@ const DetailsPage = () => {
         errors = errors.replace(/,\s*$/, "");
         toast.error(errors + "is Required");
       } else if (resp.error) {
-        console.log(resp.error, "ap2");
         toast.error(resp.error ? resp.error : "Something went wrong");
       }
     }
@@ -118,7 +115,7 @@ const DetailsPage = () => {
     } else if (timezone) {
       // const zone = JSON.parse(timezone);
       // return zone.value;
-      return timezone
+      return timezone;
     } else {
       return "N/A";
     }
@@ -128,8 +125,7 @@ const DetailsPage = () => {
       {loading ? (
         <div className="inner-page-wrapper page-wrapper-loader">
           <div className="fullpage-loader py-5">
-            {" "}
-            <Loader />{" "}
+            <Loader />
           </div>
         </div>
       ) : (
@@ -173,22 +169,22 @@ const DetailsPage = () => {
                     <p>
                       <b>SKills: </b> {jobDetails?.skills}
                     </p>
+                    {jobDetails?.location !== "false" && <p>
+                      <b>Job Location: </b> {jobDetails?.location}
+                    </p>}
                     <p>
-                      <b>Job Location: </b> {jobDetails?.hoursPerDay}
-                    </p>
-                    <p>
-                      <b>Hour/day: </b> {jobDetails?.location}
+                      <b>Hour/day: </b> {jobDetails?.hoursPerDay}
                     </p>
                     <p>
                       <b>Days / Week: </b> {jobDetails?.daysPerWeek}
                     </p>
-                    <p>
+                   {jobDetails?.timing !== null && <p>
                       <b>Job Timings/days: </b>
                       {jobDetails?.timing}
-                    </p>
-                    <p>
+                    </p>}
+                    {jobDetails?.timeZone !== "false" && <p>
                       <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
-                    </p>
+                    </p>}
                     <p>
                       <b>Salary: </b> ${" "}
                       {jobDetails && jobDetails.salary && jobDetails.salary}
@@ -253,10 +249,12 @@ const DetailsPage = () => {
                   </div>
                   <div className="connects-info">
                     <p>Required Connects to submit a proposal: 2 </p>
-                    <p>
-                      Available Connects:{" "}
-                      {authData?.studentDetails?.availableConnects}
-                    </p>
+                    {authData?.studentDetails && (
+                      <p>
+                        Available Connects:{" "}
+                        {authData?.studentDetails?.availableConnects}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

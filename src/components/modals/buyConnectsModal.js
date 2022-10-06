@@ -9,6 +9,7 @@ import {
   usePayPalScriptReducer,
   BraintreePayPalButtons,
 } from "@paypal/react-paypal-js";
+import toast from "toastr";
 
 const style = { layout: "horizontal" };
 
@@ -54,8 +55,6 @@ const ButtonWrapper = ({
               ],
             })
             .then((orderId) => {
-              console.log(orderId);
-
               // Your code here after create the order
               return orderId;
             });
@@ -92,13 +91,18 @@ const ButtonWrapper = ({
               payer_Phoneno: national_number,
               status: status,
             };
-            console.log(data_payload);
             const res = await postPaymentdetails(data_payload);
             if (res.status == 200) {
+              toast.success("Payment Successfull");
+              setTimeout(() => {
+                window.location.reload();
+              }, [1000]);
               const response = res.data.data;
               if (status == "COMPLETED") {
                 onCloseModal();
               }
+            } else {
+              toast.success("Something went wrong");
             }
           });
         }}
@@ -115,9 +119,12 @@ const ButtonWrapper = ({
   );
 };
 
-const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
+const BuyConnectsModal = ({
+  showBuyConnectModal,
+  setShowBuyConnectModal,
+  connects,
+}) => {
   const onCloseModal = () => setShowBuyConnectModal(false);
-  const [connect, setConnect] = useState(23);
   const [data, setData] = useState({
     available_connects: 0,
     buy_connects: 0,
@@ -125,6 +132,11 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
     sub_name: "",
   });
   let OptionsData = [
+    {
+      connects: 0,
+      price: 0,
+      value: "Select",
+    },
     {
       connects: 20,
       price: 10,
@@ -135,36 +147,36 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
       price: 18,
       value: "18$ for 40 connects",
     },
-    // {
-    //   connects: 40,
-    //   price: 6,
-    //   value: "40 for $6",
-    // },
-    // {
-    //   connects: 60,
-    //   price: 9,
-    //   value: "40 for $6",
-    // },
-    // {
-    //   connects: 80,
-    //   price: 12,
-    //   value: "80 for $12",
-    // },
-    // {
-    //   connects: 150,
-    //   price: 22.5,
-    //   value: "150 for $22.5",
-    // },
   ];
+  const [err, setErr] = useState([]);
+
+  const Validation = () => {
+    const error = {};
+    let isValid = true;
+    if (
+      data?.buy_connects == 0 &&
+      data?.connect_amount == 0 &&
+      data?.sub_name == "Select"
+    ) {
+      isValid = false;
+      error["connects"] = "Please select connects to buy";
+    } else {
+      error = {};
+      isValid = true;
+    }
+    setErr(error);
+    return isValid;
+  };
+
   useEffect(() => {
     setData({
       ...data,
-      available_connects: connect,
+      available_connects: connects,
       buy_connects: OptionsData[0].connects,
       connect_amount: OptionsData[0].price,
       sub_name: OptionsData[0].value,
     });
-  }, []);
+  }, [showBuyConnectModal, connects]);
 
   const HandleSelect = (e) => {
     let getAmount = null;
@@ -181,7 +193,7 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
       ...data,
       buy_connects: e.target.value,
       connect_amount: getAmount,
-      available_connects: Number(connect) + Number(e.target.value),
+      available_connects: Number(connects) + Number(e.target.value),
       sub_name: getSub,
     });
   };
@@ -208,7 +220,7 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
                       value={data.buy_connects}
                       onChange={HandleSelect}
                     >
-                      {OptionsData?.map((w, index) => {
+                      {OptionsData.map((w, index) => {
                         return (
                           <option key={index} value={w.connects}>
                             {w.value}
@@ -216,6 +228,7 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
                         );
                       })}
                     </select>
+                    <p style={{ color: "red" }}>{err?.connects}</p>
                   </div>
                 </div>
 
@@ -245,23 +258,36 @@ const BuyConnectsModal = ({ showBuyConnectModal, setShowBuyConnectModal }) => {
                   >
                     Cancel
                   </button>
-                  <button type="submit" class="btn btn-primary button-submit">
-                    <PayPalScriptProvider
-                      options={{
-                        "client-id": "test",
-                        components: "buttons",
-                        currency: "USD",
-                        //"data-client-token": "abc123xyz==",
-                      }}
-                    >
-                      <ButtonWrapper
-                        currency="USD"
-                        showSpinner={false}
-                        amount={data.connect_amount}
-                        onCloseModal={onCloseModal}
-                        dataConnects={data}
-                      />
-                    </PayPalScriptProvider>
+                  {console.log("data", data)}
+                  <button
+                    type="button"
+                    class="btn btn-primary button-submit"
+                    onClick={() => {
+                      Validation();
+                    }}
+                  >
+                    {data?.buy_connects == 0 &&
+                    data?.connect_amount == 0 &&
+                    data?.sub_name == "Select" ? (
+                      "Pay Now"
+                    ) : (
+                      <PayPalScriptProvider
+                        options={{
+                          "client-id": "test",
+                          components: "buttons",
+                          currency: "USD",
+                          //"data-client-token": "abc123xyz==",
+                        }}
+                      >
+                        <ButtonWrapper
+                          currency="USD"
+                          showSpinner={false}
+                          amount={data.connect_amount}
+                          onCloseModal={onCloseModal}
+                          dataConnects={data}
+                        />
+                      </PayPalScriptProvider>
+                    )}
                   </button>
                 </div>
               </form>

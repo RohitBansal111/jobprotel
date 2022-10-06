@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Layout from "../../../components/Layout";
-import CompanyProfile from "./../../../assets/images/company-logo.png";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 import PostedJobModal from "../../../components/modals/postedJobModal";
@@ -10,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
+import UserAvtar from "./../../../assets/images/demo.png";
 
 const PostedJob = () => {
   const [companyLogo, setCompanyLogo] = useState("");
@@ -22,13 +22,16 @@ const PostedJob = () => {
   const [loading, setLoading] = useState(true);
 
   const authData = useSelector((state) => state.auth.user);
+
   useEffect(() => {
     if (authData) {
-      console.log(authData, "::::");
+      // console.log(authData, "::::");
       setId(authData.id);
+      if (authData.comapanyDetail !== null) {
       setCompanyLogo(
         `${process.env.REACT_APP_IMAGE_API_URL}${authData?.comapanyDetail?.logoPath}`
       );
+      }
       getJobList(authData.id, activePage);
     }
   }, [authData]);
@@ -90,7 +93,7 @@ const PostedJob = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-                        <img src={companyLogo} alt="Company profile" />
+                        <img src={companyLogo ? companyLogo : UserAvtar} alt="Company profile" />
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -104,13 +107,17 @@ const PostedJob = () => {
                     </div>
                   </div>
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {authData?.comapanyDetail?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    {authData?.comapanyDetail && (
+                      <>
+                        <div className="profile-con">
+                          <img src={ConnectIcon} alt="Connect" />
+                          <span className="conn-count">
+                            {authData?.comapanyDetail?.availableConnects}
+                          </span>
+                        </div>
+                        <h4>Available Connects</h4>
+                      </>
+                    )}
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -145,8 +152,8 @@ const PostedJob = () => {
                       </li>
                     </ul>
                   </div>
-                  {/* <div className="profile-strength">
-                    <div className="profile-strength-inner">
+                  <div className="profile-strength">
+                    {/* <div className="profile-strength-inner">
                       <h3>
                         Profile strength:{" "}
                         <span className="profile-completed">60% Completed</span>
@@ -171,8 +178,8 @@ const PostedJob = () => {
                           ></span>
                         </div>
                       </div>
-                    </div>
-                  </div> */}
+                    </div> */}
+                  </div>
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">

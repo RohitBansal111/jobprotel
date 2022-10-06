@@ -1,7 +1,7 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/svg-icons/search";
-// import ClientAvtar from "./../../assets/images/profile-img.jpg";
+import ClientAvtar from "./../../assets/images/demo.png";
 
 const channelList = [
   {
@@ -71,6 +71,7 @@ const ClientChannel = ({
           </button>
         </form>
       </div>
+
       <ul>
         {users &&
           users.length > 0 &&
@@ -80,23 +81,23 @@ const ClientChannel = ({
                 key={index}
                 className={roomId == item.chatRoomID ? "activeChat" : null}
               >
-               
                 <div
                   className="d-flex justify-content-between"
                   onClick={() => handleUser(item)}
                 >
                   <div className="client-avtar">
+                   
                     <img
                       src={
                         user &&
                         user.userRoles[0] &&
                         user.userRoles[0] == "Student"
-                          ? process.env.REACT_APP_IMAGE_API_URL +
+                          ? item.employerUserImage==''?ClientAvtar: process.env.REACT_APP_IMAGE_API_URL +
                             item.employerUserImage
-                          : process.env.REACT_APP_IMAGE_API_URL +
+                          :item.studentUserImage==''?ClientAvtar:  process.env.REACT_APP_IMAGE_API_URL +
                             item.studentUserImage
                       }
-                      alt="client"
+                      alt="Profile Img"
                     />
                     <span style={{ backgroundColor: "grey" }}></span>
                   </div>
@@ -138,7 +139,7 @@ const ClientChannel = ({
                       Delete
                     </li>
                     {chatDisabled ? (
-                      <li >Closed</li>
+                      <li>Closed</li>
                     ) : (
                       <li onClick={() => handleCloseUser(item.chatRoomID)}>
                         Close

@@ -31,7 +31,7 @@ const Notification = () => {
       setLoading(false);
       setTotalCount(resp.data.totalCount);
       let response = resp.data.data;
-      console.log(response, "resp");
+      console.log(response, "::::");
       setNotifications(response);
     } else {
       setLoading(false);
@@ -58,76 +58,37 @@ const Notification = () => {
           </div>
         </section>
         {loading ? (
-         <div className="fullpage-loader py-5"> <Loader /> </div>
+          <div className="fullpage-loader py-5">
+            {" "}
+            <Loader />{" "}
+          </div>
         ) : (
           <section className="job-feeds-wrapper">
             <div className="container">
               <h4 className="text-white mb-3">Notification</h4>
               <div className="Notification-list text-white default-feeds-search">
                 <div className="feeds-search-coll">
-                 
-                      {/* <div className="feeds-s-logo">
-                      <Link to="/public">
-                        <img
-                          src={UserAvtar}
-                          style={{
-                            height: "60px",
-                            width: "60px",
-                            borderRadius: "50%",
-                          }}
-                          alt="profile"
-                        />{" "}
-                      </Link>
-                    </div> */}
-                      {notifications?.length > 0 &&
-                        notifications.map((notification, i) =>
-                          notification.employerResponseDto !== null ? (
-                            <div className="feeds-search-head">
-                            <div className="feeds-head-left">
+                  {notifications?.length > 0 &&
+                    notifications.map((notification, i) =>
+                      notification.employerResponseDto !== null ? (
+                        <div className="feeds-search-head">
+                          <div className="feeds-head-left">
                             <div className="feeds-s-name pe-4">
                               <h2>
-                                <Link to="/public"> Rahul Singh</Link>{" "}
+                                <Link
+                                  to={`/publicEmployer/${notification?.employerResponseDto?.userId}`}
+                                >
+                                  {notification?.employerResponseDto?.firstName}{" "}
+                                  {notification?.employerResponseDto?.lastName}
+                                </Link>{" "}
                               </h2>
                               <ul className="feeds-s-ul mb-2">
                                 <li>
                                   <img src={LocationIcon} alt="Location" />
-                                  New Delhi
+                                  {notification?.employerResponseDto?.address}
                                 </li>
                               </ul>
-                              <p>
-                                Lorem ipsum is a placeholder text commonly used
-                                to demonstrate the visual form of a document or
-                                a typeface without relying on meaningful
-                                content.
-                              </p>
-                            </div>
-                            </div>
-                            </div>
-                          ) : (
-                            <li key={i}>
-                              <div className="feeds-s-name pe-4">
-                                <h2>
-                                  <Link to="/public">
-                                    {
-                                      notification?.studentResponseDto
-                                        ?.firstName
-                                    }{" "}
-                                    {notification?.studentResponseDto?.lastName}
-                                  </Link>{" "}
-                                </h2>
-                                <ul className="feeds-s-ul mb-2">
-                                  <li>
-                                    <img src={LocationIcon} alt="Location" />
-                                    {notification?.studentResponseDto?.address}
-                                  </li>
-                                </ul>
-                                <p>
-                                  Lorem ipsum is a placeholder text commonly
-                                  used to demonstrate the visual form of a
-                                  document or a typeface without relying on
-                                  meaningful content.
-                                </p>
-                              </div>
+                              <p>{notification?.message}</p>
                               <p>
                                 {notification?.createdOn ? (
                                   <ReactTimeAgo
@@ -136,116 +97,53 @@ const Notification = () => {
                                   />
                                 ) : null}
                               </p>
-                            </li>
-                          )
-                        )}
-                    </div>
-                    <div className="review-listing-action">
-                      {/* <button type="button" className="btn btn-primary me-2">
-                      Accepted
-                    </button>
-                    <button type="button" className="btn btn-reject">
-                      Rejected
-                    </button> */}
-                    </div>
-                  </div>
-
-                  <div>
-                    {/* <div className="feeds-search-head">
-                  <div className="feeds-head-left">
-                    <div className="feeds-s-logo">
-                      <Link to="/public">
-                        <img
-                          src={UserAvtar}
-                          style={{
-                            height: "60px",
-                            width: "60px",
-                            borderRadius: "50%",
-                          }}
-                          alt="profile"
-                        />{" "}
-                      </Link>
-                    </div>
-                    <div className="feeds-s-name pe-4">
-                      <h2>
-                        <Link to="/public"> Rahul Singh</Link>{" "}
-                      </h2>
-                      <ul className="feeds-s-ul mb-2">
-                        <li>
-                          <img src={LocationIcon} alt="Location" />
-                          New Delhi
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <li key={i}>
+                          <div className="feeds-s-name pe-4">
+                            <h2>
+                              <Link
+                                to={`/public/${notification?.studentResponseDto?.userId}`}
+                              >
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                              </Link>{" "}
+                            </h2>
+                            <ul className="feeds-s-ul mb-2">
+                              <li>
+                                <img src={LocationIcon} alt="Location" />
+                                {notification?.studentResponseDto?.address}
+                              </li>
+                            </ul>
+                            <p>{notification?.message}</p>
+                          </div>
+                          <p>
+                            {notification?.createdOn ? (
+                              <ReactTimeAgo
+                                date={notification?.createdOn}
+                                locale="en-US"
+                              />
+                            ) : null}
+                          </p>
                         </li>
-                      </ul>
-                      <p>
-                        Lorem ipsum is a placeholder text commonly used to
-                        demonstrate the visual form of a document or a typeface
-                        without relying on meaningful content.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="review-listing-action">
-                    <button type="button" className="btn btn-primary me-2">
-                      Accepted
-                    </button>
-                    <button type="button" className="btn btn-reject">
-                      Rejected
-                    </button>
-                  </div>
-                </div>
-                <div className="feeds-search-head">
-                  <div className="feeds-head-left">
-                    <div className="feeds-s-logo">
-                      <Link to="/public">
-                        <img
-                          src={UserAvtar}
-                          style={{
-                            height: "60px",
-                            width: "60px",
-                            borderRadius: "50%",
-                          }}
-                          alt="profile"
-                        />{" "}
-                      </Link>
-                    </div>
-                    <div className="feeds-s-name pe-4">
-                      <h2>
-                        <Link to="/public"> Rahul Singh</Link>{" "}
-                      </h2>
-                      <ul className="feeds-s-ul mb-2">
-                        <li>
-                          <img src={LocationIcon} alt="Location" />
-                          New Delhi
-                        </li>
-                      </ul>
-                      <p>
-                        Lorem ipsum is a placeholder text commonly used to
-                        demonstrate the visual form of a document or a typeface
-                        without relying on meaningful content.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="review-listing-action">
-                    <button type="button" className="btn btn-primary me-2">
-                      Accepted
-                    </button>
-                    <button type="button" className="btn btn-reject">
-                      Rejected
-                    </button>
-                  </div>
-                </div> */}
-                  </div>
-                  <div>
-                    {totalCount > 10 && (
-                      <Pagination
-                        activePage={activePage}
-                        itemsCountPerPage={pageSize}
-                        totalItemsCount={totalCount}
-                        pageRangeDisplayed={4}
-                        onChange={handlePageChange}
-                      />
+                      )
                     )}
-                  </div>
                 </div>
+              </div>
+              <div>
+                {totalCount > 10 && (
+                  <Pagination
+                    activePage={activePage}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={totalCount}
+                    pageRangeDisplayed={4}
+                    onChange={handlePageChange}
+                  />
+                )}
+              </div>
+            </div>
           </section>
         )}
       </div>

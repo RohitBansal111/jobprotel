@@ -36,7 +36,6 @@ export const RenderImageField = ({
   const uploadFiles = (file) => {
     let formData = new FormData();
     formData.append("image", file[0]);
-    console.log(formData, "formData");
     return new Promise(function (resolve, reject) {
       // console.log(token,formData,"form")
       axiosInstance
@@ -50,7 +49,6 @@ export const RenderImageField = ({
           },
         })
         .then((response) => {
-          console.log(response, "resp");
           let file = response.data;
           file.fileSize = fileSize;
           //let image = { publicId: path.public_id, imageUrl: path.path }

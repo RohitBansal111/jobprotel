@@ -21,10 +21,9 @@ const EmployerStep2Validate = (values) => {
   if (!values.address) {
     error.address = "Required Company Address";
   }
-  if (!values.recruitingManagerName) {
-    error.recruitingManagerName = "Required Manager Name";
-  }
-  console.log(error)
+  // if (!values.recruitingManagerName) {
+  //   error.recruitingManagerName = "Required Manager Name";
+  // }
   return error;
 };
 export default EmployerStep2Validate;

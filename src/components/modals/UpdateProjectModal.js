@@ -63,11 +63,11 @@ const UpdateProjectModal = ({
         const resp = await projectServices.updateProjectHistoryData(id, data);
         console.log(resp, ":::");
         if (resp.status === 200) {
+          getProjectHistory(id, activePage);
           document.getElementById("UpdateProjectModal").click();
           toast.success(
             resp.data.message ? resp.data.message : "Something went wrong"
           );
-          getProjectHistory(id, activePage);
         }
       }
     }

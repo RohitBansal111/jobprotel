@@ -1,6 +1,5 @@
 import { Field, Form } from "react-final-form";
 import Layout from "../../../components/Layout";
-import UserAvtar from "./../../../assets/images/profile-img.jpg";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import badgeCrossIcon from "./../../../assets/icons/badge-closeicon.png";
 import validate from "./validator/profileValidate";
@@ -23,6 +22,7 @@ import toast from "toastr";
 import { Loader } from "../../../components/Loader/Loader";
 import ImageCropperModal from "../../../components/Image-cropper";
 import * as types from "../../../types/auth";
+import DefaultProfile from "./../../../assets/images/demo.png";
 
 const EmployerEditProfile = () => {
   let titleStrings = new LocalizedStrings(titles);
@@ -66,10 +66,18 @@ const EmployerEditProfile = () => {
 
     if (companyDetails?.isProfileCompleted) {
       formData.append("operationType", 2);
-      formData.append("logoUrl", img.personalInfoImg);
+      if (img.personalInfoImg.includes("base64")) {
+        formData.append("logoUrl", img.personalInfoImg);
+      } else {
+        formData.append("logoUrl", "");
+      }
     } else {
-      formData.append("logoUrl", img.personalInfoImg);
       formData.append("operationType", 1);
+      if (img.personalInfoImg.includes("base64")) {
+        formData.append("logoUrl", img.personalInfoImg);
+      } else {
+        formData.append("logoUrl", null);
+      }
     }
 
     if (validation()) {
@@ -99,15 +107,21 @@ const EmployerEditProfile = () => {
 
   const getEmployerDetails = async (id) => {
     const resp = await employerDetails.getEmployerDetails(id);
+
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
       console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
-      setImg({
-        personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`,
-      });
+      if (
+        response.comapanyDetail !== null &&
+        response.comapanyDetail.logoPath !== null
+      ) {
+        setImg({
+          personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`,
+        });
+      }
     } else if (resp.status == 400) {
       setLoading(false);
       toast.error(
@@ -141,7 +155,6 @@ const EmployerEditProfile = () => {
 
   useEffect(() => {
     if (authData) {
-      // console.log(authData, "::::")
       setId(authData?.id);
       getEmployerDetails(authData?.id);
     }
@@ -175,7 +188,11 @@ const EmployerEditProfile = () => {
                       >
                         <span className="profile-img">
                           <img
-                            src={img.personalInfoImg}
+                            src={
+                              img.personalInfoImg
+                                ? img.personalInfoImg
+                                : DefaultProfile
+                            }
                             alt="Company profile"
                           />
                         </span>
@@ -191,21 +208,23 @@ const EmployerEditProfile = () => {
                       </div>
                     </div>
                     <div className="profile-connect">
-                      <div className="profile-con">
-                        <img src={ConnectIcon} alt="Connect" />
-                        <span className="conn-count">
-                          {authData?.comapanyDetail?.availableConnects}
-                        </span>
-                      </div>
-                      <h4>Available Connects</h4>
+                      {authData?.comapanyDetail?.availableConnects && (
+                        <>
+                          <div className="profile-con">
+                            <img src={ConnectIcon} alt="Connect" />
+                            <span className="conn-count">
+                              {authData?.comapanyDetail?.availableConnects}
+                            </span>
+                          </div>
+                          <h4>Available Connects</h4>
+                        </>
+                      )}
                     </div>
                     <div className="user-prof-info">
                       <ul className="prof-info-ul">
                         <li>
                           Contact Details{" "}
-                          <span className="result">
-                            {authData?.email}
-                          </span>
+                          <span className="result">{authData?.email}</span>
                         </li>
                       </ul>
                     </div>
@@ -292,7 +311,7 @@ const EmployerEditProfile = () => {
                                     placeholder="Enter email Address"
                                     label="Email Address"
                                     component={renderField}
-                                    // disabled
+                                    disabled
                                   />
                                 </div>
                                 <div>
@@ -397,7 +416,11 @@ const EmployerEditProfile = () => {
                                     </div>
                                     <div className="aws-placeholder image4">
                                       <img
-                                        src={img.personalInfoImg}
+                                        src={
+                                          img.personalInfoImg
+                                            ? img.personalInfoImg
+                                            : DefaultProfile
+                                        }
                                         className="img-aws"
                                         alt="avtar"
                                         width={100}
@@ -416,7 +439,9 @@ const EmployerEditProfile = () => {
                             type="submit"
                             className="btn btn-save btn-primary"
                           >
-                            {employerData?.comapanyDetail?.isProfileCompleted ? "Update" : "Save"}
+                            {employerData?.comapanyDetail?.isProfileCompleted
+                              ? "Update"
+                              : "Save"}
                           </button>
                         </div>
                       </form>

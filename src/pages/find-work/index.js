@@ -49,9 +49,14 @@ const FindWork = () => {
     if (resp.status == 200) {
       const response = resp.data.data;
       setStudentData(response);
-      setStudentProfilePic(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
-      );
+      if (
+        response?.studentDetails !== null &&
+        response?.studentDetails?.pictureUrl !== null
+      ) {
+        setStudentProfilePic(
+          `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
+        );
+      }
     }
   };
 
@@ -110,9 +115,13 @@ const FindWork = () => {
                     <CompleteKycModal />
                   </>
                 ) : (
-                  <button type="button" className="btn submit-kyc" onClick={()=>{
-                    toast.error("Profile is not Completed");
-                  }}>
+                  <button
+                    type="button"
+                    className="btn submit-kyc"
+                    onClick={() => {
+                      toast.error("Profile is not Completed");
+                    }}
+                  >
                     Complete KYC
                   </button>
                 )}
@@ -166,14 +175,17 @@ const FindWork = () => {
                     </p>
                     <p>{studentData?.studentDetails?.cityName}</p>
                   </div>
+
                   <div className="profile-connect">
-                    <div className="profile-con">
-                      <img src={ConnectIcon} alt="Connect" />
-                      <span className="conn-count">
-                        {authData?.studentDetails?.availableConnects}
-                      </span>
-                    </div>
-                    <h4>Available Connects</h4>
+                    <>
+                      <div className="profile-con">
+                        <img src={ConnectIcon} alt="Connect" />
+                        <span className="conn-count">
+                          {authData?.studentDetails?.availableConnects || 0}
+                        </span>
+                      </div>
+                      <h4>Available Connects</h4>
+                    </>
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
@@ -218,7 +230,8 @@ const FindWork = () => {
                         Hour / week{" "}
                         <span className="result">
                           {studentData?.studentDetails?.workHoursPerWeek}
-                          {studentData?.studentDetails?.workHoursPerWeek && " hour"}
+                          {studentData?.studentDetails?.workHoursPerWeek &&
+                            " hour"}
                         </span>
                       </li>
                     </ul>

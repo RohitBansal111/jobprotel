@@ -118,7 +118,6 @@ const Step3 = ({
   };
 
   let file = "";
-  console.log(data, "values");
   return (
     <div className="register-form">
       <h4 className="text-primary text-left">Professional Information</h4>
@@ -209,23 +208,23 @@ const Step3 = ({
                 <div className="form-field flex50">
                   <Field
                     name="workDaysPerWeek"
-                    label="Days / Week"
+                    label="Day / Week"
                     component={renderSelect}
                     type="text"
                     defaultValue={next && data ? data.workDaysPerWeek : ""}
                   >
                     <option value="">Select days</option>
                     <option value="1">1 day</option>
-                    <option value="2">2 days</option>
-                    <option value="3">3 days</option>
-                    <option value="4">4 days</option>
-                    <option value="5">5 days</option>
+                    <option value="2">2 day</option>
+                    <option value="3">3 day</option>
+                    <option value="4">4 day</option>
+                    <option value="5">5 day</option>
                   </Field>
                 </div>
                 <div className="form-field flex50">
                   <Field
                     name="workHoursPerDay"
-                    label="Hours / day"
+                    label="Hour / day"
                     component={renderSelect}
                     type="text"
                     defaultValue={next && data ? data.workHoursPerDay : ""}
@@ -344,7 +343,6 @@ const Step3 = ({
                       type="radio"
                       defaultValue={next && data ? data.certificate : ""}
                       onChange={(e) => {
-                        console.log(e.target.value);
                         setCertificate(e.target.value);
                       }}
                       currentIndex="1"

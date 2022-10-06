@@ -15,19 +15,23 @@ const EmployerJobSuggestion = () => {
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
-    getSuggestions(jobid);
-  }, [jobid]);
+    getSuggestions(jobid, activePage);
+  }, [jobid, activePage]);
 
-  const getSuggestions = async (jobid) => {
+  const getSuggestions = async (jobid, activePage) => {
+    console.log(jobid, activePage, "::::");
     let data = {
       jobId: jobid,
       pageNumber: activePage,
       pageSize: pageSize,
     };
+
     const resp = await jobServices.getStudentListSuggestions(data);
     if (resp.status == 200) {
-      setSuggestions(resp.data.data);
-      console.log(resp.data.data)
+      let response = resp.data.data;
+      setSuggestions(response);
+      console.log(response, "::::");
+      setTotalRecords(resp.data.totalCount);
       setLoading(false);
     } else if (resp.status == 400) {
       setLoading(false);
@@ -39,7 +43,7 @@ const EmployerJobSuggestion = () => {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
     setLoading(true);
-    if(jobid) {
+    if (jobid) {
       getSuggestions(jobid, pageNumber);
     }
   };
