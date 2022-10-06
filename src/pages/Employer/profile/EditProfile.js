@@ -397,7 +397,7 @@ const EmployerEditProfile = () => {
                                     label="Company Address"
                                     component={renderField}
                                   />
-                                </div>
+                                </div> 
                                 <div className="form-field flex100">
                                   <div className="uploadImageSection mb-2">
                                     <div className="file-label-image">

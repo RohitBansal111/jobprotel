@@ -163,14 +163,10 @@ const EmployerProfile = () => {
                       aria-valuemax="100"
                     >
                       <span className="profile-img">
-<<<<<<< HEAD
-                        <img src={!companyLogo ? companyLogo : UserAvtar} alt="Company profile" />
-=======
                         <img
                           src={companyLogo ? companyLogo : DefaultProfile}
                           alt="Company profile"
                         />
->>>>>>> d66ec1e739bd597d1b0aac62fefffb99d7de3aef
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -378,6 +374,7 @@ const EmployerProfile = () => {
                               aria-labelledby="nav-completed-tab"
                             >
                               <div className="project-detail-list">
+                              <div className="project-dbox">
                                 {activeJobs?.length > 0
                                   ? activeJobs.map((active, i) => (
                                       <>
@@ -447,6 +444,7 @@ const EmployerProfile = () => {
                                       </>
                                     ))
                                   : "No Active Jobs"}
+                                </div>
                                 <div className="project-pagination">
                                   {totalRecords > 5 && (
                                     <Pagination

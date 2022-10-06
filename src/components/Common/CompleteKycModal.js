@@ -109,7 +109,7 @@ const CompleteKycModal = () => {
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
-                      <div className="form-field flex50">
+                      <div className="form-field flex100">
                         <Field
                           name="documentTitle"
                           label="Document Title"
@@ -117,7 +117,7 @@ const CompleteKycModal = () => {
                           component={renderField}
                         />
                       </div>
-                      <div className="form-field flex50">
+                      <div className="form-field flex100">
                         <Field
                           name="remarks"
                           label="Remarks"
@@ -125,34 +125,56 @@ const CompleteKycModal = () => {
                           component={renderField}
                         />
                       </div>
-                      <label>Front Id Proof</label>
                       <div className="form-field flex100">
-                        <input
-                          name="mainFile"
-                          onChange={handleFrontSide}
-                          type="file"
-                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                        />
-                        <p>{err?.mainfile}</p>
+                        <div className="uploadImageSection w-100 mb-2">
+                          <div className="file-label-image">
+                            <label>Front Id Proof</label>
+                            <div className="file-upload">
+                              <input
+                                name="mainFile"
+                                onChange={handleFrontSide}
+                                type="file"
+                                accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                              />
+                            </div>
+                            <p style={{ color: "red" }}>
+                              {err?.mainfile}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <label>Back Id Proof</label>
                       <div className="form-field flex100">
-                        <input
-                          name="backSideFile"
-                          onChange={handleBackSide}
-                          type="file"
-                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                        />
-                        <p>{err?.backSideFile}</p>
+                        <div className="uploadImageSection w-100 mb-2">
+                          <div className="file-label-image">
+                            <label>Back Id Proof</label>
+                            <div className="file-upload">
+                              <input
+                                name="backSideFile"
+                                onChange={handleBackSide}
+                                type="file"
+                                accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                              />
+                            </div>
+                            <p style={{ color: "red" }}>
+                              {err?.backSideFile}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <label>Offer Letter</label>
                       <div className="form-field flex100">
-                        <input
-                          name="offerLetter"
-                          onChange={handleOfferLetter}
-                          type="file"
-                          accept=".jpg, .jpeg, .png, application/pdf, .doc"
-                        />
+                        <div className="uploadImageSection w-100 mb-2">
+                          <div className="file-label-image">
+                            <label>Offer Letter</label>
+                            <div className="file-upload">
+                              <input
+                                name="offerLetter"
+                                onChange={handleOfferLetter}
+                                type="file"
+                                accept=".jpg, .jpeg, .png, application/pdf, .doc"
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button

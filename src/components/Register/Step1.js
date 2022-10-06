@@ -14,7 +14,8 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
   const [declaration, setDeclaration] = useState(false);
-
+  const[emailVerifyModal, setEmailVerifyModal] = useState(false);
+  
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);

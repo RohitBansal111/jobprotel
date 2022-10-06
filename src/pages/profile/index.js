@@ -438,15 +438,11 @@ const Profile = () => {
                     >
                       <div className="profile-img">
                         <img
-<<<<<<< HEAD
-                          src={studentProfilePic ? studentProfilePic : UserAvtar}
-=======
                           src={
                             studentProfilePic
                               ? studentProfilePic
                               : DefaultProfile
                           }
->>>>>>> d66ec1e739bd597d1b0aac62fefffb99d7de3aef
                           alt="user profile"
                         />
                         <button type="button" className="update-profile">

@@ -60,7 +60,7 @@ const ReviewApplications = () => {
                 <li>
                   <div className="default-feeds-search">
 
-                    {loading ? (
+                    {!loading ? (
                       <Loader />
                     ) : users?.length > 0 ? (
                       <EmployerReviewCard
@@ -75,8 +75,8 @@ const ReviewApplications = () => {
                       />
                     ) : (
                       <div className="no-record-found text-center p-5">
-                      <h3>No Record found</h3>
-                    </div>
+                        <h3>No Record found</h3>
+                      </div>
                     )}
 
                   </div>
