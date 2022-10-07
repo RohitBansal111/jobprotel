@@ -9,7 +9,7 @@ import Pagination from "react-js-pagination";
 const ReviewApplications = () => {
   const { jobid } = useParams();
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -20,17 +20,20 @@ const ReviewApplications = () => {
   }, [jobid]);
 
   const getUsers = async (jobid, pageNumber = pageNumber) => {
+    setLoading(true)
     const payload = {
       jobId: jobid,
       pageNumber: pageNumber,
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    // console.log(resp, "::")
+    console.log(resp, "::::")
     if (resp.status == 200) {
-      setTotalRecords(resp.data?.totalCount);
-      setUsers(resp.data?.data[0]?.users);
       setLoading(false);
+      setTotalRecords(resp.data?.totalCount);
+      if (resp?.data?.totalCount > 0){
+        setUsers(resp?.data?.data[0]?.users);
+      }
     }
   };
   const handlePageChange = (pageNumber) => {
@@ -60,7 +63,7 @@ const ReviewApplications = () => {
                 <li>
                   <div className="default-feeds-search">
 
-                    {!loading ? (
+                    {loading ? (
                       <Loader />
                     ) : users?.length > 0 ? (
                       <EmployerReviewCard

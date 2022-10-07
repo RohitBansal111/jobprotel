@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
 import StudentProfile from "./../../assets/images/feed-logo.png";
-
+import UserAvatar from "../../assets/images/demo.png"
 const InvitationCard = ({data}) => {
   // const navigate = useNavigate();
   // const [showAcceptInvitation, setshowAcceptInvitation] = useState(true);
@@ -41,7 +41,7 @@ const InvitationCard = ({data}) => {
   // useEffect(()=> {
   //   setId(jobid)
   // }, [jobid])
-console.log(data, ":::");
+console.log(data, "::::");
   return (
   
       <div className="feeds-search-coll">
@@ -50,10 +50,17 @@ console.log(data, ":::");
             <div className="feeds-s-logo">
               <Link to={`/public/${data?.userId}`}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_API_URL}/${data.pictureUrl}`}
+                  src={data?.pictureUrl !== null ? `${process.env.REACT_APP_IMAGE_API_URL}/${data.pictureUrl}`: UserAvatar}
                   style={{ height: "60px", width: "60px", borderRadius: "50%" }}
                   alt="profile image2"
                 />
+
+{/* {
+                    user?.studentDetails !== null &&
+                    user?.studentDetails?.pictureUrl !== null
+                      ? `${process.env.REACT_APP_IMAGE_API_URL}${user?.studentDetails?.pictureUrl}`
+                      : UserAvatar
+                  } */}
               </Link>
             </div>
             <div className="feeds-s-name">
