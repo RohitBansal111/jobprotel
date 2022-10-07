@@ -64,7 +64,7 @@ const ReviewApplications = () => {
                   <div className="default-feeds-search">
 
                     {loading ? (
-                      <Loader />
+                      <div className="text-center"><Loader /></div>
                     ) : users?.length > 0 ? (
                       <EmployerReviewCard
                         user={users}

@@ -147,11 +147,11 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                         ? `/review-applications/${jobs?.id}`
                         : "#"
                     }
-                  > */}
+                  > */} 
                   <Link
                     to={`/invitation-accepted/${jobs?.id}`}
                     type="button"
-                    className="btn submit-btn me-2 p-0"
+                    className="btn submit-btn me-2 p-0 px-3"
                   >
                     Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                   </Link>
@@ -160,7 +160,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"
-                    className="btn submit-btn p-0"
+                    className="btn submit-btn p-0 px-3"
                   >
                     Review Applications ({jobs?.applicationRecivedCount})
                   </Link>
