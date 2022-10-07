@@ -913,7 +913,7 @@ const EditProfile = () => {
                                   <div className="form-field flex50">
                                     <label>Phone Number</label>
                                     <Field
-                                      name="companyPhone"
+                                      name="phone"
                                       placeholder="Enter Phone Number"
                                       label="Phone Number"
                                       value={phoneNumberFlag}
