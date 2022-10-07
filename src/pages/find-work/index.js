@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "toastr";
+import * as viewUploadedFileService from "../../services/viewUploadFileService"
+import { Document, Page } from 'react-pdf';
 
 const FindWork = () => {
   const [role, setRole] = useState("EMPLOYER");
@@ -25,10 +27,10 @@ const FindWork = () => {
   const [pageSize, setPageSize] = useState(5);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [kycStatus, setKycStatus] = useState(true);
 
   const authData = useSelector((state) => state.auth.user);
 
-  const [kycStatus, setKycStatus] = useState(true);
   useEffect(async () => {
     if (authData) {
       setId(authData.id);
@@ -48,6 +50,7 @@ const FindWork = () => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data;
+      console.log(response, "::::");
       setStudentData(response);
       if (
         response?.studentDetails !== null &&
@@ -69,7 +72,6 @@ const FindWork = () => {
     const response = await jobServices.getJobListByStudent(data);
     if (response.status == 200) {
       setLoading(false);
-      // console.log(response.data.data);
       setJobList(response.data.data);
       setTotalRecords(response.data.totalCount);
     } else {
@@ -91,6 +93,42 @@ const FindWork = () => {
   };
 
   const handleFilter = () => setshowFilter(!showFilter);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+
+  const S3_BUCKET = "mineawsbucket";
+  const REGION = "eu-west-1";
+  const ACCESS_KEY = "AKIARZFEKXIDOIIQHIPB";
+  const SECRET_ACCESS_KEY = "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";
+
+  const config = {
+    bucketName: S3_BUCKET,
+    region: REGION,
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  };
+
+  const handleFileInput = (e) => {
+    setSelectedFile(URL.createObjectURL(e.target.files[0]));
+    setUploadedFile(e.target.files[0]);
+  };
+
+  const handleUpload = async (file) => {
+    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf"
+    const resp = await viewUploadedFileService.getFiles(path)
+    if(resp.status == 200){
+      console.log(resp, ":::::")
+    }
+  };
+
+  const handleDownload = async () => {
+    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf"
+    const resp = await viewUploadedFileService.downloadFile(path)
+    if(resp.status == 200){
+      console.log(resp, ":::::")
+    }
+  }
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -234,6 +272,22 @@ const FindWork = () => {
                             " hour"}
                         </span>
                       </li>
+                      <div>
+                        <div>React S3 File Upload</div>
+                        <input type="file" onChange={handleFileInput} />
+                        <button onClick={() => handleUpload(uploadedFile)}>
+                          {" "}
+                          Upload to S3
+                        </button>
+                        <button onClick={() => handleDownload(uploadedFile)}>
+                          {" "}
+                          Upload 
+                        </button>
+                        
+                        <div>
+                          <img src={selectedFile} width={200} />
+                        </div>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -252,34 +306,6 @@ const FindWork = () => {
                       </li>
                     </ul>
                   </div>
-                  {/* <div className="profile-strength">
-                    <div className="profile-strength-inner">
-                      <h3>
-                        Profile strength:{" "}
-                        <span className="profile-completed">60% Completed</span>
-                      </h3>
-                      <div className="profile-strength-bar">
-                        <p
-                          className="profile-progress"
-                          style={{ width: "60%" }}
-                        ></p>
-                        <div className="profile-complete-bar">
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "25%" }}
-                          ></span>
-                          <span
-                            className="complete-bar completed"
-                            style={{ left: "50%" }}
-                          ></span>
-                          <span
-                            className="complete-bar"
-                            style={{ left: "75%" }}
-                          ></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
                 <div className="feeds-search-bar">
                   <div className="search-bar">
