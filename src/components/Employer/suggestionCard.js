@@ -43,7 +43,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
                     ? process.env.REACT_APP_IMAGE_API_URL + userData?.pictureUrl
                     : UserAvatar
                 }
-                alt="Company Logo"
+                alt="User profile"
                 width="100px"
                 height="100px"
               />
