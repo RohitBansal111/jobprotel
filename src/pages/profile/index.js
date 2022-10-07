@@ -767,6 +767,7 @@ const Profile = () => {
                               <span className="result">
                                 <ul className="tags">
                                   <li
+                                  className="me-0"
                                     style={{ cursor: "pointer" }}
                                     onClick={() =>
                                       handleViewFiles(
@@ -792,15 +793,19 @@ const Profile = () => {
                             <li>
                               <span className="plabel">Cover Letter</span>{" "}
                               <span className="result">
-                                <a
-                                  href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  {" "}
-                                  {/* {certificate.title} */}
-                                  {studentData?.studentDetails?.coverLetter}
-                                </a>
+                                <ul className="tags">
+                                  <li>
+                                    <a
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      {" "}
+                                      {/* {certificate.title} */}
+                                      {studentData?.studentDetails?.coverLetter}
+                                    </a>
+                                  </li>
+                                </ul>
                               </span>
                             </li>
                           </ul>
@@ -1072,7 +1077,7 @@ const Profile = () => {
                                     {" "}
                                     <button
                                       type="button"
-                                      className="icon_button"
+                                      className="icon_button_text"
                                       onClick={() => {
                                         let arr = [...editCertificate];
                                         arr[i] = true;
@@ -1083,7 +1088,7 @@ const Profile = () => {
                                     </button>
                                     <button
                                       type="button"
-                                      className="icon_button"
+                                      className="icon_button_text"
                                       onClick={() => {
                                         Swal.fire({
                                           title: "Are you sure?",

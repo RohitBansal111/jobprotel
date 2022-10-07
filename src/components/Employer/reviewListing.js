@@ -55,8 +55,8 @@ const EmployerReviewCard = ({
   return userData?.length > 0 ? (
     userData?.map((user, i) => (
       <div className="feeds-search-coll">
-        <div className="feeds-search-head">
-          <div className="feeds-head-left">
+        <div className="feeds-search-head d-flex align-items-start justify-content-between w-100">
+          <div className="feeds-head-left w-100">
             <div className="feeds-s-logo">
               <Link to={`/public/${user?.id}`}>
                 <img
@@ -71,7 +71,7 @@ const EmployerReviewCard = ({
                 />
               </Link>
             </div>
-            <div className="feeds-s-name">
+            <div className="feeds-s-name w-100">
               <h2>
                 <Link to={`/public/${user?.id}`}>{user?.fullName}</Link>{" "}
               </h2>
@@ -85,7 +85,7 @@ const EmployerReviewCard = ({
                 Verified post
               </li> */}
               </ul>
-              <li>
+              <li className="mt-2">
                 {user?.studentDetails?.qualificationResponse?.qualificationName}
               </li>
             </div>
@@ -97,7 +97,7 @@ const EmployerReviewCard = ({
                 <button
                   type="button"
                   onClick={() => handleInvitation(1, user?.reviewApplicationId)}
-                  className="btn btn-primary mr-2"
+                  className="btn btn-primary me-2"
                 >
                   Accept
                 </button>
@@ -116,9 +116,9 @@ const EmployerReviewCard = ({
                 onClick={()=>{
                   handleChatNow(user?.id, user?.reviewApplicationId)
                 }}
-                className="btn btn-primary mr-2"
+                className="btn btn-primary me-2"
               >
-                <i className="fa fa-comments mr-2"></i> Chat Now
+                <i className="fa fa-comments me-2"></i> Chat Now
               </button>
             )}
             {user?.appliedJobStatus == 2 && (

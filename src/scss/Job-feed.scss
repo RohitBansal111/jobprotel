@@ -444,8 +444,6 @@ section.complete-kyc {
     padding: 20px;
     margin-bottom: 20px;
     .feeds-search-head {
-      display: flex;
-      justify-content: space-between;
       border-bottom: 1px solid #eaf3f2;
       padding-bottom: 15px;
       margin-bottom: 10px;
@@ -497,7 +495,6 @@ section.complete-kyc {
         }
       }
       .feeds-budget {
-        text-align: center;
         @include Phone {
           text-align: left;
           margin-left: 0px;

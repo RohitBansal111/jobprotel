@@ -90,8 +90,8 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                 />
               </Link>
             </div> */}
-            <div className="feeds-s-name">
-              <h2>
+            <div className="feeds-s-name w-100">
+              <h2 className="mb-2 d-flex align-items-center justify-content-between">
                 <Link
                   to={
                     type == "find"
@@ -101,28 +101,28 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                 >
                   {jobs && jobs.title && jobs.title}
                 </Link>
+                <p className="post-ago mb-0">
+                  <img src={ClockIcon} alt="clock" className="me-2" width={17} height={17} />
+                  {jobs?.createdOn ? (
+                    <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
+                  ) : null}
+                </p>
               </h2>
-              <ul className="feeds-s-ul">
-                <li>
-                  <img src={LocationIcon} alt="Location" />
-                  {jobs && jobs.location && jobs.location}
-                </li>
-                {/* <li>
-                  <img src={VerifiedIcon} alt="Company Verified" />
-                  Verified post
-                </li> */}
-              </ul>
+              <div className="location21 mb-2">
+                <i className="fa fa-map-marker-alt"></i> {jobs && jobs.location && jobs.location}  
+              </div>
             </div>
           </div>
           <div className="feeds-budget">
-            <p>Salary Range</p>
-            <span className="project-budget">
+            <p><b>Salary Range : &nbsp;</b>
+            <span className="project-budget text-grey">
               $ {jobs && jobs.salary && jobs.salary}
             </span>
+            </p>
           </div>
         </div>
         <div className="feeds-search-detail">
-          <p>
+          <p className="mb-2 text-grey">
             {jobs && jobs.description && jobs.description}
             {/* <Link to="#">See more </Link> */}
           </p>
@@ -138,12 +138,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
             </ul>
           </div>
           <div className="posted-submit">
-            <p className="post-ago">
-              <img src={ClockIcon} alt="clock" width={23} height={23} />
-              {jobs?.createdOn ? (
-                <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
-              ) : null}
-            </p>
             <div className="d-flex">
               {authData?.userRoles[0] === "Employer" ? (
                 <>
@@ -153,11 +147,11 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                         ? `/review-applications/${jobs?.id}`
                         : "#"
                     }
-                  > */}
+                  > */} 
                   <Link
                     to={`/invitation-accepted/${jobs?.id}`}
                     type="button"
-                    className="btn submit-btn me-2"
+                    className="btn submit-btn me-2 p-0 px-3"
                   >
                     Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                   </Link>
@@ -166,7 +160,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                   <Link
                     to={`/review-applications/${jobs?.id}`}
                     type="button"
-                    className="btn submit-btn"
+                    className="btn submit-btn p-0 px-3"
                   >
                     Review Applications ({jobs?.applicationRecivedCount})
                   </Link>

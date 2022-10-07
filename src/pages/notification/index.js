@@ -72,15 +72,23 @@ const Notification = () => {
                     notifications.map((notification, i) =>
                       notification.employerResponseDto !== null ? (
                         <div className="feeds-search-head">
-                          <div className="feeds-head-left">
-                            <div className="feeds-s-name pe-4">
-                              <h2>
+                          <div className="feeds-head-left w-100">
+                            <div className="feeds-s-name pe-4 w-100">
+                              <h2 className="d-flex align-items-center justify-content-between">
                                 <Link
                                   to={`/publicEmployer/${notification?.employerResponseDto?.userId}`}
                                 >
                                   {notification?.employerResponseDto?.firstName}{" "}
                                   {notification?.employerResponseDto?.lastName}
                                 </Link>{" "}
+                                <p className="font-weight-400">
+                                  {notification?.createdOn ? (
+                                    <ReactTimeAgo
+                                      date={notification?.createdOn}
+                                      locale="en-US"
+                                    />
+                                  ) : null}
+                                </p>
                               </h2>
                               <ul className="feeds-s-ul mb-2">
                                 <li>
@@ -89,7 +97,20 @@ const Notification = () => {
                                 </li>
                               </ul>
                               <p>{notification?.message}</p>
-                              <p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <li key={i}>
+                            <div className="feeds-s-name pe-4 w-100">
+                              <h2 className="d-flex align-items-center justify-content-between">
+                              <Link
+                                to={`/public/${notification?.studentResponseDto?.userId}`}
+                              >
+                                {notification?.studentResponseDto?.firstName}{" "}
+                                {notification?.studentResponseDto?.lastName}
+                              </Link>{" "}
+                              <p className="fw-400">
                                 {notification?.createdOn ? (
                                   <ReactTimeAgo
                                     date={notification?.createdOn}
@@ -97,19 +118,6 @@ const Notification = () => {
                                   />
                                 ) : null}
                               </p>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <li key={i}>
-                          <div className="feeds-s-name pe-4">
-                            <h2>
-                              <Link
-                                to={`/public/${notification?.studentResponseDto?.userId}`}
-                              >
-                                {notification?.studentResponseDto?.firstName}{" "}
-                                {notification?.studentResponseDto?.lastName}
-                              </Link>{" "}
                             </h2>
                             <ul className="feeds-s-ul mb-2">
                               <li>
@@ -119,14 +127,7 @@ const Notification = () => {
                             </ul>
                             <p>{notification?.message}</p>
                           </div>
-                          <p>
-                            {notification?.createdOn ? (
-                              <ReactTimeAgo
-                                date={notification?.createdOn}
-                                locale="en-US"
-                              />
-                            ) : null}
-                          </p>
+                          
                         </li>
                       )
                     )}

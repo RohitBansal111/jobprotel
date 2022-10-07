@@ -484,7 +484,7 @@ const EmployerProfile = () => {
                                   {archiveJobs?.length > 0
                                     ? archiveJobs.map((archive, i) => (
                                         <div className="project-dbox" key={i}>
-                                          <h2 className="prname">
+                                          <h2 className="prname mb-2">
                                             {archive.title}
                                           </h2>
                                           <div className="prd-buget-column mt-2">
