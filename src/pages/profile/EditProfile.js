@@ -287,6 +287,7 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
+    console.log(values,":::::")
     let formData = new FormData();
 
     formData.append("userId", id);

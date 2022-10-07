@@ -125,6 +125,7 @@ const ProfileValidate = (values) => {
   if (values.skills?.length == 0) {
     error.skills = "Required Skills";
   }
+  console.log(error, ":::::")
   return error;
 };
 
