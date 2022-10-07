@@ -167,6 +167,15 @@ const EmployerProfile = () => {
                           src={companyLogo ? companyLogo : DefaultProfile}
                           alt="Company profile"
                         />
+                        <button type="button" className="update-profile">
+                          <i className="fa fa-edit"></i> 
+                          <input
+                            name="profileImage"
+                            id="profileImage"
+                            accept=".jpg, .jpeg, .png"
+                            type="file"
+                          />
+                        </button>
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -302,7 +311,13 @@ const EmployerProfile = () => {
                           />
                           <ul className="info-list-li">
                             <li>
-                              <span className="plabel">Contact Number</span>{" "}
+                              <span className="plabel">Company Name</span>{" "}
+                              <span className="result">
+                                Eminence Technology
+                              </span>
+                            </li> 
+                            <li>
+                              <span className="plabel">Company Contact Number</span>{" "}
                               <span className="result">
                                 {authData?.comapanyDetail?.companyPhone}
                               </span>
