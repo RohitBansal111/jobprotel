@@ -19,6 +19,7 @@ TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
 const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
+  console.log(userdata,":::::")
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
@@ -178,7 +179,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                     }else{
                       toast.error("Profile is not Completed");
                     }
-                    
                   }}
                 >
                   Apply Now

@@ -12,8 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Pagination from "react-js-pagination";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "toastr";
-import * as viewUploadedFileService from "../../services/viewUploadFileService"
-import { Document, Page } from 'react-pdf';
+import * as viewUploadedFileService from "../../services/viewUploadFileService";
+import { Document, Page } from "react-pdf";
 
 const FindWork = () => {
   const [role, setRole] = useState("EMPLOYER");
@@ -115,20 +115,20 @@ const FindWork = () => {
   };
 
   const handleUpload = async (file) => {
-    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf"
-    const resp = await viewUploadedFileService.getFiles(path)
-    if(resp.status == 200){
-      console.log(resp, ":::::")
+    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf";
+    const resp = await viewUploadedFileService.getFiles(path);
+    if (resp.status == 200) {
+      console.log(resp, ":::::");
     }
   };
 
   const handleDownload = async () => {
-    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf"
-    const resp = await viewUploadedFileService.downloadFile(path)
-    if(resp.status == 200){
-      console.log(resp, ":::::")
+    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf";
+    const resp = await viewUploadedFileService.downloadFile(path);
+    if (resp.status == 200) {
+      console.log(resp, ":::::");
     }
-  }
+  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -273,7 +273,7 @@ const FindWork = () => {
                         </span>
                       </li>
                       <div>
-                        <div>React S3 File Upload</div>
+                        {/* <div>React S3 File Upload</div>
                         <input type="file" onChange={handleFileInput} />
                         <button onClick={() => handleUpload(uploadedFile)}>
                           {" "}
@@ -281,12 +281,12 @@ const FindWork = () => {
                         </button>
                         <button onClick={() => handleDownload(uploadedFile)}>
                           {" "}
-                          Upload 
+                          Upload
                         </button>
-                        
+
                         <div>
                           <img src={selectedFile} width={200} />
-                        </div>
+                        </div> */}
                       </div>
                     </ul>
                   </div>
@@ -386,92 +386,62 @@ const FindWork = () => {
                       </p>
                     )}
                   </div>
-                  <div
-                      className="nav nav-tabs"
-                      id="nav-tab"
-                      role="tablist"
+                  <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button
+                      className="nav-link active"
+                      id="nav-all-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#nav-all"
+                      type="button"
+                      role="tab"
+                      aria-controls="nav-all"
+                      aria-selected="true"
                     >
-                      <button
-                        className="nav-link active"
-                        id="nav-all-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#nav-all"
-                        type="button"
-                        role="tab"
-                        aria-controls="nav-all"
-                        aria-selected="true"
-                      >
-                        All
-                      </button>
-                      <button
-                        className="nav-link"
-                        id="nav-recommended-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#nav-recommended"
-                        type="button"
-                        role="tab"
-                        aria-controls="nav-recommended"
-                        aria-selected="false"
-                      >
-                        Recommended
-                      </button>
-                    </div>
-                    <div className="tab-content" id="nav-tabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="nav-all"
-                        role="tabpanel"
-                        aria-labelledby="nav-all-tab"
-                      >
-                        <div className="default-feeds-search">
-                          {loading ? (
-                            <div className="search-data-loader mb-4">
-                              <Loader />
-                            </div>
-                          ) : jobList?.length === 0 ? (
-                            <h4>No jobs found</h4>
-                          ) : (
-                            jobList?.length > 0 &&
-                            jobList.map((jobs, index) => (
-                              <PostedJobCard
-                                jobs={jobs}
-                                key={index}
-                                getJobList={getJobList}
-                                activePage={activePage}
-                                type="find"
-                              />
-                            ))
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        className="tab-pane fade"
-                        id="nav-recommended"
-                        role="tabpanel"
-                        aria-labelledby="nav-recommended-tab"
-                      >
-                        <div className="default-feeds-search">
-                          {loading ? (
-                            <div className="search-data-loader mb-4">
-                              <Loader />
-                            </div>
-                          ) : jobList?.length === 0 ? (
-                            <h4>No jobs found</h4>
-                          ) : (
-                            jobList?.length > 0 &&
-                            jobList.map((jobs, index) => (
-                              <PostedJobCard
-                                jobs={jobs}
-                                key={index}
-                                getJobList={getJobList}
-                                activePage={activePage}
-                                type="find"
-                              />
-                            ))
-                          )}
-                        </div>
+                      All
+                    </button>
+                    <button
+                      className="nav-link"
+                      id="nav-recommended-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#nav-recommended"
+                      type="button"
+                      role="tab"
+                      aria-controls="nav-recommended"
+                      aria-selected="false"
+                    >
+                      Recommended
+                    </button>
+                  </div>
+                  <div className="tab-content" id="nav-tabContent">
+                    <div
+                      className="tab-pane fade show active"
+                      id="nav-all"
+                      role="tabpanel"
+                      aria-labelledby="nav-all-tab"
+                    >
+                      <div className="default-feeds-search">
+                        {loading ? (
+                          <div className="search-data-loader mb-4">
+                            <Loader />
+                          </div>
+                        ) : jobList?.length === 0 ? (
+                          <h4>No jobs found</h4>
+                        ) : (
+                          jobList?.length > 0 &&
+                          jobList.map((jobs, index) => (
+                            <PostedJobCard
+                              jobs={jobs}
+                              key={index}
+                              getJobList={getJobList}
+                              activePage={activePage}
+                              type="find"
+                              userdata={authData}
+                            />
+                          ))
+                        )}
                       </div>
                     </div>
+                  </div>
                   {totalRecords > 5 && (
                     <Pagination
                       activePage={activePage}
