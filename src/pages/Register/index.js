@@ -208,10 +208,10 @@ const Register = () => {
                         : ""
                     }
                   >
-                    <div className="register-steps">
-                      <h5>Company Information</h5>
-                      <p>Please add complete the profile</p>
-                    </div>
+                  <div className="register-steps">
+                    <h5>Account Verification</h5>
+                    <p>Please verify your account via mail</p>
+                  </div>
                   </li>
                 </ul>
               )}

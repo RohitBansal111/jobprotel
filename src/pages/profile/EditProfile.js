@@ -25,6 +25,7 @@ import toast from "toastr";
 import * as extraCertificateServices from "../../services/studentExtraCertificates";
 import * as types from "../../types/auth";
 import { Loader } from "../../components/Loader/Loader";
+import PhoneInput from "react-phone-number-input";
 import app from "../../helpers/firebase";
 import {
   getDatabase,
@@ -40,6 +41,7 @@ import {
   remove,
 } from "@firebase/database";
 import { uploadPicture } from "../../services/uploadProfilePicService";
+import { RenderPhoneInput } from "../../components/renderPhoneInput";
 
 const EditProfile = () => {
   const authData = useSelector((state) => state.auth.user);
@@ -56,6 +58,7 @@ const EditProfile = () => {
   );
   const [interests, setInterests] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [phoneNumberFlag, setphoneNumberFlag] = useState();
   const [countrylist, setCountrylist] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [resumeName, setResumeName] = useState("");
@@ -593,6 +596,8 @@ const EditProfile = () => {
     setDate(today);
   }, []);
 
+  console.log(countrylist)
+
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -631,13 +636,16 @@ const EditProfile = () => {
                           height={100}
                           layout="fill"
                         />
-                        <input
-                          name="profileImage"
-                          id="profileImage"
-                          accept=".jpg, .jpeg, .png"
-                          type="file"
-                          onChange={handleImageChange}
-                        />
+                        <button type="button" className="update-profile">
+                          <i className="fa fa-edit"></i> 
+                          <input
+                            name="profileImage"
+                            id="profileImage"
+                            accept=".jpg, .jpeg, .png"
+                            type="file"
+                            onChange={handleImageChange}
+                          />
+                        </button>
                       </span>
                     </div>
                     <h3>
@@ -902,12 +910,14 @@ const EditProfile = () => {
                                     ></Field>
                                   </div>
                                   <div className="form-field flex50">
+                                    <label>Phone Number</label>
                                     <Field
-                                      name="phone"
-                                      placeholder="Phone"
+                                      name="companyPhone"
+                                      placeholder="Enter Phone Number"
                                       label="Phone Number"
-                                      component={renderNumberField}
-                                      pattern="[0-9]*"
+                                      value={phoneNumberFlag}
+                                      onChange={setphoneNumberFlag}
+                                      component={RenderPhoneInput}
                                     />
                                   </div>
                                   <div className="form-field flex50">

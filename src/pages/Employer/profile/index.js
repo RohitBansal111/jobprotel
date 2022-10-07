@@ -1,9 +1,8 @@
 import Layout from "../../../components/Layout";
 import ConnectIcon from "./../../../assets/icons/connect.png";
 import EditIcon from "./../../../assets/icons/editicon.png";
-import ClockIcon from "./../../../assets/icons/clock-ico.png";
-import CompanyProfile from "./../../../assets/images/company-logo.png";
 import CompanyInfoModal from "../../../components/modals/companyInfoModal";
+import UserAvtar from "./../../../assets/images/demo.png";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as employerServices from "../../../services/employerServices";
@@ -14,12 +13,10 @@ import { Loader } from "../../../components/Loader/Loader";
 import toast from "toastr";
 import Pagination from "react-js-pagination";
 import BuyConnectsModal from "../../../components/modals/buyConnectsModal";
-import LocationIcon from "../../../assets/icons/loc-ico.png";
 import PostedJobCard from "../../../components/PostedJobCard";
 import DefaultProfile from "./../../../assets/images/demo.png";
 
 const EmployerProfile = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   const [employerData, setEmployerData] = useState([]);
@@ -170,6 +167,15 @@ const EmployerProfile = () => {
                           src={companyLogo ? companyLogo : DefaultProfile}
                           alt="Company profile"
                         />
+                        <button type="button" className="update-profile">
+                          <i className="fa fa-edit"></i> 
+                          <input
+                            name="profileImage"
+                            id="profileImage"
+                            accept=".jpg, .jpeg, .png"
+                            type="file"
+                          />
+                        </button>
                       </span>
                     </div>
                     <h3>{authData?.comapanyDetail?.companyName}</h3>
@@ -305,7 +311,13 @@ const EmployerProfile = () => {
                           />
                           <ul className="info-list-li">
                             <li>
-                              <span className="plabel">Contact Number</span>{" "}
+                              <span className="plabel">Company Name</span>{" "}
+                              <span className="result">
+                                Eminence Technology
+                              </span>
+                            </li> 
+                            <li>
+                              <span className="plabel">Company Contact Number</span>{" "}
                               <span className="result">
                                 {authData?.comapanyDetail?.companyPhone}
                               </span>
@@ -377,6 +389,7 @@ const EmployerProfile = () => {
                               aria-labelledby="nav-completed-tab"
                             >
                               <div className="project-detail-list">
+                              <div className="project-dbox">
                                 {activeJobs?.length > 0
                                   ? activeJobs.map((active, i) => (
                                       <>
@@ -446,6 +459,7 @@ const EmployerProfile = () => {
                                       </>
                                     ))
                                   : "No Active Jobs"}
+                                </div>
                                 <div className="project-pagination">
                                   {totalRecords > 5 && (
                                     <Pagination

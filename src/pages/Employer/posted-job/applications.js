@@ -52,15 +52,15 @@ const Applications = () => {
             <div className="innerbg-banner"></div>
           </div>
         </section>
-        {loading ? (
-          <div className="button-submit-loader">
-            <Loader />
-          </div>
-        ) : (
-          <section className="job-feeds-wrapper">
-            <div className="container">
-              <h4 className="text-white mb-3">Review Applications</h4>
-              <div className="application-list-card mb-5">
+        <section className="job-feeds-wrapper">
+          <div className="container">
+            <h4 className="text-white mb-3">Review Applications</h4>
+            <div className="application-list-card mb-5">
+            {loading ? (
+                <div className="button-submit-loader text-center">
+                  <Loader />
+                </div>
+              ) : (
                 <ul>
                   <li>
                     <div className="default-feeds-search">
@@ -80,11 +80,11 @@ const Applications = () => {
                       />
                     )}
                   </li>
-                </ul>
-              </div>
+              </ul>
+                )}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
       </div>
     </Layout>
   );

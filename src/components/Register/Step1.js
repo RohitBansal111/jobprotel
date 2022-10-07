@@ -5,6 +5,7 @@ import titles from "./register.json";
 import validate from "./validator/step1Validator";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect, useState } from "react";
+import EmailVerificationModal from "../modals/email-verification-modal";
 
 const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
   let titleStrings = new LocalizedStrings(titles);
@@ -13,7 +14,8 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
   const [showLoginPassword, setShowLoginPassword] = useState(true);
   const [showLoginPassword2, setShowLoginPassword2] = useState(true);
   const [declaration, setDeclaration] = useState(false);
-
+  const[emailVerifyModal, setEmailVerifyModal] = useState(false);
+  
   const handlePassword = () => setShowLoginPassword(!showLoginPassword);
   const handleConfirmPassword = () =>
     setShowLoginPassword2(!showLoginPassword2);
@@ -40,6 +42,7 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
   const SaveStep1 = (values) => {
     if (validation()) {
       handleSubmit(values);
+      setEmailVerifyModal(true)
     }
   };
 
@@ -181,6 +184,10 @@ const Step1 = ({ handleSubmit, prevPage, userBasicInfo, data, role }) => {
             </form>
           )}
         </Form>
+        <EmailVerificationModal
+          emailVerifyModal={emailVerifyModal}
+          setEmailVerifyModal={setEmailVerifyModal}
+        />
       </div>
     </div>
   );
