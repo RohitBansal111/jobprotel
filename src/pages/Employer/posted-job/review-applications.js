@@ -20,18 +20,18 @@ const ReviewApplications = () => {
   }, [jobid]);
 
   const getUsers = async (jobid, pageNumber = pageNumber) => {
-    setLoading(true)
+    setLoading(true);
     const payload = {
       jobId: jobid,
       pageNumber: pageNumber,
       pageSize: pageSize,
     };
     const resp = await jobServices.getReviewJobsByJobId(payload);
-    console.log(resp, "::::")
+    console.log(resp, "::::");
     if (resp.status == 200) {
       setLoading(false);
       setTotalRecords(resp.data?.totalCount);
-      if (resp?.data?.totalCount > 0){
+      if (resp?.data?.totalCount > 0) {
         setUsers(resp?.data?.data[0]?.users);
       }
     }
@@ -62,7 +62,6 @@ const ReviewApplications = () => {
               <ul>
                 <li>
                   <div className="default-feeds-search">
-
                     {loading ? (
                       <Loader />
                     ) : users?.length > 0 ? (
@@ -81,7 +80,6 @@ const ReviewApplications = () => {
                         <h3>No Record found</h3>
                       </div>
                     )}
-
                   </div>
                   {totalRecords > 5 && (
                     <Pagination

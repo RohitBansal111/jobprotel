@@ -174,7 +174,7 @@ const FindWork = () => {
         </section>
         <section className="topbg-banner">
           <div className="container">
-            <div className="innerbg-banner"></div>
+            <div className="innerbg-banner"></div>``
           </div>
         </section>
         <section className="job-feeds-wrapper">
@@ -283,7 +283,6 @@ const FindWork = () => {
                           {" "}
                           Upload
                         </button>
-
                         <div>
                           <img src={selectedFile} width={200} />
                         </div> */}
@@ -368,7 +367,6 @@ const FindWork = () => {
                     </div>
                   </div>
                 )}
-
                 <div className="search-feeds-section">
                   <div className="feed-title">
                     <h2>Top results you might like</h2>
