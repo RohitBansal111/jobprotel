@@ -56,7 +56,7 @@ const Profile = () => {
       }
 
       setStudentResume(
-        `${process.env.REACT_APP_IMAGE_API_URL}${response?.resumeFilePath}`
+        `${process.env.REACT_APP_FILE_URL}${response?.resumeFilePath}`
       );
 
       let interests = response?.interests;
@@ -388,7 +388,7 @@ const Profile = () => {
                                       <>
                                         <li key={i}>
                                           <a
-                                            href={`${process.env.REACT_APP_IMAGE_API_URL}${certificate.filePath}`}
+                                            href={`${process.env.REACT_APP_FILE_URL}${certificate.filePath}`}
                                             target="_blank"
                                           >
                                             {certificate.title}

@@ -53,7 +53,7 @@ const EmployerProfile = () => {
 
   useEffect(async () => {
     if (authData) {
-      console.log(authData, ":::::");
+      // console.log(authData, ":::::");
       if (
         authData.comapanyDetail !== null &&
         authData.comapanyDetail.logoPath !== null
@@ -67,7 +67,7 @@ const EmployerProfile = () => {
         authData?.comapanyDetail?.availableConnects
       ) {
         setConnects(authData?.comapanyDetail?.availableConnects);
-      }else{
+      } else {
         setConnects(0);
       }
 
@@ -168,7 +168,7 @@ const EmployerProfile = () => {
                           alt="Company profile"
                         />
                         <button type="button" className="update-profile">
-                          <i className="fa fa-edit"></i> 
+                          <i className="fa fa-edit"></i>
                           <input
                             name="profileImage"
                             id="profileImage"
@@ -178,7 +178,7 @@ const EmployerProfile = () => {
                         </button>
                       </span>
                     </div>
-                    <h3>{authData?.comapanyDetail?.companyName}</h3>
+                    <h3>{authData?.fullName}</h3>
                     <div>
                       {authData?.comapanyDetail?.address}
                       {authData?.comapanyDetail?.cityName && ", "}
@@ -315,9 +315,11 @@ const EmployerProfile = () => {
                               <span className="result">
                                 Eminence Technology
                               </span>
-                            </li> 
+                            </li>
                             <li>
-                              <span className="plabel">Company Contact Number</span>{" "}
+                              <span className="plabel">
+                                Company Contact Number
+                              </span>{" "}
                               <span className="result">
                                 {authData?.comapanyDetail?.companyPhone}
                               </span>
@@ -389,19 +391,19 @@ const EmployerProfile = () => {
                               aria-labelledby="nav-completed-tab"
                             >
                               <div className="project-detail-list">
-                              <div className="project-dbox">
-                                {activeJobs?.length > 0
-                                  ? activeJobs.map((active, i) => (
-                                      <>
-                                        <PostedJobCard
-                                          jobs={active}
-                                          key={i}
-                                          type="post"
-                                          activePage={activePage}
-                                          pageSize={pageSize}
-                                        />
+                                <div className="project-dbox">
+                                  {activeJobs?.length > 0
+                                    ? activeJobs.map((active, i) => (
+                                        <>
+                                          <PostedJobCard
+                                            jobs={active}
+                                            key={i}
+                                            type="post"
+                                            activePage={activePage}
+                                            pageSize={pageSize}
+                                          />
 
-                                        {/*                         
+                                          {/*                         
                         <div className="project-dbox" key={i}>
                                         {
                                           console.log(active)
@@ -456,9 +458,9 @@ const EmployerProfile = () => {
                                           </div>
                                         </div>
                                       </div> */}
-                                      </>
-                                    ))
-                                  : "No Active Jobs"}
+                                        </>
+                                      ))
+                                    : "No Active Jobs"}
                                 </div>
                                 <div className="project-pagination">
                                   {totalRecords > 5 && (

@@ -196,7 +196,7 @@ const EmployerEditProfile = () => {
                             alt="Company profile"
                           />
                           <button type="button" className="update-profile">
-                            <i className="fa fa-edit"></i> 
+                            <i className="fa fa-edit"></i>
                             <input
                               name="profileImage"
                               id="profileImage"
@@ -406,7 +406,7 @@ const EmployerEditProfile = () => {
                                     label="Company Address"
                                     component={renderField}
                                   />
-                                </div> 
+                                </div>
                                 <div className="form-field flex100">
                                   <div className="uploadImageSection mb-2">
                                     <div className="file-label-image">

@@ -61,7 +61,7 @@ const UpdateProjectModal = ({
       };
       if (id) {
         const resp = await projectServices.updateProjectHistoryData(id, data);
-        console.log(resp, ":::");
+        // console.log(resp, ":::");
         if (resp.status === 200) {
           getProjectHistory(id, activePage);
           document.getElementById("UpdateProjectModal").click();
@@ -72,13 +72,6 @@ const UpdateProjectModal = ({
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (authData) {
-  //     setUserId(authData.id);
-  //     console.log(authData.id, ":::")
-  //   }
-  // }, [authData]);
 
   useEffect(() => {
     setId(editProjectData.id);

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-responsive-modal";
-
 import { postPaymentdetails } from "../../services/paytemService";
-
 import {
   PayPalScriptProvider,
   PayPalButtons,
@@ -102,7 +100,7 @@ const ButtonWrapper = ({
                 onCloseModal();
               }
             } else {
-              toast.success("Something went wrong");
+              toast.error("Something went wrong");
             }
           });
         }}
@@ -111,7 +109,6 @@ const ButtonWrapper = ({
         }}
         onCancel={() => {
           // Display cancel message, modal or redirect user to cancel page or back to cart
-
           console.log("order Canceled");
         }}
       />

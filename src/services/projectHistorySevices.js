@@ -62,7 +62,7 @@ export const updateProjectHistoryData = async (id, data) => {
     let token = localStorage.getItem("jobPortalUserToken");
 
     const resp = await axios.put(
-      `${process.env.REACT_APP_PUBLIC_API_URL}ProjectHistory/EditProject/projectID?projectID=${projectID}`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/ProjectHistory/EditProject/projectID?projectID=${projectID}`,
       data,
       {
         headers: { Authorization: `Bearer ${token}` },

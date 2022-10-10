@@ -111,23 +111,23 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      // console.log(resp.data.data, "::::");
+      console.log(resp.data.data, "::::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
         setStudentData(response);
         if (response?.studentDetails?.pictureUrl) {
           setStudentProfilePic(
-            `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`
+            `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`
           );
           setImg({
             ...img,
-            personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response.studentDetails.pictureUrl}`,
+            personalInfoImg: `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.pictureUrl}`,
           });
         }
         if (response?.studentDetails?.resumeFilePath !== undefined) {
           setStudentResume(
-            `${process.env.REACT_APP_IMAGE_API_URL}${response?.studentDetails?.resumeFilePath}`
+            `${process.env.REACT_APP_FILE_URL}${response?.studentDetails?.resumeFilePath}`
           );
         }
 
@@ -139,8 +139,7 @@ const EditProfile = () => {
           setUpdatedCoverName(response?.studentDetails?.coverLetter);
           setCoverLetter(response?.studentDetails?.coverLetter);
         }
-        if (response?.studentDetails?.coverLetter) {
-        }
+     
         let finalInterest = [];
         if (response?.studentDetails?.interests) {
           let interest = response.studentDetails.interests?.split(",");
@@ -287,7 +286,7 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
-    console.log(values,":::::")
+    console.log(values, ":::::");
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -597,7 +596,7 @@ const EditProfile = () => {
     setDate(today);
   }, []);
 
-  console.log(countrylist)
+  console.log(countrylist);
 
   return (
     <Layout>
@@ -638,7 +637,7 @@ const EditProfile = () => {
                           layout="fill"
                         />
                         <button type="button" className="update-profile">
-                          <i className="fa fa-edit"></i> 
+                          <i className="fa fa-edit"></i>
                           <input
                             name="profileImage"
                             id="profileImage"
@@ -685,11 +684,14 @@ const EditProfile = () => {
                           {studentData?.studentDetails?.experienceInYears}
                           {studentData?.studentDetails?.experienceInYears &&
                             "Year"}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            ", "}
-                          {studentData?.studentDetails?.experienceInMonths}{" "}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            "Month"}
+                          {studentData?.studentDetails?.experienceInMonths >
+                            0 && ", "}
+                          {studentData?.studentDetails?.experienceInMonths >
+                            0 &&
+                            studentData?.studentDetails
+                              ?.experienceInMonths}{" "}
+                          {studentData?.studentDetails?.experienceInMonths >
+                            0 && "Month"}
                         </span>
                       </li>
                       <li>
