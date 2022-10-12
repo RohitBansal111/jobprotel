@@ -18,7 +18,7 @@ const ApplicationCards = ({
     <>
       {jobsApplied?.jobs?.map((applied, i) => (
         <div className="feeds-search-coll" key={i}>
-          <div className="feeds-search-head">
+          <div className="feeds-search-head d-flex justify-content-between"> 
             <div className="feeds-head-left">
               <div className="feeds-s-logo">
                 {applied?.company?.logoUrl && (
