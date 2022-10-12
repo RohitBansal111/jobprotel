@@ -390,7 +390,7 @@ const EmployerProfile = () => {
                               role="tabpanel"
                               aria-labelledby="nav-completed-tab"
                             >
-                              <div className="project-detail-list">
+                              <div className="project-detail-list employer-profile34">
                                 <div className="project-dbox">
                                   {activeJobs?.length > 0
                                     ? activeJobs.map((active, i) => (

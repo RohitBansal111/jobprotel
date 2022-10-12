@@ -125,7 +125,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
               )}
             </div>
           </div>
-          <div className="feeds-budget">
+          <div className="feeds-budget mb-2">
             <p>
               <b>Salary Range : &nbsp;</b>
               <span className="project-budget text-grey">
@@ -139,7 +139,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
             {jobs && jobs.description && jobs.description}
             {/* <Link to="#">See more </Link> */}
           </p>
-<<<<<<< HEAD
           <div className="d-flex justify-content-between align-items-start">
             <div className="feeds-tags">
               <ul className="feeds-ul">
@@ -171,38 +170,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
                       Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                     </Link>
                     {/* </Link> */}
-=======
-          <div className="feeds-tags">
-            <ul className="feeds-ul">
-              {tags &&
-                tags.length > 0 &&
-                tags.map((tag, index) => (
-                  <li key={index}>
-                    <Link to="#">{tag}</Link>
-                  </li>
-                ))}
-            </ul>
-          </div>
-          <div className="posted-submit">
-            <div className="d-flex">
-              {authData?.userRoles[0] === "Employer" ? (
-                <>
-                  {/* <Link
-                    to={
-                      jobs?.id != undefined
-                        ? `/review-applications/${jobs?.id}`
-                        : "#"
-                    }
-                  > */}
-                  <Link
-                    to={`/invitation-accepted/${jobs?.id}`}
-                    type="button"
-                    className="btn submit-btn me-2 p-0 px-3"
-                  >
-                    Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
-                  </Link>
-                  {/* </Link> */}
->>>>>>> 23380d7ad22657ff767b9798baae2a3ae39706cc
 
                     <Link
                       to={`/review-applications/${jobs?.id}`}
@@ -228,35 +195,10 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
                       }
                     }}
                   >
-<<<<<<< HEAD
                     Apply Now
                   </button>
                 )}
               </div>
-=======
-                    Review Applications ({jobs?.applicationRecivedCount})
-                  </Link>
-                </>
-              ) : jobs?.isJobApplied ? (
-                <button type="button" className="btn btn-primary" disabled>
-                  Job Applied
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    if (userdata?.studentDetails?.isProfileCompleted) {
-                      applyJob();
-                    } else {
-                      toast.error("Profile is not Completed");
-                    }
-                  }}
-                >
-                  Apply Now
-                </button>
-              )}
->>>>>>> 23380d7ad22657ff767b9798baae2a3ae39706cc
             </div>
           </div>
         </div>

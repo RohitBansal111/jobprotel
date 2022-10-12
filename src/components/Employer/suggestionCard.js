@@ -33,7 +33,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
 
   return (
     <div className="feeds-search-coll">
-      <div className="feeds-search-head">
+      <div className="feeds-search-head d-flex align-items-start justify-content-between">
         <div className="feeds-head-left">
           <div className="feeds-s-logo">
             <Link to={`/public/${userIdd}`}>

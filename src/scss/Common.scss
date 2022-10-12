@@ -128,7 +128,7 @@ ul {
         }
       }
       .edit-profile-file{
-        width: 50%;
+        width: 100%;
       }
       .btn{
         .fa{
@@ -153,6 +153,9 @@ ul {
       }
     }
   }
+}
+.edit-profile-file{
+  width: 80%;
 }
 
 // Loader
