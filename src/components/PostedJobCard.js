@@ -18,7 +18,7 @@ import * as studentServices from "../services/studentServices";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
+const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
@@ -101,22 +101,36 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                   {jobs && jobs.title && jobs.title}
                 </Link>
                 <p className="post-ago mb-0">
-                  <img src={ClockIcon} alt="clock" className="me-2" width={17} height={17} />
+                  <img
+                    src={ClockIcon}
+                    alt="clock"
+                    className="me-2"
+                    width={17}
+                    height={17}
+                  />
                   {jobs?.createdOn ? (
-                    <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
+                    <ReactTimeAgo
+                      date={new Date(jobs.createdOn)}
+                      locale="en-US"
+                    />
                   ) : null}
                 </p>
               </h2>
-              <div className="location21 mb-2">
-                <i className="fa fa-map-marker-alt"></i> {jobs && jobs.location && jobs.location}  
-              </div>
+              {jobs?.location !== "false" && (
+                <div className="location21 mb-2">
+                  {console.log(jobs, "::::")}
+                  <i className="fa fa-map-marker-alt"></i>{" "}
+                  {jobs?.location !== "false" && jobs?.location}
+                </div>
+              )}
             </div>
           </div>
           <div className="feeds-budget">
-            <p><b>Salary Range : &nbsp;</b>
-            <span className="project-budget text-grey">
-              $ {jobs && jobs.salary && jobs.salary}
-            </span>
+            <p>
+              <b>Salary Range : &nbsp;</b>
+              <span className="project-budget text-grey">
+                $ {jobs && jobs.salary && jobs.salary}
+              </span>
             </p>
           </div>
         </div>
@@ -125,6 +139,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
             {jobs && jobs.description && jobs.description}
             {/* <Link to="#">See more </Link> */}
           </p>
+<<<<<<< HEAD
           <div className="d-flex justify-content-between align-items-start">
             <div className="feeds-tags">
               <ul className="feeds-ul">
@@ -156,6 +171,38 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                       Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
                     </Link>
                     {/* </Link> */}
+=======
+          <div className="feeds-tags">
+            <ul className="feeds-ul">
+              {tags &&
+                tags.length > 0 &&
+                tags.map((tag, index) => (
+                  <li key={index}>
+                    <Link to="#">{tag}</Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
+          <div className="posted-submit">
+            <div className="d-flex">
+              {authData?.userRoles[0] === "Employer" ? (
+                <>
+                  {/* <Link
+                    to={
+                      jobs?.id != undefined
+                        ? `/review-applications/${jobs?.id}`
+                        : "#"
+                    }
+                  > */}
+                  <Link
+                    to={`/invitation-accepted/${jobs?.id}`}
+                    type="button"
+                    className="btn submit-btn me-2 p-0 px-3"
+                  >
+                    Invitation Accepted ({jobs?.invitationAcceptedCount}){" "}
+                  </Link>
+                  {/* </Link> */}
+>>>>>>> 23380d7ad22657ff767b9798baae2a3ae39706cc
 
                     <Link
                       to={`/review-applications/${jobs?.id}`}
@@ -181,10 +228,35 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                       }
                     }}
                   >
+<<<<<<< HEAD
                     Apply Now
                   </button>
                 )}
               </div>
+=======
+                    Review Applications ({jobs?.applicationRecivedCount})
+                  </Link>
+                </>
+              ) : jobs?.isJobApplied ? (
+                <button type="button" className="btn btn-primary" disabled>
+                  Job Applied
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    if (userdata?.studentDetails?.isProfileCompleted) {
+                      applyJob();
+                    } else {
+                      toast.error("Profile is not Completed");
+                    }
+                  }}
+                >
+                  Apply Now
+                </button>
+              )}
+>>>>>>> 23380d7ad22657ff767b9798baae2a3ae39706cc
             </div>
           </div>
         </div>
