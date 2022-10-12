@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import LocationIcon from "./../../assets/icons/loc-ico.png";
-import StudentProfile from "./../../assets/images/feed-logo.png";
 import UserAvatar from "../../assets/images/demo.png";
+
 const InvitationCard = ({ data }) => {
+  console.log(data.pictureUrl,"::::");
   return (
     <div className="feeds-search-coll">
       <div className="feeds-search-head">
@@ -12,11 +13,11 @@ const InvitationCard = ({ data }) => {
               <img
                 src={
                   data?.pictureUrl !== null
-                    ? `${process.env.REACT_APP_IMAGE_API_URL}/${data.pictureUrl}`
+                    ? `${process.env.REACT_APP_IMAGE_API_URL}${data?.pictureUrl}`
                     : UserAvatar
                 }
                 style={{ height: "60px", width: "60px", borderRadius: "50%" }}
-                alt="profile image2"
+                alt="profile image"
               />
             </Link>
           </div>

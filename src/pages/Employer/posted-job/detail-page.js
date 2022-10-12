@@ -45,7 +45,7 @@ const EmployerJobDetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::")
+      console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 
@@ -116,22 +116,32 @@ const EmployerJobDetailsPage = () => {
                       <p>
                         <b>SKills: </b> {jobDetails?.skills}
                       </p>
-                     {jobDetails?.location !== "false" && <p>
-                        <b>Job Location: </b> {jobDetails?.location}
-                      </p>}
+                      {jobDetails?.location !== "false" ? (
+                        <>
+                          <p>
+                            <b>Job Location: </b> {jobDetails?.location}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p>
+                            <b>Time Zone: </b>{" "}
+                            {getTimeZone(jobDetails?.timeZone)}
+                          </p>
+                        </>
+                      )}
                       <p>
                         <b>Hour/day: </b> {jobDetails?.hoursPerDay}
                       </p>
                       <p>
-                        <b>Days / Week: </b> {jobDetails?.daysPerWeek}
+                        <b>Day/Week: </b> {jobDetails?.daysPerWeek}
                       </p>
-                     {jobDetails?.timing !== null && <p>
-                        <b>Job Timings/days: </b>
-                        {jobDetails?.timing}
-                      </p>}
-                     {jobDetails?.timeZone !== "false" && <p>
-                        <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
-                      </p>}
+                      {jobDetails?.timing !== null && (
+                        <p>
+                          <b>Job Timings/days: </b>
+                          {jobDetails?.timing}
+                        </p>
+                      )}
                       <p>
                         <b>Salary: </b> $ {jobDetails?.salary}
                       </p>
@@ -182,9 +192,11 @@ const EmployerJobDetailsPage = () => {
                       <p>
                         Required Connects to submit a proposal: <b>2</b>{" "}
                       </p>
-                      {selector?.comapanyDetail && <p>
-                        Available Connects: <b>{connects}</b>
-                      </p>}
+                      {selector?.comapanyDetail && (
+                        <p>
+                          Available Connects: <b>{connects}</b>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

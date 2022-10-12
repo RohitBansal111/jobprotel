@@ -89,8 +89,7 @@ const ClientChannel = ({
                    
                     <img
                       src={
-                        user &&
-                        user.userRoles[0] &&
+                        user?.userRoles[0] &&
                         user.userRoles[0] == "Student"
                           ? item.employerUserImage==''?ClientAvtar: process.env.REACT_APP_IMAGE_API_URL +
                             item.employerUserImage

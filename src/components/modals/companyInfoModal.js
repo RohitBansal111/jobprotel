@@ -42,7 +42,6 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
   toast.options = { preventDuplicates: true };
 
   const authData = useSelector((state) => state.auth.user);
-
   const handleCompanyInfo = async (values) => {
     let formData = new FormData();
     // let keys = Object.keys(values);
@@ -54,17 +53,19 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
     formData.append("companyPhone", values.companyPhone);
     formData.append("companyName", values.companyName);
     formData.append("userId", authData.id);
-
+    if (img?.personalInfoImg?.includes("base64")) {
+    }
     if (edit) {
-      formData.append("operationType", 2);
-      if (profileImage) {
-        formData.append("logoUrl", profileImage);
+      if (img?.personalInfoImg?.includes("base64")) {
+        formData.append("operationType", 2);
+      formData.append("logoUrl", img.personalInfoImg);
       } else {
+        formData.append("operationType", 2);
         formData.append("logoUrl", "");
       }
     } else {
       formData.append("operationType", 1);
-      formData.append("logoUrl", profileImage);
+      formData.append("logoUrl", img.personalInfoImg);
     }
 
     if (authData.id) {
@@ -250,7 +251,6 @@ const CompanyInfoModal = ({ getEmployerDetails, employerData }) => {
             showImageCropModal={modal}
             readFile={readFile}
             imageSrc={img.personalInfoImg}
-            setProfileImage={setProfileImage}
             setImg={setImg}
           />
           <div className="modal-body p-4">

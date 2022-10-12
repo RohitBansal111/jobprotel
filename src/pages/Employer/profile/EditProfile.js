@@ -111,7 +111,7 @@ const EmployerEditProfile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
       if (

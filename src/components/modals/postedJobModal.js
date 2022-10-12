@@ -77,6 +77,14 @@ const PostedJobModal = ({ id }) => {
     values?.qualification?.length > 0 &&
       values.qualification.map((qual) => qualifictionsArr.push(qual.id));
 
+    let defaultTimezone = {
+      value: "Asia/Kolkata",
+      label: "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi",
+      offset: 5.5,
+      abbrev: "IST",
+      altName: "India Standard Time",
+    };
+
     let arr = [];
     arr.push(qualificationId);
     postJob({
@@ -94,7 +102,10 @@ const PostedJobModal = ({ id }) => {
       daysPerWeek: values.days,
       workingTypes: working,
       salary: sal,
-      timezone: working == 2 && JSON.stringify(timezone),
+      timezone:
+        working == 2 && timezone == "Asia/Calcutta"
+          ? JSON.stringify(defaultTimezone)
+          : JSON.stringify(timezone),
       location: working == 1 && values.location,
 
       skills: skillsArr,
@@ -413,7 +424,9 @@ const PostedJobModal = ({ id }) => {
                           onChange={handleCheckBoxInvites}
                           checked={checkinvites}
                         />
-                        <label style={{marginLeft:"10px"}}>Make This Job Available for invites</label>
+                        <label style={{ marginLeft: "10px" }}>
+                          Make This Job Available for invites
+                        </label>
                       </div>
                       <div className="form-field flex100">
                         <Field

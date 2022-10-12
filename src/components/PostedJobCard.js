@@ -18,7 +18,7 @@ import * as studentServices from "../services/studentServices";
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
-const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
+const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [tags, setTags] = useState([]);
@@ -101,22 +101,36 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                   {jobs && jobs.title && jobs.title}
                 </Link>
                 <p className="post-ago mb-0">
-                  <img src={ClockIcon} alt="clock" className="me-2" width={17} height={17} />
+                  <img
+                    src={ClockIcon}
+                    alt="clock"
+                    className="me-2"
+                    width={17}
+                    height={17}
+                  />
                   {jobs?.createdOn ? (
-                    <ReactTimeAgo date={new Date(jobs.createdOn)} locale="en-US" />
+                    <ReactTimeAgo
+                      date={new Date(jobs.createdOn)}
+                      locale="en-US"
+                    />
                   ) : null}
                 </p>
               </h2>
-              <div className="location21 mb-2">
-                <i className="fa fa-map-marker-alt"></i> {jobs && jobs.location && jobs.location}  
-              </div>
+              {jobs?.location !== "false" && (
+                <div className="location21 mb-2">
+                  {console.log(jobs, "::::")}
+                  <i className="fa fa-map-marker-alt"></i>{" "}
+                  {jobs?.location !== "false" && jobs?.location}
+                </div>
+              )}
             </div>
           </div>
           <div className="feeds-budget">
-            <p><b>Salary Range : &nbsp;</b>
-            <span className="project-budget text-grey">
-              $ {jobs && jobs.salary && jobs.salary}
-            </span>
+            <p>
+              <b>Salary Range : &nbsp;</b>
+              <span className="project-budget text-grey">
+                $ {jobs && jobs.salary && jobs.salary}
+              </span>
             </p>
           </div>
         </div>
@@ -146,7 +160,7 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                         ? `/review-applications/${jobs?.id}`
                         : "#"
                     }
-                  > */} 
+                  > */}
                   <Link
                     to={`/invitation-accepted/${jobs?.id}`}
                     type="button"
@@ -173,9 +187,9 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList ,userdata }) => {
                   type="button"
                   className="btn btn-primary"
                   onClick={() => {
-                    if(userdata?.studentDetails?.isProfileCompleted){
-                      applyJob()
-                    }else{
+                    if (userdata?.studentDetails?.isProfileCompleted) {
+                      applyJob();
+                    } else {
                       toast.error("Profile is not Completed");
                     }
                   }}
