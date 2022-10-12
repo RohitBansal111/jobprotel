@@ -96,7 +96,7 @@ const PostedJob = () => {
                         <img src={companyLogo ? companyLogo : UserAvtar} alt="Company profile" />
                       </span>
                     </div>
-                    <h3>{authData?.comapanyDetail?.companyName}</h3>
+                    <h3>{authData?.fullName}</h3>
                     <div>
                       {authData?.comapanyDetail?.address}
                       {authData?.comapanyDetail?.cityName && ", "}

@@ -27,7 +27,7 @@ const EmployerDetails = () => {
       setLoading(false);
 
       let response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setEmpDetails(response);
       setProflePic(
         `${process.env.REACT_APP_IMAGE_API_URL}${response?.comapanyDetail?.logoPath}`

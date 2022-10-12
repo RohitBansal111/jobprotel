@@ -45,7 +45,7 @@ const EmployerJobDetailsPage = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setJobDetails(response);
       setQualifications(response.qualifications);
 

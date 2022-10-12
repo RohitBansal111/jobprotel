@@ -19,7 +19,7 @@ const EmployerJobSuggestion = () => {
   }, [jobid, activePage]);
 
   const getSuggestions = async (jobid, activePage) => {
-    console.log(jobid, activePage, "::::");
+    // console.log(jobid, activePage, "::::");
     let data = {
       jobId: jobid,
       pageNumber: activePage,
@@ -30,7 +30,7 @@ const EmployerJobSuggestion = () => {
     if (resp.status == 200) {
       let response = resp.data.data;
       setSuggestions(response);
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setTotalRecords(resp.data.totalCount);
       setLoading(false);
     } else if (resp.status == 400) {
@@ -85,7 +85,6 @@ const EmployerJobSuggestion = () => {
                 </li>
               </ul>
             </div>
-
             <div>
               {totalRecords > 5 && (
                 <Pagination

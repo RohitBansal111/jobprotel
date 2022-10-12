@@ -118,7 +118,6 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
               </h2>
               {jobs?.location !== "false" && (
                 <div className="location21 mb-2">
-                  {console.log(jobs, "::::")}
                   <i className="fa fa-map-marker-alt"></i>{" "}
                   {jobs?.location !== "false" && jobs?.location}
                 </div>

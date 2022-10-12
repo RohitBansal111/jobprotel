@@ -13,7 +13,7 @@ const SuggestionCard = ({ userData, jobId, userIdd }) => {
 
   const jobInvite = async () => {
     const resp = await jobSevices.sendStudentJobInvitations(jobid, userIdd);
-    console.log(resp,'::::')
+    // console.log(resp,'::::')
     if (resp.status === 200) {
       toast.success(
         resp.data.data.message ? resp.data.data.message : "Something went wrong"

@@ -3,7 +3,7 @@ import LocationIcon from "./../../assets/icons/loc-ico.png";
 import UserAvatar from "../../assets/images/demo.png";
 
 const InvitationCard = ({ data }) => {
-  console.log(data.pictureUrl,"::::");
+  // console.log(data.pictureUrl,"::::");
   return (
     <div className="feeds-search-coll">
       <div className="feeds-search-head">

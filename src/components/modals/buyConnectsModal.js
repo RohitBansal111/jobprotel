@@ -252,7 +252,6 @@ const BuyConnectsModal = ({
                   >
                     Cancel
                   </button>
-                  {console.log("data", data)}
                   <button
                     type="button"
                     class="btn btn-primary button-submit"

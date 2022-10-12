@@ -263,7 +263,6 @@ const EditProfile = () => {
 
   const handleTimeZone = (data) => {
     setTimezone(data);
-    console.log(data, "::::");
   };
 
   const CountryValue = async (data) => {

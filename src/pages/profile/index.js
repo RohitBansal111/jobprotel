@@ -345,13 +345,7 @@ const Profile = () => {
   };
 
   const handleViewFiles = async (filePath) => {
-    console.log(filePath, ":::::");
     const resp = await viewUploadedFiles(filePath);
-    if (resp.status == 200) {
-      console.log(resp, ":::::");
-    } else {
-      console.log(resp, ":::::");
-    }
   };
 
   const handleImageChange = (event) => {

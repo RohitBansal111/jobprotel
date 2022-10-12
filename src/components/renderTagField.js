@@ -42,7 +42,7 @@ export const RenderTagField = ({
   };
 
   const handleTagClick = (index) => {
-    console.log("The tag at index " + index + " was clicked");
+    // console.log("The tag at index " + index + " was clicked");
   };
   return (
     <div className="field-render-main">
@@ -127,7 +127,7 @@ export const RenderTagFieldOnlySuggestions = ({
   };
 
   const handleTagClick = (index) => {
-    console.log("The tag at index " + index + " was clicked");
+    // console.log("The tag at index " + index + " was clicked");
   };
 
   return (
