@@ -201,7 +201,6 @@ const Header = () => {
   };
 
   const checkNotification =() => {
-    // console.log(notification, i, "::::");
    // let id = notification?.id
     navigate(`/notifications`)
   }
