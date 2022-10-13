@@ -257,9 +257,8 @@ const Profile = () => {
         toast.success(
           resp.data.message ? resp.data.message : "Something went wrong"
         );
-        getStudentData();
+        getStudentData(authData.id);
         let arr = [...editCertificate];
-
         arr.splice(i, 1);
         setEditCertificate(arr);
       }
@@ -1091,6 +1090,18 @@ const Profile = () => {
                                           <div className="d-flex">
                                           {editCertificate[i] ? (
                                             <>
+                                            <button 
+                                                className="btn btn-info h-auto px-2 py-0 ms-3 text-white"
+                                                onClick={() => {
+                                                  let arr = [
+                                                    ...editCertificate,
+                                                  ];
+                                                  arr[i] = false;
+                                                  setEditCertificate(arr);
+                                                }}
+                                                >
+                                                Cancel
+                                              </button>
                                               <button 
                                                 className="btn btn-primary h-auto px-2 py-0 ms-3"
                                                 onClick={() => {
