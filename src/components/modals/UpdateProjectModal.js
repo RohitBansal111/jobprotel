@@ -57,12 +57,12 @@ const UpdateProjectModal = ({
         startDate: values.startDate,
         endDate: values.endDate,
         totalTeamSize: values.totalTeamSize,
-        // companyEmail: values.companyEmail,
       };
       if (id) {
         const resp = await projectServices.updateProjectHistoryData(id, data);
         // console.log(resp, ":::");
         if (resp.status === 200) {
+          window.location.reload()
           getProjectHistory(id, activePage);
           document.getElementById("UpdateProjectModal").click();
           toast.success(

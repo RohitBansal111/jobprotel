@@ -206,7 +206,7 @@ const BuyConnectsModal = ({
               <form className="form-field-group mt-2">
                 <div className="form-field flex100">
                   <label>Your available Connects</label>
-                  <span>{data.available_connects}</span>
+                  <span>{connects}</span>
                 </div>
 
                 <div className="form-field flex100">
@@ -236,10 +236,7 @@ const BuyConnectsModal = ({
 
                 <div className="form-field flex100">
                   <label>Your new connects balance will be</label>
-                  <span>
-                    {Number(data.available_connects) +
-                      Number(data.buy_connects)}
-                  </span>
+                  <span>{data.available_connects}</span>
                 </div>
 
                 <div className="form-field flex100">
@@ -255,7 +252,6 @@ const BuyConnectsModal = ({
                   >
                     Cancel
                   </button>
-                  {console.log("data", data)}
                   <button
                     type="button"
                     class="btn btn-primary button-submit"

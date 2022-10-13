@@ -23,10 +23,9 @@ export const viewUploadedFiles = async (path) => {
 };
 
 export const getFiles = async (path) => {
-  console.log(path, "::::");
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_PUBLIC_API_URL_LOCAL}Admin/GetFile?fileName=${path}`,
+      `${process.env.REACT_APP_PUBLIC_API_URL_LOCAL}Admin/GetFile?fileName=${path}`
     );
     if (resp.status == 200) {
       return resp;
@@ -46,10 +45,9 @@ export const getFiles = async (path) => {
 };
 
 export const downloadFile = async (path) => {
-  console.log(path, "::::");
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_IMAGE_API_URL_LOCAL}Admin/DownloadFile?fileName=${path}`,
+      `${process.env.REACT_APP_IMAGE_API_URL_LOCAL}Admin/DownloadFile?fileName=${path}`
     );
     if (resp.status == 200) {
       return resp;

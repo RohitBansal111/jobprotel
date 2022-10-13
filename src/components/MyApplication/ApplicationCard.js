@@ -13,7 +13,6 @@ const ApplicationCards = ({
   totalRecords,
   jobsApplied,
 }) => {
-  console.log(jobsApplied, "::::")
   return (
     <>
       {jobsApplied?.jobs?.map((applied, i) => (

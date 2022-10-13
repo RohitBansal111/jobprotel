@@ -13,7 +13,7 @@ const ClientEmployerChat = ({ messages, user, receiverDisplayName }) => {
           messages.map((val) =>
             val.sender == user.id ? (
               <li className="employer-chat rightChat">
-                {console.log("qqqqq", val.userImage)}
+                {/* {console.log("::::", val.userImage)} */}
                 <div className="chat-full-desc">
                   <h5> {user?.fullName} </h5>
                   <p>{val.message && val.message}</p>

@@ -50,7 +50,7 @@ const FindWork = () => {
     const resp = await studentServices.getStudentDetails(id);
     if (resp.status == 200) {
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setStudentData(response);
       if (
         response?.studentDetails !== null &&
@@ -94,41 +94,6 @@ const FindWork = () => {
 
   const handleFilter = () => setshowFilter(!showFilter);
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState(null);
-
-  const S3_BUCKET = "mineawsbucket";
-  const REGION = "eu-west-1";
-  const ACCESS_KEY = "AKIARZFEKXIDOIIQHIPB";
-  const SECRET_ACCESS_KEY = "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";
-
-  const config = {
-    bucketName: S3_BUCKET,
-    region: REGION,
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
-  };
-
-  const handleFileInput = (e) => {
-    setSelectedFile(URL.createObjectURL(e.target.files[0]));
-    setUploadedFile(e.target.files[0]);
-  };
-
-  const handleUpload = async (file) => {
-    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf";
-    const resp = await viewUploadedFileService.getFiles(path);
-    if (resp.status == 200) {
-      console.log(resp, ":::::");
-    }
-  };
-
-  const handleDownload = async () => {
-    const path = "ExtraCertificates%2F222aa84b-2664-4065-9e46-5fa0d2cf66ab.pdf";
-    const resp = await viewUploadedFileService.downloadFile(path);
-    if (resp.status == 200) {
-      console.log(resp, ":::::");
-    }
-  };
   return (
     <Layout>
       <div className="inner-page-wrapper">
@@ -272,21 +237,6 @@ const FindWork = () => {
                             " hour"}
                         </span>
                       </li>
-                      <div>
-                        {/* <div>React S3 File Upload</div>
-                        <input type="file" onChange={handleFileInput} />
-                        <button onClick={() => handleUpload(uploadedFile)}>
-                          {" "}
-                          Upload to S3
-                        </button>
-                        <button onClick={() => handleDownload(uploadedFile)}>
-                          {" "}
-                          Upload
-                        </button>
-                        <div>
-                          <img src={selectedFile} width={200} />
-                        </div> */}
-                      </div>
                     </ul>
                   </div>
                 </div>

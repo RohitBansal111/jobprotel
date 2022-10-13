@@ -56,8 +56,8 @@ const InvitationAccepted = () => {
                     {loading ? (
                       <Loader />
                     ) : invitationData?.length > 0 ? (
-                      invitationData?.map((w) => {
-                        return <InvitationCard data={w} />;
+                      invitationData?.map((d) => {
+                        return <InvitationCard data={d} />;
                       })
                     ) : (
                       <div className="no-record-found text-center p-5">

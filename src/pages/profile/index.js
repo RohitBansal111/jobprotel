@@ -74,7 +74,7 @@ const Profile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setStudentData(response);
       setExtraCertificateData(
         response?.studentDetails?.studentExtraCertificate
@@ -345,13 +345,7 @@ const Profile = () => {
   };
 
   const handleViewFiles = async (filePath) => {
-    console.log(filePath, ":::::");
     const resp = await viewUploadedFiles(filePath);
-    if (resp.status == 200) {
-      console.log(resp, ":::::");
-    } else {
-      console.log(resp, ":::::");
-    }
   };
 
   const handleImageChange = (event) => {
@@ -830,7 +824,6 @@ const Profile = () => {
                                 Extra certificates{" "}
                               </span>
                               <span className="result">
-                                {console.log(extraCertificate, "::::")}
                                 {extraCertificate?.length > 0
                                   ? extraCertificate?.map((certificate, i) => (
                                       <>
@@ -1036,8 +1029,7 @@ const Profile = () => {
                         </div>
                         <div className="Project-info-list">
                           <div className="project-detail-list">
-                            {projectHistory &&
-                              projectHistory.length > 0 &&
+                            {projectHistory?.length > 0 &&
                               projectHistory.map((project, index) => (
                                 <div className="project-dbox" key={index}>
                                   <div className="project-history-title-action">

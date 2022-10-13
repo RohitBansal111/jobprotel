@@ -111,7 +111,7 @@ const EditProfile = () => {
   const getStudentData = async (id = authData.id) => {
     try {
       const resp = await studentServices.getStudentDetails(id);
-      console.log(resp.data.data, "::::");
+      // console.log(resp.data.data, "::::");
       if (resp.status == 200) {
         setLoading(false);
         let response = resp.data.data;
@@ -139,7 +139,7 @@ const EditProfile = () => {
           setUpdatedCoverName(response?.studentDetails?.coverLetter);
           setCoverLetter(response?.studentDetails?.coverLetter);
         }
-     
+
         let finalInterest = [];
         if (response?.studentDetails?.interests) {
           let interest = response.studentDetails.interests?.split(",");
@@ -286,7 +286,6 @@ const EditProfile = () => {
   };
 
   const saveProfile = async (values) => {
-    console.log(values, ":::::");
     let formData = new FormData();
 
     formData.append("userId", id);
@@ -359,12 +358,24 @@ const EditProfile = () => {
     formData.append("expectedSalary", values.salary);
     formData.append("phoneNumber", values.phone);
     formData.append("workHoursPerWeek", values.hours);
+
+    let defaultTimezone = {
+      value: "Asia/Kolkata",
+      label: "(GMT+5:30) Chennai, Kolkata, Mumbai, New Delhi",
+      offset: 5.5,
+      abbrev: "IST",
+      altName: "India Standard Time",
+    };
     if (working == 1) {
       formData.append("workingTypes", working);
       formData.append("location", values.location);
     } else if (working == 2) {
       formData.append("workingTypes", working);
-      formData.append("timezone", JSON.stringify(timezone));
+      if (timezone == "Asia/Calcutta") {
+        formData.append("timezone", JSON.stringify(defaultTimezone));
+      } else {
+        formData.append("timezone", JSON.stringify(timezone));
+      }
     }
     if (!updatedResumeName || updatedResumeName == undefined) {
       formData.append("resumeFile", resumeFile);
@@ -595,8 +606,6 @@ const EditProfile = () => {
     today = yyyy + "-" + mm + "-" + dd;
     setDate(today);
   }, []);
-
-  console.log(countrylist);
 
   return (
     <Layout>
@@ -931,22 +940,6 @@ const EditProfile = () => {
                                       component={renderNumberField}
                                       pattern="[0-9]*"
                                     />
-                                  </div>
-                                  <div className="form-field flex50">
-                                    {/* <div className="timezone--wrapper">
-                                      <label>Time Zone</label>
-                                      <TimezoneSelect
-                                        name="timezone"
-                                        value={timezone}
-                                        onChange={handleTimeZone}
-                                        labelStyle="Time Zone"
-                                        timezones={{
-                                          ...allTimezones,
-                                          "America/Lima": "Pittsburgh",
-                                          "Europe/Berlin": "Frankfurt",
-                                        }}
-                                      />
-                                    </div> */}
                                   </div>
                                 </div>
                               </div>

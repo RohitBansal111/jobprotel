@@ -21,7 +21,7 @@ const Applications = () => {
   }, []);
 
   useEffect(() => {
-    console.log(authData);
+    // console.log(authData);
   }, [authData]);
 
   const getUsers = async (pageNumber = pageNumber) => {

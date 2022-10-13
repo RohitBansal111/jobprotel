@@ -42,7 +42,6 @@ const ModifyEmploymentModal = ({ empData, handleEmp }) => {
   };
 
   const handleJobPost = async (values) => {
-    console.log(values.isCurrentEmployer, "::::");
     if (validation(values)) {
       let data = {
         designationId: values.designationId,

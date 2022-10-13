@@ -402,62 +402,6 @@ const EmployerProfile = () => {
                                             activePage={activePage}
                                             pageSize={pageSize}
                                           />
-
-                                          {/*                         
-                        <div className="project-dbox" key={i}>
-                                        {
-                                          console.log(active)
-                                        }
-                                        <h2 className="prname">
-                                          {active.title}
-                                        </h2>
-                                        <ul className="feeds-s-ul">
-                                          <li>
-                                            <img
-                                              src={LocationIcon}
-                                              alt="Location"
-                                            />
-                                            {active?.location}
-                                          </li>
-                                        </ul>
-                                        <div className="prd-buget-column mt-2">
-                                          <div className="prdate-budgetprice">
-                                            <span className="prdate">
-                                              <b>Skills: </b>
-                                              {active?.skills
-                                                ?.split(",")
-                                                .map((sk, i) => (
-                                                  <Link to="#" key={i}>
-                                                    {sk}
-                                                    {" ,"}
-                                                  </Link>
-                                                ))}
-                                            </span>
-                                          </div>
-                                        </div>
-                                        <div className="feeds-budget employer-salary">
-                                          <p>Salary Range: </p>
-                                          <span className="project-budget">
-                                            $ {active?.salary}
-                                          </span>
-                                        </div>
-                                        <div className="feeds-search-detail">
-                                          <p> <b>Descriprion: </b>
-                                            {active?.description}
-                                          </p>
-                                          <div className="feeds-tags">
-                                            <ul className="feeds-ul">
-                                              {tags &&
-                                                tags.length > 0 &&
-                                                tags.map((tag, index) => (
-                                                  <li key={index}>
-                                                    <Link to="#">{tag}</Link>
-                                                  </li>
-                                                ))}
-                                            </ul>
-                                          </div>
-                                        </div>
-                                      </div> */}
                                         </>
                                       ))
                                     : "No Active Jobs"}

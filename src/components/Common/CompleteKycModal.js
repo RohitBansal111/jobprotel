@@ -42,7 +42,7 @@ const CompleteKycModal = () => {
       error.backSideFile = "Required Back Id Proof Photo";
       isValid = false;
     }
-    console.log(error);
+    // console.log(error);
     setErr(error);
     return isValid;
   };

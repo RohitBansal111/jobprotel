@@ -20,7 +20,7 @@ export const getInstance = () => {
       ) {
         saveState({});
       }
-      console.log(error, "error")
+      // console.log(error, "error")
       return Promise.reject(error);
     }
   );

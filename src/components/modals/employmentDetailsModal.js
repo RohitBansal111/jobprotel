@@ -36,7 +36,7 @@ const EmploymentDetailsModal = ({ getEmploymentDetails }) => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values, "::::");
+    // console.log(values, "::::");
     let {
       employerName,
       designationId,

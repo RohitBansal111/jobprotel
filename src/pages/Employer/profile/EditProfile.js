@@ -111,7 +111,7 @@ const EmployerEditProfile = () => {
     if (resp.status == 200) {
       setLoading(false);
       const response = resp.data.data;
-      console.log(response, "::::");
+      // console.log(response, "::::");
       setEmployerData(response);
       setCompanyDetails(response?.comapanyDetail);
       if (
@@ -206,7 +206,7 @@ const EmployerEditProfile = () => {
                           </button>
                         </span>
                       </div>
-                      <h3>{authData?.comapanyDetail?.companyName}</h3>
+                      <h3>{authData?.fullName}</h3>
                       <div>
                         {authData?.comapanyDetail?.address}
                         {authData?.comapanyDetail?.cityName && ", "}
