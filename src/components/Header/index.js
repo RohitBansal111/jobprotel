@@ -200,10 +200,10 @@ const Header = () => {
     });
   };
 
-  const checkNotification =(notification, i) => {
+  const checkNotification =() => {
     // console.log(notification, i, "::::");
-    let id = notification?.id
-    navigate(`/notification/${id}`)
+   // let id = notification?.id
+    navigate(`/notifications`)
   }
 
   return (
@@ -331,7 +331,7 @@ const Header = () => {
                       <li key={i}>
                         <div className="notification-heading">
                           {notification.notificationType == 7 && (
-                            <p onClick={()=> checkNotification(notification?.notificationJobResponse, i)}>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
                                 {notification?.employerResponseDto?.lastName}
@@ -341,7 +341,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 3 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.studentResponseDto !== null
                                   ? notification?.studentResponseDto?.firstName
@@ -359,7 +359,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 4 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.studentResponseDto !== null
                                   ? notification?.studentResponseDto?.firstName
@@ -377,7 +377,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 1 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
@@ -387,7 +387,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 2 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {/* {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName} */}
@@ -397,7 +397,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 5 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
@@ -407,7 +407,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 9 && (
-                            <p>
+                            <p onClick={()=> checkNotification()}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
