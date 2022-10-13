@@ -23,9 +23,8 @@ import {
   update,
   remove,
 } from "@firebase/database";
-import { Navigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import ReactTimeAgo from "react-time-ago";
-import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const connection = new HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_IMAGE_API_URL}chatHub`)
@@ -36,7 +35,7 @@ const Header = () => {
   const db = getDatabase(app);
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
-
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [mobileMenu, setmobileMenu] = useState("");
   const [role, setRole] = useState("Employer");
@@ -98,7 +97,7 @@ const Header = () => {
   const getJobDetails = async () => {
     const resp = await jobServices.getJobByEmail(authData.email);
     if (resp.status == 200) {
-      console.log(resp.data.data, "jobdetails");
+      // console.log(resp.data.data, "::::");
     }
   };
 
@@ -200,6 +199,12 @@ const Header = () => {
       type: types.LOGOUT_USER,
     });
   };
+
+  const checkNotification =(notification, i) => {
+    // console.log(notification, i, "::::");
+    let id = notification?.id
+    navigate(`/notification/${id}`)
+  }
 
   return (
     <header id="header" className="header header-scrolled">
@@ -326,7 +331,7 @@ const Header = () => {
                       <li key={i}>
                         <div className="notification-heading">
                           {notification.notificationType == 7 && (
-                            <p>
+                            <p onClick={()=> checkNotification(notification?.notificationJobResponse, i)}>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
                                 {notification?.employerResponseDto?.lastName}

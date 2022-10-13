@@ -42,7 +42,7 @@ const InviteCard = ({
     <>
       {jobInvitations?.map((invites, i) => (
         <div className="feeds-search-coll" key={i}>
-          <div className="feeds-search-head">
+          <div className="feeds-search-head d-flex justify-content-between">
             <div className="feeds-head-left">
               <div className="feeds-s-logo">
                 <img
@@ -101,11 +101,10 @@ const InviteCard = ({
                 ) : null}
               </p>
               {invites?.jobInvitationStatus === 0 ? (
-                <>
+                <div className="d-flex">
                   <button
                     type="button"
-                    className="btn btn-primary"
-                    style={{ marginLeft: "900px" }}
+                    className="btn btn-primary me-2"
                     onClick={() => handleInvitation(1, invites.invitationId)}
                   >
                     Accept
@@ -117,15 +116,15 @@ const InviteCard = ({
                   >
                     Reject
                   </button>
-                </>
+                </div>
               ) : invites?.jobInvitationStatus === 1 ? (
                 <>
                   <button
                     type="button"
                     onClick={() => handleChatNow(invites.userId, invites.jobId)}
-                    className="btn btn-primary mr-2"
+                    className="btn btn-primary me-2"
                   >
-                    <i className="fa fa-comments mr-2"></i> Chat Now
+                    <i className="fa fa-comments me-2"></i> Chat Now
                   </button>
                 </>
               ) : (

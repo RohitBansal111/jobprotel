@@ -40,6 +40,7 @@ import Verify from "./email-verification/Verify";
 import * as studentServices from "./services/studentServices";
 import * as employerServices from "./services/employerServices";
 import { useDispatch } from "react-redux";
+import UserNotification from "./pages/notification/UserNotification";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -128,6 +129,7 @@ const App = () => {
         <Route path="/inbox/:userId/:jobId" element={<Inbox />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/notifications" element={<Notification />} />
+        <Route path="/notification/:id" element={<UserNotification />} />
 
         <Route
           path="/invites/:status/:jobId/:userId"
