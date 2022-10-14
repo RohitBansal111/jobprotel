@@ -155,7 +155,8 @@ const DetailsPage = () => {
                     {jobDetails?.category?.name}
                   </div>
                   <div className="job-description">
-                    <p>{jobDetails?.description}</p>
+                  <b>Job Description: </b>{" "}
+                    <span>{jobDetails?.description}</span>
                   </div>
                   <div className="education-info">
                     <p>

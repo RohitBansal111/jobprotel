@@ -412,6 +412,21 @@ const Profile = () => {
                                 </ul>
                               </span>
                             </li>
+                            <li>
+                              <span className="plabel">Cover Letter </span>
+                              <span className="result">
+                                <ul className="tags">
+                                  <li style={{ cursor: "pointer" }}>
+                                    <a
+                                      target="_blank"
+                                      href={`${process.env.REACT_APP_IMAGE_API_URL}${studentData?.studentDetails?.coverLetter}`}
+                                    >
+                                      {studentData?.studentDetails?.coverLetter}
+                                    </a>
+                                  </li>
+                                </ul>
+                              </span>
+                            </li>
                           </ul>
                         </div>
                       </div>
@@ -469,7 +484,14 @@ const Profile = () => {
                                         )}
                                       </span>
                                       <ul className="tech-links">
-                                        {project.roleResponsiblity}
+                                        <li>
+                                          {" "}
+                                          <span>
+                                          <b>Role/Responsiblity: </b>
+                                            {" "}
+                                            {project.roleResponsiblity}
+                                          </span>
+                                        </li>
                                       </ul>
                                     </div>
                                   </div>
@@ -492,9 +514,12 @@ const Profile = () => {
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}
                                   >
-                                    <p>{project.description}</p>
+
                                     <p>
-                                      <b>Link:</b>
+                                    <b>Description: </b>
+                                      {project.description}</p>
+                                    <p>
+                                      <b>Link: </b>
                                       {project.projectUrl}
                                     </p>
                                   </div>

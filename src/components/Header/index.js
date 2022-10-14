@@ -23,7 +23,7 @@ import {
   update,
   remove,
 } from "@firebase/database";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import ReactTimeAgo from "react-time-ago";
 
 const connection = new HubConnectionBuilder()
@@ -66,7 +66,7 @@ const Header = () => {
 
     const resp = await notificationServices.getNotifications(data);
     if (resp.status === 200) {
-      console.log(resp, "::::")
+      // console.log(resp, "::::");
       setTotalCount(resp.data.totalCount);
       let response = resp.data.data;
       setNotifications(response);
@@ -201,10 +201,28 @@ const Header = () => {
     });
   };
 
-  const checkNotification =() => {
-   // let id = notification?.id
-    navigate(`/notifications`)
-  }
+  const checkNotification = async (notification) => {
+    console.log(notification, "::::");
+    if(notification?.notificationType == 1){
+      navigate("/applications")
+    }else if(notification?.notificationType == 7){
+      navigate("/invites")
+    }else if(notification?.notificationType == 3 && notification.employerResponseDto !== null){
+      navigate("/jobs-applied")
+    }else if(notification?.notificationType == 4 && notification.employerResponseDto !== null){
+      navigate("/jobs-applied")
+    }
+
+    let notificationId = notification?.id
+    const resp = await notificationServices.viewNotification(notificationId);
+    if (resp.status == 200) {
+      dispatch({
+        type: types.LOGIN_USER_SUCCESS,
+        payload: resp.data.data,
+        token: localStorage.getItem("jobPortalUserToken"),
+      });
+    }
+  };
 
   return (
     <header id="header" className="header header-scrolled">
@@ -331,7 +349,7 @@ const Header = () => {
                       <li key={i}>
                         <div className="notification-heading">
                           {notification.notificationType == 7 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.employerResponseDto?.firstName}{" "}
                                 {notification?.employerResponseDto?.lastName}
@@ -341,7 +359,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 3 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.studentResponseDto !== null
                                   ? notification?.studentResponseDto?.firstName
@@ -359,7 +377,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 4 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.studentResponseDto !== null
                                   ? notification?.studentResponseDto?.firstName
@@ -377,7 +395,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 1 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
@@ -387,7 +405,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 2 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {/* {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName} */}
@@ -397,7 +415,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 5 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}
@@ -407,7 +425,7 @@ const Header = () => {
                             </p>
                           )}
                           {notification.notificationType == 9 && (
-                            <p onClick={()=> checkNotification()}>
+                            <p onClick={() => checkNotification(notification)}>
                               <b>
                                 {notification?.studentResponseDto?.firstName}{" "}
                                 {notification?.studentResponseDto?.lastName}

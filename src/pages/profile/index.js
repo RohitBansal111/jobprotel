@@ -298,6 +298,14 @@ const Profile = () => {
       if (resp.status == 200) {
         setCallCertificate(true);
         toast.success(resp.data.message && resp.data.message);
+        const resp2 = await studentServices.getStudentDetails(authData.id);
+        if (resp2.status == 200) {
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+        }
       }
     }
     // }
@@ -371,6 +379,7 @@ const Profile = () => {
     };
     const resp = await uploadPicture(imageData);
     if (resp.status == 200) {
+      toast.success(resp?.data?.message);
       const resp2 = await studentServices.getStudentDetails(id);
       localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
       if (resp2.status == 200) {
@@ -1001,16 +1010,36 @@ const Profile = () => {
                                   >
                                     <p>
                                       <b className="d-block mt-1">
-                                        Description: &nbsp;
+                                        Description:
                                       </b>
-                                      {project.description}
+                                      <span>{project.description}</span>
                                     </p>
                                     <p>
                                       <b className="d-block mt-2">
-                                        Roles & Responsibility: &nbsp;
+                                        Roles &nbsp Responsibility: &nbsp;
                                       </b>
                                       {project.roleResponsiblity}
                                     </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    href={`#collapseExample${index}`}
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    className="btn btn-view-more"
+                                    id={`#collapseEx${index}`}
+                                    onClick={() =>
+                                      viewTextChange(`#collapseEx${index}`)
+                                    }
+                                  >
+                                    View More
+                                  </button>
+                                  <div
+                                    className="full-project-details collapse"
+                                    id={`collapseExample${index}`}
+                                  >
                                     <p>
                                       <b>Team Size: &nbsp;</b>
                                       {project.totalTeamSize}
@@ -1176,7 +1205,7 @@ const Profile = () => {
                                         </div>
                                       </>
                                     ))
-                                  : "N / A"}
+                                  : null}
                               </div>
                             </li>
                           </ul>

@@ -25,7 +25,7 @@ const UserNotification = () => {
     const resp = await notificationServices.getNotifications(data);
     if (resp.status === 200) {
       let response = resp.data.data;
-      console.log(response, ":::::");
+      // console.log(response, ":::::");
       const res = response?.filter(
         (d) => d.notificationJobResponse.id == params.id
       );

@@ -34,7 +34,6 @@ const ApplicationCards = ({
                 <h2>
                   <Link to="#">{applied?.title} </Link>
                 </h2>
-                {console.log(applied, "::::")}
                 {applied?.location !== "false" && <ul className="feeds-s-ul">
                   <li>
                     <img src={LocationIcon} alt="Location" />

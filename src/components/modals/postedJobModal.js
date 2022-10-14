@@ -116,8 +116,8 @@ const PostedJobModal = ({ id }) => {
   };
 
   const postJob = async (data) => {
-    const resp = await jobServies.jobPost(data);
     setLoading(true);
+    const resp = await jobServies.jobPost(data);
     if (resp.status == 200) {
       setLoading(false);
       toast.success(resp.data.message);

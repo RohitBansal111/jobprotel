@@ -101,7 +101,8 @@ const EmployerJobDetailsPage = () => {
                       <p>{jobDetails?.category?.name}</p>
                     </div>
                     <div className="job-description">
-                      <p>{jobDetails?.description}</p>
+                    <b>Job Description: </b>
+                      <span>{jobDetails?.description}</span>
                     </div>
                     <div className="education-info">
                       {exp && exp[0] == "0 year" && exp && exp[1] == "0 month" ? (
