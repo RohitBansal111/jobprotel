@@ -31,7 +31,7 @@ const ClientChatBoxSingle = ({ message, setMessage, messages, handleSubmit, erro
             onChange={(e) => setMessage(e.target.value)}
             disabled={chatDisabled}
           ></textarea>
-          <span>{errors && errors.message && errors.message}</span>
+          <span className="frm-error2">{errors && errors.message && errors.message}</span>
           <button type="button" onClick={handleEmoji} className="emoji-button"  disabled={chatDisabled}>😄</button>
           {
             showEmoji &&
