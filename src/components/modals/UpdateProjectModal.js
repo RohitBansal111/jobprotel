@@ -109,7 +109,7 @@ const UpdateProjectModal = ({
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
-                      <div className="form-field flex100">
+                      <div className="form-field flex50">
                         <Field
                           name="title"
                           label="Title"
@@ -117,16 +117,7 @@ const UpdateProjectModal = ({
                           component={renderField}
                         />
                       </div>
-
-                      <div className="form-field flex100">
-                        <Field
-                          name="description"
-                          label="Description"
-                          placeholder="Enter description"
-                          component={renderTextareaField}
-                        />
-                      </div>
-                      <div className="form-field flex100">
+                      <div className="form-field flex50">
                         <Field
                           name="roleResponsiblity"
                           label="Role/Responsiblity"
@@ -136,10 +127,27 @@ const UpdateProjectModal = ({
                       </div>
                       <div className="form-field flex100">
                         <Field
+                          name="description"
+                          label="Description"
+                          placeholder="Enter description"
+                          component={renderTextareaField}
+                        />
+                      </div>
+                      <div className="form-field flex50">
+                        <Field
                           name="projectUrl"
                           label="Project-URL"
                           placeholder="Enter Project-URL"
                           component={renderField}
+                        />
+                      </div>
+                      <div className="form-field flex50">
+                        <Field
+                          label="Team Size"
+                          name="totalTeamSize"
+                          component={renderNumberField}
+                          placeholder="Enter total team size"
+                          pattern="[0-9]*"
                         />
                       </div>
                       <div className="form-field flex50">
@@ -161,15 +169,6 @@ const UpdateProjectModal = ({
                           min={data?.startDate}
                         />
                         <p style={{ color: "red" }}>{errors?.endDate}</p>
-                      </div>
-                      <div className="form-field flex100">
-                        <Field
-                          label="Team Size"
-                          name="totalTeamSize"
-                          component={renderNumberField}
-                          placeholder="Enter total team size"
-                          pattern="[0-9]*"
-                        />
                       </div>
                       <div className="form-field flex100 d-flex justify-content-end">
                         <button

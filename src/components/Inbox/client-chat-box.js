@@ -60,6 +60,7 @@ const ClientChatBoxSingle = ({
             onChange={(e) => setMessage(e.target.value)}
             disabled={chatDisabled}
           ></textarea>
+<<<<<<< HEAD
           <span>{errors && errors.message && errors.message}</span>
           <button
             type="button"
@@ -70,6 +71,12 @@ const ClientChatBoxSingle = ({
             😄
           </button>
           {showEmoji && (
+=======
+          <span className="frm-error2">{errors && errors.message && errors.message}</span>
+          <button type="button" onClick={handleEmoji} className="emoji-button"  disabled={chatDisabled}>😄</button>
+          {
+            showEmoji &&
+>>>>>>> 7b8e91754ad33a32eff5bedcf833ed0d0b5b532b
             <div className="emoji-action">
               <div className="message-launch">
                 <button
