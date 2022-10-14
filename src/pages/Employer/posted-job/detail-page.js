@@ -24,7 +24,7 @@ const EmployerJobDetailsPage = () => {
 
   const [jobDetails, setJobDetails] = useState([]);
   const [qualifications, setQualifications] = useState([]);
-  const [exp, setExp] = useState([]);
+  const [exp, setExp] = useState();
   const [skills, setSkills] = useState([]);
   const [connects, setConnects] = useState("");
   // const handleApplicationReceived = () => {
@@ -50,8 +50,10 @@ const EmployerJobDetailsPage = () => {
       setQualifications(response.qualifications);
 
       let exp = response.experience.split(".");
-      exp[0] = `${exp[0]} years`;
+      exp[0] = `${exp[0]} year`;
       exp[1] = `${exp[1]} month`;
+      console.log(exp, "::::");
+
       setExp(exp);
 
       let skills = response.skills;
@@ -102,13 +104,20 @@ const EmployerJobDetailsPage = () => {
                       <p>{jobDetails?.description}</p>
                     </div>
                     <div className="education-info">
-                      <p>
-                        <b>Experience: </b>{" "}
-                        {exp?.length > 0 &&
-                          exp.map((exp, index) => (
-                            <span key={index}>{exp} </span>
-                          ))}
-                      </p>
+                      {exp && exp[0] == "0 year" && exp && exp[1] == "0 month" ? (
+                        <p>
+                          <b>Experience: </b>
+                          <span>Fresher</span>
+                        </p>
+                      ) : (
+                        <p>
+                          <b>Experience: </b>{" "}
+                          {exp?.length > 0 &&
+                            exp?.map((exp, index) => (
+                              <span key={index}>{exp} </span>
+                            ))}
+                        </p>
+                      )}
                       <p>
                         <b>Education:</b>{" "}
                         {qualifications?.map((qual) => qual.name)}

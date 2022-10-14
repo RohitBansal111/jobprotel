@@ -167,7 +167,7 @@ const EmployerProfile = () => {
                           src={companyLogo ? companyLogo : DefaultProfile}
                           alt="Company profile"
                         />
-                        <button type="button" className="update-profile">
+                        {/* <button type="button" className="update-profile">
                           <i className="fa fa-edit"></i>
                           <input
                             name="profileImage"
@@ -175,7 +175,7 @@ const EmployerProfile = () => {
                             accept=".jpg, .jpeg, .png"
                             type="file"
                           />
-                        </button>
+                        </button> */}
                       </span>
                     </div>
                     <h3>{authData?.fullName}</h3>

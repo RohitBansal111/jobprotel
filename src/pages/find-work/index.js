@@ -198,19 +198,26 @@ const FindWork = () => {
                           {studentData?.studentDetails?.skills}
                         </span>
                       </li>
-                      <li>
-                        Experience{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears &&
-                            " Year"}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            ", "}
-                          {studentData?.studentDetails?.experienceInMonths}
-                          {studentData?.studentDetails?.experienceInMonths &&
-                            " Month"}
-                        </span>
-                      </li>
+                      {studentData?.studentDetails?.experienceInYears == 0 &&
+                      studentData?.studentDetails?.experienceInMonths == 0 ? (
+                        <li>
+                          <span>Fresher</span>
+                        </li>
+                      ) : (
+                        <li>
+                          Experience{" "}
+                          <span className="result">
+                            {studentData?.studentDetails?.experienceInYears}
+                            {studentData?.studentDetails?.experienceInYears &&
+                              " Year"}
+                            {studentData?.studentDetails?.experienceInMonths &&
+                              ", "}
+                            {studentData?.studentDetails?.experienceInMonths}
+                            {studentData?.studentDetails?.experienceInMonths &&
+                              " Month"}
+                          </span>
+                        </li>
+                      )}
                       <li>
                         College / University{" "}
                         <span className="result">

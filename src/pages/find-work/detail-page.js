@@ -113,13 +113,18 @@ const DetailsPage = () => {
     if (timezone && timezone == "Doesn't Matter") {
       return timezone;
     } else if (timezone) {
-      // const zone = JSON.parse(timezone);
-      // return zone.value;
-      return timezone;
+      const zone = JSON.parse(timezone);
+      if (zone?.value == undefined) {
+        return zone.altName || timezone;
+      } else {
+        return zone.value;
+      }
     } else {
       return "N/A";
     }
   };
+
+
   return (
     <Layout>
       {loading ? (

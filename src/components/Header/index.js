@@ -66,6 +66,7 @@ const Header = () => {
 
     const resp = await notificationServices.getNotifications(data);
     if (resp.status === 200) {
+      console.log(resp, "::::")
       setTotalCount(resp.data.totalCount);
       let response = resp.data.data;
       setNotifications(response);

@@ -34,12 +34,13 @@ const ApplicationCards = ({
                 <h2>
                   <Link to="#">{applied?.title} </Link>
                 </h2>
-                <ul className="feeds-s-ul">
+                {console.log(applied, "::::")}
+                {applied?.location !== "false" && <ul className="feeds-s-ul">
                   <li>
                     <img src={LocationIcon} alt="Location" />
                     {applied?.location}
                   </li>
-                </ul>
+                </ul>}
               </div>
             </div>
             <div className="feeds-budget">

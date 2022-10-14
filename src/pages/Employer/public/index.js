@@ -177,20 +177,32 @@ const Profile = () => {
                         </p>
                         <p>{studentData?.studentDetails?.cityName}</p>
                       </div>
-
+                      {console.log(
+                        studentData?.studentDetails?.experienceInYears
+                      )}
                       <div className="user-prof-info">
                         <ul className="prof-info-ul">
-                          <li>
-                            Experience{" "}
-                            <span className="result">
-                              {studentData?.studentDetails?.experienceInYears}
-                              Year{", "}
-                              {
-                                studentData?.studentDetails?.experienceInMonths
-                              }{" "}
-                              Month
-                            </span>
-                          </li>
+                          {studentData?.studentDetails?.experienceInYears ==
+                            0 &&
+                          studentData?.studentDetails?.experienceInMonths ==
+                            0 ? (
+                            <li>
+                              Experience <span>Fresher</span>
+                            </li>
+                          ) : (
+                            <li>
+                              Experience{" "}
+                              <span className="result">
+                                {studentData?.studentDetails?.experienceInYears}
+                                Year{", "}
+                                {
+                                  studentData?.studentDetails
+                                    ?.experienceInMonths
+                                }{" "}
+                                Month
+                              </span>
+                            </li>
+                          )}
                           <li>
                             College / University{" "}
                             <span className="result">
