@@ -8,7 +8,7 @@ import UpdateProjectModal from "../../components/modals/UpdateProjectModal";
 import ModifyEmploymentModal from "../../components/modals/modifyEmploymentModal";
 import * as studentServices from "../../services/studentServices";
 import * as studentExtraCertificate from "../../services/studentExtraCertificates";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CompleteKycModal from "../../components/Common/CompleteKycModal";
 import * as projectServices from "../../services/projectHistorySevices";
@@ -25,6 +25,7 @@ import { uploadPicture } from "../../services/uploadProfilePicService";
 import * as types from "../../types/auth";
 
 const Profile = () => {
+  const handleRef = useRef();
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.user);
   const [studentData, setStudentData] = useState([]);
@@ -54,6 +55,7 @@ const Profile = () => {
     personalInfoImg: "",
   });
   const [modal, setModal] = useState(false);
+  const [editCertificateTitle, setEditCertificateTitle] = useState(false);
 
   const handleBuyConnect = () => {
     if (authData?.studentDetails !== null) {
@@ -262,6 +264,9 @@ const Profile = () => {
         arr.splice(i, 1);
         setEditCertificate(arr);
       }
+    } else if (!title) {
+      handleRef.current.focus();
+      handleRef.current.style.borderColor = "red";
     }
   };
 
@@ -293,6 +298,14 @@ const Profile = () => {
       if (resp.status == 200) {
         setCallCertificate(true);
         toast.success(resp.data.message && resp.data.message);
+        const resp2 = await studentServices.getStudentDetails(authData.id);
+        if (resp2.status == 200) {
+          dispatch({
+            type: types.LOGIN_USER_SUCCESS,
+            payload: resp2.data.data,
+            token: localStorage.getItem("jobPortalUserToken"),
+          });
+        }
       }
     }
     // }
@@ -366,6 +379,7 @@ const Profile = () => {
     };
     const resp = await uploadPicture(imageData);
     if (resp.status == 200) {
+      toast.success(resp?.data?.message);
       const resp2 = await studentServices.getStudentDetails(id);
       localStorage.setItem("jobPortalUser", JSON.stringify(resp2.data.data));
       if (resp2.status == 200) {
@@ -505,19 +519,26 @@ const Profile = () => {
                   </div>
                   <div className="user-prof-info">
                     <ul className="prof-info-ul">
-                      <li>
-                        Experience{" "}
-                        <span className="result">
-                          {studentData?.studentDetails?.experienceInYears}
-                          {studentData?.studentDetails?.experienceInYears >=
-                            0 && " Year"}
-                          {studentData?.studentDetails?.experienceInMonths >=
-                            0 && ", "}
-                          {studentData?.studentDetails?.experienceInMonths}
-                          {studentData?.studentDetails?.experienceInMonths >=
-                            0 && " Month"}
-                        </span>
-                      </li>
+                      {studentData?.studentDetails?.experienceInYears == 0 &&
+                      studentData?.studentDetails?.experienceInMonths == 0 ? (
+                        <li>
+                          <span>Fresher</span>
+                        </li>
+                      ) : (
+                        <li>
+                          Experience{" "}
+                          <span className="result">
+                            {studentData?.studentDetails?.experienceInYears}
+                            {studentData?.studentDetails?.experienceInYears >=
+                              0 && " Year"}
+                            {studentData?.studentDetails?.experienceInMonths >=
+                              0 && ", "}
+                            {studentData?.studentDetails?.experienceInMonths}
+                            {studentData?.studentDetails?.experienceInMonths >=
+                              0 && " Month"}
+                          </span>
+                        </li>
+                      )}
                       <li>
                         College / University{" "}
                         <span className="result">
@@ -932,7 +953,10 @@ const Profile = () => {
                           <div className="project-detail-list">
                             {projectHistory?.length > 0 &&
                               projectHistory.map((project, index) => (
-                                <div className="project-dbox pb-0 pt-0" key={index}>
+                                <div
+                                  className="project-dbox pb-0 pt-0"
+                                  key={index}
+                                >
                                   <div className="project-history-title-action">
                                     <h2 className="prname mb-0">
                                       {project.title}
@@ -986,16 +1010,36 @@ const Profile = () => {
                                   >
                                     <p>
                                       <b className="d-block mt-1">
-                                        Description: &nbsp;
+                                        Description:
                                       </b>
-                                      {project.description}
+                                      <span>{project.description}</span>
                                     </p>
                                     <p>
                                       <b className="d-block mt-2">
-                                        Roles & Responsibility: &nbsp;
+                                        Roles &nbsp Responsibility: &nbsp;
                                       </b>
                                       {project.roleResponsiblity}
                                     </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    href={`#collapseExample${index}`}
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    className="btn btn-view-more"
+                                    id={`#collapseEx${index}`}
+                                    onClick={() =>
+                                      viewTextChange(`#collapseEx${index}`)
+                                    }
+                                  >
+                                    View More
+                                  </button>
+                                  <div
+                                    className="full-project-details collapse"
+                                    id={`collapseExample${index}`}
+                                  >
                                     <p>
                                       <b>Team Size: &nbsp;</b>
                                       {project.totalTeamSize}
@@ -1043,10 +1087,7 @@ const Profile = () => {
                           <h3>Extra Certificates</h3>
                           <div className="pr-edit-icon">
                             <div className="file-upload-placehlder edit-studentP">
-                              <button
-                                type="button"
-                                className="icon_button"
-                              >
+                              <button type="button" className="icon_button">
                                 <input
                                   name="documents"
                                   uploadlabel="Browse documents"
@@ -1076,6 +1117,7 @@ const Profile = () => {
                                                 handleFormTitleChange(i, e)
                                               }
                                               value={certificate.title}
+                                              ref={handleRef}
                                             />
                                           ) : (
                                             <a
@@ -1088,81 +1130,82 @@ const Profile = () => {
                                             </a>
                                           )}
                                           <div className="d-flex">
-                                          {editCertificate[i] ? (
-                                            <>
-                                            <button 
-                                                className="btn btn-info h-auto px-2 py-0 ms-3 text-white"
-                                                onClick={() => {
-                                                  let arr = [
-                                                    ...editCertificate,
-                                                  ];
-                                                  arr[i] = false;
-                                                  setEditCertificate(arr);
-                                                }}
+                                            {editCertificate[i] ? (
+                                              <>
+                                                <button
+                                                  className="btn btn-info h-auto px-2 py-0 ms-3 text-white"
+                                                  onClick={() => {
+                                                    let arr = [
+                                                      ...editCertificate,
+                                                    ];
+                                                    arr[i] = false;
+                                                    setEditCertificate(arr[i]);
+                                                    window.location.reload();
+                                                  }}
                                                 >
-                                                Cancel
-                                              </button>
-                                              <button 
-                                                className="btn btn-primary h-auto px-2 py-0 ms-3"
-                                                onClick={() => {
-                                                  editCertificates(
-                                                    certificate.certId,
-                                                    certificate.title,
-                                                    i
-                                                  );
-                                                }}
+                                                  Cancel
+                                                </button>
+                                                <button
+                                                  className="btn btn-primary h-auto px-2 py-0 ms-3"
+                                                  onClick={() => {
+                                                    editCertificates(
+                                                      certificate.certId,
+                                                      certificate.title,
+                                                      i
+                                                    );
+                                                  }}
                                                 >
-                                                Update
-                                              </button>
-                                            </>
-                                          ) : (
-                                            <>
-                                              {" "}
-                                              <button
-                                                type="button"
-                                                className="icon_button_text"
-                                                onClick={() => {
-                                                  let arr = [
-                                                    ...editCertificate,
-                                                  ];
-                                                  arr[i] = true;
-                                                  setEditCertificate(arr);
-                                                }}
-                                              >
-                                                <i className="fas fa-pen"></i>
-                                              </button>
-                                              <button
-                                                type="button"
-                                                className="icon_button_text"
-                                                onClick={() => {
-                                                  Swal.fire({
-                                                    title: "Are you sure?",
-                                                    text: "You won't be able to revert this!",
-                                                    icon: "warning",
-                                                    showCancelButton: true,
-                                                    confirmButtonColor:
-                                                      "#3085d6",
-                                                    cancelButtonColor: "#d33",
-                                                    confirmButtonText:
-                                                      "Yes, delete it!",
-                                                  }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                      handleExtraCertificateDelete(
-                                                        certificate.certId
-                                                      );
-                                                    }
-                                                  });
-                                                }}
-                                              >
-                                                <i className="fas fa-trash"></i>
-                                              </button>
-                                            </>
-                                          )}
+                                                  Update
+                                                </button>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {" "}
+                                                <button
+                                                  type="button"
+                                                  className="icon_button_text"
+                                                  onClick={() => {
+                                                    let arr = [
+                                                      ...editCertificate,
+                                                    ];
+                                                    arr[i] = true;
+                                                    setEditCertificate(arr);
+                                                  }}
+                                                >
+                                                  <i className="fas fa-pen"></i>
+                                                </button>
+                                                <button
+                                                  type="button"
+                                                  className="icon_button_text"
+                                                  onClick={() => {
+                                                    Swal.fire({
+                                                      title: "Are you sure?",
+                                                      text: "You won't be able to revert this!",
+                                                      icon: "warning",
+                                                      showCancelButton: true,
+                                                      confirmButtonColor:
+                                                        "#3085d6",
+                                                      cancelButtonColor: "#d33",
+                                                      confirmButtonText:
+                                                        "Yes, delete it!",
+                                                    }).then((result) => {
+                                                      if (result.isConfirmed) {
+                                                        handleExtraCertificateDelete(
+                                                          certificate.certId
+                                                        );
+                                                      }
+                                                    });
+                                                  }}
+                                                >
+                                                  <i className="fas fa-trash"></i>
+                                                </button>
+                                              </>
+                                            )}
                                           </div>
                                         </div>
                                       </>
                                     ))
-                                  : "N / A"}
+                                  : null}
                               </div>
                             </li>
                           </ul>

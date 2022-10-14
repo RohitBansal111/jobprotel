@@ -116,8 +116,8 @@ const PostedJobModal = ({ id }) => {
   };
 
   const postJob = async (data) => {
-    const resp = await jobServies.jobPost(data);
     setLoading(true);
+    const resp = await jobServies.jobPost(data);
     if (resp.status == 200) {
       setLoading(false);
       toast.success(resp.data.message);
@@ -231,7 +231,7 @@ const PostedJobModal = ({ id }) => {
                               name="experienceInYears"
                               label="Experience"
                               component={renderSelect}
-                              placeholder="Year's"
+                              placeholder="Year"
                               type="text"
                             >
                               <option value="0">0 year</option>
@@ -239,7 +239,7 @@ const PostedJobModal = ({ id }) => {
                                 .slice(1)
                                 .map((num, i) => (
                                   <option key={i} value={num}>
-                                    {num ? num + " year's" : ""}
+                                    {num ? num + " year" : ""}
                                   </option>
                                 ))}
                             </Field>
@@ -249,7 +249,7 @@ const PostedJobModal = ({ id }) => {
                               name="experienceInMonth"
                               label="Experience"
                               component={renderSelect}
-                              placeholder="Month's"
+                              placeholder="Month"
                               type="text"
                             >
                               <option value="0">0 month</option>
@@ -257,7 +257,7 @@ const PostedJobModal = ({ id }) => {
                                 .slice(1)
                                 .map((num, i) => (
                                   <option key={i} value={num}>
-                                    {num ? num + " month's" : ""}
+                                    {num ? num + " month" : ""}
                                   </option>
                                 ))}
                             </Field>

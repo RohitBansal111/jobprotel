@@ -113,13 +113,18 @@ const DetailsPage = () => {
     if (timezone && timezone == "Doesn't Matter") {
       return timezone;
     } else if (timezone) {
-      // const zone = JSON.parse(timezone);
-      // return zone.value;
-      return timezone;
+      const zone = JSON.parse(timezone);
+      if (zone?.value == undefined) {
+        return zone.altName || timezone;
+      } else {
+        return zone.value;
+      }
     } else {
       return "N/A";
     }
   };
+
+
   return (
     <Layout>
       {loading ? (
@@ -150,7 +155,8 @@ const DetailsPage = () => {
                     {jobDetails?.category?.name}
                   </div>
                   <div className="job-description">
-                    <p>{jobDetails?.description}</p>
+                  <b>Job Description: </b>{" "}
+                    <span>{jobDetails?.description}</span>
                   </div>
                   <div className="education-info">
                     <p>
