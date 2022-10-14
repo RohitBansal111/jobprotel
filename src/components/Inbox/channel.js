@@ -82,7 +82,7 @@ const ClientChannel = ({
                 className={roomId == item.chatRoomID ? "activeChat" : null}
               >
                 <div
-                  className="d-flex justify-content-between"
+                  className="chatLi-bar d-flex justify-content-start"
                   onClick={() => handleUser(item)}
                 >
                   <div className="client-avtar">
