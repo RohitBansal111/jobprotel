@@ -27,7 +27,7 @@ const ClientChatBoxSingle = ({
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
         <h5>
-          {user.userRoles[0] === "Student" ? (
+          {user?.userRoles[0] === "Student" ? (
             <>
               {" "}
               {studentDisplayName && studentDisplayName},

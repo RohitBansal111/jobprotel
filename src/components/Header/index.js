@@ -118,9 +118,7 @@ const Header = () => {
           return data[d];
         });
         if (
-          authData &&
-          authData.userRoles[0] &&
-          authData.userRoles[0] == "Student"
+          authData?.userRoles[0] == "Student"
         ) {
           let finalData = convertedData.filter(
             (data) => data.studentId == userId

@@ -112,7 +112,7 @@ const Inbox = () => {
     //update last message
     if (roomId && !senderLiveStatus && user  && liveRefresh) {
       const updates = {};
-      if (user && user.userRoles[0] && user.userRoles[0] == "Student") {
+      if (user?.userRoles[0] == "Student") {
         updates["/studentLive/"] = true;
       } else {
         updates["/employerLive/"] = true;
@@ -183,7 +183,7 @@ const Inbox = () => {
       sender: user.id,
       userid: user.id,
       userImage:
-        user && user.userRoles[0] && user.userRoles[0] == "Student"
+        user?.userRoles[0] == "Student"
           ? user.studentDetails?.pictureUrl
           : user?.comapanyDetail?.logoPath,
       jobId: jobId ? jobId : jobIdd ? jobIdd : undefined,
@@ -279,7 +279,7 @@ const Inbox = () => {
   };
 
   const updateUsers = (data, roomId) => {
-    if (user.userRoles[0] == "Student") {
+    if (user?.userRoles[0] == "Student") {
       const convertedData = Object.keys(data).map((d) => {
         return data[d];
       });
@@ -357,7 +357,7 @@ const Inbox = () => {
     if (val.chatRoomID) {
       setRoomId(val.chatRoomID);
       setReceiverLiveStatus(val.live && val.live);
-      if (user.userRoles[0] && user.userRoles[0] == "Student") {
+      if (user?.userRoles[0] == "Student") {
         setReceiverId(val.employerId);
         setReceiverDisplayName(val.employerDisplayName);
       } else {
@@ -376,10 +376,10 @@ const Inbox = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (search != "" && search.length > 0) {
-      if (user && user.userRoles[0] && user.userRoles[0] == "Student") {
+      if (user?.userRoles[0] == "Student") {
         const newUsers = users.filter((data) => {
           if (
-            data.employerDisplayName
+            data?.employerDisplayName
               .toLowerCase()
               .includes(search.toLowerCase())
           ) {
