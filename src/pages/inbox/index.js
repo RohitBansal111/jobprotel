@@ -60,7 +60,6 @@ const Inbox = () => {
       if (user.userRoles[0] === "Student") {
         const rid = user.id + "_" + userId + "_" + jobId;
         setRoomId(rid);
-        // console.log("aman12");
         const resp = await getEmployerDetails(userId);
         if (resp.status == 200) {
           setStudentDisplayName(user?.fullName);

@@ -14,10 +14,14 @@ const ImageCropperModal = ({
   const [crop, setCrop] = useState({ x: 0, y: 0, width: 100, height: 100 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState({ x: 0, y: 0, width: 100, height: 100 });
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState({
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+  });
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels)=> {
-    console.log(":::", croppedArea);
+  const onCropComplete = useCallback((croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -28,8 +32,6 @@ const ImageCropperModal = ({
         croppedAreaPixels,
         rotation
       );
-      console.log(crop, ":::");
-      console.log(croppedImage, ":::");
       setImg({ personalInfoImg: croppedImage });
       closeModal();
     } catch (err) {
@@ -50,7 +52,7 @@ const ImageCropperModal = ({
         </div>
         <div className="modal-body">
           <div className="image-cropper-wrapper">
-             <Cropper
+            <Cropper
               image={imageSrc}
               crop={crop}
               rotation={rotation}
@@ -60,7 +62,7 @@ const ImageCropperModal = ({
               onRotationChange={setRotation}
               onCropComplete={onCropComplete}
               onZoomChange={setZoom}
-            /> 
+            />
           </div>
           <div className="image-cropper-actions">
             <div className="action-sliders">
