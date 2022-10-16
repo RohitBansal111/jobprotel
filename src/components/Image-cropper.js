@@ -11,17 +11,12 @@ const ImageCropperModal = ({
   imageSrc,
   setImg,
 }) => {
-  const [crop, setCrop] = useState({ x: 0, y: 0, width: 100, height: 100 });
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState({
-    x: 0,
-    y: 0,
-    width: 100,
-    height: 100,
-  });
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-  const onCropComplete = useCallback((croppedAreaPixels) => {
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -34,10 +29,10 @@ const ImageCropperModal = ({
       );
       setImg({ personalInfoImg: croppedImage });
       closeModal();
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.error(e);
     }
-  }, [imageSrc, croppedAreaPixels, rotation, setImg]);
+  }, [imageSrc, croppedAreaPixels, rotation, closeModal, setImg]);
 
   return (
     <Modal
