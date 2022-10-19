@@ -25,6 +25,7 @@ import UserAvtar from "../../assets/images/demo.png";
 
 const Inbox = () => {
   const db = getDatabase(app);
+  const user = useSelector((state) => state.auth.user);
   const [chatRoomState, setChatRoomState] = useState([]);
   const [receiverState, setReceiverState] = useState([]);
   const [roomId, setRoomId] = useState("");
@@ -36,7 +37,6 @@ const Inbox = () => {
   const [employerUserImage, setEmployerUserImage] = useState("");
   const [studentDisplayName, setStudentDisplayName] = useState("");
   const [studentUserImage, setStudentUserImage] = useState("");
-  const user = useSelector((state) => state.auth.user);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [errors, setErrors] = useState({});
@@ -137,6 +137,7 @@ const Inbox = () => {
     const resp = await employerServices.getEmployerDetails(id);
     return resp;
   };
+  
   const addUser = (
     roomId,
     studentDisplayName,
@@ -255,7 +256,6 @@ const Inbox = () => {
   };
 
   const readUsers = async (roomId) => {
-    console.warn('jdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffs')
     //get user roomes
     // const starUserRef = query( ref(db, "User/" + rid ),orderByValue("dateTime"),equalTo(user.id));
     const starUserRef = query(ref(db, "User"), orderByChild("dateTime"));
