@@ -201,7 +201,7 @@ const FindWork = () => {
                       {studentData?.studentDetails?.experienceInYears == 0 &&
                       studentData?.studentDetails?.experienceInMonths == 0 ? (
                         <li>
-                          <span>Fresher</span>
+                          Experience <span className="result">Frasher</span>
                         </li>
                       ) : (
                         <li>

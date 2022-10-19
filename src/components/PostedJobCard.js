@@ -134,9 +134,9 @@ const PostedJobCard = ({ jobs, type, activePage, getJobList, userdata }) => {
           </div>
         </div>
         <div className="feeds-search-detail">
-        <b>Job Description:</b>
+        <b>Job Description:   </b>
           <span className="mb-2 text-grey">
-            {jobs && jobs.description && jobs.description}
+            {"  " + jobs && jobs.description && jobs.description}
             {/* <Link to="#">See more </Link> */}
           </span>
           <div className="d-flex justify-content-between align-items-start">

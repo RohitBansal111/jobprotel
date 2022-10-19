@@ -65,6 +65,7 @@ const PostedJobModal = ({ id }) => {
   };
 
   const handleJobPost = (values) => {
+    setLoading(true);
     let tagsArr = [];
     values?.tags?.length > 0 &&
       values.tags.map((tag) => tagsArr.push(tag.text));

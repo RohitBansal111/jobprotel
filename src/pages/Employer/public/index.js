@@ -487,8 +487,7 @@ const Profile = () => {
                                         <li>
                                           {" "}
                                           <span>
-                                          <b>Role/Responsiblity: </b>
-                                            {" "}
+                                            <b>Roles/Responsiblity: </b>{" "}
                                             {project.roleResponsiblity}
                                           </span>
                                         </li>
@@ -514,10 +513,14 @@ const Profile = () => {
                                     className="full-project-details collapse"
                                     id={`collapseExample${index}`}
                                   >
-
                                     <p>
-                                    <b>Description: </b>
-                                      {project.description}</p>
+                                      <b>Description: </b>
+                                      {project.description}
+                                    </p>
+                                    <p>
+                                      <b>Team Size: &nbsp;</b>
+                                      {project.totalTeamSize}
+                                    </p>
                                     <p>
                                       <b>Link: </b>
                                       {project.projectUrl}

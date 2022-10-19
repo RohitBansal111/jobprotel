@@ -26,6 +26,7 @@ const DetailsPage = () => {
   const [qualifications, setQualifications] = useState([]);
   const [experience, setExperience] = useState("");
   const [exp, setExp] = useState([]);
+  const [checkfrasher, setCheckfrasher] = useState(false);
   const [skills, setSkills] = useState([]);
   const handleApplicationReceived = () => {
     navigate("/review-applications");
@@ -48,6 +49,10 @@ const DetailsPage = () => {
       exp[0] = `${exp[0]} years`;
       exp[1] = `${exp[1]} month`;
       setExp(exp);
+
+      if (exp[0] == 0 && exp[1] == 0) {
+        setCheckfrasher(true);
+      }
 
       let skills = response.skills;
       skills = response && response.skills && response.skills.split(",");
@@ -124,7 +129,6 @@ const DetailsPage = () => {
     }
   };
 
-
   return (
     <Layout>
       {loading ? (
@@ -155,17 +159,23 @@ const DetailsPage = () => {
                     {jobDetails?.category?.name}
                   </div>
                   <div className="job-description">
-                  <b>Job Description: </b>{" "}
+                    <b>Job Description: </b>{" "}
                     <span>{jobDetails?.description}</span>
                   </div>
                   <div className="education-info">
                     <p>
                       <b>Experience: </b>{" "}
-                      {exp &&
-                        exp.length > 0 &&
-                        exp.map((exp, index) => (
-                          <span key={index}>{exp} </span>
-                        ))}
+                      {checkfrasher ? (
+                        <span>frasher </span>
+                      ) : (
+                        <>
+                          {exp &&
+                            exp.length > 0 &&
+                            exp.map((exp, index) => (
+                              <span key={index}>{exp} </span>
+                            ))}
+                        </>
+                      )}
                     </p>
                     <p>
                       <b>Education:</b>{" "}
@@ -175,22 +185,28 @@ const DetailsPage = () => {
                     <p>
                       <b>SKills: </b> {jobDetails?.skills}
                     </p>
-                    {jobDetails?.location !== "false" && <p>
-                      <b>Job Location: </b> {jobDetails?.location}
-                    </p>}
+                    {jobDetails?.location !== "false" && (
+                      <p>
+                        <b>Job Location: </b> {jobDetails?.location}
+                      </p>
+                    )}
                     <p>
                       <b>Hour/day: </b> {jobDetails?.hoursPerDay}
                     </p>
                     <p>
                       <b>Days / Week: </b> {jobDetails?.daysPerWeek}
                     </p>
-                   {jobDetails?.timing !== null && <p>
-                      <b>Job Timings/days: </b>
-                      {jobDetails?.timing}
-                    </p>}
-                    {jobDetails?.timeZone !== "false" && <p>
-                      <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
-                    </p>}
+                    {jobDetails?.timing !== null && (
+                      <p>
+                        <b>Job Timings/days: </b>
+                        {jobDetails?.timing}
+                      </p>
+                    )}
+                    {jobDetails?.timeZone !== "false" && (
+                      <p>
+                        <b>Time Zone: </b> {getTimeZone(jobDetails?.timeZone)}
+                      </p>
+                    )}
                     <p>
                       <b>Salary: </b> ${" "}
                       {jobDetails && jobDetails.salary && jobDetails.salary}

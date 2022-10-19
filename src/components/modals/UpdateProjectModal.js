@@ -109,19 +109,11 @@ const UpdateProjectModal = ({
                 {({ handleSubmit, submitting, values }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="form-field-group mt-0">
-                      <div className="form-field flex50">
+                      <div className="form-field flex100">
                         <Field
                           name="title"
                           label="Title"
                           placeholder="Enter title"
-                          component={renderField}
-                        />
-                      </div>
-                      <div className="form-field flex50">
-                        <Field
-                          name="roleResponsiblity"
-                          label="Role/Responsiblity"
-                          placeholder="Enter Role/Responsiblity"
                           component={renderField}
                         />
                       </div>
@@ -131,6 +123,14 @@ const UpdateProjectModal = ({
                           label="Description"
                           placeholder="Enter description"
                           component={renderTextareaField}
+                        />
+                      </div>
+                      <div className="form-field flex100">
+                        <Field
+                          name="roleResponsiblity"
+                          label="Role/Responsiblity"
+                          placeholder="Enter Role/Responsiblity"
+                          component={renderField}
                         />
                       </div>
                       <div className="form-field flex50">

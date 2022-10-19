@@ -27,7 +27,7 @@ const ClientChatBoxSingle = ({
     <div className="channel-single-discussion">
       <div className="client-chatbox-header">
         <h5>
-          {user.userRoles[0] === "Student" ? (
+          {user?.userRoles[0] === "Student" ? (
             <>
               {" "}
               {studentDisplayName && studentDisplayName},
@@ -60,7 +60,9 @@ const ClientChatBoxSingle = ({
             onChange={(e) => setMessage(e.target.value)}
             disabled={chatDisabled}
           ></textarea>
-          <span className="frm-error2">{errors && errors.message && errors.message}</span>
+          <span className="frm-error2">
+            {errors && errors.message && errors.message}
+          </span>
           <button
             type="button"
             onClick={handleEmoji}

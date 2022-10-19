@@ -889,7 +889,8 @@ const Profile = () => {
                                     <h6 className="mb-0">
                                       {data?.designation?.title}
                                     </h6>
-                                    <p>{data.employerName}</p>
+                                    <b>Name:</b>
+                                    <span>{data.employerName}</span>
                                     <p className="dateP">
                                       {data.startDate}
                                       {!data?.isCurrentEmployer && " - "}
@@ -933,7 +934,7 @@ const Profile = () => {
                     <section className="profile-information-view">
                       <div className="Project-information-coll">
                         <div className="profile-card-head">
-                          <h3>Project history</h3>
+                          <h3>Project History</h3>
                           <div className="pr-edit-icon">
                             <button
                               type="button"
@@ -1016,9 +1017,9 @@ const Profile = () => {
                                     </p>
                                     <p>
                                       <b className="d-block mt-2">
-                                        Roles &nbsp Responsibility: &nbsp;
+                                        Roles/Responsibility:
                                       </b>
-                                      {project.roleResponsiblity}
+                                      <span>{project.roleResponsiblity}</span>
                                     </p>
                                   </div>
                                   <button
